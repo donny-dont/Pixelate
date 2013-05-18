@@ -1,0 +1,23 @@
+# Eclipse files
+.children
+.project
+
+# IntelliJ files
+.idea
+
+# OS X files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# Dart files
+.buildlog
+packages
+pubspec.lock
+out
+
+# Generated JavaScript files
+*.js
+*.js.map
+*.js.deps
