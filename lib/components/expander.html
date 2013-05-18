@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-expander" constructor="ExpanderComponent" extends="div" disabled="{{disabled}}" expanded="{{expanded}}">
+      <template>
+        <style scoped>
+/* Default values */
+@default-header-color: #232323;
+@default-hover-color: #8c5e7a;
+@default-active-color: #695b8e;
+@default-selected-color: #695b8e;
+
+@default-transition-duration: 0.25s;
+@default-transition-timing-function: linear;
+
+@default-expansion-transition-duration: 0.5s;
+@default-expansion-transition-timing-function: ease;
+
+@default-header-line-height: 32px;
+@default-icon-width: 40px;
+
+div[is=x-expander] {
+  /* Configurable options */
+}
+
+.header_area {
+  background-color: var(header-color, var(default-header-color));
+
+  transition-property: background-color, color;
+  transition-duration: var(transition-duration, var(default-transition-duration));
+  transition-timing-function: var(transition-timing-function, var(default-transition-timing-function));
+
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  line-height: var(header-line-height, var(default-header-line-height));
+
+  display: -webkit-flex;
+  display: flex;
+}
+
+.header_area:hover {
+  background-color: var(hover-color, var(default-hover-color));
+}
+
+.header_area:active {
+  background-color: var(active-color, var(default-active-color));
+}
+
+.selected {
+  background-color: var(selected-color, var(default-selected-color));
+}
+
+.icon {
+  width: var(icon-width, var(default-icon-width);
+
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.header {
+  padding-left: 10px;
+}
+
+.content {
+  overflow: hidden;
+  transition-property: max-height;
+  transition-duration: var(expansion-transition-duration, var(default-expansion-transition-duration));
+  transition-timing-function: var(expansion-transition-timing-function, var(default-expansion-transition-timing-function));
+}
+
+.hide {
+  max-height: 0px !important;
+}
+
+.display_none {
+  display: none;
+}
+
+.contract { }
+.expand { }
+        </style>
+        <div class="header_area">
+          <div class="icon">
+            <div class="expand">
+              <content select=".expand"></content>
+            </div>
+            <div class="contract">
+              <content select=".contract"></content>
+            </div>
+          </div>
+          <div class="header">
+            <content select=".header"></content>
+          </div>
+        </div>
+        <div class="content">
+          <content></content>
+        </div>
+      </template>
+      <script type="application/dart" src="expander.dart"></script>
+    </element>
+  </body>
+</html>

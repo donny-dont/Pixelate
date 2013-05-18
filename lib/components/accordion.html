@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-accordion" constructor="AccordionComponent" extends="div" mode="{{mode}}">
+      <template>
+        <style scoped>
+@default-border-width: 1px;
+@default-border-color: rgba(255, 255, 255, 0.1);
+
+div[is=x-accordion] > div {
+  border-top-style: solid;
+  border-top-width: var(accordion-border-width, var(default-border-width));
+  border-top-color: var(accordion-border-color, var(default-border-color));
+}
+
+div[is=x-accordion]>:last-child {
+  border-bottom-style: solid;
+  border-bottom-width: var(accordion-border-width, var(default-border-width));
+  border-bottom-color: var(accordion-border-color, var(default-border-color));
+}
+        </style>
+        <content select='[is=x-expander]'></content>
+      </template>
+      <script type="application/dart" src="accordion.dart"></script>
+    </element>
+  </body>
+</html>
