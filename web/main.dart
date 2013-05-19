@@ -9,6 +9,19 @@ import 'package:web_ui/web_ui.dart';
 
 /// Gets any of the web component elements.
 void getElements() {
+  var barElement = query('#progress');
+  var bar = barElement.xtag as ProgressBarComponent;
+  double value = 0.0;
+  var duration = const Duration(milliseconds: 500);
+
+  var timer = new Timer.periodic(duration, (_) {
+    value += 0.1;
+    if (value >= 2.0) {
+      value = 0.0;
+    }
+
+    bar.value = value.toString();
+  });
 }
 
 /// Main entry-point to the application

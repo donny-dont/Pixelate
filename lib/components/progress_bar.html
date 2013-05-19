@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-progress-bar" constructor="ProgressBarComponent" extends="div">
+      <template>
+        <style scoped>
+/* Default values */
+
+div[is=x-progress-bar] {
+  /* Configurable options */
+  position: relative;
+}
+
+.fill {
+  background-color: #1C7D5A;
+  width:0;
+  position: relative;
+  display: block;
+
+  transition-property: width;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+}
+
+.striped:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  background-image:
+    -webkit-gradient(linear, 0 0, 100% 100%,
+      color-stop(.25, rgba(255, 255, 255, .2)),
+      color-stop(.25, transparent), color-stop(.5, transparent),
+      color-stop(.5, rgba(255, 255, 255, .2)),
+      color-stop(.75, rgba(255, 255, 255, .2)),
+      color-stop(.75, transparent), to(transparent)
+  );
+
+  background-size: 50px 50px;
+  overflow: hidden;
+  -webkit-animation: move 2s linear infinite;
+}
+
+.striped.paused:after {
+  -webkit-animation-play-state: paused;
+}
+
+@-webkit-keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+.content {
+  position: absolute;
+  z-index: 1;
+}
+        </style>
+        <div class="content">
+          <content></content>
+        </div>
+        <span class="fill striped">&nbsp;</span>
+      </template>
+      <script type="application/dart" src="progress_bar.dart"></script>
+    </element>
+  </body>
+</html>

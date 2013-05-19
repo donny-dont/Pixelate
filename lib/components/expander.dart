@@ -6,6 +6,7 @@
 import 'dart:html';
 import 'dart:async';
 import 'package:web_ui/web_ui.dart';
+import 'package:pixelate/attribute_helpers.dart';
 
 /// Represents the control that displays a header that has a collapsible window that displays content.
 class ExpanderComponent extends WebComponent {
@@ -69,14 +70,14 @@ class ExpanderComponent extends WebComponent {
   /// If the element is disabled it cannot be expanded or collapsed by
   /// by interacting with the header.
   String get disabled => _disabled.toString();
-  set disabled(String value) { _disabled = _getBoolean(value); }
+  set disabled(String value) { _disabled = convertBoolean(value); }
 
   /// Whether the elemnt is expanded.
   ///
   /// When expanded the content is displayed.
   String get expanded => _expanded.toString();
   set expanded(String valueString) {
-    bool value = _getBoolean(valueString);
+    bool value = convertBoolean(valueString);
 
     // Attributes are added before inserted() is called.
     // Ensure that _hide/_show are not called before this point.
@@ -180,22 +181,5 @@ class ExpanderComponent extends WebComponent {
     } else {
       _show();
     }
-  }
-
-  /// Converts a value to a boolean.
-  ///
-  /// Remove if Web-UI finds a way to specify element binding types.
-  static bool _getBoolean(dynamic value) {
-    if (value is String) {
-      if (value == 'true') {
-        return true;
-      } else if (value == 'false') {
-        return false;
-      }
-    } else if (value is bool) {
-      return value;
-    }
-
-    throw new ArgumentError('Value does not represent a boolean');
   }
 }

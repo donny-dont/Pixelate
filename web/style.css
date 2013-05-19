@@ -12,6 +12,7 @@ body {
   margin: 0px;
   font-size: 16pt;
   height: 100%;
+  -webkit-text-stroke: 1px transparent;
 }
 
 h1, p {
@@ -35,7 +36,7 @@ h1, p {
 }
 
 #menu > div {
-  background-color: #579AA9;
+  background-color: #232323;
   padding: 0 10px;
   width: 75px;
 }
