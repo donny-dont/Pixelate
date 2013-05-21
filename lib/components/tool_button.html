@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-tool-button" constructor="ToolButtonComponent" extends="span">
+      <style scoped>
+.content {
+  padding: 5px;
+  margin: 0px;
+  color: #000;
+  font-size: 32px;
+  vertical-align:text-top;
+-webkit-transition: color 0.2s, font-size 0.2s;
+   -moz-transition: color 0.2s, font-size 0.2s;
+     -o-transition: color 0.2s, font-size 0.2s;
+        transition: color 0.2s, font-size 0.2s;
+}
+
+.content:hover {
+  font-size: 48px;
+}
+        
+.content:active {
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: white;
+}
+
+.toolbar-item {
+  padding: 0px;
+  margin: 0px;
+  font-size: 0px;
+}
+
+.toolbar-item-horizontal {
+}
+
+.toolbar-item-verticle {
+  display: block;
+}
+
+      </style>
+      <template>
+        <span class="toolbar-item">
+          <span class="content"><i class="{{icon}}"></i></span>
+        </span>
+      </template>
+      <script type="application/dart" src="tool_button.dart"></script>
+    </element>
+  </body>
+</html>

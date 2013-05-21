@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-toolbar" constructor="ToolbarComponent" extends="span">
+      <style scoped>
+        
+.toolbar {
+  text-align: center;
+  pointer-events: none;
+}
+
+.toolbar-wrapper {
+  text-align: center;
+  min-width: 64px;
+  min-height: 52px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 15px;
+  pointer-events: auto;
+  display: inline-block;
+}
+
+
+      </style>
+      <template>
+        <span class="toolbar">
+          <span class="toolbar-wrapper">
+            <content></content>
+          </span>
+        </span>
+      </template>
+      <script type="application/dart" src="toolbar.dart"></script>
+    </element>
+  </body>
+</html>

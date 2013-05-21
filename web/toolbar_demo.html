@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mini Architect</title>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+
+    <!-- import web components -->
+    <link rel="import" href="packages/pixelate/components/tool_button.html">
+    <link rel="import" href="packages/pixelate/components/toolbar.html">
+
+    <!-- app specific toolbar positioning css -->    
+    <style>
+.app-toolbar {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.app-toolbox {
+  position: absolute:
+  top: 100px;
+  left: 5px;
+}
+    </style>
+  </head>
+  <body class="bg">
+
+    <div class="app-toolbar">
+      <!-- Tool bar components -->
+      <span is="x-toolbar" orientation="horizontal" alignment="center">    
+        <span is="x-tool-button" icon="icon-file"></span>
+        <span is="x-tool-button" icon="icon-file-alt"></span>
+        <span is="x-tool-button" icon="icon-folder-open-alt"></span>
+        <span is="x-tool-button" icon="icon-save"></span>
+      </span>
+  
+      <span is="x-toolbar" orientation="horizontal" alignment="center">    
+        <span is="x-tool-button" icon="icon-cut"></span>
+        <span is="x-tool-button" icon="icon-copy"></span>
+        <span is="x-tool-button" icon="icon-paste"></span>
+        <span is="x-tool-button" icon="icon-undo"></span>
+        <span is="x-tool-button" icon="icon-repeat"></span>
+      </span>
+  
+      <span is="x-toolbar" orientation="horizontal" alignment="center">    
+        <span is="x-tool-button" icon="icon-fullscreen"></span>
+        <span is="x-tool-button" icon="icon-screenshot"></span>
+        <span is="x-tool-button" icon="icon-search"></span>
+        <span is="x-tool-button" icon="icon-magnet"></span>
+        <span is="x-tool-button" icon="icon-map-marker"></span>
+      </span>
+    </div>
+    
+      <!-- Toolbox -->
+    <div class="app-toolbox">
+      <span is="x-toolbar" orientation="verticle">
+        Tools    
+        <span is="x-tool-button" icon="icon-pencil"></span>
+        <span is="x-tool-button" icon="icon-external-link"></span>
+        <span is="x-tool-button" icon="icon-eye-open"></span>
+        <span is="x-tool-button" icon="icon-move"></span>
+        <span is="x-tool-button" icon="icon-ticket"></span>
+        <span is="x-tool-button" icon="icon-magic"></span>
+        <span is="x-tool-button" icon="icon-location-arrow"></span>
+      </span>
+    </div>
+
+  </body>
+</html>

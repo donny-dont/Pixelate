@@ -3,5 +3,8 @@ import 'package:web_ui/component_build.dart';
 
 // Ref: http://www.dartlang.org/articles/dart-web-components/tools.html
 main() {
-  build(new Options().arguments, ['web/index.html']);
+  build(new Options().arguments, [
+      'web/index.html', 
+      'web/toolbar_demo.html' 
+  ]);
 }
