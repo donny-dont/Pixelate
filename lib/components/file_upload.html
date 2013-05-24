@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="import" href="progress_bar.html">
+    <link rel="import" href="file_drop.html">
+    <link rel="import" href="button_base.html">
+  </head>
+  <body>
+    <element name="x-file-upload" constructor="FileUploadComponent" extends="div">
+      <template>
+        <style scoped>
+div[is=x-file-upload] {
+  line-height: 32px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #2E2E2E;
+}
+
+tr:nth-child(odd)  { background-color:#232323; }
+tr:nth-child(even) { background-color:#1f1f1f; }
+
+.buttons {
+  margin: 0.5em;
+  display: -webkit-flex;
+  -webkit-flex-direction: row;
+  -webkit-justify-content: space-between;
+}
+
+.buttons > div {
+  text-align: center;
+  text-transform: uppercase;
+  padding: 0 0.5em;
+}
+
+.small_progress_bar {
+  height: 0.5em;
+  overflow: hidden;
+}
+        </style>
+        <div is="x-file-drop">
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Uploading</th>
+            </tr>
+            <tr>
+              <td>testing.jpg</td>
+              <td>530 KB</td>
+              <td>
+                <div is="x-progress-bar" class="small_progress_bar" value="0.25" animated="true"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>foo.jpg</td>
+              <td>215 KB</td>
+              <td>
+                <div is="x-progress-bar" class="small_progress_bar" value="0.75" animated="true"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>bar.jpg</td>
+              <td>778 KB</td>
+              <td>
+                <div is="x-progress-bar" class="small_progress_bar" value="0.5" animated="true"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div is="x-progress-bar" value="0.5" animated="true"></div>
+        <div class="buttons">
+          <div is="x-button-base">Cancel</div>
+          <div is="x-button-base">Browse</div>
+          <div is="x-button-base">Upload</div>
+        </div>
+      </template>
+      <script type="application/dart" src="file_upload.dart"></script>
+    </element>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-button-base" constructor="ButtonBaseComponent" extends="div">
+      <template>
+        <style scoped>
+          @import url(css/test.css);
+/* Default values */
+@default-button-color: #232323;
+@default-hover-color: #1d7e5b;
+@default-pressed-color: #166548;
+
+@default-button-text-color: #ffffff;
+@default-pressed-text-color: rgba(255, 255, 255, 0.75);
+
+@default-transition-duration: 0.25s;
+@default-transition-timing-function: linear;
+
+div[is=x-button-base] {
+  border-color: #2e2e2e;
+  border-width: 1px;
+  border-style: solid;
+  background: var(button-color, var(default-button-color));
+  color: var(button-text-color, var(default-button-text-color));
+
+  transition-property: background, color;
+  transition-duration: var(transition-duration, var(default-transition-duration));
+  transition-timing-function: var(transition-timing-function, var(default-transition-timing-function));
+
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+div[is=x-button-base]:hover {
+  background: var(hover-color, var(default-hover-color));
+}
+
+div[is=x-button-base]:active {
+  background: var(pressed-color, var(default-pressed-color));
+  color: var(pressed-text-color, var(default-pressed-text-color));
+}
+        </style>
+        <content></content>
+      </template>
+      <script type="application/dart" src="button_base.dart"></script>
+    </element>
+  </body>
+</html>

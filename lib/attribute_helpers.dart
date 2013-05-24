@@ -19,3 +19,10 @@ bool convertBoolean(String value) {
 
   throw new ArgumentError('The value is not a boolean');
 }
+
+/// Converts a value to a list of strings.
+List<String> convertList(String value) {
+  var lowerValue = value.toLowerCase();
+
+  return lowerValue.split(' ');
+}

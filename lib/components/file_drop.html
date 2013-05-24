@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-file-drop" constructor="FileDropComponent" extends="div" accept="{{accept}}">
+      <template>
+        <style scoped>
+@default-border-width: 2px;
+@default-border-color: rgba(255, 255, 255, 0.0);
+@default-border-over-color: #1E7D5B;
+@default-border-error-color: #E76E66;
+
+@default-transition-duration: 0.25s;
+@default-transition-timing-function: linear;
+
+div[is=x-file-drop] {
+  display: -webkit-flex;
+  border: solid;
+  border-width: var(file-drop-border-width, var(default-border-width));
+  border-color: var(file-drop-border-color, var(default-border-color));
+
+  transition-property: border-color;
+  transition-duration: var(transition-duration, var(default-transition-duration));
+  transition-timing-function: var(transition-timing-function, var(default-transition-timing-function));
+}
+
+.over {
+  border-color: var(file-drop-border-over-color, var(default-border-over-color)) !important;
+}
+
+.error {
+  -webkit-animation: error_flash 0.75s linear 4;
+  animation-direction:alternate;
+  -webkit-animation-direction:alternate;
+}
+
+div [is=x-file-drop] > input {
+  display: none;
+}
+
+@-webkit-keyframes error_flash {
+  0% {
+    border-color: var(file-drop-border-color, var(default-border-color));
+  }
+  10% {
+    border-color: var(file-drop-border-color, var(default-border-color));
+  }
+
+  90% {
+    border-color: var(file-drop-border-error-color, var(default-border-error-color));
+  }
+  100% {
+    border-color: var(file-drop-border-error-color, var(default-border-error-color));
+  }
+}
+        </style>
+        <content></content>
+        <input type="file" name="{{name}}" multiple>
+      </template>
+      <script type="application/dart" src="file_drop.dart"></script>
+    </element>
+  </body>
+</html>

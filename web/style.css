@@ -36,7 +36,14 @@ h1, p {
 }
 
 #menu > div {
-  background-color: #232323;
+  background-color: #579aaa;
   padding: 0 10px;
   width: 75px;
 }
+
+div[is=x-file-upload] {
+  font-size:16px;
+}
+
+div[is=x-file-drop] {
+  height: 150px;
