@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-image-preview" constructor="ImagePreviewComponent" extends="li">
+      <style scoped>
+.host {
+}
+
+.preview {
+  background-size:cover;
+  width: 100%;
+  height: 100%;
+}
+
+.loading {
+  clear: both;
+  display: none;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -16px;
+  margin-top: -16px;
+}
+
+      </style>
+      <template>
+        <div class="host">
+          <img class="preview" src="{{src}}" />
+          <div>
+          <div class="loading">
+            <!-- Loading icon -->
+            <i class="icon-spinner icon-spin icon-large"></i>
+          </div>
+          </div>
+        </div>
+      </template>
+      <script type="application/dart" src="image_preview.dart"></script>
+    </element>
+  </body>
+</html>
+

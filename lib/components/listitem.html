@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-listitem" constructor="ListItemComponent" extends="li">
+      <style scoped>
+.listitem {
+  background-color: #fff;
+  padding: 5px;
+}
+
+.listitem-selected {
+  color: #fff;
+  background-color: #349ed6 !important;
+}
+
+      </style>
+      <template>
+        <div class="listitem">
+          <content></content>
+        </div>
+      </template>
+      <script type="application/dart" src="listitem.dart"></script>
+    </element>
+  </body>
+</html>
+

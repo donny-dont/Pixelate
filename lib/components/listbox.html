@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="import" href="listitem.html">
+  </head>
+  <body>
+    <element name="x-listbox" constructor="ListBoxComponent" extends="div">
+      <style scoped>
+ul {
+  list-style-type: none;
+  margin: auto;
+  cusror: default;
+}
+
+.disable-text-selection {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.listitem-icon {
+  margin-top: -2px;
+  display: inline-block;
+}
+
+.listitem-text {
+  display: inline-block;
+}
+
+      </style>
+      <template>
+        <div class="disable-text-selection"><ul>
+          <template iterate='item in items'>
+            <li is="x-listitem" item="{{item}}" on-click="onItemClicked(item)">
+              <content>
+                <img class="listitem-icon" src="{{item.iconLink}}" />
+                <div class="listitem-text">{{item}}</div>
+              </content>
+            </li>
+          </template>
+        </ul></div>
+      </template>
+      <script type="application/dart" src="listbox.dart"></script>
+    </element>
+  </body>
+</html>
+
