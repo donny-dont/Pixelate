@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Toast Test</title>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
+
+    <!-- import web components -->
+    <link rel="import" href="packages/pixelate/components/toast.html">
+
+    
+    <!-- app specific css for positioning the popup notification -->    
+    <style>
+
+#app_toast {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 26px;
+  pointer-events: none;
+}
+    </style>
+  </head>
+  <body>
+    
+    <button on-click="toast.show('Hello World')">Show (5 secs)</button>
+    <button on-click="toast.show('Saving...', duration: 0, icon: 'icon-spinner icon-spin')">Show indefinitely</button>
+    <button on-click="toast.show('Saved Successfully', duration: 3, icon: 'icon-ok')">Done! (3 sec)</button>
+    <button on-click="toast.hide()">Hide</button>
+
+    <x-toast id="app_toast"></x-toast>
+    
+    <script type="application/dart">
+      import 'dart:html';
+      var toast;
+      main() {
+        window.onLoad.listen((e) {
+          toast = query("#app_toast").xtag;
+          print (toast);
+        });
+       }
+    </script>
+    <script src="packages/browser/dart.js"></script>
+    
+  </body>
+</html>

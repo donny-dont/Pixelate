@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-toast" constructor="ToastComponent" extends="span">
+      <style scoped>
+        
+.content {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 20px;
+  border-radius: 25px;
+  display: inline-block;
+}
+
+.content-invisible {
+  opacity:0;
+}
+
+.content-transition {
+-webkit-transition: all 0.2s;
+   -moz-transition: all 0.2s;
+     -o-transition: all 0.2s;
+        transition: all 0.2s;
+  transition: opacity .5s linear;
+}
+
+.content:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+      </style>
+      <template>
+        <span class="content content-transition content-invisible">
+          <template instantiate="if icon != null">
+            <i class="{{icon}}"></i> 
+          </template>
+          {{message}}
+        </span>
+      </template>
+      <script type="application/dart" src="toast.dart"></script>
+    </element>
+  </body>
+</html>
