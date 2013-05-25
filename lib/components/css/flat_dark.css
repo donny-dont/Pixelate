@@ -1,0 +1,9 @@
+
+:root {
+  var-testing-color: blue;
+  -webkit-var-testing-color: red;
+}
+
+div[is=x-button-base].info {
+  -webkit-var-testing-color: blue;
+}

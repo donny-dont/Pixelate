@@ -5,7 +5,6 @@
     <element name="x-button-base" constructor="ButtonBaseComponent" extends="div">
       <template>
         <style scoped>
-          @import url(css/test.css);
 /* Default values */
 @default-button-color: #232323;
 @default-hover-color: #1d7e5b;
@@ -18,7 +17,7 @@
 @default-transition-timing-function: linear;
 
 div[is=x-button-base] {
-  border-color: #2e2e2e;
+  border-color: -webkit-var(testing-color);/*#2e2e2e;*/
   border-width: 1px;
   border-style: solid;
   background: var(button-color, var(default-button-color));

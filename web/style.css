@@ -1,6 +1,10 @@
 @default-border-width: 2px;
 @default-border-color: rgba(255, 255, 255, 0.1);
 
+:root {
+  var-testing-color: blue;
+}
+
 html {
   height: 100%;
 }
