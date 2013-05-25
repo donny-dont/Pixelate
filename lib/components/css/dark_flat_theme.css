@@ -1,0 +1,50 @@
+/**
+ * Copyright (c) 2013, the Pixelate Project Authors.
+ * Please see the AUTHORS file for details. All rights reserved.
+ * Use of this source code is governed by a zlib license that can be found in
+ * the LICENSE file.
+ */
+
+/* Default values for theme */
+:root {
+  /* Color swatches */
+
+  /* White */
+  -webkit-var-white-color: rgb(255, 255, 255);
+
+  /* Black */
+  -webkit-var-black-color: rgb(35, 35, 35);
+
+  /* Navy */
+  -webkit-var-navy-color: rgb(40, 82, 88);
+
+  /* Red */
+  -webkit-var-red-color: rgb(229, 108, 105);
+
+  /* Green */
+  -webkit-var-green-color: rgb(31, 127, 92);
+
+  /* Purple */
+  -webkit-var-purple-color: rgb(106, 90, 140);
+
+  /* Lilac */
+  -webkit-var-lilac-color: rgb(140, 93, 121);
+
+  /* Blue */
+  -webkit-var-blue-color: rgb(90, 154, 168);
+
+  /* Yellow */
+  -webkit-var-yellow-color: rgb(219, 165, 113);
+
+  /* Border defaults */
+  -webkit-var-default-border-color: rgba(255, 255, 255, 0.1);
+  -webkit-var-default-border-style: solid;
+  -webkit-var-default-border-width: 1px;
+}
+
+/* Accordion theme */
+div[is=x-accordion] {
+  -webkit-var-accordion-border-color: -webkit-var(default-border-color);
+  -webkit-var-accordion-border-style: -webkit-var(default-border-style);
+  -webkit-var-accordion-border-width: -webkit-var(default-border-width);
+}
