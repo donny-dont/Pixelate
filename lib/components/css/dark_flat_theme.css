@@ -81,6 +81,17 @@ div[is=x-accordion] {
   -webkit-var-accordion-border-width: -webkit-var(default-border-width);
 }
 
+/* Button theme */
+div[is=x-button-base], div[is=x-button] {
+  -webkit-var-button-background-color: -webkit-var(black-color);
+  -webkit-var-button-hover-background-color: -webkit-var(purple-lighter-color);
+  -webkit-var-button-active-background-color: -webkit-var(purple-darker-color);
+  -webkit-var-button-disabled-background-color: -webkit-var(red-color);
+
+  -webkit-var-button-color-transition-timing-function: -webkit-var(default-color-transition-timing-function);
+  -webkit-var-button-color-transition-duration: -webkit-var(default-color-transition-duration);
+}
+
 /* Expander theme */
 div[is=x-expander] {
   -webkit-var-expander-header-color: -webkit-var(black-color);
