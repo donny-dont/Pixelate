@@ -26,17 +26,6 @@
 
   /* Purple */
   -webkit-var-purple-color: rgb(106, 90, 140);
-  /* Lighter 0.90 - rgb(120, 106, 151) */
-  /* Lighter 0.85 - rgb(128, 114, 157) */
-  -webkit-var-purple-lighter-color: rgb(128, 114, 157);
-  /* Lighter 0.80 - rgb(135, 123, 163) */
-  /* Lighter 0.75 - rgb(143, 131, 168) */
-
-  /* Darker 0.90 - rgb(95, 81, 126) */
-  /* Darker 0.85 - rgb(90, 76, 119) */
-  -webkit-var-purple-darker-color: rgb(90, 76, 119);
-  /* Darker 0.80 - rgb(84, 72, 112) */
-  /* Darker 0.75 - rgb(79, 67, 104) */
 
   /* Lilac */
   -webkit-var-lilac-color: rgb(140, 93, 121);
@@ -58,20 +47,6 @@
   -webkit-var-default-border-color: rgba(255, 255, 255, 0.1);
   -webkit-var-default-border-style: solid;
   -webkit-var-default-border-width: 1px;
-
-  /**
-   * Candy stripe background
-   *
-   * Uses transparency to match whatever the background color is.
-   */
-  -webkit-var-candy-stripe-background:
-    -webkit-gradient(linear, 0 0, 100% 100%,
-      color-stop(.25, rgba(255, 255, 255, .2)),
-      color-stop(.25, transparent), color-stop(.5, transparent),
-      color-stop(.5, rgba(255, 255, 255, .2)),
-      color-stop(.75, rgba(255, 255, 255, .2)),
-      color-stop(.75, transparent), to(transparent)
-  );
 }
 
 /* Accordion theme */
@@ -83,10 +58,10 @@ div[is=x-accordion] {
 
 /* Expander theme */
 div[is=x-expander] {
-  -webkit-var-expander-header-color: -webkit-var(black-color);
-  -webkit-var-expander-header-hover-color: -webkit-var(purple-lighter-color);
-  -webkit-var-expander-header-active-color: -webkit-var(purple-darker-color);
-  -webkit-var-expander-header-selected-color: -webkit-var(purple-color);
+  -webkit-var-expander-selected-background-color: -webkit-var(purple-color);
+  -webkit-var-expander-selected-background-color: -webkit-var(purple-color);
+
+  -webkit-var-expander-selected-background-color: -webkit-var(purple-color);
 
   -webkit-var-expander-color-transition-timing-function: -webkit-var(default-color-transition-timing-function);
   -webkit-var-expander-color-transition-duration: -webkit-var(default-color-transition-duration);
@@ -96,27 +71,15 @@ div[is=x-expander] {
 }
 
 /* \TODO doesn't seem to work if you use div[is=x-expander] here */
-*::x-header {
-  line-height: 32px;
-}
-
 *::x-icon {
-  width: 40px;
-  text-align: center;
-
   border-right-color: -webkit-var(default-border-color);
   border-right-style: -webkit-var(default-border-style);
   border-right-width: -webkit-var(default-border-width);
+
+  margin-right: 10px;
+  width: 40px;
+  text-align: center;
 }
+
 *::x-expand-icon:before { content: "+"; }
-*::x-collapse-icon:after { content: "-"; }
-
-/* Progress bar theme */
-div[is=x-progress-bar] {
-  -webkit-var-progress-bar-animation-background: -webkit-var(candy-stripe-background);
-  -webkit-var-progress-bar-animation-duration: 2s;
-  -webkit-var-progress-bar-animation-background-width: 25px;
-  -webkit-var-progress-bar-animation-background-height: 25px;
-
-  -webkit-var-progress-bar-fill-color: -webkit-var(blue-color);
-}
+*::x-contract-icon:after { content: "-" }

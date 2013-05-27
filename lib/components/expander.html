@@ -5,95 +5,66 @@
     <element name="x-expander" constructor="ExpanderComponent" extends="div" disabled="{{disabled}}" expanded="{{expanded}}">
       <template>
         <style scoped>
-/* Default values */
-@default-header-color: #232323;
-@default-hover-color: #8c5e7a;
-@default-active-color: #695b8e;
-@default-selected-color: #695b8e;
+ /**
+  * Header classes.
+  */
 
-@default-transition-duration: 0.25s;
-@default-transition-timing-function: linear;
-
-@default-expansion-transition-duration: 0.5s;
-@default-expansion-transition-timing-function: ease;
-
-@default-header-line-height: 32px;
-@default-icon-width: 40px;
-
-div[is=x-expander] {
-  /* Configurable options */
-}
-
-.header_area {
-  background-color: var(header-color, var(default-header-color));
+.header-area {
+  background-color: -webkit-var(expander-header-color);
+  cursor: pointer;
+  display: -webkit-flex;
 
   transition-property: background-color, color;
-  transition-duration: var(transition-duration, var(default-transition-duration));
-  transition-timing-function: var(transition-timing-function, var(default-transition-timing-function));
+  transition-duration: -webkit-var(expander-color-transition-duration);
+  transition-timing-function: -webkit-var(expander-color-transition-timing-function);
 
-  cursor: pointer;
-
-  -webkit-user-select: none;
   user-select: none;
-
-  line-height: var(header-line-height, var(default-header-line-height));
-
-  display: -webkit-flex;
-  display: flex;
+ -webkit-user-select: none;
 }
 
-.header_area:hover {
-  background-color: var(hover-color, var(default-hover-color));
+.header-area:hover {
+  background-color: -webkit-var(expander-header-hover-color);
 }
 
-.header_area:active {
-  background-color: var(active-color, var(default-active-color));
+.header-area:active {
+  background-color: -webkit-var(expander-header-active-color);
 }
 
 .selected {
-  background-color: var(selected-color, var(default-selected-color));
+  background-color: -webkit-var(expander-header-selected-color);
 }
 
-.icon {
-  width: var(icon-width, var(default-icon-width);
-
-  text-align: center;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-}
-
-.header {
-  padding-left: 10px;
-}
+/**
+ * Content classes.
+ */
 
 .content {
   overflow: hidden;
+
   transition-property: max-height;
-  transition-duration: var(expansion-transition-duration, var(default-expansion-transition-duration));
-  transition-timing-function: var(expansion-transition-timing-function, var(default-expansion-transition-timing-function));
+  transition-duration: -webkit-var(expander-size-transition-duration);
+  transition-timing-function: -webkit-var(expander-size-transition-timing-function);
 }
 
 .hide {
   max-height: 0px !important;
 }
 
+/* Insures the content is not drawn */
 .display_none {
   display: none;
 }
 
-.contract { }
+/* Empty classes. Required for compilation. */
 .expand { }
+.collapse { }
         </style>
-        <div class="header_area">
-          <div class="icon">
-            <div class="expand">
-              <content select=".expand"></content>
-            </div>
-            <div class="contract">
-              <content select=".contract"></content>
-            </div>
+        <div pseudo="x-header" class="header-area">
+          <div pseudo="x-icon">
+            <div pseudo="x-expand-icon" class="expand"></div>
+            <div pseudo="x-collapse-icon" class="collapse"></div>
           </div>
-          <div class="header">
+          <div>
             <content select=".header"></content>
           </div>
         </div>

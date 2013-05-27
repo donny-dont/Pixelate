@@ -1,0 +1,42 @@
+@default-border-width: 2px;
+@default-border-color: rgba(255, 255, 255, 0.1);
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: red;
+  font-family: 'Montserrat', sans-serif;  font-size: 14px;
+  font-weight: normal;
+  margin: 0px;
+  font-size: 16pt;
+  height: 100%;
+  -webkit-text-stroke: 1px transparent;
+}
+
+h1, p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12pt;
+}
+
+#content {
+  width: 500px;
+
+  min-height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  background-color: -webkit-var(black-color);
+  color: -webkit-var(white-color);
+}
+
+#menu {
+  display: box;
+  line-height: 32px;
+}
+
+#menu > div {
+  background-color: #232323;
+  padding: 0 10px;
+  width: 75px;
+}
