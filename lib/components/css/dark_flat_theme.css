@@ -23,6 +23,10 @@
 
   /* Green */
   -webkit-var-green-color: rgb(31, 127, 92);
+  /* Lighter 0.85 - rgb(64, 146, 116) */
+  -webkit-var-green-lighter-color: rgb(64, 146, 116);
+  /* Darker 0.85 - rgb(26, 108, 78) */
+  -webkit-var-green-darker-color: rgb(26, 108, 78);
 
   /* Purple */
   -webkit-var-purple-color: rgb(106, 90, 140);
@@ -83,13 +87,24 @@ div[is=x-accordion] {
 
 /* Button theme */
 div[is=x-button-base], div[is=x-button] {
-  -webkit-var-button-background-color: -webkit-var(black-color);
-  -webkit-var-button-hover-background-color: -webkit-var(purple-lighter-color);
-  -webkit-var-button-active-background-color: -webkit-var(purple-darker-color);
-  -webkit-var-button-disabled-background-color: -webkit-var(red-color);
+  width: 200px;
+  padding: 4px 0;
+  margin: 5px 0;
+  text-align: center;
+  -webkit-justify-content: center;
+  -webkit-align-items: center;
+
+  -webkit-var-button-background-color: -webkit-var(green-color);
+  -webkit-var-button-hover-background-color: -webkit-var(green-lighter-color);
+  -webkit-var-button-active-background-color: -webkit-var(green-darker-color);
+  -webkit-var-button-disabled-background-color: -webkit-var(green-color);
 
   -webkit-var-button-color-transition-timing-function: -webkit-var(default-color-transition-timing-function);
   -webkit-var-button-color-transition-duration: -webkit-var(default-color-transition-duration);
+
+  -webkit-var-button-border-color: -webkit-var(default-border-color);
+  -webkit-var-button-border-style: -webkit-var(default-border-style);
+  -webkit-var-button-border-width: -webkit-var(default-border-width);
 }
 
 /* Expander theme */
