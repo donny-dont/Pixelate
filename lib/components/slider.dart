@@ -14,8 +14,6 @@ class SliderComponent extends WebComponent {
   /// The class name of the filled bar.
   static const String _fillClass = 'x-slider_fill';
   
-  bool _dragging = false;
-  
   /** The element that displays the filled portion of the slider */
   Element _fill;
   
@@ -98,8 +96,7 @@ class SliderComponent extends WebComponent {
   }
 
   void _onMouseUp(MouseEvent e) {
-    _dragging = false;
-
+    // Dragging has stopped. Stop listening to global window mouse events
     _mouseMoveSubscription.pause();
     _mouseUpSubscription.pause();
   }
