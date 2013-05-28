@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Slider Demo</title>
+    <!-- Dark theme -->
+    <link title="dark_flat_theme" rel="stylesheet" type="text/css" href="style.css">
+    <link title="dark_flat_theme" rel="stylesheet" type="text/css" href="packages/pixelate/components/css/dark_flat_theme.css">
+
+    <!-- Light theme -->
+
+    <!-- import the components -->
+    <link rel="import" href="packages/pixelate/components/slider.html">
+    
+    <!-- App specific styles -->
+    <style>
+#app_slider1 {      
+  width: 200px;
+}
+
+#app_slider2 {      
+  width: 400px;
+}
+
+#app_slider3 {      
+  width: 100px;
+}
+
+#app_slider4 {      
+  width: 300px;
+}
+
+body {
+  padding: 10px;
+  background-color: #eee;
+}
+
+* {
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    user-select:none;
+}
+
+    </style>
+  </head>
+  <body>
+
+    #0 Slider: [{{sliderVal0}}]
+    <x-slider id="app_slider0"></x-slider>
+    
+    #1 Slider: [{{sliderVal1}}]
+    <x-slider id="app_slider1" min-value="2000" max-value="2075" value="2042"></x-slider>
+    
+    #2 Slider: [{{sliderVal2}}]
+    <x-slider id="app_slider2" min-value="0" max-value="1" value="0.25"></x-slider>
+    
+    #3 Slider: [{{sliderVal3}}]
+    <x-slider id="app_slider3" min-value="-100" max-value="-67" value="-82"></x-slider>
+    
+    #4 Slider: [{{sliderVal4}}]
+    <x-slider id="app_slider4" min-value="-100" max-value="100" value="0"></x-slider>
+
+    <script type="application/dart">
+      import 'dart:html';
+      
+      num get sliderVal0 => query('#app_slider0').xtag.value;
+      num get sliderVal1 => query('#app_slider1').xtag.value;
+      num get sliderVal2 => query('#app_slider2').xtag.value;
+      num get sliderVal3 => query('#app_slider3').xtag.value;
+      num get sliderVal4 => query('#app_slider4').xtag.value;
+      
+      void main() {
+      }
+      
+    </script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>
+

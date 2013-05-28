@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-slider" constructor="SliderComponent" extends="div">
+      <style scoped>
+        
+.content {
+  background-color: -webkit-var(slider-base-color);
+  cursor: default;
+  transition-property: background-color, box-shadow;
+  transition-duration: -webkit-var(slider-color-transition-duration);
+  transition-timing-function: -webkit-var(slider-color-transition-timing-function);
+  
+  width: 100%;
+  height: 20px;
+}
+
+.content:hover {
+  -webkit-box-shadow: -webkit-var(slider-shadow);
+}
+
+.fill {
+  background-color: -webkit-var(slider-fill-color);
+  height: 100%;
+  width: 50%;
+  transition-property: background-color;
+  transition-duration: -webkit-var(slider-color-transition-duration);
+  transition-timing-function: -webkit-var(slider-color-transition-timing-function);
+}
+
+.content:hover > .fill {
+  background-color: -webkit-var(slider-fill-hover-color);
+}
+
+      </style>
+      <template>
+        <div class="content">
+          <div class="fill">
+            <content></content>
+          </div>
+        </div>
+      </template>
+      <script type="application/dart" src="slider.dart"></script>
+    </element>
+  </body>
+</html>
+

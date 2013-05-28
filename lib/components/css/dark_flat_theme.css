@@ -58,7 +58,7 @@
   -webkit-var-default-border-color: rgba(255, 255, 255, 0.1);
   -webkit-var-default-border-style: solid;
   -webkit-var-default-border-width: 1px;
-
+  
   /**
    * Candy stripe background
    *
@@ -94,6 +94,24 @@ div[is=x-expander] {
   -webkit-var-expander-size-transition-timing-function: -webkit-var(default-size-transition-timing-function);
   -webkit-var-expander-size-transition-duration: -webkit-var(default-size-transition-duration);
 }
+
+
+/* Slider theme */
+div[is=x-slider] {
+  -webkit-var-slider-base-color: -webkit-var(black-color);
+  
+  -webkit-var-slider-base-hover-shadow-color: -webkit-var(navy-color);
+  -webkit-var-slider-base-hover-shadow-size: -webkit-var(navy-color);
+
+  -webkit-var-slider-fill-color: -webkit-var(purple-color);
+  -webkit-var-slider-fill-hover-color: -webkit-var(purple-lighter-color);
+
+  -webkit-var-slider-shadow: 0 0 4px -webkit-var(black-color);
+
+  -webkit-var-slider-color-transition-timing-function: -webkit-var(default-color-transition-timing-function);
+  -webkit-var-slider-color-transition-duration: -webkit-var(default-color-transition-duration);
+}
+
 
 /* \TODO doesn't seem to work if you use div[is=x-expander] here */
 *::x-header {

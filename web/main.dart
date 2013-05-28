@@ -6,6 +6,7 @@
 import 'dart:async';
 import 'dart:html';
 import 'package:web_ui/web_ui.dart';
+import 'package:pixelate/components/progress_bar.dart';
 
 /// Changes the theme being used.
 void changeTheme(String theme) {

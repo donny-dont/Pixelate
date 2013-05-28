@@ -6,6 +6,7 @@ main() {
   build(new Options().arguments, [
       'web/index.html', 
       'web/toolbar_demo.html',
-      'web/toast_demo.html' 
+      'web/toast_demo.html',
+      'web/slider_demo.html' 
   ]);
 }
