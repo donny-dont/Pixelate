@@ -7,6 +7,29 @@ import 'dart:async';
 import 'dart:html';
 import 'package:web_ui/web_ui.dart';
 
+/// Changes the theme being used.
+void changeTheme(String theme) {
+  var linkElements = queryAll('link');
+
+  linkElements.forEach((linkElement) {
+    if (linkElement.rel.contains('style')) {
+      var title = linkElement.title;
+
+      if (!title.isEmpty) {
+        if (title == theme) {
+          linkElement.disabled = false;
+          linkElement.rel = 'stylesheet';
+        } else {
+          linkElement.disabled = true;
+          linkElement.rel = 'stylesheet alterative';
+        }
+
+        print('$title ${linkElement.disabled}');
+      }
+    }
+  });
+}
+
 /// Gets any of the web component elements.
 void getElements() {
   var barElement = query('#progress');
@@ -22,6 +45,10 @@ void getElements() {
 
     bar.value = value.toString();
   });
+
+  //changeTheme('dark_flat_theme');
+  //var test1 = new Timer(const Duration(seconds:  5), () { changeTheme('dark_flat_theme'); });
+  //var test2 = new Timer(const Duration(seconds: 10), () { changeTheme('light_flat_theme'); });
 }
 
 /// Main entry-point to the application

@@ -11,7 +11,40 @@ import 'expander.dart';
 
 /// A progress bar.
 ///
+/// The amount filled can be controlled in markup by using the max and value
+/// attributes. By default the max value is set to 1, while the value is
+/// initially set to 0. The minimum value is always assumed to be 0. The bar
+/// will be filled by (value / max) * width.
 ///
+///     <!-- A bar filled halfway -->
+///     <div is="x-progress-bar" value="0.5"></div>
+///     <!-- Another bar filled halfway but with a different maximum -->
+///     <div is="x-progress-bar" value="5" max="10"></div>
+///
+/// Additionally a progress bar may be animated. The animation will stop once
+/// bar is completely filled. By default no animation will occur.
+///
+///     <!-- An animated progress bar -->
+///     <div is="x-progress-bar" animated="true"></div>
+///
+/// The [ProgressBarComponent] defines styles for the bar color, and the
+/// animation.
+///
+///     div[is=x-progress-bar] {
+///       /* The background of the animation */
+///       -webkit-var-progress-bar-animation-background: ___;
+///       /* The duration of the animation (NOT WORKING) */
+///       -webkit-var-progress-bar-animation-duration: ___;
+///       /* The width of the background (NOT WORKING) */
+///       -webkit-var-progress-bar-animation-background-width: ___;
+///       /* The height of the background (NOT WORKING) */
+///       -webkit-var-progress-bar-animation-background-height: ___;
+///       /* The color of the filled portion of the progress bar */
+///       -webkit-var-progress-bar-fill-color:  ___;
+///     }
+///
+/// \TODO Currently the CSS variables do not work if multiple -webkit-var(_) are
+/// used in the same CSS declaration.
 class ProgressBarComponent extends WebComponent {
   //---------------------------------------------------------------------
   // Class variables

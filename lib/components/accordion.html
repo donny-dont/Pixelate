@@ -5,19 +5,16 @@
     <element name="x-accordion" constructor="AccordionComponent" extends="div" mode="{{mode}}">
       <template>
         <style scoped>
-@default-border-width: 1px;
-@default-border-color: rgba(255, 255, 255, 0.1);
-
 div[is=x-accordion] > div {
-  border-top-style: solid;
-  border-top-width: var(accordion-border-width, var(default-border-width));
-  border-top-color: var(accordion-border-color, var(default-border-color));
+  border-top-color: -webkit-var(accordion-border-color);
+  border-top-style: -webkit-var(accordion-border-style);
+  border-top-width: -webkit-var(accordion-border-width);
 }
 
-div[is=x-accordion]>:last-child {
-  border-bottom-style: solid;
-  border-bottom-width: var(accordion-border-width, var(default-border-width));
-  border-bottom-color: var(accordion-border-color, var(default-border-color));
+div[is=x-accordion] > :last-child {
+  border-bottom-color: -webkit-var(accordion-border-color);
+  border-bottom-style: -webkit-var(accordion-border-style);
+  border-bottom-width: -webkit-var(accordion-border-width);
 }
         </style>
         <content select='[is=x-expander]'></content>

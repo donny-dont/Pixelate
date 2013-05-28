@@ -8,20 +8,72 @@ import 'dart:async';
 import 'package:web_ui/web_ui.dart';
 import 'package:pixelate/attribute_helpers.dart';
 
-/// Represents the control that displays a header that has a collapsible window that displays content.
+/// Represents a control that displays a header that has a collapsible window that displays content.
+///
+/// The expansion/collapse of an element can be controlled in markup by using
+/// the expanded attribute, which takes a boolean string value. By default the
+/// control is collapsed.
+///
+///     <!-- Collapsed content; the default -->
+///     <div is="x-expander" expanded="false"></div>
+///     <!-- Expanded content -->
+///     <div is="x-expander" expanded="true"></div>
+///
+/// The [ExpanderComponent]'s content can be toggled on/off by clicking on the
+/// header area. To prevent this from happening the disabled attribute can be
+/// used.
+///
+///     <!-- Toggleable content; the default -->
+///     <div is="x-expander" disabled="false"></div>
+///     <!-- Fixed content -->
+///     <div is="x-expander" disabled="true"></div>
+///
+/// The [ExpanderComponent] defines the following psuedo classes.
+///
+///     /* The header area which contains the clickable area for expanding and collapsing */
+///     div[is=x-expander]::x-header { }
+///     /* An area reserved for a visual indicator for whether the area is collapsed or expanded */
+///     div[is=x-expander]::x-icon { }
+///     /* An area within x-icon that is shown when the item can be collapsed  */
+///     div[is=x-expander]::x-collapse-icon { }
+///     /* An area within x-icon that is shown when the item can be expanded  */
+///     div[is=x-expander]::x-expand-icon { }
+///
+/// The [ExpanderComponent] defines styles for the header colors, and the
+/// transitions between them. Additionally the animation for the expansion of
+/// the content can be styled.
+///
+///     div[is=x-expander] {
+///       /* The default header color */
+///       -webkit-var-expander-header-color: ___;
+///       /* The header color used when the cursor is hovering over the area */
+///       -webkit-var-expander-header-hover-color: ___;
+///       /* The header color used when the cursor is being depressed */
+///       -webkit-var-expander-header-active-color: ___;
+///       /* The header color for when the element is selected (in an expanded state) */
+///       -webkit-var-expander-header-selected-color: ___;
+///       /* The transition function used when transitioning the header color */
+///       -webkit-var-expander-color-transition-timing-function: ___;
+///       /* The time it takes to transition between colors within the header */
+///       -webkit-var-expander-color-transition-duration: ___;
+///       /* The transition function used when the height of the content area is changed */
+///       -webkit-var-expander-size-transition-timing-function: ___;
+///       /* The time it takes to expand/collapse the content area */
+///       -webkit-var-expander-size-transition-duration: ___;
+///     }
 class ExpanderComponent extends WebComponent {
   //---------------------------------------------------------------------
   // Class variables
   //---------------------------------------------------------------------
 
   /// The class name of the header.
-  static const String _headerClass = 'x-expander_header_area';
+  static const String _headerClass = 'x-expander_header-area';
   /// The class name of the content.
   static const String _contentClass = 'x-expander_content';
-  /// The class name of the area signifying expansion.
+  /// The class name of the area when expanded.
   static const String _expandClass = 'x-expander_expand';
-  /// The class name of the area signifying contraction.
-  static const String _contractClass = 'x-expander_contract';
+  /// The class name of the area when collapsed.
+  static const String _collapseClass = 'x-expander_collapse';
   /// The class name for header selection.
   static const String _selectedClass = 'x-expander_selected';
   /// The class name to hide the content.
@@ -113,7 +165,7 @@ class ExpanderComponent extends WebComponent {
     _header   = host.query('.$_headerClass');
     _content  = host.query('.$_contentClass');
     _expand   = host.query('.$_expandClass');
-    _contract = host.query('.$_contractClass');
+    _contract = host.query('.$_collapseClass');
 
     // Create the streams
     _onCollapsedController = new StreamController<CustomEvent>();

@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  background-color: #F8F8F8;
+  background-color: red;
   font-family: 'Montserrat', sans-serif;  font-size: 14px;
   font-weight: normal;
   margin: 0px;
@@ -21,7 +21,7 @@ h1, p {
 }
 
 #content {
-  width: 300px;
+  width: 500px;
 
   min-height: 100%;
   max-height: 100%;
