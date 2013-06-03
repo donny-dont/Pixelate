@@ -25,10 +25,15 @@ class ButtonBaseComponent extends WebComponent {
   ///
   /// If the element is disabled it cannot be clicked.
   bool _disabled = false;
+  ///
+  ///
+  Stream<MouseEvent> _onClick;
 
   //---------------------------------------------------------------------
   // Properties
   //---------------------------------------------------------------------
+
+  Stream<MouseEvent> get onClick => _onClick;
 
   /// Whether the element is enabled.
   ///

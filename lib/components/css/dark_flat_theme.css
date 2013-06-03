@@ -23,10 +23,12 @@
 
   /* Green */
   -webkit-var-green-color: rgb(31, 127, 92);
+  /* Lighter 0.90 - rgb(52, 139, 107) */
   /* Lighter 0.85 - rgb(64, 146, 116) */
   -webkit-var-green-lighter-color: rgb(64, 146, 116);
   /* Darker 0.85 - rgb(26, 108, 78) */
-  -webkit-var-green-darker-color: rgb(26, 108, 78);
+  /* Darker 0.80 - rgb(24, 101, 73) */
+  -webkit-var-green-darker-color: rgb(24, 101, 73);
 
   /* Purple */
   -webkit-var-purple-color: rgb(106, 90, 140);
@@ -97,7 +99,7 @@ div[is=x-button-base], div[is=x-button] {
   -webkit-var-button-background-color: -webkit-var(green-color);
   -webkit-var-button-hover-background-color: -webkit-var(green-lighter-color);
   -webkit-var-button-active-background-color: -webkit-var(green-darker-color);
-  -webkit-var-button-disabled-background-color: -webkit-var(green-color);
+  -webkit-var-button-disabled-background-color: -webkit-var(black-color);
 
   -webkit-var-button-color-transition-timing-function: -webkit-var(default-color-transition-timing-function);
   -webkit-var-button-color-transition-duration: -webkit-var(default-color-transition-duration);
