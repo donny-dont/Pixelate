@@ -88,7 +88,7 @@ div[is=x-accordion] {
 }
 
 /* Button theme */
-div[is=x-button-base], div[is=x-button] {
+div[is=x-button] {
   width: 200px;
   padding: 4px 0;
   margin: 5px 0;

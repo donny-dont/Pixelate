@@ -16,7 +16,6 @@
     <!-- import the components -->
     <link rel="import" href="packages/pixelate/components/accordion.html">
     <link rel="import" href="packages/pixelate/components/button.html">
-    <link rel="import" href="packages/pixelate/components/button_base.html">
     <link rel="import" href="packages/pixelate/components/expander.html">
     <link rel="import" href="packages/pixelate/components/progress_bar.html">
   </head>
@@ -31,10 +30,8 @@
           <div id="progress" is="x-progress-bar" animated="true">
             <div>Uploading file....</div>
           </div>
-          <div is="x-button-base">Button-Base</div>
-          <div is="x-button">Button</div>
-          <div is="x-button-base" disabled="true">Button-Base</div>
-          <div is="x-button" disabled="true">Button</div>
+          <div is="x-button" id="button-active">Button</div>
+          <div is="x-button" id="button-disabled" disabled="true">Button</div>
         </div>
         <div is="x-expander" expanded="false">
           <div class="header">Sphere</div>

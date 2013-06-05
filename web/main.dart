@@ -46,6 +46,20 @@ void getElements() {
     bar.value = value.toString();
   });
 
+  var buttonElement = query('#button-active');
+  var button = buttonElement.xtag as ButtonComponent;
+
+  button.onClick.listen((_) {
+    print('active button clicked');
+  });
+
+  var disabledButtonElement = query('#button-disabled');
+  var disabledButton = disabledButtonElement.xtag as ButtonComponent;
+
+  disabledButton.onClick.listen((_) {
+    print('disabled button clicked. shouldnt print this evar');
+  });
+
   //changeTheme('dark_flat_theme');
   //var test1 = new Timer(const Duration(seconds:  5), () { changeTheme('dark_flat_theme'); });
   //var test2 = new Timer(const Duration(seconds: 10), () { changeTheme('light_flat_theme'); });
