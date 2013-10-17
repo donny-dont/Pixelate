@@ -1,7 +1,0 @@
-name: pixelate
-description: A UI widget library aimed at game developers
-dependencies:
-  web_ui: any
-dev_dependencies:
-  browser: any
-  js: any
