@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <element name="x-button" constructor="ButtonComponent" extends="div" disabled="{{disabled}}">
+      <template>
+        <style scoped>
+div[is=x-button] {
+  background-color: -webkit-var(button-background-color);
+
+  border-color: -webkit-var(button-border-color);
+  border-style: -webkit-var(button-border-style);
+  border-width: -webkit-var(button-border-width);
+
+  cursor: pointer;
+  display: -webkit-flex;
+
+  transition-property: background-color, color;
+  transition-duration: -webkit-var(button-color-transition-duration);
+  transition-timing-function: -webkit-var(button-color-transition-timing-function);
+
+  user-select: none;
+ -webkit-user-select: none;
+}
+
+div[is=x-button]:hover {
+  background-color: -webkit-var(button-hover-background-color);
+}
+
+div[is=x-button]:active {
+  background-color: -webkit-var(button-active-background-color);
+}
+
+/* Disabled class. */
+.disabled {
+  background-color: -webkit-var(button-disabled-background-color) !important;
+  color: -webkit-var(button-disabled-color);
+  cursor: not-allowed !important;
+}
+        </style>
+        <div class="containter">
+          <content></content>
+        </div>
+      </template>
+      <script type="application/dart" src="button.dart"></script>
+    </element>
+  </body>
+</html>

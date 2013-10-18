@@ -56,11 +56,25 @@ div[is=x-accordion] {
   -webkit-var-accordion-border-width: -webkit-var(default-border-width);
 }
 
+/* Button theme */
+div[is=x-button-base] {
+  -webkit-var-button-border-color);
+  -webkit-var-button-border-style;
+  -webkit-var-button-border-width: ;
+
+  cursor: pointer;
+  display: -webkit-flex;
+
+  transition-property: background-color, color;
+  transition-duration: -webkit-var(button-color-transition-duration);
+  transition-timing-function: -webkit-var(button-color-transition-timing-function);
+
+}
+
 /* Expander theme */
 div[is=x-expander] {
   -webkit-var-expander-selected-background-color: -webkit-var(purple-color);
   -webkit-var-expander-selected-background-color: -webkit-var(purple-color);
-
   -webkit-var-expander-selected-background-color: -webkit-var(purple-color);
 
   -webkit-var-expander-color-transition-timing-function: -webkit-var(default-color-transition-timing-function);
