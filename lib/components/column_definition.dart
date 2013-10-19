@@ -20,7 +20,7 @@ const String _tagName = 'column-definition';
 
 /// Defines a column within a grid.
 ///
-/// The width of the column can be controlled through the height attribute. The
+/// The width of the column can be controlled through the width attribute. The
 /// value can be specified in any coordinate system that the CSS Grid supports.
 /// By default the column will stretch to whatever the largest child contained
 /// in the column.
