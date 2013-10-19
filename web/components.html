@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Pixelate Components</title>
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/grid_panel.html">
+    <link rel="import" href="packages/pixelate/components/row_definitions.html">
+    <link rel="import" href="packages/pixelate/components/row_definition.html">
+    
+    <!-- This is the bootstrap script for Polymer. 
+         Use this INSTEAD of dart.js -->
+    <script src="packages/polymer/boot.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div>Pixelate</div>
+      <div>Components</div>
+    </div>
+
+    <!-- Grid Panel -->    
+    <h2 id="grid-link">Grid Panel</h2>
+    <div class="comment">
+      The Grid Panel....
+    </div>
+    <div class="warning">
+      The Grid Panel uses the <a href="">CSS Grid Specification</a> which is
+      not enabled by default.
+    </div>
+    <div class="example">
+      <grid-panel>
+        <!--
+        <column-definitions>
+          <column-definition></column-definition>
+          <column-definition></column-definition>
+          <column-definition></column-definition>
+        </column-definitions>
+        -->
+        <row-definitions>
+          <row-definition></row-definition>
+          <row-definition></row-definition>
+          <row-definition></row-definition>
+          <row-definition></row-definition>
+          <row-definition></row-definition>
+          <row-definition></row-definition>
+          <row-definition></row-definition>
+        </row-definitions>
+        <!-- First column -->
+        <div data-column="0" data-row="0">First Name:</div>
+        <div data-column="0" data-row="1">Last Name:</div>
+        <div data-column="0" data-row="2">Address:</div>
+        <div data-column="0" data-row="3">Address 2:</div>
+        <div data-column="0" data-row="4">City:</div>
+        <div data-column="0" data-row="5">State:</div>
+        <div data-column="0" data-row="6">Zip:</div>
+        <!-- Second column -->
+        <input data-column="1" data-row="0" type="text">
+        <input data-column="1" data-row="1" type="text">
+        <input data-column="1" data-row="2" type="text">
+        <input data-column="1" data-row="3" type="text">
+        <input data-column="1" data-row="4" type="text">
+        <input data-column="1" data-row="5" type="text">
+        <input data-column="1" data-row="6" type="text">
+        <!-- Third column -->
+        <div data-column="2" data-row="0" data-rowspan="7">
+          <div>Department</div>
+          <select multiple size="3">
+            <option>Finance</option>
+            <option>Human Resources</option>
+            <option>Marketing</option>
+          </select>
+        </div>
+      </grid-panel>
+    </div>
+  </body>
+</html>
