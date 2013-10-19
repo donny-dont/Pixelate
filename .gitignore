@@ -21,3 +21,6 @@ out
 *.js
 *.js.map
 *.js.deps
+
+# Documentation
+docs

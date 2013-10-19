@@ -12,6 +12,7 @@ import 'dart:html';
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
+import 'column_definitions.dart';
 import 'row_definitions.dart';
 
 //---------------------------------------------------------------------
@@ -48,7 +49,23 @@ const String _tagName = 'grid-panel';
 ///       <div data-column="2" data-row="1">2, 1</div>
 ///     </grid-panel>
 ///
+/// Additionally the grid elements can span multiple rows and columns.
 ///
+///     <!-- Definition of a 3x2 grid -->
+///     <grid-panel>
+///       <column-definitions>
+///         <column-definition></column-definition>
+///         <column-definition></column-definition>
+///         <column-definition></column-definition>
+///       </column-definitions>
+///       <row-definitions>
+///         <row-definition></row-definition>
+///         <row-definition></row-definition>
+///       </row-definitions>
+///       <div data-column="0" data-row="0">A</div>
+///       <div data-column="2" data-row="0" data-rowspan="2">B</div>
+///       <div data-column="0" data-row="1" data-columnspan="2">C</div>
+///     </grid-panel>
 ///
 /// The [GridPanel] relies on the [CSS Grid Layout](http://dev.w3.org/csswg/css-grid/)
 /// specification. Before using within an application verify that the feature
@@ -71,6 +88,8 @@ class GridPanel extends PolymerElement {
   // Member variables
   //---------------------------------------------------------------------
 
+  /// The [ColumnDefinitions] contained in the element.
+  ColumnDefinitions _columns;
   /// The [RowDefinitions] contained in the element.
   RowDefinitions _rows;
   /// Observer for changes within the element.
@@ -81,17 +100,10 @@ class GridPanel extends PolymerElement {
   //---------------------------------------------------------------------
 
   void inserted() {
-    var rowDefinitionsElement = host.query('row-definitions');
+    super.inserted();
 
-    if (rowDefinitionsElement != null) {
-      _rows = rowDefinitionsElement.xtag;
-
-      print('Rows found!');
-    }
-
+    _layoutColumns();
     _layoutRows();
-    _computeColumns();
-
     _layoutChildren();
   }
 
@@ -114,51 +126,67 @@ class GridPanel extends PolymerElement {
     _layoutRows();
   }
 
+  void onColumnsChanged(CustomEvent event) {
+    _layoutColumns();
+  }
+
   void _onMutation(List<MutationRecord> mutations, MutationObserver observer) {
-    print('GridPanel ${mutations.length} ${mutations[0].target}');
+    // \TODO take into account the mutation targets and choose accordingly
+    _layoutColumns();
+    _layoutRows();
+    _layoutChildren();
   }
 
   //---------------------------------------------------------------------
   // Layout methods
   //---------------------------------------------------------------------
 
+  /// Sets the layout for the columns.
+  void _layoutColumns() {
+    var columns = host.query(ColumnDefinitions.customTagName);
+    var property = '';
 
+    if (columns != null) {
+      _columns = columns.xtag;
+
+      for (var column in _columns.columns) {
+        property += column.width + ' ';
+      }
+    } else {
+      _columns = null;
+    }
+
+    // Set the style
+    host.style.setProperty('grid-definition-columns', property);
+  }
+
+  /// Sets the layout for the rows.
   void _layoutRows() {
-    if (_rows == null) {
-      print('WTF');
+    var rows = host.query(RowDefinitions.customTagName);
+    var property = '';
+
+    if (rows != null) {
+      _rows = rows.xtag;
+
+      for (var row in _rows.rows) {
+        property += row.height + ' ';
+      }
+    } else {
+      _rows = null;
     }
-    var rows = _rows.rows;
-    var rowCount = rows.length;
-    var definition = '';
 
-    for (var i = 0; i < rowCount; ++i) {
-      definition += rows[i].height + ' ';
-    }
+    print(property);
 
-    host.style.display = 'grid';
-    print(host.style.display);
-    print(host.style.getPropertyValue('grid-definition-rows'));
-    host.style.setProperty('grid-definition-rows', definition);
-    print('GRID DEFINITION: ${host.style.getPropertyValue('grid-definition-rows')}');
-
-    print(host.style.gridRows);
+    // Set the style
+    host.style.setProperty('grid-definition-rows', property);
   }
 
-  void _computeColumns() {
-    host.style.setProperty('grid-definition-columns', 'auto auto auto');
-    print(host.style.gridColumns);
-
-  }
-
+  /// Lays out the child elements.
   void _layoutChildren() {
-    var children = host.children;
-    var childCount = children.length;
-
-    for (var i = 0; i < childCount; ++i) {
-      var child = children[i];
+    for (var child in host.children) {
       var localName = child.localName;
 
-      if ((localName != 'row-definitions') && (localName != 'column-definitions')) {
+      if ((localName != RowDefinitions.customTagName) && (localName != ColumnDefinitions.customTagName)) {
         _setGridPosition(child);
       }
     }
