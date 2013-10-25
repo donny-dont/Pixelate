@@ -1,4 +1,5 @@
 name: pixelate
 description: A UI widget library aimed at game developers
 dependencies:
-    polymer: any
+  logging: any
+  polymer: any

@@ -4,7 +4,7 @@
 // the LICENSE file.
 
 /// Contains the [RowDefinitions] class.
-library row_definitions;
+library pixelate_row_definitions;
 
 //---------------------------------------------------------------------
 // Standard libraries
@@ -19,14 +19,14 @@ import 'dart:html';
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'row_definition.dart';
+import 'package:pixelate/components/row_definition.dart';
 
 //---------------------------------------------------------------------
 // Library contents
 //---------------------------------------------------------------------
 
 /// Tag name for the class.
-const String _tagName = 'row-definitions';
+const String _tagName = 'px-row-definitions';
 
 /// Defines the rows contained within a grid.
 ///
@@ -34,12 +34,12 @@ const String _tagName = 'row-definitions';
 /// [RowDefinitions] element.
 ///
 ///     <!-- The row definitions -->
-///     <row-definitions>
+///     <px-row-definitions>
 ///       <!-- The first row (value of 0) -->
-///       <row-definition></row-definition>
+///       <px-row-definition></px-row-definition>
 ///       <!-- The second row (value of 1) -->
-///       <row-definition></row-definition>
-///     </row-definitions>
+///       <px-row-definition></px-row-definition>
+///     </px-row-definitions>
 ///
 /// All rows used within the [GridPanel] are required to be defined within the
 /// [RowDefinitions].
@@ -74,13 +74,24 @@ class RowDefinitions extends PolymerElement {
   //---------------------------------------------------------------------
 
   /// Create an instance of the [RowDefinitions] class.
-  RowDefinitions()
+  ///
+  /// This constructor should not be called directly. Instead use the
+  /// [Element.tag] constructor as follows.
+  ///
+  ///     var instance = new Element.tag(RowDefinitions.customTagName);
+  RowDefinitions.created()
       : _rows = new List<RowDefinition>()
       , _rowChangeSubscriptions = new List<StreamSubscription<List<ChangeRecord>>>()
+      , super.created()
   {
-    // Create the variables that can't be constructed in the initializer list
     _rowsView = new UnmodifiableListView<RowDefinition>(_rows);
+
+    // Observe changes to the host element.
+    //
+    // The [RowDefinition] elements are appended to the content area so using
+    // the shadow dom will not result in a mutation.
     _observer = new MutationObserver(_onMutation);
+    _observer.observe(this, childList: true, subtree: true);
   }
 
   //---------------------------------------------------------------------
@@ -94,19 +105,8 @@ class RowDefinitions extends PolymerElement {
   // Polymer methods
   //---------------------------------------------------------------------
 
-  void created() {
-    super.created();
-
-    // Observe changes to the host element.
-    //
-    // The row-definition elements are appended to the content area so using
-    // the shadow dom will not result in a mutation.
-    _observer = new MutationObserver(_onMutation);
-    _observer.observe(host, childList: true, subtree: true);
-  }
-
-  void inserted() {
-    super.inserted();
+  void enteredView() {
+    super.enteredView();
 
     _updateRows();
   }
@@ -133,15 +133,12 @@ class RowDefinitions extends PolymerElement {
 
   /// Update the row listing.
   void _updateRows() {
-    var rowTags = host.queryAll(RowDefinition.customTagName);
+    var rowTags = querySelectorAll(RowDefinition.customTagName);
     var rowTagCount = rowTags.length;
 
     // Position the tags
     for (var i = 0; i < rowTagCount; ++i) {
-      var rowTag = rowTags[i] as Element;
-
-      // See if the tag is already present
-      var row = rowTag.xtag as RowDefinition;
+      var row = rowTags[i];
       var indexOf = _rows.indexOf(row, i);
 
       if (indexOf != -1) {

@@ -3,7 +3,12 @@
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
 
-library grid_panel;
+/// Contains the [GridPanel] class.
+library pixelate_grid_panel;
+
+//---------------------------------------------------------------------
+// Standard libraries
+//---------------------------------------------------------------------
 
 import 'dart:html';
 
@@ -12,15 +17,15 @@ import 'dart:html';
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'column_definitions.dart';
-import 'row_definitions.dart';
+import 'package:pixelate/components/column_definitions.dart';
+import 'package:pixelate/components/row_definitions.dart';
 
 //---------------------------------------------------------------------
 // Library contents
 //---------------------------------------------------------------------
 
 /// Tag name for the class.
-const String _tagName = 'grid-panel';
+const String _tagName = 'px-grid-panel';
 
 /// Defines a grid for laying out elements.
 ///
@@ -31,41 +36,41 @@ const String _tagName = 'grid-panel';
 /// specified in markup rather than CSS.
 ///
 ///     <!-- Definition of a 3x2 grid -->
-///     <grid-panel>
-///       <column-definitions>
-///         <column-definition></column-definition>
-///         <column-definition></column-definition>
-///         <column-definition></column-definition>
-///       </column-definitions>
-///       <row-definitions>
-///         <row-definition></row-definition>
-///         <row-definition></row-definition>
-///       </row-definitions>
+///     <px-grid-panel>
+///       <px-column-definitions>
+///         <px-column-definition></px-column-definition>
+///         <px-column-definition></px-column-definition>
+///         <px-column-definition></px-column-definition>
+///       </px-column-definitions>
+///       <px-row-definitions>
+///         <px-row-definition></px-row-definition>
+///         <px-row-definition></px-row-definition>
+///       </px-row-definitions>
 ///       <div data-column="0" data-row="0">0, 0</div>
 ///       <div data-column="1" data-row="0">1, 0</div>
 ///       <div data-column="2" data-row="0">2, 0</div>
 ///       <div data-column="0" data-row="1">0, 1</div>
 ///       <div data-column="1" data-row="1">1, 1</div>
 ///       <div data-column="2" data-row="1">2, 1</div>
-///     </grid-panel>
+///     </px-grid-panel>
 ///
 /// Additionally the grid elements can span multiple rows and columns.
 ///
 ///     <!-- Definition of a 3x2 grid -->
-///     <grid-panel>
-///       <column-definitions>
-///         <column-definition></column-definition>
-///         <column-definition></column-definition>
-///         <column-definition></column-definition>
-///       </column-definitions>
-///       <row-definitions>
-///         <row-definition></row-definition>
-///         <row-definition></row-definition>
-///       </row-definitions>
+///     <px-grid-panel>
+///       <px-column-definitions>
+///         <px-column-definition></px-column-definition>
+///         <px-column-definition></px-column-definition>
+///         <px-column-definition></px-column-definition>
+///       </px-column-definitions>
+///       <px-row-definitions>
+///         <px-row-definition></px-row-definition>
+///         <px-row-definition></px-row-definition>
+///       </px-row-definitions>
 ///       <div data-column="0" data-row="0">A</div>
 ///       <div data-column="2" data-row="0" data-rowspan="2">B</div>
 ///       <div data-column="0" data-row="1" data-columnspan="2">C</div>
-///     </grid-panel>
+///     </px-grid-panel>
 ///
 /// The [GridPanel] relies on the [CSS Grid Layout](http://dev.w3.org/csswg/css-grid/)
 /// specification. Before using within an application verify that the feature
@@ -96,26 +101,33 @@ class GridPanel extends PolymerElement {
   MutationObserver _observer;
 
   //---------------------------------------------------------------------
+  // Construction
+  //---------------------------------------------------------------------
+
+  /// Create an instance of the [GridPanel] class.
+  ///
+  /// This constructor should not be called directly. Instead use the
+  /// [Element.tag] constructor as follows.
+  ///
+  ///     var instance = new Element.tag(GridPanel.customTagName);
+  GridPanel.created()
+      : super.created()
+  {
+    // Observe changes to the host element.
+    _observer = new MutationObserver(_onMutation);
+    _observer.observe(this, childList: true, subtree: true);
+  }
+
+  //---------------------------------------------------------------------
   // Polymer methods
   //---------------------------------------------------------------------
 
-  void inserted() {
-    super.inserted();
+  void enteredView() {
+    super.enteredView();
 
     _layoutColumns();
     _layoutRows();
     _layoutChildren();
-  }
-
-  void created() {
-    super.created();
-
-    // Observe changes to the host element.
-    //
-    // The row-definition elements are appended to the content area so using
-    // the shadow dom will not result in a mutation.
-    _observer = new MutationObserver(_onMutation);
-    _observer.observe(host, childList: true, subtree: true);
   }
 
   //---------------------------------------------------------------------
@@ -143,12 +155,11 @@ class GridPanel extends PolymerElement {
 
   /// Sets the layout for the columns.
   void _layoutColumns() {
-    var columns = host.query(ColumnDefinitions.customTagName);
     var property = '';
 
-    if (columns != null) {
-      _columns = columns.xtag;
+    _columns = querySelector(ColumnDefinitions.customTagName);
 
+    if (_columns != null) {
       for (var column in _columns.columns) {
         property += column.width + ' ';
       }
@@ -157,17 +168,16 @@ class GridPanel extends PolymerElement {
     }
 
     // Set the style
-    host.style.setProperty('grid-definition-columns', property);
+    style.setProperty('grid-definition-columns', property);
   }
 
   /// Sets the layout for the rows.
   void _layoutRows() {
-    var rows = host.query(RowDefinitions.customTagName);
     var property = '';
 
-    if (rows != null) {
-      _rows = rows.xtag;
+    _rows = querySelector(RowDefinitions.customTagName);
 
+    if (_rows != null) {
       for (var row in _rows.rows) {
         property += row.height + ' ';
       }
@@ -175,15 +185,13 @@ class GridPanel extends PolymerElement {
       _rows = null;
     }
 
-    print(property);
-
     // Set the style
-    host.style.setProperty('grid-definition-rows', property);
+    style.setProperty('grid-definition-rows', property);
   }
 
   /// Lays out the child elements.
   void _layoutChildren() {
-    for (var child in host.children) {
+    for (var child in children) {
       var localName = child.localName;
 
       if ((localName != RowDefinitions.customTagName) && (localName != ColumnDefinitions.customTagName)) {

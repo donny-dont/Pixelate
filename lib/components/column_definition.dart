@@ -3,7 +3,8 @@
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
 
-library column_definition;
+/// Contains the [ColumnDefinition] class.
+library pixelate_column_definition;
 
 //---------------------------------------------------------------------
 // Package libraries
@@ -16,7 +17,7 @@ import 'package:polymer/polymer.dart';
 //---------------------------------------------------------------------
 
 /// Tag name for the class.
-const String _tagName = 'column-definition';
+const String _tagName = 'px-column-definition';
 
 /// Defines a column within a grid.
 ///
@@ -26,9 +27,9 @@ const String _tagName = 'column-definition';
 /// in the column.
 ///
 ///     <!-- Unspecified column definition -->
-///     <column-definition></column-definition>
+///     <px-column-definition></px-column-definition>
 ///     <!-- Column that is 400px wide -->
-///     <column-definition width="400px"></column-definition>
+///     <px-column-definition width="400px"></px-column-definition>
 ///
 /// A [ColumnDefinition] should not contain any children, and does not have a
 /// content area. Additionally the [ColumnDefinition] is styled to not display
@@ -41,6 +42,13 @@ class ColumnDefinition extends PolymerElement {
 
   /// The name of the tag.
   static String get customTagName => _tagName;
+
+  //---------------------------------------------------------------------
+  // Construction
+  //---------------------------------------------------------------------
+
+  ColumnDefinition.created()
+      : super.created();
 
   //---------------------------------------------------------------------
   // Properties

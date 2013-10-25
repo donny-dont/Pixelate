@@ -3,7 +3,8 @@
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
 
-library row_definition;
+/// Contains the [RowDefinition] class.
+library pixelate_row_definition;
 
 //---------------------------------------------------------------------
 // Package libraries
@@ -16,7 +17,7 @@ import 'package:polymer/polymer.dart';
 //---------------------------------------------------------------------
 
 /// Tag name for the class.
-const String _tagName = 'row-definition';
+const String _tagName = 'px-row-definition';
 
 /// Defines a row within a grid.
 ///
@@ -26,9 +27,9 @@ const String _tagName = 'row-definition';
 /// in the row.
 ///
 ///     <!-- Unspecified row definition -->
-///     <row-definition></row-definition>
+///     <px-row-definition></px-row-definition>
 ///     <!-- Row that is 400px tall -->
-///     <row-definition height="400px"></row-definition>
+///     <px-row-definition height="400px"></px-row-definition>
 ///
 /// A [RowDefinition] should not contain any children, and does not have a
 /// content area. Additionally the [RowDefinition] is styled to not display
@@ -41,6 +42,19 @@ class RowDefinition extends PolymerElement {
 
   /// The name of the tag.
   static String get customTagName => _tagName;
+
+  //---------------------------------------------------------------------
+  // Construction
+  //---------------------------------------------------------------------
+
+  /// Create an instance of the [RowDefinition] class.
+  ///
+  /// This constructor should not be called directly. Instead use the
+  /// [Element.tag] constructor as follows.
+  ///
+  ///     var instance = new Element.tag(RowDefinition.customTagName);
+  RowDefinition.created()
+      : super.created();
 
   //---------------------------------------------------------------------
   // Properties

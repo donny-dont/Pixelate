@@ -4,7 +4,7 @@
 // the LICENSE file.
 
 /// Contains the [ColumnDefinitions] class.
-library column_definitions;
+library pixelate_column_definitions;
 
 //---------------------------------------------------------------------
 // Standard libraries
@@ -19,14 +19,14 @@ import 'dart:html';
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'column_definition.dart';
+import 'package:pixelate/components/column_definition.dart';
 
 //---------------------------------------------------------------------
 // Library contents
 //---------------------------------------------------------------------
 
 /// Tag name for the class.
-const String _tagName = 'column-definitions';
+const String _tagName = 'px-column-definitions';
 
 /// Defines the columns contained within a grid.
 ///
@@ -34,12 +34,12 @@ const String _tagName = 'column-definitions';
 /// [ColumnDefinitions] element.
 ///
 ///     <!-- The column definitions -->
-///     <column-definitions>
+///     <px-column-definitions>
 ///       <!-- The first column (value of 0) -->
-///       <column-definition></column-definition>
+///       <px-column-definition></px-column-definition>
 ///       <!-- The second column (value of 1) -->
-///       <column-definition></column-definition>
-///     </column-definitions>
+///       <px-column-definition></px-column-definition>
+///     </px-column-definitions>
 ///
 /// All columns used within the [GridPanel] are required to be defined within
 /// the [ColumnDefinitions].
@@ -74,13 +74,24 @@ class ColumnDefinitions extends PolymerElement {
   //---------------------------------------------------------------------
 
   /// Create an instance of the [ColumnDefinitions] class.
-  ColumnDefinitions()
+  ///
+  /// This constructor should not be called directly. Instead use the
+  /// [Element.tag] constructor as follows.
+  ///
+  ///     var instance = new Element.tag(ColumnDefinitions.customTagName);
+  ColumnDefinitions.created()
       : _columns = new List<ColumnDefinition>()
       , _columnChangeSubscriptions = new List<StreamSubscription<List<ChangeRecord>>>()
+      , super.created()
   {
-    // Create the variables that can't be constructed in the initializer list
     _columnsView = new UnmodifiableListView<ColumnDefinition>(_columns);
+
+    // Observe changes to the host element.
+    //
+    // The column-definition elements are appended to the content area so using
+    // the shadow dom will not result in a mutation.
     _observer = new MutationObserver(_onMutation);
+    _observer.observe(this, childList: true, subtree: true);
   }
 
   //---------------------------------------------------------------------
@@ -94,19 +105,8 @@ class ColumnDefinitions extends PolymerElement {
   // Polymer methods
   //---------------------------------------------------------------------
 
-  void created() {
-    super.created();
-
-    // Observe changes to the host element.
-    //
-    // The column-definition elements are appended to the content area so using
-    // the shadow dom will not result in a mutation.
-    _observer = new MutationObserver(_onMutation);
-    _observer.observe(host, childList: true, subtree: true);
-  }
-
-  void inserted() {
-    super.inserted();
+  void enteredView() {
+    super.enteredView();
 
     _updateColumns();
   }
@@ -133,15 +133,12 @@ class ColumnDefinitions extends PolymerElement {
 
   /// Update the column listing.
   void _updateColumns() {
-    var columnTags = host.queryAll(ColumnDefinition.customTagName);
+    var columnTags = querySelectorAll(ColumnDefinition.customTagName);
     var columnTagCount = columnTags.length;
 
     // Position the tags
     for (var i = 0; i < columnTagCount; ++i) {
-      var columnTag = columnTags[i] as Element;
-
-      // See if the tag is already present
-      var column = columnTag.xtag as ColumnDefinition;
+      var column = columnTags[i];
       var indexOf = _columns.indexOf(column, i);
 
       if (indexOf != -1) {
