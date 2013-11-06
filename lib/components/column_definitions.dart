@@ -123,7 +123,7 @@ class ColumnDefinitions extends PolymerElement {
   }
 
   /// Callback for when a change happens in the observer.
-  void _onColumnChanged(UnmodifiableListView<ChangeRecord> records) {
+  void _onColumnMutation(UnmodifiableListView<ChangeRecord> records) {
     // Notify that a change happened to a column.
     //
     // Only instances of the ColumnDefinition are being observed so this event
@@ -158,7 +158,7 @@ class ColumnDefinitions extends PolymerElement {
         _columns.insert(i, column);
 
         // Subscribe to the events
-        _columnChangeSubscriptions.insert(i, column.changes.listen(_onColumnChanged));
+        _columnChangeSubscriptions.insert(i, column.changes.listen(_onColumnMutation));
       }
     }
 

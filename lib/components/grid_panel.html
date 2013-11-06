@@ -11,8 +11,8 @@
           display: grid;              
       }
     </style>
-    <content select="px-column-definitions" on-columnschange="onColumnsChanged"></content>
-    <content select="px-row-definitions" on-rowschange="onRowsChanged"></content>
+    <content select="px-column-definitions" on-columnschange="{{_onColumnsMutation}}"></content>
+    <content select="px-row-definitions" on-rowschange="{{_onRowsMutation}}"></content>
     <content></content>    
   </template>
   <script type="application/dart" src="grid_panel.dart"></script>

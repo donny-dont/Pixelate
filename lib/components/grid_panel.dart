@@ -134,11 +134,11 @@ class GridPanel extends PolymerElement {
   // Events
   //---------------------------------------------------------------------
 
-  void onRowsChanged(CustomEvent event) {
+  void _onRowsMutation(CustomEvent event) {
     _layoutRows();
   }
 
-  void onColumnsChanged(CustomEvent event) {
+  void _onColumnsMutation(CustomEvent event) {
     _layoutColumns();
   }
 

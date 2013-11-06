@@ -123,7 +123,7 @@ class RowDefinitions extends PolymerElement {
   }
 
   /// Callback for when a change happens in the observer.
-  void _onRowChanged(UnmodifiableListView<ChangeRecord> records) {
+  void _onRowMutation(UnmodifiableListView<ChangeRecord> records) {
     // Notify that a change happened to a row.
     //
     // Only instances of the RowDefinition are being observed so this event can
@@ -158,7 +158,7 @@ class RowDefinitions extends PolymerElement {
         _rows.insert(i, row);
 
         // Subscribe to the events
-        _rowChangeSubscriptions.insert(i, row.changes.listen(_onRowChanged));
+        _rowChangeSubscriptions.insert(i, row.changes.listen(_onRowMutation));
       }
     }
 
