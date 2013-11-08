@@ -1,7 +1,10 @@
-import 'dart:io';
-import 'package:web_ui/component_build.dart';
+// Copyright (c) 2013, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
 
-// Ref: http://www.dartlang.org/articles/dart-web-components/tools.html
+import 'package:polymer/builder.dart';
+
 main() {
-  build(new Options().arguments, ['web/index.html']);
+  build(entryPoints: ['web/components.html']);
 }

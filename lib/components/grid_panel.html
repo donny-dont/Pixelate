@@ -1,0 +1,19 @@
+<polymer-element name="px-grid-panel">
+  <template> 
+    <style>
+      @host {
+        :scope {
+          display: grid;       
+        }
+      }
+      
+      grid-panel {
+          display: grid;              
+      }
+    </style>
+    <content select="px-column-definitions" on-columnschange="{{_onColumnsMutation}}"></content>
+    <content select="px-row-definitions" on-rowschange="{{_onRowsMutation}}"></content>
+    <content></content>    
+  </template>
+  <script type="application/dart" src="grid_panel.dart"></script>
+</polymer-element>

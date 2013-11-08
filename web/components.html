@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Pixelate Components</title>
+
+    <style>
+      .menu {
+        display: flex;
+        background-color: black;
+      }
+      
+      .menu > a {
+        color: white;
+      }
+    </style>
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/column_definition.html">
+    <link rel="import" href="packages/pixelate/components/column_definitions.html">
+    <link rel="import" href="packages/pixelate/components/row_definition.html">
+    <link rel="import" href="packages/pixelate/components/row_definitions.html">    
+    <link rel="import" href="packages/pixelate/components/grid_panel.html">
+    
+    <!-- Polymer initialization -->
+    <script type="application/dart">import 'package:polymer/init.dart';</script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div class="menu">
+      <a href="index.html">Pixelate</a>
+      <a href="components.html">Components</a>
+      <a href="">Documentation</a>
+    </div>
+
+    <!-- Header -->    
+    <div class="header">
+      <h1>Components</h1>
+      <p>The available components</p> 
+    </div>
+    
+    <!-- Naviagtion -->
+    <div class="navigation">
+      <a href="#grid-link">Grid Panel</a>
+    </div>
+
+    <!-- Components -->
+    <div class="components">
+      <h2 id="grid-link">Grid Panel</h2>
+      <div class="comment">
+        The Grid Panel....
+      </div>
+      <div class="warning">
+        The Grid Panel uses the <a href="">CSS Grid Specification</a> which is
+        not enabled by default.
+      </div>
+      <div class="example">
+        <px-grid-panel>
+          <px-row-definitions>
+            <px-row-definition></px-row-definition>
+            <px-row-definition></px-row-definition>
+            <px-row-definition></px-row-definition>
+            <px-row-definition></px-row-definition>
+            <px-row-definition></px-row-definition>
+            <px-row-definition></px-row-definition>
+            <px-row-definition></px-row-definition>
+          </px-row-definitions>        
+          <px-column-definitions>
+            <px-column-definition></px-column-definition>
+            <px-column-definition></px-column-definition>
+            <px-column-definition></px-column-definition>
+          </px-column-definitions>
+          <!-- First column -->
+          <div data-column="0" data-row="0">First Name:</div>
+          <div data-column="0" data-row="1">Last Name:</div>
+          <div data-column="0" data-row="2">Address:</div>
+          <div data-column="0" data-row="3">Address 2:</div>
+          <div data-column="0" data-row="4">City:</div>
+          <div data-column="0" data-row="5">State:</div>
+          <div data-column="0" data-row="6">Zip:</div>
+          <!-- Second column -->
+          <input data-column="1" data-row="0" type="text">
+          <input data-column="1" data-row="1" type="text">
+          <input data-column="1" data-row="2" type="text">
+          <input data-column="1" data-row="3" type="text">
+          <input data-column="1" data-row="4" type="text">
+          <input data-column="1" data-row="5" type="text">
+          <input data-column="1" data-row="6" type="text">
+          <!-- Third column -->
+          <div data-column="2" data-row="0" data-rowspan="7">
+            <div>Department</div>
+            <select multiple size="3">
+              <option>Finance</option>
+              <option>Human Resources</option>
+              <option>Marketing</option>
+            </select>
+          </div>
+        </px-grid-panel>
+      </div>
+    </div>
+  </body>
+</html>
