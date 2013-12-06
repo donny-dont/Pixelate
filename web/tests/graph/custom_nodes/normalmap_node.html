@@ -1,0 +1,54 @@
+<link rel="import" href="packages/pixelate/components/diagram.html">
+<link rel="import" href="packages/pixelate/components/diagram_node.html">
+<link rel="import" href="packages/pixelate/components/diagram_socket.html">
+
+<link rel="import" href="app_node.html">
+<polymer-element name="normalmap-node" noscript>
+  <template>
+    <style>
+      #node_body { width: 180px; height: 120px; }
+      #in_diffuse_r { left: -8px; top: 30px; }
+      #in_diffuse_g { left: -8px; top: 50px; }
+      #in_diffuse_b { left: -8px; top: 70px; }
+      #in_diffuse_a { left: -8px; top: 90px; }
+      #out_normal { left: 172px; top: 50px; }
+      #out_height { left: 172px; top: 70px; }
+      #txtDiffuseR { left: 12px; top: 30px; }
+      #txtDiffuseG { left: 12px; top: 50px; }
+      #txtDiffuseB { left: 12px; top: 70px; }
+      #txtDiffuseA { left: 12px; top: 90px; }
+      #txtNormalMap { left: 105px; top: 50px; }
+      #txtHeightMap { left: 106px; top: 70px; }
+
+      px-diagram-socket { position: absolute; }
+      px-diagram-socket:hover { border: 2px; }
+      .caption { 
+        position: absolute;
+        color: #ccc;
+        font-family:Tahoma, Geneva, sans-serif;
+        font-size: 12px;
+        text-shadow: 1px 1px #111;
+        margin-top: -1px;
+      }
+    </style>
+    <div id="node_body">
+      <app-node title="Normal Map">
+        <px-diagram-socket id="in_diffuse_r" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
+        <px-diagram-socket id="in_diffuse_g" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
+        <px-diagram-socket id="in_diffuse_b" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
+        <px-diagram-socket id="in_diffuse_a" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
+
+        <px-diagram-socket id="out_normal" image="orb_grey.png" hoverImage="orb_green.png"></px-diagram-socket>
+        <px-diagram-socket id="out_height" image="orb_grey.png" hoverImage="orb_green.png"></px-diagram-socket>
+
+        <div id="txtDiffuseR" class="caption">R (Diffuse)</div>
+        <div id="txtDiffuseG" class="caption">G (Diffuse)</div>
+        <div id="txtDiffuseB" class="caption">B (Diffuse)</div>
+        <div id="txtDiffuseA" class="caption">A (Diffuse)</div>
+        <div id="txtNormalMap" class="caption">Normal Map</div>
+        <div id="txtHeightMap" class="caption">Height Map</div>
+      </app-node>
+    </div>
+  </template>
+</polymer-element>
+

@@ -1,0 +1,55 @@
+<link rel="import" href="packages/pixelate/components/diagram.html">
+<link rel="import" href="packages/pixelate/components/diagram_node.html">
+<link rel="import" href="packages/pixelate/components/diagram_socket.html">
+
+<!-- Base application specific node with a title bar and customizable content area -->
+<polymer-element name="app-node" attributes="title">
+  <template>
+    <style>
+      #node {
+      }
+      
+      #node_title {
+          background-color: #333;
+          width: 100%;
+          height: 20px;
+          border-radius: 10px 10px 0px 0px ;
+          font-family:Tahoma, Geneva, sans-serif;
+          text-align: center;
+          color: #ccc;
+          text-shadow: 1px 1px #111;
+          position: absolute;
+          padding-top: 3px;
+      }
+      
+      #node_body {
+          background-color: #111;
+          width: 100%;
+          height: 100%;
+          border-radius: 10px 10px 0px 0px;
+          position: absolute;
+      }
+      
+    </style>
+    <div id="node">
+      <px-diagram-node dragHandleId="node_title">
+        <div id="node_body">
+          <div id="node_title">{{title}}</div>
+          <content></content>
+        </div>
+      </px-diagram-node>
+    </div>
+  </template>
+  <script type="application/dart">
+  import 'package:polymer/polymer.dart';
+
+  @CustomTag('app-node')
+  class AppNode extends PolymerElement {
+    @published String title;
+    @published int x;
+    @published int y;
+    AppNode.created() : super.created();
+  }
+  </script>
+</polymer-element>
+
