@@ -1,3 +1,5 @@
+library pixelate_diagram_node;
+
 import 'package:polymer/polymer.dart';
 import 'dart:html';
 import 'diagram_socket.dart';
@@ -12,7 +14,9 @@ class DiagramNode extends PolymerElement {
 
   /** List of sockets hosted by this node */
   var sockets = new List<DiagramSocket>();
-
+  
+  DiagramNode get node => this;
+  
   DiagramNode.created() : super.created();
   
   void ready() {
@@ -20,22 +24,10 @@ class DiagramNode extends PolymerElement {
     var elementDragHandle = this.children.first.querySelector("#$dragHandleId");
     var elementDragBody = this.shadowRoot.querySelector("#node");
     var draggable = new Draggable(elementDragHandle, elementDragBody);
-    
-    var children = this.shadowRoot.querySelectorAll('*');
-    print ("query: $children");
-//    shadowRoot.children.forEach(_findSockets);
-//    print ("Found sockets $sockets");
+    var sockets = querySelectorAll("px-diagram-socket");
+    print ("DiagramNode SOCKETS: $sockets");
   }
   
-  /** Recursively finds and registers all socket objects */ 
-  void _findSockets(Element child) {
-    if (child == null) return;
-    if (child.tagName == "px-diagram-socket") {
-      sockets.add(child);
-    }
-    print (child.tagName);
-    child.childNodes.forEach(_findSockets);
-  }
 }
 
 // TODO: Move this to a utility class as part of the core library

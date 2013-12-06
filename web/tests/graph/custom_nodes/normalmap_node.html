@@ -1,9 +1,9 @@
 <link rel="import" href="packages/pixelate/components/diagram.html">
 <link rel="import" href="packages/pixelate/components/diagram_node.html">
 <link rel="import" href="packages/pixelate/components/diagram_socket.html">
-
 <link rel="import" href="app_node.html">
-<polymer-element name="normalmap-node" noscript>
+
+<polymer-element name="normalmap-node">
   <template>
     <style>
       #node_body { width: 180px; height: 120px; }
@@ -47,8 +47,18 @@
         <div id="txtDiffuseA" class="caption">A (Diffuse)</div>
         <div id="txtNormalMap" class="caption">Normal Map</div>
         <div id="txtHeightMap" class="caption">Height Map</div>
+        <content></content>
       </app-node>
     </div>
   </template>
+  <script type="application/dart">
+  import 'package:polymer/polymer.dart';
+  import 'package:pixelate/components/diagram_node.dart';
+  
+  @CustomTag('normalmap-node')
+  class NormalMapNode extends PolymerElement {
+    NormalMapNode.created() : super.created();
+  }
+  </script>
 </polymer-element>
 

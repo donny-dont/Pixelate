@@ -35,20 +35,27 @@
       <px-diagram-node dragHandleId="node_title">
         <div id="node_body">
           <div id="node_title">{{title}}</div>
-          <content></content>
+          <shadow></shadow>
         </div>
       </px-diagram-node>
     </div>
   </template>
   <script type="application/dart">
   import 'package:polymer/polymer.dart';
-
+  import 'package:pixelate/components/diagram_node.dart';
+  
   @CustomTag('app-node')
   class AppNode extends PolymerElement {
     @published String title;
     @published int x;
     @published int y;
     AppNode.created() : super.created();
+    void ready() {
+      super.ready();
+      var sockets = querySelectorAll("px-diagram-socket");
+      print ("AppNode SOCKETS: $sockets");
+    }
+    
   }
   </script>
 </polymer-element>
