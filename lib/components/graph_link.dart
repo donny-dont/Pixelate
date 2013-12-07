@@ -28,8 +28,14 @@ class GraphLinkView {
   void update() {
     final startPosition = link.source.position;
     final endPosition = link.destination.position;
-    final startControlPoint = new math.Point(startPosition.x + splineStrength, startPosition.y);
-    final endControlPoint = new math.Point(endPosition.x - splineStrength, endPosition.y);
+    final startPlugDirection = link.source.plugDirection;
+    final endPlugDirection = link.destination.plugDirection;
+    final startControlPoint = new math.Point(
+        startPosition.x + startPlugDirection.x * splineStrength, 
+        startPosition.y + startPlugDirection.y * splineStrength);
+    final endControlPoint = new math.Point(
+        endPosition.x + endPlugDirection.x * splineStrength, 
+        endPosition.y + endPlugDirection.y * splineStrength);
     
     final a = startPosition;
     final b = startControlPoint;

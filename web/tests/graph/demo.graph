@@ -4,14 +4,26 @@
 		{
 			"nodeId": "11111111-12c4-11e1-840d-7b25c5ee775a",
 			"nodeType": "normal-map-node",
-			"left": 400,
-			"top": 60
+			"left": 700,
+			"top": 260
 		},
 		{
 			"nodeId": "6c84fb90-12c4-11e1-840d-111111111111",
 			"nodeType": "normal-map-node",
-			"left": 40,
-			"top": 200
+			"left": 340,
+			"top": 400
+		},
+		{
+			"nodeId": "6c84fb90-12c4-11e1-840d-222222222222",
+			"nodeType": "ao-map-node",
+			"left": 240,
+			"top": 100
+		},
+		{
+			"nodeId": "6c84fb90-12c4-11e1-840d-333333333333",
+			"nodeType": "constant-node",
+			"left": 80,
+			"top": 150
 		}
 	],
 	"links": [
@@ -28,6 +40,20 @@
 			"sourceSocketId": "out_height",
 			"destNodeId": "11111111-12c4-11e1-840d-7b25c5ee775a",
 			"destSocketId": "in_diffuse_a"
+		},
+		{
+			"linkId": "55555555-12c4-11e1-840d-7b25c5ee775a",
+			"sourceNodeId": "6c84fb90-12c4-11e1-840d-222222222222",
+			"sourceSocketId": "out_aomap",
+			"destNodeId": "11111111-12c4-11e1-840d-7b25c5ee775a",
+			"destSocketId": "in_diffuse_r"
+		},
+		{
+			"linkId": "66666666-12c4-11e1-840d-7b25c5ee775a",
+			"sourceNodeId": "6c84fb90-12c4-11e1-840d-333333333333",
+			"sourceSocketId": "out_constant",
+			"destNodeId": "6c84fb90-12c4-11e1-840d-222222222222",
+			"destSocketId": "in_quality"
 		}
 	]
 }

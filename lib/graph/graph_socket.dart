@@ -11,6 +11,9 @@ class GraphSocket {
   /** Socket id */
   String id;
 
+  /** The direction from which the link is plugged into this socket */
+  Point get plugDirection => view.plugDirection; 
+  
   GraphSocket(this.view, this.node) {
     // Extract the id from the view
     id = view.id; 

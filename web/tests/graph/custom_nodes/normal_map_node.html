@@ -22,7 +22,6 @@
       #drag_handle { width: 100%; height: 20px; position: absolute; }
 
       px-graph-socket { position: absolute; }
-      px-graph-socket:hover { border: 2px; }
       .caption { 
         position: absolute;
         color: #ccc;
@@ -39,13 +38,13 @@
       <shadow></shadow>
       <div id="drag_handle"></div>
       
-      <px-graph-socket id="in_diffuse_r" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
-      <px-graph-socket id="in_diffuse_g" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
-      <px-graph-socket id="in_diffuse_b" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
-      <px-graph-socket id="in_diffuse_a" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
+      <px-graph-socket id="in_diffuse_r" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
+      <px-graph-socket id="in_diffuse_g" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
+      <px-graph-socket id="in_diffuse_b" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
+      <px-graph-socket id="in_diffuse_a" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
 
-      <px-graph-socket id="out_normal" image="orb_grey.png" hoverImage="orb_green.png"></px-graph-socket>
-      <px-graph-socket id="out_height" image="orb_grey.png" hoverImage="orb_green.png"></px-graph-socket>
+      <px-graph-socket id="out_normal" image="orb_grey.png" hoverImage="orb_green.png" dir="1,0"></px-graph-socket>
+      <px-graph-socket id="out_height" image="orb_grey.png" hoverImage="orb_green.png" dir="1,0"></px-graph-socket>
 
       <div id="txtDiffuseR" class="caption">R (Diffuse)</div>
       <div id="txtDiffuseG" class="caption">G (Diffuse)</div>
