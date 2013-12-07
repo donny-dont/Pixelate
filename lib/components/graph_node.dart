@@ -1,13 +1,13 @@
-library pixelate_diagram_node;
+library pixelate_graph_node;
 
 import 'package:polymer/polymer.dart';
 import 'dart:html';
-import 'diagram_socket.dart';
+import 'graph_socket.dart';
 
 /**
  * Polymer diagram node
  */
-@CustomTag('px-diagram-node')
+@CustomTag('px-graph-node')
 class DiagramNode extends PolymerElement {
   /** The ID of the DOM element for dragging this node with the mouse */
   @published String dragHandleId;

@@ -8,6 +8,6 @@ import 'package:polymer/builder.dart';
 main(args) {
   build(entryPoints: [
       'web/components.html',
-      'web/tests/graph/demo.html'
+      'web/tests/graph/graph_demo.html'
   ], options: parseOptions(args));
 }

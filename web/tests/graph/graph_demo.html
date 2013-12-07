@@ -4,12 +4,12 @@
   <head>
     <meta charset="utf-8">
     <title>Sample app</title>
-    <link rel="stylesheet" href="demo.css">
+    <link rel="stylesheet" href="graph_demo.css">
     
     <!-- import the click-counter -->
-    <link rel="import" href="packages/pixelate/components/diagram.html">
-    <link rel="import" href="packages/pixelate/components/diagram_node.html">
-    <link rel="import" href="packages/pixelate/components/diagram_socket.html">
+    <link rel="import" href="packages/pixelate/components/graph_canvas.html">
+    <link rel="import" href="packages/pixelate/components/graph_node.html">
+    <link rel="import" href="packages/pixelate/components/graph_socket.html">
     <link rel="import" href="custom_nodes/normalmap_node.html">
     <script type="application/dart">import 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>
@@ -20,9 +20,9 @@
     <p>Hello world from Dart!</p>
     
     <div id="sample_container_id">
-      <px-diagram>
+      <px-graph-canvas>
         <normalmap-node style="position: absolute; left: 300px; top:266px"></normalmap-node>
-      </px-diagram>
+      </px-graph-canvas>
     </div>
 
   </body>

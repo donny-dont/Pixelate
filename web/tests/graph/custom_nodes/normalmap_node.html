@@ -1,6 +1,6 @@
-<link rel="import" href="packages/pixelate/components/diagram.html">
-<link rel="import" href="packages/pixelate/components/diagram_node.html">
-<link rel="import" href="packages/pixelate/components/diagram_socket.html">
+<link rel="import" href="packages/pixelate/components/graph_canvas.html">
+<link rel="import" href="packages/pixelate/components/graph_node.html">
+<link rel="import" href="packages/pixelate/components/graph_socket.html">
 <link rel="import" href="app_node.html">
 
 <polymer-element name="normalmap-node">
@@ -33,13 +33,13 @@
     </style>
     <div id="node_body">
       <app-node title="Normal Map">
-        <px-diagram-socket id="in_diffuse_r" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
-        <px-diagram-socket id="in_diffuse_g" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
-        <px-diagram-socket id="in_diffuse_b" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
-        <px-diagram-socket id="in_diffuse_a" image="orb_grey.png" hoverImage="orb_blue.png"></px-diagram-socket>
+        <px-graph-socket id="in_diffuse_r" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
+        <px-graph-socket id="in_diffuse_g" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
+        <px-graph-socket id="in_diffuse_b" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
+        <px-graph-socket id="in_diffuse_a" image="orb_grey.png" hoverImage="orb_blue.png"></px-graph-socket>
 
-        <px-diagram-socket id="out_normal" image="orb_grey.png" hoverImage="orb_green.png"></px-diagram-socket>
-        <px-diagram-socket id="out_height" image="orb_grey.png" hoverImage="orb_green.png"></px-diagram-socket>
+        <px-graph-socket id="out_normal" image="orb_grey.png" hoverImage="orb_green.png"></px-graph-socket>
+        <px-graph-socket id="out_height" image="orb_grey.png" hoverImage="orb_green.png"></px-graph-socket>
 
         <div id="txtDiffuseR" class="caption">R (Diffuse)</div>
         <div id="txtDiffuseG" class="caption">G (Diffuse)</div>
@@ -53,7 +53,7 @@
   </template>
   <script type="application/dart">
   import 'package:polymer/polymer.dart';
-  import 'package:pixelate/components/diagram_node.dart';
+  import 'package:pixelate/components/graph_node.dart';
   
   @CustomTag('normalmap-node')
   class NormalMapNode extends PolymerElement {

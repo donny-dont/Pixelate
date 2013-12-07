@@ -1,15 +1,13 @@
-library pixelate_diagram;
+library pixelate_graph_canvas;
 
 import 'package:polymer/polymer.dart';
 import 'dart:svg';
 import 'dart:html';
-import 'package:pixelate/components/diagram_node.dart';
-import 'package:pixelate/components/diagram_socket.dart';
 
 /**
  * A Polymer click counter element.
  */
-@CustomTag('px-diagram')
+@CustomTag('px-graph-canvas')
 class DiagramView extends PolymerElement {
   SvgElement svg;
   
@@ -19,7 +17,7 @@ class DiagramView extends PolymerElement {
   @override
   void ready() {
     super.ready();
-    svg = this.shadowRoot.querySelector("#diagram_svg");
+    svg = this.shadowRoot.querySelector("#graph_svg");
     
     // test path
     PathElement path = new PathElement();

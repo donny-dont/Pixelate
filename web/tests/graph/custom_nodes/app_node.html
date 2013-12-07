@@ -1,6 +1,6 @@
-<link rel="import" href="packages/pixelate/components/diagram.html">
-<link rel="import" href="packages/pixelate/components/diagram_node.html">
-<link rel="import" href="packages/pixelate/components/diagram_socket.html">
+<link rel="import" href="packages/pixelate/components/graph_canvas.html">
+<link rel="import" href="packages/pixelate/components/graph_node.html">
+<link rel="import" href="packages/pixelate/components/graph_socket.html">
 
 <!-- Base application specific node with a title bar and customizable content area -->
 <polymer-element name="app-node" attributes="title">
@@ -32,17 +32,17 @@
       
     </style>
     <div id="node">
-      <px-diagram-node dragHandleId="node_title">
+      <px-graph-node dragHandleId="node_title">
         <div id="node_body">
           <div id="node_title">{{title}}</div>
           <shadow></shadow>
         </div>
-      </px-diagram-node>
+      </px-graph-node>
     </div>
   </template>
   <script type="application/dart">
   import 'package:polymer/polymer.dart';
-  import 'package:pixelate/components/diagram_node.dart';
+  import 'package:pixelate/components/graph_node.dart';
   
   @CustomTag('app-node')
   class AppNode extends PolymerElement {

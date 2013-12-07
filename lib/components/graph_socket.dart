@@ -1,4 +1,4 @@
-library pixelate_diagram_socket;
+library pixelate_graph_socket;
 
 import 'package:polymer/polymer.dart';
 import 'dart:html';
@@ -6,7 +6,7 @@ import 'dart:html';
 /**
  * A Polymer click counter element.
  */
-@CustomTag('px-diagram-socket')
+@CustomTag('px-graph-socket')
 class DiagramSocket extends PolymerElement {
   /** The image of the socket */
   @published String image = "";
