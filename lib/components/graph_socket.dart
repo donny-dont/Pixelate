@@ -40,6 +40,8 @@ class GraphSocketView extends PolymerElement {
     imageElement.onMouseEnter.listen((_) => imageElement.src = hoverImage);
     imageElement.onMouseLeave.listen((_) => imageElement.src = image);
     imageElement.onLoad.listen((_) => _onSocketChanged.add(this));
+    imageElement.draggable = false;
+    
     
     // Parse the plug direction
     if (dir != null) {

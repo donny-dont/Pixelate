@@ -2,6 +2,7 @@ library pixelate_graph;
 
 import 'dart:html';
 import 'dart:math';
+import 'dart:svg' as svg;
 import 'dart:async';
 import 'dart:convert';
 import 'package:pixelate/utils/core_utils.dart';

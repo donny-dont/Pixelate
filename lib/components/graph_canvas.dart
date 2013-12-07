@@ -48,6 +48,7 @@ class GraphCanvas extends PolymerElement implements IGraphCanvas {
     nodeView.style.left = "${left}px";
     nodeView.style.top = "${top}px";
     this.children.add(nodeView);
+    
     return nodeView;
   }
 
@@ -59,4 +60,6 @@ class GraphCanvas extends PolymerElement implements IGraphCanvas {
   GraphLinkView createLinkView(GraphLink link) {
     return new GraphLinkView(link, svg);
   }
+  
+  
 }
