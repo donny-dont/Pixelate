@@ -4,3 +4,6 @@ dependencies:
   logging: any
   polymer: any
   uuid: any
+transformers:
+- polymer:
+    entry_points: web/components.html
