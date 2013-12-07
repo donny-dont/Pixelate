@@ -122,8 +122,9 @@ class GridPanel extends PolymerElement {
   // Polymer methods
   //---------------------------------------------------------------------
 
-  void enteredView() {
-    super.enteredView();
+  @override
+  void ready() {
+    super.ready();
 
     _layoutColumns();
     _layoutRows();
@@ -134,11 +135,11 @@ class GridPanel extends PolymerElement {
   // Events
   //---------------------------------------------------------------------
 
-  void _onRowsMutation(CustomEvent event) {
+  void rowsChange(CustomEvent event) {
     _layoutRows();
   }
 
-  void _onColumnsMutation(CustomEvent event) {
+  void columnsChange(CustomEvent event) {
     _layoutColumns();
   }
 
