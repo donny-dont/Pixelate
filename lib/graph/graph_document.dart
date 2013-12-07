@@ -100,7 +100,7 @@ class GraphDocument {
     node.sockets.values.forEach((GraphSocket socket) {
       socket.view.onSocketChanged.listen(_updateLinks);
       socket.view.onMouseDown.listen((e) => linkCreationHandler._handleLinkCreationStart(socket, e));
-      socket.view.onMouseUp.listen((e) => linkCreationHandler._handleLinkCreationStart(socket, e));
+      socket.view.onMouseUp.listen((e) => linkCreationHandler._handleLinkCreationEndOnSocket(socket, e));
     });
   }
   
@@ -201,7 +201,11 @@ class LinkCreationHandler {
       creationLink = null;
     }
     
-    // cancel the stream subscription to stop listening to global mouse events 
+    _cancelGlobalMouseStream();
+  }
+
+  /** cancels the stream subscription to stop listening to global mouse events */ 
+  void _cancelGlobalMouseStream() {
     if (linkCreationDragStream != null) {
       linkCreationDragStream.cancel();
       linkCreationDragStream = null;
@@ -211,7 +215,8 @@ class LinkCreationHandler {
       linkCreationDragStopStream = null;
     }
   }
-
+  
+  
   /** Cursor was released on a socket. Create a link if necessary */
   void _handleLinkCreationEndOnSocket(GraphSocket socket, MouseEvent e) {
     print ("LINK CREATION STOP << NODE");
@@ -224,8 +229,17 @@ class LinkCreationHandler {
       // Source and destination sockets are the same. ignore
       return;
     }
-    
-    // TODO: Create a new link in the document
+
+    _cancelGlobalMouseStream();
+
+    // Create a new link in the document
+    var linkInfo = new Map();
+    linkInfo["linkId"] = generateUid();
+    linkInfo["sourceNodeId"] = originSocket.node.id;
+    linkInfo["sourceSocketId"] = originSocket.id;
+    linkInfo["destNodeId"] = socket.node.id;
+    linkInfo["destSocketId"] = socket.id;
+    document.createLink(linkInfo);
   }
 }
 
