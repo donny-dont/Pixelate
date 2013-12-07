@@ -3,7 +3,7 @@
 <link rel="import" href="packages/pixelate/components/graph_socket.html">
 <link rel="import" href="app_node.html">
 
-<polymer-element name="normalmap-node" extends="app-node">
+<polymer-element name="normal-map-node" extends="app-node">
   <template>
     <style>
       #node_body { width: 180px; height: 120px; }
@@ -60,7 +60,7 @@
   import 'package:polymer/polymer.dart';
   import 'app_node.dart';
 
-  @CustomTag('normalmap-node')
+  @CustomTag('normal-map-node')
   class NormalMapNode extends AppNode {
     NormalMapNode.created() : super.created() {
       title = "Normal Map";

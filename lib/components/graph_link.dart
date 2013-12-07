@@ -14,8 +14,8 @@ class GraphLinkView {
   /** The spline path element */
   PathElement path = new PathElement();
 
-  /** Determins stiff/strong the spline is. Higher values would make it more stiffer */
-  final splineStrength = 70;
+  /** Determins how stiff/strong the spline is. Higher values would make it more stiffer */
+  final splineStrength = 70;  // TODO: Make it observable in the view for external customization
   
   GraphLinkView(this.link, this.svg) {
     path.setAttribute("stroke", "#111");
