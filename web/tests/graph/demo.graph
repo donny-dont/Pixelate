@@ -21,6 +21,13 @@
 			"sourceSocketId": "out_normal",
 			"destNodeId": "11111111-12c4-11e1-840d-7b25c5ee775a",
 			"destSocketId": "in_diffuse_g"
+		},
+		{
+			"linkId": "44444444-12c4-11e1-840d-7b25c5ee775a",
+			"sourceNodeId": "6c84fb90-12c4-11e1-840d-111111111111",
+			"sourceSocketId": "out_height",
+			"destNodeId": "11111111-12c4-11e1-840d-7b25c5ee775a",
+			"destSocketId": "in_diffuse_a"
 		}
 	]
 }

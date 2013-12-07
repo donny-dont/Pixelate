@@ -3,6 +3,7 @@ library pixelate_graph_node;
 import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
+import 'package:pixelate/utils/core_utils.dart';
 
 /**
  * Polymer diagram node view
@@ -17,13 +18,10 @@ class GraphNodeView extends PolymerElement {
   
   GraphNodeView.created() : super.created();
   
-  void ready() {
-    super.ready();
-    var elementDragHandle = this.children.first.querySelector("#$dragHandleId");
-    var elementDragBody = this.shadowRoot.querySelector("#node");
-    
-    // Enable dragging
-    var draggable = new Draggable(elementDragHandle, elementDragBody);
+  void enableDragging(String handleId) {
+    final dragHandle = findChildElementById(this, handleId);
+    final dragBody = this;
+    var draggable = new Draggable(dragHandle, dragBody);
     draggable.onDrag.listen((_) => _onNodeMoved.add(this));
   }
 }

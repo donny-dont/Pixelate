@@ -1,6 +1,7 @@
 library pixelate_diagram_socket;
 
 import 'dart:html';
+import 'dart:async';
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/graph/graph.dart';
 
@@ -17,6 +18,9 @@ class GraphSocketView extends PolymerElement {
   
   /** The socket model */
   GraphSocket socket;
+
+  var _onSocketChanged = new StreamController<GraphSocket>();
+  Stream<GraphSocket> get onSocketChanged => _onSocketChanged.stream;
   
   ImageElement imageElement;
   GraphSocketView.created() : super.created() {}
@@ -29,6 +33,7 @@ class GraphSocketView extends PolymerElement {
     imageElement = this.shadowRoot.querySelector("#socket_image");
     imageElement.onMouseEnter.listen((_) => imageElement.src = hoverImage);
     imageElement.onMouseLeave.listen((_) => imageElement.src = image);
+    imageElement.onLoad.listen((_) => _onSocketChanged.add(this));
   }
 }
 

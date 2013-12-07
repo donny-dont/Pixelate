@@ -6,10 +6,7 @@
 <polymer-element name="app-node" attributes="title">
   <template>
     <style>
-      #node {
-      }
-      
-      #node_title {
+      #app_node_title {
           background-color: #333;
           width: 100%;
           height: 20px;
@@ -22,35 +19,35 @@
           padding-top: 3px;
       }
       
-      #node_body {
+      #app_node_body {
           background-color: #111;
           width: 100%;
           height: 100%;
           border-radius: 10px 10px 0px 0px;
           position: absolute;
+          
+      }
+
+      .shadow {
+-webkit-box-shadow: 10px 10px 28px -3px rgba(0,0,0,0.46);
+-moz-box-shadow: 10px 10px 28px -3px rgba(0,0,0,0.46);
+box-shadow: 10px 10px 28px -3px rgba(0,0,0,0.46);
       }
       
+      .disable-selection {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+      }
     </style>
-    <div id="node">
-      <px-graph-node dragHandleId="node_title">
-        <div id="node_body">
-          <div id="node_title">{{title}}</div>
-          <shadow></shadow>
-        </div>
-      </px-graph-node>
+    <div id="app_node_body" class="disable-selection shadow">
+      <div id="app_node_title">{{title}}</div>
     </div>
   </template>
-  <script type="application/dart">
-  import 'package:polymer/polymer.dart';
-  import 'package:pixelate/components/graph_node.dart';
+  <script type="application/dart" src="app_node.dart"></script>
   
-  @CustomTag('app-node')
-  class AppNode extends PolymerElement {
-    @published String title;
-    @published int x;
-    @published int y;
-    AppNode.created() : super.created();
-  }
-  </script>
 </polymer-element>
 

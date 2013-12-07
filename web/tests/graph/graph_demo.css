@@ -12,8 +12,8 @@ h1, p {
 }
 
 #sample_container_id {
-  width: 600px;
-  height: 400px;
+  width: 1200px;
+  height: 800px;
   position: relative;
   border: 1px solid #ccc;
   background-color: #fff;

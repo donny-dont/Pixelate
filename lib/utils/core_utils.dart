@@ -30,9 +30,23 @@ Point getElementOffset(Element e) {
 }
 
 /** Finds the child recursively element with the specified [tagName] */  
-Element findChildElement(Element element, String tagName) {
+Element findChildElementByTagName(Element element, String tagName) {
+  return _findChildElement(element, (e) => e.tagName.toLowerCase() == tagName.toLowerCase());
+}
+
+/** Finds the child recursively element with the specified [tagName] */  
+Element findChildElementById(Element element, String id) {
+  return _findChildElement(element, (e) => e.id == id);
+}
+
+
+typedef bool VerifyElement(Element e);
+Element _findChildElement(Element element, VerifyElement verifyElement) {
   if (element == null) return null;
-  if (element.tagName.toLowerCase() == tagName.toLowerCase()) return element;
+  if (verifyElement(element)) {
+    // Match found.
+    return element;
+  }
   
   var children = new List.from(element.children, growable: true);
   if (element.shadowRoot != null) {
@@ -42,7 +56,7 @@ Element findChildElement(Element element, String tagName) {
   // Recursively search all children
   for (var child in children) {
     if (child is Element) {
-      var result = findChildElement(child, tagName);
+      var result = _findChildElement(child, verifyElement);
       
       // Found the correct node from this parent
       if (result != null) return result;
@@ -52,3 +66,5 @@ Element findChildElement(Element element, String tagName) {
   // Not found
   return null;
 }
+
+

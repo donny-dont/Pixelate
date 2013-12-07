@@ -89,13 +89,15 @@ class GraphDocument {
     _nodes[nodeId] = node;
     
     // listen to node events
-    node.onMoved.listen((GraphNodeEvent e) {
-      // update all links
-      // TODO: Optimize by updating only links attached to this node
-      _links.values.forEach((GraphLink link) => link.update());
-    });
+    // TODO: Optimize
+    node.onMoved.listen(_updateLinks);
+    node.sockets.values.forEach((socket) => socket.view.onSocketChanged.listen(_updateLinks));
   }
   
+  void _updateLinks(e) {
+    // TODO: Optimize by updating only dirty links
+    _links.values.forEach((GraphLink link) => link.update());
+  }
   
   /**
    * Creates a link view and model based on the parameters

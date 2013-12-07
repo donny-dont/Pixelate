@@ -5,11 +5,8 @@ class GraphNode {
   /** The graph data model */
   GraphDocument document;
   
-  /** The node's view element */ 
-  Element view;
-  
   /** The graph node view element.  This would be composed inside the customized view element */
-  GraphNodeView nodeView;
+  GraphNodeView view;
   
   /** Node id */
   String id;
@@ -19,6 +16,8 @@ class GraphNode {
   
   /** List of sockets hosted by this node, mapped by their ids */
   var _sockets = new Map<String, GraphSocket>();
+  
+  get sockets => _sockets;
   
   GraphNode(this.id, this.view, this.document) {
     // grab all the sockets from the DOM and register them with the document
@@ -33,11 +32,8 @@ class GraphNode {
       _sockets[socketId] = socket;
     }
     
-    // Find the node view. It might be inside the customized view element
-    nodeView = findChildElement(view, "px-graph-node");
-    
-    // Listen to the inner node element for drag event and dispatch it to the framework
-    nodeView.onNodeMoved.listen((e) => _onMoved.add(new GraphNodeEvent(this)));
+    // Listen to node drag events
+    view.onNodeMoved.listen((e) => _onMoved.add(new GraphNodeEvent(this)));
   }
   
   /** The position of the node relative to the parent (graph canvas) */

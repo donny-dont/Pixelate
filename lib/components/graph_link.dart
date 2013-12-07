@@ -13,9 +13,12 @@ class GraphLinkView {
   
   /** The spline path element */
   PathElement path = new PathElement();
+
+  /** Determins stiff/strong the spline is. Higher values would make it more stiffer */
+  final splineStrength = 70;
   
   GraphLinkView(this.link, this.svg) {
-    path.setAttribute("stroke", "red");
+    path.setAttribute("stroke", "#111");
     path.setAttribute("stroke-width", "1.5");
     path.setAttribute("fill", "none");
     svg.children.add(path);
@@ -25,7 +28,6 @@ class GraphLinkView {
   void update() {
     final startPosition = link.source.position;
     final endPosition = link.destination.position;
-    final splineStrength = 100;
     final startControlPoint = new math.Point(startPosition.x + splineStrength, startPosition.y);
     final endControlPoint = new math.Point(endPosition.x - splineStrength, endPosition.y);
     
