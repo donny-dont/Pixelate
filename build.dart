@@ -5,6 +5,7 @@
 
 import 'package:polymer/builder.dart';
 
-main() {
-  build(entryPoints: ['web/components.html']);
+void main(args) {
+  build(entryPoints: ['web/components.html'],
+        options: parseOptions(args));
 }

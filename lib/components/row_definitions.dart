@@ -105,8 +105,8 @@ class RowDefinitions extends PolymerElement {
   // Polymer methods
   //---------------------------------------------------------------------
 
-  void enteredView() {
-    super.enteredView();
+  void ready() {
+    super.ready();
 
     _updateRows();
   }
