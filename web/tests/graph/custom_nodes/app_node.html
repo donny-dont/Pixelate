@@ -50,12 +50,6 @@
     @published int x;
     @published int y;
     AppNode.created() : super.created();
-    void ready() {
-      super.ready();
-      var sockets = querySelectorAll("px-diagram-socket");
-      print ("AppNode SOCKETS: $sockets");
-    }
-    
   }
   </script>
 </polymer-element>

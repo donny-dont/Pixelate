@@ -2,12 +2,13 @@ library pixelate_diagram_socket;
 
 import 'package:polymer/polymer.dart';
 import 'dart:html';
+import 'package:pixelate/components/graph_node.dart';
 
 /**
- * A Polymer click counter element.
+ * Graph node socket view 
  */
 @CustomTag('px-graph-socket')
-class GraphSocket extends PolymerElement {
+class GraphSocketView extends PolymerElement {
   /** The image of the socket */
   @published String image = "";
   
@@ -15,7 +16,7 @@ class GraphSocket extends PolymerElement {
   @published String hoverImage = "";
   
   ImageElement imageElement;
-  GraphSocket.created() : super.created() {}
+  GraphSocketView.created() : super.created() {}
   
   void ready() {
     super.ready();
@@ -23,8 +24,5 @@ class GraphSocket extends PolymerElement {
     imageElement.onMouseEnter.listen((_) => imageElement.src = hoverImage);
     imageElement.onMouseLeave.listen((_) => imageElement.src = image);
   }
-  
-  
-  
 }
 

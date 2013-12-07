@@ -2,31 +2,28 @@ library pixelate_graph_node;
 
 import 'package:polymer/polymer.dart';
 import 'dart:html';
-import 'graph_socket.dart';
 
 /**
- * Polymer diagram node
+ * Polymer diagram node view
  */
 @CustomTag('px-graph-node')
-class GraphNode extends PolymerElement {
+class GraphNodeView extends PolymerElement {
   /** The ID of the DOM element for dragging this node with the mouse */
   @published String dragHandleId;
 
-  /** List of sockets hosted by this node */
-  var sockets = new List<GraphSocket>();
-  
-  GraphNode.created() : super.created();
+  GraphNodeView.created() : super.created();
   
   void ready() {
     super.ready();
     var elementDragHandle = this.children.first.querySelector("#$dragHandleId");
     var elementDragBody = this.shadowRoot.querySelector("#node");
-    var draggable = new Draggable(elementDragHandle, elementDragBody);
-    var sockets = querySelectorAll("px-graph-socket");
-    print ("DiagramNode SOCKETS: $sockets");
+    
+    // Enable dragging
+    new Draggable(elementDragHandle, elementDragBody);
   }
   
 }
+
 
 // TODO: Move this to a utility class as part of the core library
 /** Allows the user to drag a dom element with the mouse */
