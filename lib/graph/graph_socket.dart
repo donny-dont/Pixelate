@@ -10,11 +10,22 @@ class GraphSocket {
   
   /** Socket id */
   String id;
-  
-  Point get positionOffset => getElementPosition(view);
-  
+
   GraphSocket(this.view, this.node) {
     // Extract the id from the view
     id = view.id; 
   }
+  
+  Point getPositionOffset() {
+    final offset = getElementOffset(view);
+    final size = view.size;
+    return new Point(offset.x + size.x / 2, offset.y + size.y / 2);
+  }
+  
+  Point get position {
+    final nodePosition = node.position;
+    final socketOffset = getPositionOffset();
+    return new Point(nodePosition.x + socketOffset.x, nodePosition.y + socketOffset.y);
+  }
+  
 }

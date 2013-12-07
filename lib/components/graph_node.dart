@@ -1,7 +1,8 @@
 library pixelate_graph_node;
 
-import 'package:polymer/polymer.dart';
 import 'dart:html';
+import 'dart:async';
+import 'package:polymer/polymer.dart';
 
 /**
  * Polymer diagram node view
@@ -11,6 +12,9 @@ class GraphNodeView extends PolymerElement {
   /** The ID of the DOM element for dragging this node with the mouse */
   @published String dragHandleId;
 
+  var _onNodeMoved = new StreamController<GraphNodeView>();
+  Stream<GraphNodeView> get onNodeMoved => _onNodeMoved.stream;
+  
   GraphNodeView.created() : super.created();
   
   void ready() {
@@ -19,9 +23,9 @@ class GraphNodeView extends PolymerElement {
     var elementDragBody = this.shadowRoot.querySelector("#node");
     
     // Enable dragging
-    new Draggable(elementDragHandle, elementDragBody);
+    var draggable = new Draggable(elementDragHandle, elementDragBody);
+    draggable.onDrag.listen((_) => _onNodeMoved.add(this));
   }
-  
 }
 
 
@@ -42,6 +46,12 @@ class Draggable {
   
   /** The coordinates of the body when the drag started */
   var bodyDragStart = new Point2();  
+
+  /** Stream controller to fire drag events */
+  var _onDrag = new StreamController<DragEvent>();
+  
+  /** Stream to dispatch drag events */
+  Stream<DragEvent> get onDrag => _onDrag.stream;
   
   /** Drags [body] when the [handle] is dragged around with the mouse */ 
   Draggable(this.dragHandle, this.dragBody) {
@@ -77,6 +87,7 @@ class Draggable {
     dragBody.style.position = "absolute";
     dragBody.style.left = "${newX}px";
     dragBody.style.top = "${newY}px";
+    _onDrag.add(new DragEvent(newX, newY));
   }
   
   /** Parses the string "Npx" to an integer N */
@@ -85,6 +96,12 @@ class Draggable {
     if (!text.endsWith("px")) return defaultValue;
     return int.parse(text.replaceAll("px", ""));
   }
+}
+
+class DragEvent {
+  num elementX;
+  num elementY;
+  DragEvent(this.elementX, this.elementY);
 }
 
 class Point2 { num x, y; }

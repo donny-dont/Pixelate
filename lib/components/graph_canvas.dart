@@ -3,6 +3,7 @@ library pixelate_diagram;
 import 'package:polymer/polymer.dart';
 import 'dart:svg';
 import 'dart:html';
+import 'package:pixelate/components/graph_link.dart';
 import 'package:pixelate/utils/core_utils.dart';
 import 'package:pixelate/graph/graph.dart';
 
@@ -25,19 +26,11 @@ class GraphCanvas extends PolymerElement implements IGraphCanvas {
   GraphCanvas.created() : super.created();
 
   @override
-  void ready() {
-    super.ready();
+  void enteredView() {
+    super.enteredView();
     svg = this.shadowRoot.querySelector("#diagram_svg");
     document = new GraphDocument(this);
     
-    // test path
-    PathElement path = new PathElement();
-    path.setAttribute("d", "M 100 100 C 300 100 300 400 500 400");
-    path.setAttribute("stroke", "black");
-    path.setAttribute("stroke-width", "1.5");
-    path.setAttribute("fill", "none");
-    svg.nodes.add(path);
-
     // Load the initial graph document, if specified
     if (src != null && src.length > 0) {
       document.loadFromFile(src);
@@ -58,4 +51,12 @@ class GraphCanvas extends PolymerElement implements IGraphCanvas {
     return nodeView;
   }
 
+  /** 
+   * Creates a link view. 
+   * Do NOT call this directly
+   * Call document.createLink instead
+   */
+  GraphLinkView createLinkView(GraphLink link) {
+    return new GraphLinkView(link, svg);
+  }
 }

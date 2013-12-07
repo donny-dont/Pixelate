@@ -1,8 +1,8 @@
 library pixelate_diagram_socket;
 
-import 'package:polymer/polymer.dart';
 import 'dart:html';
-import 'package:pixelate/components/graph_node.dart';
+import 'package:polymer/polymer.dart';
+import 'package:pixelate/graph/graph.dart';
 
 /**
  * Graph node socket view 
@@ -15,11 +15,17 @@ class GraphSocketView extends PolymerElement {
   /** The image of the socket when the mouse is hovered over it */
   @published String hoverImage = "";
   
+  /** The socket model */
+  GraphSocket socket;
+  
   ImageElement imageElement;
   GraphSocketView.created() : super.created() {}
   
-  void ready() {
-    super.ready();
+  Point get size => new Point(imageElement.clientWidth, imageElement.clientHeight);
+  
+  @override
+  void enteredView() {
+    super.enteredView();
     imageElement = this.shadowRoot.querySelector("#socket_image");
     imageElement.onMouseEnter.listen((_) => imageElement.src = hoverImage);
     imageElement.onMouseLeave.listen((_) => imageElement.src = image);

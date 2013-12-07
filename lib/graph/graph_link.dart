@@ -11,6 +11,9 @@ class GraphLink {
   /** The link id */
   String id;
   
+  /** The link view */
+  GraphLinkView view;
+  
   /** Create a graph link from existing socket objects */
   GraphLink.from(this.id, this.source, this.destination);
   
@@ -18,5 +21,9 @@ class GraphLink {
         String destNodeId, String destSocketId) {
     source = document.getNode(sourceNodeId).getSocket(sourceSocketId);
     destination = document.getNode(destNodeId).getSocket(destSocketId);
+  }
+  
+  void update() {
+    view.update();
   }
 }
