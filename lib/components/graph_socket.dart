@@ -1,4 +1,4 @@
-library pixelate_graph_socket;
+library pixelate_diagram_socket;
 
 import 'package:polymer/polymer.dart';
 import 'dart:html';

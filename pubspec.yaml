@@ -3,3 +3,4 @@ description: A UI widget library aimed at game developers
 dependencies:
   logging: any
   polymer: any
+  uuid: any

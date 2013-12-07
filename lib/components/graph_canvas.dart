@@ -1,4 +1,4 @@
-library pixelate_graph_canvas;
+library pixelate_diagram;
 
 import 'package:polymer/polymer.dart';
 import 'dart:svg';
@@ -17,7 +17,7 @@ class DiagramView extends PolymerElement {
   @override
   void ready() {
     super.ready();
-    svg = this.shadowRoot.querySelector("#graph_svg");
+    svg = this.shadowRoot.querySelector("#diagram_svg");
     
     // test path
     PathElement path = new PathElement();
