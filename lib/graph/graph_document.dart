@@ -38,7 +38,7 @@ class GraphDocument {
   Point getSocketPosition(String nodeId, String socketId) {
     final node = _nodes[nodeId];
     if (node == null) {
-      return new Point();  //TODO: Throw
+      return new Point(0, 0);  //TODO: Throw
     }
     return node.getSocketPosition(socketId);
   }
