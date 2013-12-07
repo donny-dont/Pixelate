@@ -8,10 +8,10 @@ import 'dart:html';
  * A Polymer click counter element.
  */
 @CustomTag('px-graph-canvas')
-class DiagramView extends PolymerElement {
+class GraphCanvas extends PolymerElement {
   SvgElement svg;
   
-  DiagramView.created() : super.created() {
+  GraphCanvas.created() : super.created() {
   }
   
   @override

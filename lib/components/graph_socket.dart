@@ -7,7 +7,7 @@ import 'dart:html';
  * A Polymer click counter element.
  */
 @CustomTag('px-graph-socket')
-class DiagramSocket extends PolymerElement {
+class GraphSocket extends PolymerElement {
   /** The image of the socket */
   @published String image = "";
   
@@ -15,7 +15,7 @@ class DiagramSocket extends PolymerElement {
   @published String hoverImage = "";
   
   ImageElement imageElement;
-  DiagramSocket.created() : super.created() {}
+  GraphSocket.created() : super.created() {}
   
   void ready() {
     super.ready();

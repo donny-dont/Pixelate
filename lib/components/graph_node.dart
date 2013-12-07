@@ -8,23 +8,21 @@ import 'graph_socket.dart';
  * Polymer diagram node
  */
 @CustomTag('px-graph-node')
-class DiagramNode extends PolymerElement {
+class GraphNode extends PolymerElement {
   /** The ID of the DOM element for dragging this node with the mouse */
   @published String dragHandleId;
 
   /** List of sockets hosted by this node */
-  var sockets = new List<DiagramSocket>();
+  var sockets = new List<GraphSocket>();
   
-  DiagramNode get node => this;
-  
-  DiagramNode.created() : super.created();
+  GraphNode.created() : super.created();
   
   void ready() {
     super.ready();
     var elementDragHandle = this.children.first.querySelector("#$dragHandleId");
     var elementDragBody = this.shadowRoot.querySelector("#node");
     var draggable = new Draggable(elementDragHandle, elementDragBody);
-    var sockets = querySelectorAll("px-diagram-socket");
+    var sockets = querySelectorAll("px-graph-socket");
     print ("DiagramNode SOCKETS: $sockets");
   }
   
