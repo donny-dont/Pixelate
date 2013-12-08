@@ -1,3 +1,4 @@
+library pixelate_demo_graph_appnode;
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/components/graph_node.dart';
 

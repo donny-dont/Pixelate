@@ -9,24 +9,17 @@
         display: flex;
         background-color: black;
       }
-      
+
       .menu > a {
         color: white;
       }
     </style>
 
     <!-- Import the elements -->
-    <link rel="import" href="packages/pixelate/components/column_definition.html">
-    <link rel="import" href="packages/pixelate/components/column_definitions.html">
-    <link rel="import" href="packages/pixelate/components/row_definition.html">
-    <link rel="import" href="packages/pixelate/components/row_definitions.html">    
     <link rel="import" href="packages/pixelate/components/grid_panel.html">
-    <link rel="import" href="packages/pixelate/components/graph_canvas.html">
-    <link rel="import" href="packages/pixelate/components/graph_node.html">
-    <link rel="import" href="packages/pixelate/components/graph_socket.html">
-    
+
     <!-- Polymer initialization -->
-    <script type="application/dart">import 'package:polymer/init.dart';</script>
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>
   </head>
   <body>
@@ -37,12 +30,12 @@
       <a href="">Documentation</a>
     </div>
 
-    <!-- Header -->    
+    <!-- Header -->
     <div class="header">
       <h1>Components</h1>
-      <p>The available components</p> 
+      <p>The available components</p>
     </div>
-    
+
     <!-- Naviagtion -->
     <div class="navigation">
       <a href="#grid-link">Grid Panel</a>
@@ -68,7 +61,7 @@
             <px-row-definition></px-row-definition>
             <px-row-definition></px-row-definition>
             <px-row-definition></px-row-definition>
-          </px-row-definitions>        
+          </px-row-definitions>
           <px-column-definitions>
             <px-column-definition></px-column-definition>
             <px-column-definition></px-column-definition>
