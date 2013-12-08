@@ -137,6 +137,15 @@ class GraphDocument {
     
     _links[linkId] = link;
   }
+  
+  /** Deletes a link from the document */
+  void deleteLink(String linkId) {
+    GraphLink link = _links[linkId];
+    if (link != null) {
+      _links.remove(linkId);
+      link.view.destroy();
+    }
+  }
 }
 
 
@@ -219,7 +228,6 @@ class LinkCreationHandler {
   
   /** Cursor was released on a socket. Create a link if necessary */
   void _handleLinkCreationEndOnSocket(GraphSocket socket, MouseEvent e) {
-    print ("LINK CREATION STOP << NODE");
     if (creationLink != null) {
       creationLink.destroy();
       creationLink = null;

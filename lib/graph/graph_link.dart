@@ -8,6 +8,9 @@ class GraphLink {
   /** The destination node socket. The link ends here */
   GraphSocket destination;
   
+  /** The document that hosts this link */
+  GraphDocument document;
+  
   /** The link id */
   String id;
   
@@ -15,9 +18,9 @@ class GraphLink {
   GraphLinkView view;
   
   /** Create a graph link from existing socket objects */
-  GraphLink.from(this.id, this.source, this.destination);
+  GraphLink.from(this.id, this.document, this.source, this.destination);
   
-  GraphLink(this.id, GraphDocument document, String sourceNodeId, String sourceSocketId,
+  GraphLink(this.id, this.document, String sourceNodeId, String sourceSocketId,
         String destNodeId, String destSocketId) {
     source = document.getNode(sourceNodeId).getSocket(sourceSocketId);
     destination = document.getNode(destNodeId).getSocket(destSocketId);

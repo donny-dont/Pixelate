@@ -39,6 +39,8 @@ class GraphCanvas extends PolymerElement implements IGraphCanvas {
     svg = this.shadowRoot.querySelector("#diagram_svg");
     nodeHostElement = this.shadowRoot.querySelector("#diagram_dom");
     containerElement = this.shadowRoot.querySelector("#outer_content");
+    containerElement.onContextMenu.listen((MouseEvent e) => e.preventDefault());
+    
     document = new GraphDocument(this);
     
     // Load the initial graph document, if specified
