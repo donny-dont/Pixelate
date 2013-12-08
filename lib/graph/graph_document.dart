@@ -5,6 +5,9 @@ abstract class IGraphCanvas {
   svg.SvgElement get svg;
   Element createNodeView(String nodeId, String nodeType, num left, num top);
   GraphLinkView createLinkView(GraphLink link);
+  
+  /** The scroll position of the canvas view */
+  Point get scrollOffset;
 }
 
 /** The data model of the graph canvas */
@@ -163,7 +166,6 @@ class LinkCreationHandler {
   
   /** Fired when the link creation is initiated */
   void _handleLinkCreationStart(GraphSocket socket, MouseEvent e) {
-    print ("LINK CREATION STARTED");
     originSocket = socket;
     
     // Hook to the window's mouse events
@@ -194,8 +196,6 @@ class LinkCreationHandler {
    * is cancelled
    */
   void _handleLinkCreationEnd(MouseEvent e) {
-    print ("LINK CREATION STOP");
-    
     if (creationLink != null) {
       creationLink.destroy();
       creationLink = null;

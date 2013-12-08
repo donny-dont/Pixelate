@@ -14,6 +14,12 @@ class GraphLinkView {
   /** The spline path element */
   PathElement path = new PathElement();
 
+  /** The color of the link */
+  final String strokeColor = "#111";
+  
+  /** The color of the link on mouse over */
+  final String hoverStrokeColor = "red";
+  
   /** Determins how stiff/strong the spline is. Higher values would make it more stiffer */
   final splineStrength = 70;  // TODO: Make it observable in the view for external customization
   
@@ -21,6 +27,8 @@ class GraphLinkView {
     path.setAttribute("stroke", "#111");
     path.setAttribute("stroke-width", "1.5");
     path.setAttribute("fill", "none");
+    path.onMouseOver.listen((e) => path.setAttribute("stroke", hoverStrokeColor));
+    path.onMouseOut.listen((e) => path.setAttribute("stroke", strokeColor));
     svg.children.add(path);
     update();
   }

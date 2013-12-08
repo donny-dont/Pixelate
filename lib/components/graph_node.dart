@@ -13,19 +13,27 @@ class GraphNodeView extends PolymerElement {
   /** The ID of the DOM element for dragging this node with the mouse */
   @published String dragHandleId;
 
-  var _onNodeMoved = new StreamController<GraphNodeView>();
+  var _onNodeMoved = new StreamController<GraphNodeView>.broadcast();
   Stream<GraphNodeView> get onNodeMoved => _onNodeMoved.stream;
   
   GraphNodeView.created() : super.created();
   
+  /** The graph canvas that hosts this node */
+  var canvas;
+  
   void enableDragging(String handleId) {
     final dragHandle = findChildElementById(this, handleId);
     final dragBody = this;
-    var draggable = new Draggable(dragHandle, dragBody);
+    var draggable = new Draggable(dragHandle, dragBody, _getScrollOffset);
     draggable.onDrag.listen((_) => _onNodeMoved.add(this));
+    
   }
+  
+  /** Get the scroll offset of the canvas */
+  Point _getScrollOffset() => (canvas != null) ? canvas.scrollOffset : new Point(0, 0);
 }
 
+typedef Point ScrollOffsetProvider();
 
 // TODO: Move this to a utility class as part of the core library
 /** Allows the user to drag a dom element with the mouse */
@@ -44,6 +52,9 @@ class Draggable {
   
   /** The coordinates of the body when the drag started */
   var bodyDragStart = new Point2();  
+  
+  /** The scroll position when the drag started */
+  var scrollDragStart = new Point2();
 
   /** Stream controller to fire drag events */
   var _onDrag = new StreamController<DragEvent>();
@@ -51,8 +62,11 @@ class Draggable {
   /** Stream to dispatch drag events */
   Stream<DragEvent> get onDrag => _onDrag.stream;
   
+  /** Provides the scroll offset of the parent element that hosts the element being dragged */
+  ScrollOffsetProvider scrollOffsetProvider;
+  
   /** Drags [body] when the [handle] is dragged around with the mouse */ 
-  Draggable(this.dragHandle, this.dragBody) {
+  Draggable(this.dragHandle, this.dragBody, [this.scrollOffsetProvider]) {
     // Listen to global mouse events when the mouse is pressed on the handle
     dragHandle.onMouseDown.listen(_startDrag);
   }
@@ -62,6 +76,7 @@ class Draggable {
     dragStopStream = window.onMouseUp.listen(_stopDrag);
     mouseDragStart.x = e.page.x;
     mouseDragStart.y = e.page.y;
+    scrollDragStart = _getScrollOffset();
     bodyDragStart.x = _parsePixel(dragBody.style.left, dragBody.client.left);
     bodyDragStart.y = _parsePixel(dragBody.style.top, dragBody.client.top);
   }
@@ -80,12 +95,22 @@ class Draggable {
   void _performDrag(MouseEvent e) {
     final mouseOffsetX = e.page.x - mouseDragStart.x;
     final mouseOffsetY = e.page.y - mouseDragStart.y;
-    final newX = bodyDragStart.x + mouseOffsetX;
-    final newY = bodyDragStart.y + mouseOffsetY;
+    final currentScrollOffset = _getScrollOffset();
+    final scrollOffsetX = currentScrollOffset.x - scrollDragStart.x;
+    final scrollOffsetY = currentScrollOffset.y - scrollDragStart.y;
+    final newX = bodyDragStart.x + mouseOffsetX + scrollOffsetX;
+    final newY = bodyDragStart.y + mouseOffsetY + scrollOffsetY;
     dragBody.style.position = "absolute";
     dragBody.style.left = "${newX}px";
     dragBody.style.top = "${newY}px";
     _onDrag.add(new DragEvent(newX, newY));
+  }
+  
+  Point _getScrollOffset() {
+    if (this.scrollOffsetProvider != null) {
+      return scrollOffsetProvider();
+    }
+    return new Point(0, 0);
   }
   
   /** Parses the string "Npx" to an integer N */

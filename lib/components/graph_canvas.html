@@ -1,23 +1,26 @@
 <polymer-element name="px-graph-canvas" attributes="src">
   <template>
     <style>
-      outer_content {
-        font-size: 24pt;
-        text-align: center;
-        margin-top: 140px;
+      #outer_content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: auto;
       }
-      svg {
-          position: absolute;
-          left: 0;
-          top: 0;
-          pointer-events:none;
+      #diagram_dom {
+        width: 100%;
+        height: 100%;
       }
-      button {
-        font-size: 24pt;
-        margin-bottom: 20px;
+      #diagram_svg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
       }
+      
     </style>
-    <div>
+    <div id="outer_content">
       <svg id="diagram_svg" version="1.1">
       </svg> 
       <div id="diagram_dom">

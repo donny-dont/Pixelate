@@ -32,6 +32,8 @@ class GraphNode {
       _sockets[socketId] = socket;
     }
     
+    view.canvas = document.canvas;
+    
     // Listen to node drag events
     view.onNodeMoved.listen((e) => _onMoved.add(new GraphNodeEvent(this)));
   }

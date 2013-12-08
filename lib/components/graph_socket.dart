@@ -25,7 +25,7 @@ class GraphSocketView extends PolymerElement {
   /** The socket model */
   GraphSocket socket;
 
-  var _onSocketChanged = new StreamController<GraphSocket>();
+  var _onSocketChanged = new StreamController<GraphSocket>.broadcast();
   Stream<GraphSocket> get onSocketChanged => _onSocketChanged.stream;
   
   ImageElement imageElement;
@@ -39,7 +39,7 @@ class GraphSocketView extends PolymerElement {
     imageElement = this.shadowRoot.querySelector("#socket_image");
     imageElement.onMouseEnter.listen((_) => imageElement.src = hoverImage);
     imageElement.onMouseLeave.listen((_) => imageElement.src = image);
-    imageElement.onLoad.listen((_) => _onSocketChanged.add(this));
+    imageElement.onLoad.listen((_) => _onSocketChanged.add(socket));
     imageElement.draggable = false;
     
     
