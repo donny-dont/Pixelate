@@ -24,9 +24,17 @@ class GraphLink {
         String destNodeId, String destSocketId) {
     source = document.getNode(sourceNodeId).getSocket(sourceSocketId);
     destination = document.getNode(destNodeId).getSocket(destSocketId);
+    source.links.add(this);
+    destination.links.add(this);
   }
   
   void update() {
     view.update();
+  }
+  
+  void destroy() {
+    source.links.remove(this);
+    destination.links.remove(this);
+    view.destroy();
   }
 }

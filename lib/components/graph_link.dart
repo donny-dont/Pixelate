@@ -69,9 +69,11 @@ class GraphLinkView {
 
   void _onMouseDown(MouseEvent e) {
     if (e.which == 3) { // Right click
-      // delete the link
-      link.document.deleteLink(link.id);
-      return;
+      if (link != null) {
+        // delete the link
+        link.document.deleteLink(link.id);
+        return;
+      }
     }
   }
   

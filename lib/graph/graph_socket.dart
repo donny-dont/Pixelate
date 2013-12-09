@@ -10,6 +10,9 @@ class GraphSocket {
   
   /** Socket id */
   String id;
+  
+  /** Links connected to the socket */
+  var links = new List<GraphLink>();
 
   /** The direction from which the link is plugged into this socket */
   Point get plugDirection => view.plugDirection; 

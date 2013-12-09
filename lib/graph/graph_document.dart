@@ -143,7 +143,7 @@ class GraphDocument {
     GraphLink link = _links[linkId];
     if (link != null) {
       _links.remove(linkId);
-      link.view.destroy();
+      link.destroy();
     }
   }
 }
@@ -188,6 +188,7 @@ class LinkCreationHandler {
   }
   /** Handle the link creation process, while the pointer has not yet reached the destination */
   void _handleLinkCreationDrag(MouseEvent e) {
+    if (creationLink == null) return;
     // update the temporary link's path from the source to the cursor position
     Point source = originSocket.position;
     Point sourceDirection = originSocket.plugDirection;
