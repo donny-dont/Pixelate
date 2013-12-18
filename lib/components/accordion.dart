@@ -60,7 +60,6 @@ class Accordion extends PolymerElement {
 
   /// Callback for when value of [multiple] changes.
   void multipleChanged(bool oldValue) {
-    print('multipleChanged');
     if (!multiple) {
       // Find the first element that is expanded
       var elements = querySelectorAll(Expander.customTagName);

@@ -19,6 +19,20 @@ import 'package:polymer/polymer.dart';
 /// Tag name for the class.
 const String _tagName = 'px-flex-panel';
 
+/// Represents a container that utilizes a flexible layout.
+///
+/// The direction the panel should flex is defined by the [orientation
+/// attribute, which takes a string. By default the value is horizontal.
+///
+///     <!-- Horizontal content; the default -->
+///     <px-flex-panel orientation="horizontal"></px-expander>
+///     <!-- Vertical content -->
+///     <px-flex-panel orientation="vertical"></px-expander>
+///
+/// The [FlexPanel] relies on the [CSS Flexbox](http://dev.w3.org/csswg/css-flexbox/)
+/// specification. Before using within an application verify that the feature
+/// is [compatible](http://caniuse.com/flexbox) with the browsers being
+/// supported.
 @CustomTag(_tagName)
 class FlexPanel extends PolymerElement {
   //---------------------------------------------------------------------
@@ -71,6 +85,7 @@ class FlexPanel extends PolymerElement {
   // Events
   //---------------------------------------------------------------------
 
+  /// Callback for when the [orientation] changes.
   void orientationChanged(String oldValue) {
     _layout();
   }

@@ -92,15 +92,25 @@ abstract class Expandable {
       _collapse();
     }
 
-    print('Firing $eventType');
     dispatchEvent(new CustomEvent(eventType, detail: this));
   }
 
+  /// Expands the element.
   void _expand() {
     view.style.maxHeight = '${content.clientHeight}px';
   }
 
+  /// Collapses the element.
   void _collapse() {
     view.style.maxHeight = '0px';
+  }
+
+  //---------------------------------------------------------------------
+  // Public methods
+  //---------------------------------------------------------------------
+
+  /// Toggles the expansion of the element.
+  void toggle() {
+    expanded = !expanded;
   }
 }
