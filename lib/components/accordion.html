@@ -1,0 +1,14 @@
+<link rel="import" href="expander.html">
+
+<polymer-element name="px-accordion" attributes="multiple" on-expanded="{{onExpanded}}">
+  <template> 
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing; 
+      }
+    </style>
+    <content select="px-expander"></content>
+  </template>
+  <script type="application/dart" src="accordion.dart"></script>
+</polymer-element>
