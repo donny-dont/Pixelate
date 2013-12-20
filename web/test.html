@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Pixelate Components</title>
+    <style>
+      * {
+        font-family: 'Open Sans', sans-serif;
+
+      }
+      @font-face {
+        font-family: "FontAwesome";
+        src: url(fonts/fontawesome-webfont.ttf) format("truetype");
+      }      
+      
+      .menu {
+        display: flex;
+        background-color: black;
+      }
+      
+      .menu > a {
+        color: white;
+      }
+      
+      px-expander.test::part(header) {
+        background-color: red;
+      }
+    </style>
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/accordion.html">
+    
+    <!-- Polymer initialization -->
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+    <px-accordion>
+      <px-expander header="Test" expanded>
+        <div>Testing this shit<br /><br />Oh yea!</div>
+      </px-expander>
+      <px-expander orientation="horizontal" class="test">
+        <div>Testing this shit<br /><br />Oh yea!</div>
+      </px-expander>
+      <px-expander orientation="horizontal" class="test">
+        <div>Testing this shit<br /><br />Oh yea!</div>
+      </px-expander>
+    </px-accordion>
+  </body>  
+</html>
