@@ -1,53 +1,34 @@
 <link rel="import" href="flex_panel.html">
 
 <polymer-element name="px-expander" attributes="expanded header">
-  <template> 
+  <template>
     <style>
       :host {
         display: block;
-        border-box; box-sizing; 
+        border-box; box-sizing;
       }
-      
-      px-expander::part(header) {
-        cursor: pointer;
-        user-select: none;
-        -webkit-user-select: none;
-      }
-      
-      px-expander::part(icon) {
-        margin: 0 5px;
-      }
-      
-      px-expander::part(collapse-icon)::before {
-        font-family: "FontAwesome";      
-        content: "\f0d8";
-      }
-      
-      px-expander::part(expand-icon)::before {
-        font-family: "FontAwesome";      
-        content: "\f0d7";
-      }      
 
-      px-expander::part(view) { 
-        transition-property: max-height;
-        transition-duration: 0.25s;
-        transition-timing-function: ease;
-      }
+      /* Hidden class required for the cusomizable mixin */
+      .hidden { display: none !important; }
     </style>
-    <px-flex-panel part="header" on-click="{{toggle}}" orientation="horizontal">
-      <!-- Icon -->
-      <div part="icon">
+    <px-flex-panel class="header" on-click="{{toggle}}" orientation="horizontal">
+      <div class="icon">
         <template if="{{expanded}}">
-          <div part="collapse-icon"></div>
+          <div class="collapse-icon"></div>
         </template>
         <template if="{{!expanded}}">
-          <div part="expand-icon"></div>
+          <div class="expand-icon"></div>
         </template>
       </div>
-      <div>{{header}}</div>
+      <px-flex-panel class="default-expander-header">
+        <div>{{header}}</div>
+      </px-flex-panel>
+      <!-- Potential override for the header -->
+      <content select=".expander-header"></content>
     </px-flex-panel>
-    <div part="view" id="view">
-      <px-flex-panel id="expandable">
+    <!-- Content view -->
+    <div class="view">
+      <px-flex-panel class="expandable">
         <content></content>
       </px-flex-panel>
     </div>

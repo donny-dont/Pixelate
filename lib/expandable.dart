@@ -13,6 +13,11 @@ library pixelate_expandable;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 
+// Import mirrors to get Expandable symbols in dart2js code
+//
+// \TODO MirrorsUsed? Wasn't working as of SDK 1.1.0-dev.4.0
+import 'dart:mirrors';
+
 //---------------------------------------------------------------------
 // Library contents
 //---------------------------------------------------------------------
@@ -44,7 +49,8 @@ abstract class Expandable {
   //---------------------------------------------------------------------
 
   /// Whether the content area is expanded.
-  @published bool expanded = false;
+  bool get expanded;
+  set expanded(bool value);
 
   //---------------------------------------------------------------------
   // Properties

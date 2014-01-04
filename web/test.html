@@ -11,40 +11,93 @@
       @font-face {
         font-family: "FontAwesome";
         src: url(fonts/fontawesome-webfont.ttf) format("truetype");
-      }      
-      
+      }
+
       .menu {
         display: flex;
         background-color: black;
       }
-      
+
       .menu > a {
         color: white;
       }
-      
-      px-expander.test::part(header) {
+
+      px-expander ^ .header {
         background-color: red;
+        height: 100px;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      px-expander ^ .header:hover {
+        background-color: blue;
+      }
+
+      px-expander ^ .icon {
+        margin: 0 5px;
+      }
+
+      px-expander ^ .expand-icon:before {
+        font-family: "FontAwesome";
+        content: "\f0d7";
+      }
+
+      px-expander ^ .collapse-icon:before {
+        font-family: "FontAwesome";
+        content: "\f0d8";
+      }
+
+      px-expander ^ .view {
+        transition-property: max-height;
+        transition-duration: 0.25s;
+        transition-timing-function: ease;
       }
     </style>
 
     <!-- Import the elements -->
     <link rel="import" href="packages/pixelate/components/accordion.html">
-    
+    <link rel="import" href="packages/pixelate/components/tab_item.html">
+
     <!-- Polymer initialization -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script type="application/dart">
+      import 'dart:async';
+      import 'dart:html';
+      import 'package:polymer/polymer.dart';
+      export 'package:polymer/init.dart';
+
+      @initMethod
+      void init() {
+        new Timer(new Duration(seconds: 2), () {
+          var tabItem = querySelector('#tab-test');
+
+          tabItem.header = 'kjldkjlskjlkj';
+        });
+
+        new Timer(new Duration(seconds: 4), () {
+          var tabItem = querySelector('#tab-test');
+
+          tabItem.appendHtml('<div class="tab-item-header">This changed</div>');
+        });
+      }
+    </script>
     <script src="packages/browser/dart.js"></script>
   </head>
   <body>
     <px-accordion>
-      <px-expander header="Test" expanded>
+      <px-expander header="Test1" expanded>
+        <div class="expander-header">
+          This is an overriden header!
+        </div>
         <div>Testing this shit<br /><br />Oh yea!</div>
       </px-expander>
-      <px-expander orientation="horizontal" class="test">
+      <px-expander header="Test2" orientation="horizontal" class="test">
         <div>Testing this shit<br /><br />Oh yea!</div>
       </px-expander>
-      <px-expander orientation="horizontal" class="test">
+      <px-expander header="Test3" orientation="horizontal" class="test">
         <div>Testing this shit<br /><br />Oh yea!</div>
       </px-expander>
     </px-accordion>
-  </body>  
+    <px-tab-item id="tab-test" header="Foo">Testing tabs</px-tab-item>
+  </body>
 </html>

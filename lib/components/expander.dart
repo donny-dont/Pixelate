@@ -17,6 +17,7 @@ import 'dart:html';
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
+import 'package:pixelate/customizable.dart';
 import 'package:pixelate/expandable.dart';
 
 //---------------------------------------------------------------------
@@ -37,7 +38,7 @@ const String _tagName = 'px-expander';
 ///     <!-- Expanded content -->
 ///     <px-expander expanded></px-expander>
 @CustomTag(_tagName)
-class Expander extends PolymerElement with Expandable {
+class Expander extends PolymerElement with Expandable, Customizable {
   //---------------------------------------------------------------------
   // Class variables
   //---------------------------------------------------------------------
@@ -55,6 +56,8 @@ class Expander extends PolymerElement with Expandable {
   /// The text for the header.
   @published String header;
 
+  @published bool expanded = false;
+
   //---------------------------------------------------------------------
   // Construction
   //---------------------------------------------------------------------
@@ -62,12 +65,17 @@ class Expander extends PolymerElement with Expandable {
   Expander.created()
       : super.created()
   {
+    // Initialize the expandable mixin
     var shadowRoot = getShadowRoot(customTagName);
 
-    _content = shadowRoot.querySelector('#expandable');
-    _view = shadowRoot.querySelector('#view');
+    _content = shadowRoot.querySelector('.expandable');
+    _view = shadowRoot.querySelector('.view');
 
     initializeExpandable();
+
+    // Intitialize the customizable mixin
+    initializeCustomizable();
+    customizeProperty(#header, 'expander-header', 'default-expander-header');
   }
 
   //---------------------------------------------------------------------
