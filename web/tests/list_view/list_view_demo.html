@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>List View test</title>
+
+    <style>
+      #colors {
+        width: 200px;
+        height: 200px;
+        overflow-y: scroll;
+      }
+    </style>
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/list_view/list_view.html">
+    <link rel="import" href="packages/pixelate/components/list_view/list_view_item.html">
+    
+    <!-- Polymer initialization -->
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+    <div id="colors">
+      <px-list-view>
+        <px-list-view-item title="Red"></px-list-view-item>
+        <px-list-view-item title="Blue"></px-list-view-item>
+        <px-list-view-item title="Green"></px-list-view-item>
+        <px-list-view-item title="Orange"></px-list-view-item>
+        <px-list-view-item title="Yellow"></px-list-view-item>
+        <px-list-view-item title="Cyan"></px-list-view-item>
+        <px-list-view-item title="Grey"></px-list-view-item>
+        <px-list-view-item title="Black"></px-list-view-item>
+      </px-list-view>
+    </div>
+  </body>
+</html>
