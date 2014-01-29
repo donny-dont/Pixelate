@@ -6,4 +6,4 @@ dependencies:
   uuid: any
 transformers:
 - polymer:
-    entry_points: web/components.html
+    entry_points: web/test.html

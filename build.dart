@@ -7,6 +7,7 @@ import 'package:polymer/builder.dart';
 
 main(args) {
   build(entryPoints: [
+      'web/test.html',
       'web/tests/graph/graph_demo.html',
       'web/components.html'
   ], options: parseOptions(args));
