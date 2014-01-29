@@ -30,9 +30,22 @@ const String _tagName = 'px-list-view-item';
 class ListViewItem extends PolymerElement {
   /// The name of the tag.
   static String get customTagName => _tagName;
+  
+  static String cssClassItemSelected = "item_selected";
+  static String cssClassItemUnSelected = "item_unselected";
 
   /// The text displayed on the list item
-  @published String title = "Item";
+  @published String text = "Item";
+  
+  /// The Id of the list item. This id is used when raising events
+  @published String id = "item";
+  
+  Element elementItem;
+  
+  /// Indicates if the item is selected
+  bool _selected;
+  bool get selected => _selected;
+  set selected(bool value) => setSelected(value);
   
   /// Create an instance of the [ListViewItem] class.
   ///
@@ -44,6 +57,35 @@ class ListViewItem extends PolymerElement {
       : super.created()
   {
   }
+
+  void enteredView() {
+    super.enteredView();
+
+    elementItem = shadowRoot.querySelector("#item_host");
+  }
   
+  String toString() => text;
   
+  void onItemClicked(Event e) {
+    // select the object
+    selected = true;
+  }
+  
+  void setSelected(bool value, [bool notifySelectionChanged = true]) {
+    _selected = value;
+    elementItem.classes.add(_selected ? cssClassItemSelected : cssClassItemUnSelected);
+    elementItem.classes.remove(_selected ? cssClassItemUnSelected : cssClassItemSelected);
+    if (selected) {
+      print ('selected' + text);
+    } else {
+      elementItem.classes.remove(cssClassItemSelected);
+    }
+    
+    if (notifySelectionChanged) {
+      // Notify the parent 
+      dispatchEvent(new CustomEvent("selectionchanged", detail: this));
+    }
+  }
 }
+
+
