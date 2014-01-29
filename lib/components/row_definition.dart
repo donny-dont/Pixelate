@@ -61,5 +61,5 @@ class RowDefinition extends PolymerElement {
   //---------------------------------------------------------------------
 
   /// The height of the row.
-  @observable String height = 'auto';
+  @published String height = 'auto';
 }

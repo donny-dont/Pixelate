@@ -14,3 +14,6 @@ export 'package:pixelate/components/column_definitions.dart';
 export 'package:pixelate/components/grid_panel.dart';
 export 'package:pixelate/components/row_definition.dart';
 export 'package:pixelate/components/row_definitions.dart';
+export 'package:pixelate/components/graph_node.dart';
+export 'package:pixelate/components/graph_canvas.dart';
+export 'package:pixelate/components/graph_socket.dart';

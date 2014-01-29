@@ -105,8 +105,9 @@ class ColumnDefinitions extends PolymerElement {
   // Polymer methods
   //---------------------------------------------------------------------
 
-  void enteredView() {
-    super.enteredView();
+  @override
+  void ready() {
+    super.ready();
 
     _updateColumns();
   }

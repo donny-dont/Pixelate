@@ -3,7 +3,7 @@ description: A UI widget library aimed at game developers
 dependencies:
   logging: any
   polymer: any
+  uuid: any
 transformers:
 - polymer:
     entry_points: web/test.html
-  
