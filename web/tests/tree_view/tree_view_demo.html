@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Tree View test</title>
+
+    <style>
+      #colors {
+        width: 220px;
+        height: 300px;
+        background-color: #666;
+      }
+    </style>
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/tree_view/tree_view.html">
+    <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
+    
+    <!-- Polymer initialization -->
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+    <div id="colors">
+      <px-tree-view id="scene">
+        <px-tree-view-node text="Meshes" icon="icons/mesh2.png">
+          <px-tree-view-node text="Truck01" icon="icons/mesh.png"></px-tree-view-node>
+          <px-tree-view-node text="Truck02" icon="icons/mesh.png"></px-tree-view-node>
+          <px-tree-view-node text="Prop01.mesh" icon="icons/mesh.png"></px-tree-view-node>
+          <px-tree-view-node text="Orc.mesh" icon="icons/mesh.png">
+            <px-tree-view-node text="Vertices: 2405" icon="icons/stats.png"></px-tree-view-node>
+            <px-tree-view-node text="Edges: 1642" icon="icons/stats.png"></px-tree-view-node>
+          </px-tree-view-node>
+          <px-tree-view-node text="Orc.skeleton" icon="icons/skeleton.png">
+            <px-tree-view-node text="root" icon="icons/bone.png">
+              <px-tree-view-node text="lower_back" icon="icons/bone.png">
+                <px-tree-view-node text="upper_back" icon="icons/bone.png">
+                  <px-tree-view-node text="neck" icon="icons/bone.png">
+                    <px-tree-view-node text="sholder.left" icon="icons/bone.png">
+                      <px-tree-view-node text="elbow.left" icon="icons/bone.png">
+                        <px-tree-view-node text="palm.left" icon="icons/bone.png">
+                          <px-tree-view-node text="finger1.left" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger2.left" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger3.left" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger4.left" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger5.left" icon="icons/bone.png"></px-tree-view-node>
+                        </px-tree-view-node>
+                      </px-tree-view-node>
+                    </px-tree-view-node>
+                    <px-tree-view-node text="head" icon="icons/bone.png"></px-tree-view-node>
+                    <px-tree-view-node text="sholder.right" icon="icons/bone.png">
+                      <px-tree-view-node text="elbow.right" icon="icons/bone.png">
+                        <px-tree-view-node text="palm.right" icon="icons/bone.png">
+                          <px-tree-view-node text="finger1.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger2.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger3.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger4.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node text="finger5.right" icon="icons/bone.png"></px-tree-view-node>
+                        </px-tree-view-node>
+                      </px-tree-view-node>
+                    </px-tree-view-node>
+                  </px-tree-view-node>
+                </px-tree-view-node>
+              </px-tree-view-node>
+              <px-tree-view-node text="hip.left" icon="icons/bone.png">
+                <px-tree-view-node text="knee.left" icon="icons/bone.png">
+                  <px-tree-view-node text="feet.left" icon="icons/bone.png">
+                  </px-tree-view-node>
+                </px-tree-view-node>
+              </px-tree-view-node>
+              <px-tree-view-node text="hip.right" icon="icons/bone.png">
+                <px-tree-view-node text="knee.right" icon="icons/bone.png">
+                  <px-tree-view-node text="feet.right" icon="icons/bone.png">
+                  </px-tree-view-node>
+                </px-tree-view-node>
+              </px-tree-view-node>
+            </px-tree-view-node>
+          </px-tree-view-node>
+        </px-tree-view-node>
+        <px-tree-view-node text="Lights" icon="icons/lamp.png">
+          <px-tree-view-node text="Sun" icon="icons/lamp.png"></px-tree-view-node>
+          <px-tree-view-node text="PointLight01" icon="icons/lamp.png"></px-tree-view-node>
+          <px-tree-view-node text="PointLight01" icon="icons/lamp.png"></px-tree-view-node>
+          <px-tree-view-node text="LampSpotLightRed" icon="icons/lamp.png"></px-tree-view-node>
+        </px-tree-view-node>
+        <px-tree-view-node text="Cameras" icon="icons/camera.png">
+          <px-tree-view-node text="PlayerCam" icon="icons/camera.png"></px-tree-view-node>
+          <px-tree-view-node text="ReplayCam" icon="icons/camera.png"></px-tree-view-node>
+          <px-tree-view-node text="TopViewCam" icon="icons/camera.png"></px-tree-view-node>
+        </px-tree-view-node>
+      </px-tree-view>
+    </div>
+  </body>
+</html>

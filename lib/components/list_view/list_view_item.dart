@@ -67,7 +67,6 @@ class ListViewItem extends PolymerElement {
   String toString() => text;
   
   void onItemClicked(Event e) {
-    // select the object
     selected = true;
   }
   
@@ -75,11 +74,6 @@ class ListViewItem extends PolymerElement {
     _selected = value;
     elementItem.classes.add(_selected ? cssClassItemSelected : cssClassItemUnSelected);
     elementItem.classes.remove(_selected ? cssClassItemUnSelected : cssClassItemSelected);
-    if (selected) {
-      print ('selected' + text);
-    } else {
-      elementItem.classes.remove(cssClassItemSelected);
-    }
     
     if (notifySelectionChanged) {
       // Notify the parent 

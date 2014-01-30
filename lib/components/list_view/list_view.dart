@@ -50,7 +50,7 @@ class ListView extends PolymerElement {
   void enteredView() {
     super.enteredView();
 
-    _items = querySelectorAll("px-list-view-item");  // TODO: optimize/cache
+    _items = querySelectorAll("px-list-view-item");
   }
   
   void addItem(ListViewItem item) {

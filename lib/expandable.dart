@@ -15,8 +15,6 @@ import 'package:polymer/polymer.dart';
 
 // Import mirrors to get Expandable symbols in dart2js code
 //
-// \TODO MirrorsUsed? Wasn't working as of SDK 1.1.0-dev.4.0
-import 'dart:mirrors';
 
 //---------------------------------------------------------------------
 // Library contents
@@ -103,12 +101,16 @@ abstract class Expandable {
 
   /// Expands the element.
   void _expand() {
-    view.style.maxHeight = '${content.clientHeight}px';
+    //view.style.maxHeight = '${content.clientHeight}px';
+    // Removes display:none style
+    view.classes.remove('collapse');
   }
 
   /// Collapses the element.
   void _collapse() {
-    view.style.maxHeight = '0px';
+    //view.style.maxHeight = '0px';
+    // Adds a display:none to hide the element and free up space
+    view.classes.add('collapse');
   }
 
   //---------------------------------------------------------------------
