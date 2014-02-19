@@ -4,6 +4,8 @@ dependencies:
   logging: any
   polymer: any
   uuid: any
+dev_dependencies:
+  unittest: any
 transformers:
 - polymer:
     entry_points: web/test.html
