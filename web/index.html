@@ -3,9 +3,167 @@
 <html>
   <head>
     <title>index</title>
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        margin: 0 auto;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        background-color: #1E2225;
+        color: white;
+        min-height: 100%;
+        height: 100%;
+      }
+
+      @font-face {
+        font-family: "FontAwesome";
+        src: url(fonts/fontawesome-webfont.ttf) format("truetype");
+      }
+
+      * { margin: 0; }
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+ }
+
+      .navigation-area {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background-color: black;
+      }
+
+      .navigation {
+        display: flex;
+        margin: 0px auto;
+        width: 900px;
+        height: 50px;
+        line-height: 50px;
+      }
+
+      .navigation > div {
+        margin: 0 10px;
+      }
+
+      .header-area {
+        background-image: url(images/pixelated.png);
+      }
+
+      .header {
+        height: 200px;
+        padding-top: 66px;
+        width: 900px;
+        margin: 0 auto;
+      }
+
+      .header > h1 {
+        margin: 0;
+        font-size: 48px;
+      }
+
+      .header > h2 {
+        margin-top: 16px;
+        font-size: 32px;
+      }
+
+      .content {
+        width: 900px;
+        margin: 16px auto 0 auto;
+      }
+
+      .left-menu {
+        margin-right: 16px;
+        width: 300px;
+      }
+
+      .selection {
+        background-color: black;
+      }
+
+      .examples {
+        background-color: black;
+      }
+
+      .example-header {
+        font-size: 48px;
+      }
+
+      .previous:before {
+        font-family: "FontAwesome";
+        content: "\f190";
+      }
+
+      .next:before {
+        font-family: "FontAwesome";
+        content: "\f18e";
+      }
+
+      px-expander.components > div {
+        border-bottom: 1px solid white;
+        cursor: pointer;
+      }
+
+      .left-menu {
+        width: 300px;
+      }
+
+      .examples {
+        width: 100%;
+      }
+
+    </style>
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/accordion.html">
+    <link rel="import" href="packages/pixelate/components/flex_panel.html">
+
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
   </head>
- 
+
   <body>
+    <px-flex-panel orientation="vertical" style="min-height: 100%;">
+      <div class="header-area">
+        <div class="header">
+          <h1>Components</h1>
+          <h2>A set of reusable components for web applications</h2>
+        </div>
+      </div>
+      <px-flex-panel class="content" orientation="horizontal">
+        <div class="left-menu">
+          <px-accordion class="selection">
+            <px-expander class="components" header="Panels" expanded>
+              <div>Flex</div>
+              <div>Grid</div>
+              <div>Graph</div>
+            </px-expander>
+          </px-accordion>
+        </div>
+        <div class="examples">
+          <px-flex-panel class="example-header" orientation="horizontal">
+            <div class="component-name">
+            &lt;px-flex-panel&gt;
+            </div>
+            <div class="previous"></div>
+            <div class="next"></div>
+          </px-flex-panel>
+        </div>
+      </px-flex-panel>
+      <div class="footer">
+        Testing!!!!!!
+      </div>
+    </px-flex-panel>
+
+    <div class="navigation-area">
+      <div class="navigation">
+        <div>Pixelate</div>
+        <div>Components</div>
+      </div>
+    </div>
+
     <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
     <script src="packages/browser/dart.js"></script>
   </body>

@@ -1,0 +1,10 @@
+body {
+}
+
+#graph_container {
+  width: 1200px;
+  height: 800px;
+  position: absolute;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}

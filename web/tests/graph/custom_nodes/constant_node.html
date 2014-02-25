@@ -1,0 +1,54 @@
+<link rel="import" href="packages/pixelate/components/graph_canvas.html">
+<link rel="import" href="packages/pixelate/components/graph_node.html">
+<link rel="import" href="packages/pixelate/components/graph_socket.html">
+<link rel="import" href="app_node.html">
+
+<polymer-element name="constant-node" extends="app-node">
+  <template>
+    <style>
+      #node_body      { width: 100px; height: 100px; }
+      #out_constant   { left: 92px; top: 50px; }
+      #drag_handle    { width: 100%; height: 20px; position: absolute; }
+
+      px-graph-socket { position: absolute; }
+      #txtConstant { 
+        position: absolute;
+        left: 15px; top: 33px;
+        width: 70px;
+        color: #ccc;
+        font-family:Tahoma, Geneva, sans-serif;
+        font-size: 45px;
+        text-shadow: 1px 1px #111;
+        margin-top: -1px;
+        text-align: center; 
+        background: #222;
+        border: 0px solid;
+        outline:none;
+      }
+
+    </style>
+    <div id="node_body">
+    
+      <!-- get the hosts' shadow and insert here -->
+      <shadow></shadow>
+      <div id="drag_handle"></div>
+
+      <px-graph-socket id="out_constant" image="orb_grey.png" hoverImage="orb_green.png" dir="1,0"></px-graph-socket>
+
+      <input id="txtConstant" value="82" />
+      
+    </div>
+  </template>
+  <script type="application/dart">
+  import 'package:polymer/polymer.dart';
+  import 'app_node.dart';
+
+  @CustomTag('constant-node')
+  class ConstantNode extends AppNode {
+    ConstantNode.created() : super.created() {
+      title = "Constant";
+    }
+  }
+  </script>
+</polymer-element>
+

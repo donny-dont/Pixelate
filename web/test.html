@@ -57,7 +57,7 @@
 
     <!-- Import the elements -->
     <link rel="import" href="packages/pixelate/components/accordion.html">
-    <!-- link rel="import" href="packages/pixelate/components/tab_item.html" -->
+    <!-- link rel="import" href="packages/pixelate/components/tab.html" -->
 
     <!-- Polymer initialization -->
     <script type="application/dart">
@@ -69,13 +69,13 @@
       @initMethod
       void init() {
         new Timer(new Duration(seconds: 2), () {
-          var tabItem = querySelector('#tab-test');
+          var tabItem = querySelector('#tab-test1');
 
           tabItem.header = 'kjldkjlskjlkj';
         });
 
         new Timer(new Duration(seconds: 4), () {
-          var tabItem = querySelector('#tab-test');
+          var tabItem = querySelector('#tab-test1');
 
           tabItem.appendHtml('<div class="tab-item-header">This changed</div>');
         });
@@ -98,6 +98,13 @@
         <div>Testing this shit<br /><br />Oh yea!</div>
       </px-expander>
     </px-accordion>
-    <px-tab-item id="tab-test" header="Foo">Testing tabs</px-tab-item>
+    <br />
+    <br />
+    <br />
+    <px-tab>
+      <px-tab-item id="tab-test1" header="Foo">Testing tabs</px-tab-item>
+      <px-tab-item id="tab-test2" header="Bar">Testing more tabs and shit</px-tab-item>
+      <px-tab-item id="tab-test3" header="Is">Testing even more tabs and shit</px-tab-item>
+    </px-tab>
   </body>
 </html>
