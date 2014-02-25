@@ -51,10 +51,6 @@ class TreeViewNode extends PolymerElement with Expandable {
   /// This div element displays the icon as a background image
   Element elementNodeIcon;
   
-  /// List of child nodes attached to this node
-  List<TreeViewNode> _childNodes = new List<TreeViewNode>();
-  List<TreeViewNode> get childNodes => _childNodes;
-  
   /// Indicates if the node is selected
   bool _selected;
   bool get selected => _selected;
@@ -101,12 +97,12 @@ class TreeViewNode extends PolymerElement with Expandable {
     _expanderContent = this.shadowRoot.querySelector("#expander");
     elementNode = shadowRoot.querySelector("#$elementIdHost");
     elementNode.onDoubleClick.listen(onNodeDoubleClicked);
-    _childNodes = this.querySelectorAll("px-tree-view-node");
     elementNodeIcon = shadowRoot.querySelector("#node_icon");
     _updateIcon();
     
     expanderIcon = new TreeViewNodeExpanderIcon(this);
     initializeExpandable();
+    
   }
   
   String toString() => text;
@@ -145,13 +141,21 @@ class TreeViewNode extends PolymerElement with Expandable {
   /// Expands all the child nodes 
   void expandAll() {
     expanded = true;
-    _childNodes.forEach((node) => node.expandAll());
+    nodes.forEach((node) {
+      if (node is TreeViewNode) {
+        node.expandAll();
+      } 
+    });
   }
   
   /// Collapses all the nodes in the tree view
   void collapseAll() {
     expanded = false;
-    _childNodes.forEach((node) => node.collapseAll());
+    nodes.forEach((node) {
+      if (node is TreeViewNode) {
+        node.collapseAll();
+      } 
+    });
   }
   
   /// Updates the DOM to reflect the icon property
@@ -179,7 +183,7 @@ class TreeViewNodeExpanderIcon {
     elementIcon.classes.remove(node.expanded ? cssNameIconCollapsed : cssNameIconExpanded);
     
     // Hide the icon if this belongs to a leaf node
-    bool visible = (node._childNodes.length > 0);
+    bool visible = (node.nodes.length > 0);
     if (visible) {
       elementIcon.classes.remove("hidden");
     } else {

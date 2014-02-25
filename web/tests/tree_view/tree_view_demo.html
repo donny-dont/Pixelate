@@ -17,7 +17,6 @@
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
     
     <!-- Polymer initialization -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>
   </head>
   <body>
@@ -90,5 +89,66 @@
         </px-tree-view-node>
       </px-tree-view>
     </div>
+    
+    <button id="btnRemoveNode">Remove Node</button>
+    <button id="btnAddSibling">Add Sibling</button>
+    <button id="btnAddChild">Add Child</button>
+    
+    <script type="application/dart">
+    	//export 'package:polymer/init.dart';
+    	import "package:polymer/polymer.dart";
+    	import "dart:html";
+    	import "package:pixelate/components/tree_view/tree_view.dart";
+    	import "package:pixelate/components/tree_view/tree_view_node.dart";
+    	
+    	TreeView treeView;
+    	main() {
+    	  initPolymer().run(() {
+    	    treeView = querySelector("#scene");
+    	    querySelector("#btnRemoveNode").onClick.listen(onRemove);
+    	    querySelector("#btnAddChild").onClick.listen(onAddChild);
+    	    querySelector("#btnAddSibling").onClick.listen(onAddSibling);
+    	  });
+    	}
+    	
+    	void onRemove(Event e) {
+    	  TreeViewNode selected = treeView.selectedNode;
+    	  if (selected != null) {
+	      	  selected.remove();
+    	  }
+    	}
+    	
+    	void onAddChild(Event e) {
+    	  TreeViewNode selected = treeView.selectedNode;
+    	  if (selected != null) {
+    	      print ("Adding child");
+	      	  var node = _createNewNode();
+	      	  selected.nodes.insert(0, node);
+	      	  selected.expanded = true;
+    	  }
+    	}
+    	
+    	void onAddSibling(Event e) {
+    	  TreeViewNode selected = treeView.selectedNode;
+    	  if (selected != null) {
+    	  	// Find the index of this selected item so we can insert it after it
+    	  	int index = selected.parent.nodes.indexOf(selected);
+      	  	var node = _createNewNode();
+    	  	selected.parent.nodes.insert(index + 1, node);
+    	  }
+    	}
+    	
+    	/** Creates a tree node object with an icon and some text */
+    	TreeViewNode _createNewNode() {
+    	  TreeViewNode treeNode = new Element.tag(TreeViewNode.customTagName);
+    	  treeNode.text = "Tree Node ${_nodeCounter++}";
+    	  var icons = ["bone", "camera", "lamp", "mesh", "mesh2", "skeleton", "stats"];
+    	  treeNode.icon = "icons/${icons[_nodeCounter % icons.length]}.png";
+    	  return treeNode;
+    	}
+    	int _nodeCounter = 0;
+    	
+    	
+    </script>
   </body>
 </html>

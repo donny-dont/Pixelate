@@ -32,10 +32,6 @@ class TreeView extends PolymerElement {
   /// The name of the tag.
   static String get customTagName => _tagName;
 
-  /// Children of root node are visible as top level entries in the tree view 
-  List<TreeViewNode> _nodes;
-  List<TreeViewNode> get nodes => _nodes;
-
   /// The currently selected node
   TreeViewNode selectedNode;
   
@@ -53,8 +49,6 @@ class TreeView extends PolymerElement {
 
   void enteredView() {
     super.enteredView();
-
-    _nodes = querySelectorAll("px-tree-view-node");
   }
   
   void onNodeSelected(Event e, var details, Node target) {
@@ -78,12 +72,20 @@ class TreeView extends PolymerElement {
   
   /// Expands all the nodes in the tree view
   void expandAll() {
-    _nodes.forEach((node) => node.expandAll());
+    nodes.forEach((node) {
+      if (node is TreeViewNode) {
+        node.expandAll(); 
+      }
+    });
   }
   
   /// Collapses all the nodes in the tree view
   void collapseAll() {
-    _nodes.forEach((node) => node.collapseAll());
+    nodes.forEach((node) {
+      if (node is TreeViewNode) {
+        node.collapseAll(); 
+      }
+    });
   }
 }
 
