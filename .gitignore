@@ -18,6 +18,7 @@ pubspec.lock
 out
 
 # Generated JavaScript files
+build
 *.js
 *.js.map
 *.js.deps
