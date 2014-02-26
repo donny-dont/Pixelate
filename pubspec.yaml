@@ -5,6 +5,9 @@ dependencies:
   polymer: any
   uuid: any
 dev_dependencies:
+  mustache: any
+  pixelate_flat:
+    path: ../pixelate-flat
   unittest: any
 transformers:
 - polymer:
