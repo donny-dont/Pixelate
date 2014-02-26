@@ -1,0 +1,108 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: #1E2225;
+  color: white;
+  min-height: 100%;
+  height: 100%;
+}
+
+.navigation-area {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: black;
+}
+
+.navigation {
+  display: flex;
+  margin: 0px auto;
+  width: 900px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.navigation > div {
+  margin: 0 10px;
+}
+
+.header-area {
+  background-image: url(images/pixelated.png);
+}
+
+.header {
+  height: 200px;
+  padding-top: 66px;
+  width: 900px;
+  margin: 0 auto;
+}
+
+.header > h1 {
+  margin: 0;
+  font-size: 48px;
+}
+
+.header > h2 {
+  margin-top: 16px;
+  font-size: 32px;
+}
+
+.content {
+  width: 900px;
+  margin: 16px auto 0 auto;
+}
+
+.left-menu {
+  margin-right: 16px;
+  width: 300px;
+}
+
+.selection {
+  background-color: black;
+}
+
+.documentation {
+  background-color: black;
+  width: 100%;
+  padding: 10px;
+}
+
+.component-name {
+  font-size: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+a:link,
+a:active,
+a:hover,
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+px-expander.components > a {
+  padding: 10px;
+  cursor: pointer;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+px-expander.components:first-child {
+  border-top: none !important;
+}
+
+.left-menu {
+  width: 300px;
+}
+
+.footer {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: black;
+}

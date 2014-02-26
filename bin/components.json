@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Layout",
+    "components": [
+      "flex_panel",
+      "grid_panel"
+    ]
+  }
+]
