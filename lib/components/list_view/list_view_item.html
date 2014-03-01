@@ -1,0 +1,45 @@
+<polymer-element name="px-list-view-item">
+  <template> 
+    <style>
+      #item_host {
+        -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
+        padding: 10px;
+      }
+      
+      .item_unselected {  
+        border:1px solid #2a2c2f; 
+        background-color: #45484d; 
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#111));
+        background-image: -webkit-linear-gradient(top, #333, #111);
+        background-image: -moz-linear-gradient(top, #333, #111);
+        background-image: -ms-linear-gradient(top, #333, #111);
+        background-image: -o-linear-gradient(top, #333, #111);
+        background-image: linear-gradient(to bottom, #333, #111);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#45484d, endColorstr=#000000);
+ 
+      }
+      .item_unselected:hover {
+        border:1px solid #1090c3;
+        background-color: #1ab0ec; background-image: -webkit-gradient(linear, left top, left bottom, from(#1ab0ec), to(#1a92c2));
+        background-image: -webkit-linear-gradient(top, #1ab0ec, #1a92c2);
+        background-image: -moz-linear-gradient(top, #1ab0ec, #1a92c2);
+        background-image: -ms-linear-gradient(top, #1ab0ec, #1a92c2);
+        background-image: -o-linear-gradient(top, #1ab0ec, #1a92c2);
+        background-image: linear-gradient(to bottom, #1ab0ec, #1a92c2);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#1ab0ec, endColorstr=#1a92c2);
+      }
+      
+      .item_selected {
+        border:1px solid #ffad41; 
+        background-color: #ffc579; background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc579), to(#fb9d23));
+        background-image: -webkit-linear-gradient(top, #ffc579, #fb9d23);
+        background-image: -moz-linear-gradient(top, #ffc579, #fb9d23);
+        background-image: -ms-linear-gradient(top, #ffc579, #fb9d23);
+        background-image: -o-linear-gradient(top, #ffc579, #fb9d23);
+        background-image: linear-gradient(to bottom, #ffc579, #fb9d23);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ffc579, endColorstr=#fb9d23);
+      }
+    </style>
+    <content>
+      <div id="item_host" class="item_unselected" on-click="{{onItemClicked}}">{{text}}</div>
+    </content>
+  </template>
+  <script type="application/dart" src="list_view_item.dart"></script>
+</polymer-element>

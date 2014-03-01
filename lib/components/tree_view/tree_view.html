@@ -1,0 +1,19 @@
+<link rel="import" href="../scroller.html">
+
+<polymer-element name="px-tree-view">
+  <template> 
+    <style>
+      #treeview_host {
+        font-size:12px;font-family:arial, helvetica, sans-serif;
+        padding: 5px;
+        -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;
+      }
+    </style>
+    <px-scroller>
+      <div id="treeview_host" on-selectionchanged="{{onNodeSelected}}" on-expanded="{{onExpand}}" on-collapsed="{{onCollapse}}">
+        <content></content>
+      </div>
+    </px-scroller>
+  </template>
+  <script type="application/dart" src="tree_view.dart"></script>
+</polymer-element>
