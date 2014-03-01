@@ -50,7 +50,13 @@ class Expander extends PolymerElement with Expandable, Customizable {
   // Member variables
   //---------------------------------------------------------------------
 
+  /// The view for the expandable portion.
+  ///
+  /// Required for the [Expandable] mixin to function.
   Element _view;
+  /// The content contained in the expandable portion.
+  ///
+  /// Required for the [Expandable] mixin to function.
   Element _content;
 
   /// The text for the header.
@@ -62,6 +68,12 @@ class Expander extends PolymerElement with Expandable, Customizable {
   // Construction
   //---------------------------------------------------------------------
 
+  /// Create an instance of the [Expander] class.
+  ///
+  /// This constructor should not be called directly. Instead use the
+  /// [Element.tag] constructor as follows.
+  ///
+  ///     var instance = new Element.tag(Expander.customTagName);
   Expander.created()
       : super.created()
   {
