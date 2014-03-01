@@ -5,22 +5,27 @@
     <title>Tree View test</title>
 
     <style>
-      #colors {
+      px-scroll-viewer {
         width: 220px;
         height: 300px;
         background-color: #666;
       }
     </style>
 
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/scroll_viewer.css">
+
     <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/scroll_viewer.html">
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view.html">
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
-    
+
     <!-- Polymer initialization -->
     <script src="packages/browser/dart.js"></script>
   </head>
   <body>
-    <div id="colors">
+    <px-scroll-viewer>
       <px-tree-view id="scene">
         <px-tree-view-node text="Meshes" icon="icons/mesh2.png">
           <px-tree-view-node text="Truck01" icon="icons/mesh.png"></px-tree-view-node>
@@ -88,19 +93,19 @@
           <px-tree-view-node text="TopViewCam" icon="icons/camera.png"></px-tree-view-node>
         </px-tree-view-node>
       </px-tree-view>
-    </div>
-    
+    </px-scroll-viewer>
+
     <button id="btnRemoveNode">Remove Node</button>
     <button id="btnAddSibling">Add Sibling</button>
     <button id="btnAddChild">Add Child</button>
-    
+
     <script type="application/dart">
     	//export 'package:polymer/init.dart';
     	import "package:polymer/polymer.dart";
     	import "dart:html";
     	import "package:pixelate/components/tree_view/tree_view.dart";
     	import "package:pixelate/components/tree_view/tree_view_node.dart";
-    	
+
     	TreeView treeView;
     	main() {
     	  initPolymer().run(() {
@@ -110,14 +115,14 @@
     	    querySelector("#btnAddSibling").onClick.listen(onAddSibling);
     	  });
     	}
-    	
+
     	void onRemove(Event e) {
     	  TreeViewNode selected = treeView.selectedNode;
     	  if (selected != null) {
 	      	  selected.remove();
     	  }
     	}
-    	
+
     	void onAddChild(Event e) {
     	  TreeViewNode selected = treeView.selectedNode;
     	  if (selected != null) {
@@ -127,7 +132,7 @@
 	      	  selected.expanded = true;
     	  }
     	}
-    	
+
     	void onAddSibling(Event e) {
     	  TreeViewNode selected = treeView.selectedNode;
     	  if (selected != null) {
@@ -137,7 +142,7 @@
     	  	selected.parent.nodes.insert(index + 1, node);
     	  }
     	}
-    	
+
     	/** Creates a tree node object with an icon and some text */
     	TreeViewNode _createNewNode() {
     	  TreeViewNode treeNode = new Element.tag(TreeViewNode.customTagName);
@@ -147,8 +152,8 @@
     	  return treeNode;
     	}
     	int _nodeCounter = 0;
-    	
-    	
+
+
     </script>
   </body>
 </html>
