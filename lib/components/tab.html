@@ -1,0 +1,17 @@
+<link rel="import" href="tab_item.html">
+
+<polymer-element name="px-tab">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      .hidden { display: none !important; }
+    </style>
+    <px-flex-panel orientation="horizontal" class="tabs"></px-flex-panel>
+    <content select="px-tab-item"></content>
+  </template>
+  <script type="application/dart" src="tab.dart"></script>
+</polymer-element>
