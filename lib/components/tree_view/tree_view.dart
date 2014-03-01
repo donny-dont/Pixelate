@@ -4,7 +4,7 @@
 // the LICENSE file.
 
 /// Contains the [TreeView] class.
-library pixelate_list_view;
+library pixelate_tree_view;
 import 'package:pixelate/components/tree_view/tree_view_node.dart';
 
 //---------------------------------------------------------------------
