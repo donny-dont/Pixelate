@@ -4,14 +4,8 @@
 <polymer-element name="px-grid-panel">
   <template>
     <style>
-      @host {
-        :scope {
-          display: grid;
-        }
-      }
-
-      grid-panel {
-          display: grid;
+      :host {
+        display: grid;
       }
     </style>
     <content select="px-column-definitions" on-columnschange="{{columnsChange}}"></content>
