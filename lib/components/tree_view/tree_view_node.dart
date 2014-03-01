@@ -18,6 +18,7 @@ import 'dart:html';
 
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/expandable.dart';
+import 'package:pixelate/selectable.dart';
 
 //---------------------------------------------------------------------
 // Library contents
@@ -28,14 +29,21 @@ const String _tagName = 'px-tree-view-node';
 
 
 @CustomTag(_tagName)
-class TreeViewNode extends PolymerElement with Expandable {
+class TreeViewNode extends PolymerElement with Expandable, Selectable {
   /// The name of the tag.
   static String get customTagName => _tagName;
   
   static String elementIdHost = "node_host";
-  static String cssClassNodeSelected = "node_selected";
-  static String cssClassNodeUnSelected = "node_unselected";
+  
+  /// Css class to apply on an selected element. Required by the Selectable mixin
+  String get cssClassItemSelected => "node_selected";
+  
+  /// Css class to apply on an unselected element. Required by the Selectable mixin
+  String get cssClassItemUnSelected => "node_unselected";
 
+  /// The element affected by the selection state. Used by the Selectable mixin
+  Element get selectionElement => elementNode;
+  
   /// The text displayed on the tree node
   @published String text = "Node";
   
@@ -50,11 +58,6 @@ class TreeViewNode extends PolymerElement with Expandable {
   
   /// This div element displays the icon as a background image
   Element elementNodeIcon;
-  
-  /// Indicates if the node is selected
-  bool _selected;
-  bool get selected => _selected;
-  set selected(bool value) => setSelected(value);
   
   
   /// Indicates the expanded/collapsed state of the tree node
@@ -109,17 +112,6 @@ class TreeViewNode extends PolymerElement with Expandable {
   
   void onNodeClicked(Event e) {
     selected = true;
-  }
-  
-  void setSelected(bool value, [bool notifySelectionChanged = true]) {
-    _selected = value;
-    elementNode.classes.add(_selected ? cssClassNodeSelected : cssClassNodeUnSelected);
-    elementNode.classes.remove(_selected ? cssClassNodeUnSelected : cssClassNodeSelected);
-    
-    if (notifySelectionChanged) {
-      // Notify the parent 
-      dispatchEvent(new CustomEvent("selectionchanged", detail: this));
-    }
   }
   
   void onNodeDoubleClicked(Event e) {
