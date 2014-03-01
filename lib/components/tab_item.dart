@@ -55,6 +55,7 @@ class TabItem extends PolymerElement with Customizable {
   //---------------------------------------------------------------------
 
   @published String header = '';
+  @published bool selected = false;
 
   //---------------------------------------------------------------------
   // Construction
@@ -71,5 +72,16 @@ class TabItem extends PolymerElement with Customizable {
   {
     initializeCustomizable();
     customizeProperty(#header, 'tab-item-header', 'default-tab-item-header');
+  }
+
+  @override
+  void ready() {
+    super.ready();
+
+    selectedChanged();
+  }
+
+  void selectedChanged() {
+    style.display = (selected) ? 'block' : 'none';
   }
 }
