@@ -11,7 +11,6 @@ html {
 }
 
 .navigation {
-  display: flex;
   margin: 0px auto;
   width: 900px;
   height: 50px;
@@ -20,6 +19,19 @@ html {
 
 .navigation > div {
   margin: 0 10px;
+}
+
+.link {
+  padding: 0px 5px;
+}
+
+.link:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.link > a:link, a:hover, a:visited, a:active {
+  text-decoration: none;
+  color: white;
 }
 
 .header-area {
@@ -46,11 +58,6 @@ html {
 .content {
   width: 900px;
   margin: 16px auto 0 auto;
-}
-
-.left-menu {
-  margin-right: 16px;
-  width: 300px;
 }
 
 .selection {

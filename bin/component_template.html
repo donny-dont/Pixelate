@@ -11,19 +11,21 @@
     <h2>Examples</h2>
     {{#examples}}
     <p>{{description}}</p>
-    {{{code}}}
-    <pre class="code">
-      <code>
+    <div class="example">
+      {{{code}}}
+      <pre class="code">
+        <code>
 {{code}}
-      </code>
-    </pre>
+        </code>
+      </pre>
+    </div>
     {{/examples}}
   </div>
   <div class="component-selection">
     {{#groups}}
     <h2>{{name}}</h2>
       {{#components}}
-      <div>
+      <div class="link">
         <a href="{{{path}}}">{{name}}</a>
       </div>
       {{/components}}
