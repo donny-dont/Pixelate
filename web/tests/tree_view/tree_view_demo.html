@@ -6,17 +6,29 @@
 
     <style>
       px-scroll-viewer {
-        width: 220px;
-        height: 300px;
+        width: 500px;
+        height: 600px;
         background-color: #666;
+      }
+
+      .tree-view-header > img {
+        margin-right: 5px;
+      }
+
+      px-button {
+        font-size: 16px !important;
+        margin: 5px 10px;
       }
     </style>
 
     <!-- Import the styles -->
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/button.css">
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/scroll_viewer.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/tree_view_node.css">
 
     <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/button.html">
     <link rel="import" href="packages/pixelate/components/scroll_viewer.html">
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view.html">
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
@@ -27,82 +39,195 @@
   <body>
     <px-scroll-viewer>
       <px-tree-view id="scene">
-        <px-tree-view-node text="Meshes" icon="icons/mesh2.png">
-          <px-tree-view-node text="Truck01" icon="icons/mesh.png"></px-tree-view-node>
-          <px-tree-view-node text="Truck02" icon="icons/mesh.png"></px-tree-view-node>
-          <px-tree-view-node text="Prop01.mesh" icon="icons/mesh.png"></px-tree-view-node>
-          <px-tree-view-node text="Orc.mesh" icon="icons/mesh.png">
-            <px-tree-view-node text="Vertices: 2405" icon="icons/stats.png"></px-tree-view-node>
-            <px-tree-view-node text="Edges: 1642" icon="icons/stats.png"></px-tree-view-node>
+        <px-tree-view-node header="Meshes" icon="icons/mesh2.png">
+          <px-flex-panel orientation="horizontal" class="tree-view-header">
+            <img src="icons/mesh2.png" />
+            <div>Meshes</div>
+          </px-flex-panel>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/mesh.png" />
+              <div>Truck01</div>
+            </px-flex-panel>
           </px-tree-view-node>
-          <px-tree-view-node text="Orc.skeleton" icon="icons/skeleton.png">
-            <px-tree-view-node text="root" icon="icons/bone.png">
-              <px-tree-view-node text="lower_back" icon="icons/bone.png">
-                <px-tree-view-node text="upper_back" icon="icons/bone.png">
-                  <px-tree-view-node text="neck" icon="icons/bone.png">
-                    <px-tree-view-node text="sholder.left" icon="icons/bone.png">
-                      <px-tree-view-node text="elbow.left" icon="icons/bone.png">
-                        <px-tree-view-node text="palm.left" icon="icons/bone.png">
-                          <px-tree-view-node text="finger1.left" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger2.left" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger3.left" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger4.left" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger5.left" icon="icons/bone.png"></px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/mesh.png" />
+              <div>Truck01</div>
+            </px-flex-panel>
+          </px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/mesh.png" />
+              <div>Prop01.mesh</div>
+            </px-flex-panel>
+          </px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/mesh.png" />
+              <div>Orc.mesh</div>
+            </px-flex-panel>
+            <px-tree-view-node header="Vertices: 2405" icon="icons/stats.png">
+              <px-flex-panel orientation="horizontal" class="tree-view-header">
+                <img src="icons/stats.png" />
+                <div>Vertices: 2405</div>
+              </px-flex-panel>
+            </px-tree-view-node>
+            <px-tree-view-node>
+              <px-flex-panel orientation="horizontal" class="tree-view-header">
+                <img src="icons/stats.png" />
+                <div>Edges: 1642</div>
+              </px-flex-panel>
+            </px-tree-view-node>
+          </px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/skeleton.png" />
+              <div>Orc.skeleton</div>
+            </px-flex-panel>
+            <px-tree-view-node>
+              <px-flex-panel orientation="horizontal" class="tree-view-header">
+                <img src="icons/bone.png" />
+                <div>root</div>
+              </px-flex-panel>
+              <px-tree-view-node header="lower_back" icon="icons/bone.png">
+                <px-tree-view-node header="upper_back" icon="icons/bone.png">
+                  <px-tree-view-node header="neck" icon="icons/bone.png">
+                    <px-tree-view-node header="sholder.left" icon="icons/bone.png">
+                      <px-tree-view-node header="elbow.left" icon="icons/bone.png">
+                        <px-tree-view-node header="palm.left" icon="icons/bone.png">
+                          <px-tree-view-node header="finger1.left" icon="icons/bone.png">
+
+                          </px-tree-view-node>
+                          <px-tree-view-node header="finger2.left" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node header="finger3.left" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node header="finger4.left" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node header="finger5.left" icon="icons/bone.png"></px-tree-view-node>
                         </px-tree-view-node>
                       </px-tree-view-node>
                     </px-tree-view-node>
-                    <px-tree-view-node text="head" icon="icons/bone.png"></px-tree-view-node>
-                    <px-tree-view-node text="sholder.right" icon="icons/bone.png">
-                      <px-tree-view-node text="elbow.right" icon="icons/bone.png">
-                        <px-tree-view-node text="palm.right" icon="icons/bone.png">
-                          <px-tree-view-node text="finger1.right" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger2.right" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger3.right" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger4.right" icon="icons/bone.png"></px-tree-view-node>
-                          <px-tree-view-node text="finger5.right" icon="icons/bone.png"></px-tree-view-node>
+                    <px-tree-view-node header="head" icon="icons/bone.png"></px-tree-view-node>
+                    <px-tree-view-node header="sholder.right" icon="icons/bone.png">
+                      <px-tree-view-node header="elbow.right" icon="icons/bone.png">
+                        <px-tree-view-node header="palm.right" icon="icons/bone.png">
+                          <px-tree-view-node header="finger1.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node header="finger2.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node header="finger3.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node header="finger4.right" icon="icons/bone.png"></px-tree-view-node>
+                          <px-tree-view-node header="finger5.right" icon="icons/bone.png"></px-tree-view-node>
                         </px-tree-view-node>
                       </px-tree-view-node>
                     </px-tree-view-node>
                   </px-tree-view-node>
                 </px-tree-view-node>
               </px-tree-view-node>
-              <px-tree-view-node text="hip.left" icon="icons/bone.png">
-                <px-tree-view-node text="knee.left" icon="icons/bone.png">
-                  <px-tree-view-node text="feet.left" icon="icons/bone.png">
+              <px-tree-view-node>
+                <px-flex-panel orientation="horizontal" class="tree-view-header">
+                  <img src="icons/bone.png" />
+                  <div>hip.left</div>
+                </px-flex-panel>
+                <px-tree-view-node>
+                  <px-flex-panel orientation="horizontal" class="tree-view-header">
+                    <img src="icons/bone.png" />
+                    <div>knee.left</div>
+                  </px-flex-panel>
+                  <px-tree-view-node>
+                    <px-flex-panel orientation="horizontal" class="tree-view-header">
+                      <img src="icons/bone.png" />
+                      <div>feet.left</div>
+                    </px-flex-panel>
                   </px-tree-view-node>
                 </px-tree-view-node>
               </px-tree-view-node>
-              <px-tree-view-node text="hip.right" icon="icons/bone.png">
-                <px-tree-view-node text="knee.right" icon="icons/bone.png">
-                  <px-tree-view-node text="feet.right" icon="icons/bone.png">
+              <px-tree-view-node>
+                <px-flex-panel orientation="horizontal" class="tree-view-header">
+                  <img src="icons/bone.png" />
+                  <div>hip.right</div>
+                </px-flex-panel>
+                <px-tree-view-node header="knee.right" icon="icons/bone.png">
+                  <px-flex-panel orientation="horizontal" class="tree-view-header">
+                    <img src="icons/bone.png" />
+                    <div>knee.right</div>
+                  </px-flex-panel>
+                  <px-tree-view-node header="feet.right" icon="icons/bone.png">
+                    <px-flex-panel orientation="horizontal" class="tree-view-header">
+                      <img src="icons/bone.png" />
+                      <div>feet.right</div>
+                    </px-flex-panel>
                   </px-tree-view-node>
                 </px-tree-view-node>
               </px-tree-view-node>
             </px-tree-view-node>
           </px-tree-view-node>
         </px-tree-view-node>
-        <px-tree-view-node text="Lights" icon="icons/lamp.png">
-          <px-tree-view-node text="Sun" icon="icons/lamp.png"></px-tree-view-node>
-          <px-tree-view-node text="PointLight01" icon="icons/lamp.png"></px-tree-view-node>
-          <px-tree-view-node text="PointLight01" icon="icons/lamp.png"></px-tree-view-node>
-          <px-tree-view-node text="LampSpotLightRed" icon="icons/lamp.png"></px-tree-view-node>
+        <px-tree-view-node>
+          <px-flex-panel orientation="horizontal" class="tree-view-header">
+            <img src="icons/lamp.png" />
+            <div>Lights</div>
+          </px-flex-panel>
+          <px-tree-view-node header="Sun" icon="icons/lamp.png">
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/lamp.png" />
+              <div>Sun</div>
+            </px-flex-panel>
+          </px-tree-view-node>
+          <px-tree-view-node header="PointLight01" icon="icons/lamp.png">
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/lamp.png" />
+              <div>PointLight0</div>
+            </px-flex-panel>
+          </px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/lamp.png" />
+              <div>PointLight02</div>
+            </px-flex-panel>
+          </px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/lamp.png" />
+              <div>LampSpotLightRed</div>
+            </px-flex-panel>
+          </px-tree-view-node>
         </px-tree-view-node>
-        <px-tree-view-node text="Cameras" icon="icons/camera.png">
-          <px-tree-view-node text="PlayerCam" icon="icons/camera.png"></px-tree-view-node>
-          <px-tree-view-node text="ReplayCam" icon="icons/camera.png"></px-tree-view-node>
-          <px-tree-view-node text="TopViewCam" icon="icons/camera.png"></px-tree-view-node>
+        <px-tree-view-node>
+          <px-flex-panel orientation="horizontal" class="tree-view-header">
+            <img src="icons/camera.png" />
+            <div>Cameras</div>
+          </px-flex-panel>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/camera.png" />
+              <div>PlayerCam</div>
+            </px-flex-panel>
+          </px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/camera.png" />
+              <div>ReplayCam</div>
+            </px-flex-panel>
+          </px-tree-view-node>
+          <px-tree-view-node>
+            <px-flex-panel orientation="horizontal" class="tree-view-header">
+              <img src="icons/camera.png" />
+              <div>TopViewCam</div>
+            </px-flex-panel>
+          </px-tree-view-node>
         </px-tree-view-node>
       </px-tree-view>
     </px-scroll-viewer>
 
-    <button id="btnRemoveNode">Remove Node</button>
-    <button id="btnAddSibling">Add Sibling</button>
-    <button id="btnAddChild">Add Child</button>
+    <px-flex-panel orientation="horizontal">
+      <px-button id="btnRemoveNode">Remove Node</px-button>
+      <px-button id="btnAddSibling">Add Sibling</px-button>
+      <px-button id="btnAddChild">Add Child</px-button>
+    </px-flex-panel>
 
     <script type="application/dart">
     	//export 'package:polymer/init.dart';
     	import "package:polymer/polymer.dart";
     	import "dart:html";
+    	import 'package:pixelate/components/flex_panel.dart';
     	import "package:pixelate/components/tree_view/tree_view.dart";
     	import "package:pixelate/components/tree_view/tree_view_node.dart";
 
@@ -146,10 +271,22 @@
     	/** Creates a tree node object with an icon and some text */
     	TreeViewNode _createNewNode() {
     	  TreeViewNode treeNode = new Element.tag(TreeViewNode.customTagName);
-    	  treeNode.text = "Tree Node ${_nodeCounter++}";
+    	  FlexPanel header = new Element.tag(FlexPanel.customTagName);
+    	  header.orientation = 'horizontal';
+    	  header.classes.add('tree-view-header');
+    	  treeNode.children.add(header);
+
+    	  // Select icon
     	  var icons = ["bone", "camera", "lamp", "mesh", "mesh2", "skeleton", "stats"];
-    	  treeNode.icon = "icons/${icons[_nodeCounter % icons.length]}.png";
-    	  return treeNode;
+        ImageElement image = new ImageElement();
+        image.src = "icons/${icons[_nodeCounter % icons.length]}.png";
+    	  header.children.add(image);
+
+        var text = new DivElement();
+        text.innerHtml = 'Tree Node ${_nodeCounter++}';
+        header.children.add(text);
+
+        return treeNode;
     	}
     	int _nodeCounter = 0;
 

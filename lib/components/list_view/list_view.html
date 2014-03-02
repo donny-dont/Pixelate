@@ -1,5 +1,3 @@
-<link rel="import" href="../scroller.html">
-
 <polymer-element name="px-list-view">
   <template> 
     <style>
@@ -9,11 +7,9 @@
         -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;
       }
     </style>
-    <px-scroller>
-      <div id="listview_host" on-selectionchanged="{{onItemSelected}}">
-        <content></content>
-      </div>
-    </px-scroller>
+    <div id="listview_host" on-selectionchanged="{{onItemSelected}}">
+      <content></content>
+    </div>
   </template>
   <script type="application/dart" src="list_view.dart"></script>
 </polymer-element>
