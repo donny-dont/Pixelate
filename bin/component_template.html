@@ -1,70 +1,31 @@
-<!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/expander.css">
-
-    <!-- Import the elements -->
-    <link rel="import" href="packages/pixelate/components/accordion.html">
-    <link rel="import" href="packages/pixelate/components/flex_panel.html">
-    <link rel="import" href="packages/pixelate/components/grid_panel.html">
-
-    <!-- Setup Polymer -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
-    <script src="packages/browser/dart.js"></script>
-  </head>
-  <body>
-    <px-flex-panel orientation="vertical" style="min-height: 100%;">
-      <div class="header-area">
-        <div class="header">
-          <h1>Components</h1>
-          <h2>A set of reusable components for web applications</h2>
-        </div>
-      </div>
-      <px-flex-panel class="content" orientation="horizontal" style="flex:1">
-        <div class="left-menu">
-          <px-accordion class="selection">
-            {{#groups}}
-            <px-expander class="components" header="{{name}}">
-              {{#components}}
-              <a href="{{path}}">{{name}}</a>
-              {{/components}}
-            </px-expander>
-            {{/groups}}
-          </px-accordion>
-        </div>
-        <div class="documentation">
-          <div class="component-name">{{tag}}</div>
-          <div class="overview">{{overview}}</div>
-          <h2>Examples</h2>
-          {{#examples}}
-          <p>{{description}}</p>
-          {{{code}}}
-          <pre class="code">
-            <code>
+<div class="header-area">
+  <div class="header">
+    <h1>Components</h1>
+    <h2>A set of reusable components for web applications</h2>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="horizontal" style="flex:1">
+  <div class="documentation" style="flex: 1;">
+    <div class="component-name">{{tag}}</div>
+    <div class="overview">{{overview}}</div>
+    <h2>Examples</h2>
+    {{#examples}}
+    <p>{{description}}</p>
+    {{{code}}}
+    <pre class="code">
+      <code>
 {{code}}
-            </code>
-          </pre>
-          {{/examples}}
-        </div>
-      </px-flex-panel>
-      <div class="footer">
-        <px-flex-panel orientation="horizontal">
-        </px-flex-panel>
-        <p>Code licensed under a zlib license. Documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
-      </div>
-    </px-flex-panel>
-
-    <div class="navigation-area">
-      <div class="navigation">
-        <div>Pixelate</div>
-        <div>Components</div>
-      </div>
-    </div>
-  </body>
-</html>
+      </code>
+    </pre>
+    {{/examples}}
+  </div>
+  <div class="component-selection">
+    {{#groups}}
+    <h2>{{name}}</h2>
+      {{#components}}
+      <a href="{{path}}">{{name}}</a>
+      {{/components}}
+    </px-expander>
+    {{/groups}}
+  </div>
+</px-flex-panel>
