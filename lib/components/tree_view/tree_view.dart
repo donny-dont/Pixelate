@@ -5,7 +5,6 @@
 
 /// Contains the [TreeView] class.
 library pixelate_tree_view;
-import 'package:pixelate/components/tree_view/tree_view_node.dart';
 
 //---------------------------------------------------------------------
 // Standard libraries
@@ -18,6 +17,7 @@ import 'dart:html';
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
+import 'package:pixelate/components/tree_view/tree_view_node.dart';
 
 //---------------------------------------------------------------------
 // Library contents
@@ -34,8 +34,8 @@ class TreeView extends PolymerElement {
 
   /// The currently selected node
   TreeViewNode selectedNode;
-  
-  
+
+
   /// Create an instance of the [TreeView] class.
   ///
   /// This constructor should not be called directly. Instead use the
@@ -43,14 +43,8 @@ class TreeView extends PolymerElement {
   ///
   ///     var instance = new Element.tag(TreeView.customTagName);
   TreeView.created()
-      : super.created()
-  {
-  }
+      : super.created();
 
-  void enteredView() {
-    super.enteredView();
-  }
-  
   void onNodeSelected(Event e, var details, Node target) {
     var newSelectedNode = details;
     if (selectedNode != null && selectedNode != newSelectedNode) {
@@ -60,32 +54,21 @@ class TreeView extends PolymerElement {
     selectedNode = newSelectedNode;
   }
 
-  void onExpand(Event e, var details, Node target) {
-    TreeViewNode node = details;
-    node.onExpand();
-  }
-
-  void onCollapse(Event e, var details, Node target) {
-    TreeViewNode node = details;
-    node.onCollapse();
-  }
-  
   /// Expands all the nodes in the tree view
   void expandAll() {
     nodes.forEach((node) {
       if (node is TreeViewNode) {
-        node.expandAll(); 
+        node.expandAll();
       }
     });
   }
-  
+
   /// Collapses all the nodes in the tree view
   void collapseAll() {
     nodes.forEach((node) {
       if (node is TreeViewNode) {
-        node.collapseAll(); 
+        node.collapseAll();
       }
     });
   }
 }
-

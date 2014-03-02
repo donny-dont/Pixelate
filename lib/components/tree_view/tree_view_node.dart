@@ -10,7 +10,7 @@ library pixelate_tree_view_node;
 // Standard libraries
 //---------------------------------------------------------------------
 
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Package libraries
@@ -43,44 +43,31 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
   String get cssClassItemUnSelected => "node_unselected";
 
   /// The element affected by the selection state. Used by the Selectable mixin
-  Element get selectionElement => elementNode;
+  Html.Element get selectionElement => elementNode;
 
   /// The text displayed on the tree node
-  @published String text = "Node";
+  @published String header = '';
 
   /// The Id of the tree node. This id is used when raising events
   @published String id = "node";
 
-  /// The Url of the icon to be used for this node
-  @published String icon = "";
-
   /// The host DOM element of the tree node
-  Element elementNode;
-
-  /// This div element displays the icon as a background image
-  Element elementNodeIcon;
-
+  Html.Element elementNode;
 
   /// Indicates the expanded/collapsed state of the tree node
-  bool _expanded = false;
-  bool get expanded => _expanded;
-  set expanded(bool value) {
-    var oldValue = _expanded;
-    _expanded = value;
-    expandedChanged(oldValue);
-  }
+  @published bool expanded = false;
+
+  /// Observer for changes within the element.
+  Html.MutationObserver _observer;
 
   /// The view for the expandable portion.
   ///
   /// Required for the [Expandable] mixin to function.
-  Element _view;
+  Html.Element _view;
   /// The content contained in the expandable portion.
   ///
   /// Required for the [Expandable] mixin to function.
-  Element _content;
-
-  /// The node expander icon.
-  TreeViewNodeExpanderIcon expanderIcon;
+  Html.Element _content;
 
   /// Create an instance of the [TreeViewNode] class.
   ///
@@ -102,46 +89,43 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
     // Intitialize the customizable mixin
     initializeCustomizable();
     customizeProperty(#header, 'tree-view-header', 'default-tree-view-header');
+
+    // Observe changes to the host element.
+    _observer = new Html.MutationObserver(_onMutation);
+    _observer.observe(this, childList: true, subtree: true);
   }
 
   //---------------------------------------------------------------------
   // Expandable properties
   //---------------------------------------------------------------------
 
-  Element get content => _content;
-  Element get view => _view;
+  Html.Element get content => _content;
+  Html.Element get view => _view;
 
-  void enteredView() {
-    super.enteredView();
-
+  @override
+  void ready() {
+    super.ready();
     elementNode = shadowRoot.querySelector("#$elementIdHost");
-    elementNode.onDoubleClick.listen(onNodeDoubleClicked);
-    elementNodeIcon = shadowRoot.querySelector("#node_icon");
-    _updateIcon();
-
-    expanderIcon = new TreeViewNodeExpanderIcon(this);
+    _layoutIcon();
   }
 
-  String toString() => text;
-
-  void onNodeClicked(Event e) {
+  void onNodeClicked(Html.Event e) {
     selected = true;
   }
 
-  void onNodeDoubleClicked(Event e) {
-    toggleExpand();
+  void _onMutation(List<Html.MutationRecord> mutations, Html.MutationObserver observer) {
+    _layoutIcon();
   }
 
-  /// Toggles the expander state
-  void toggleExpand() {
-    this.toggle();  // TODO: Refactor Expandable mixing from toggle to toggleExpand to give context
-  }
+  void _layoutIcon() {
+    var icon = getShadowRoot(customTagName).querySelector('.icon');
+    var childNodes = querySelectorAll(customTagName);
 
-  void onExpand() {
-    expanderIcon.update();
-  }
-  void onCollapse() {
-    expanderIcon.update();
+    if (childNodes.length > 0) {
+      icon.style.visibility = 'visible';
+    } else {
+      icon.style.visibility = 'hidden';
+    }
   }
 
   /// Expands all the child nodes
@@ -163,43 +147,4 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
       }
     });
   }
-
-  /// Updates the DOM to reflect the icon property
-  void _updateIcon() {
-    if (icon.length > 0) {
-      elementNodeIcon.style.backgroundImage = "url($icon)";
-    }
-  }
 }
-
-class TreeViewNodeExpanderIcon {
-  TreeViewNode node;
-  Element elementIcon;
-  static String cssNameIconExpanded = "expander_icon_expanded";
-  static String cssNameIconCollapsed = "expander_icon_collapsed";
-  TreeViewNodeExpanderIcon(this.node) {
-    elementIcon = node.shadowRoot.querySelector("#expander_icon");
-    elementIcon.onClick.listen(onClicked);
-    update();
-  }
-
-  /// Updates the state of the DOM elements based on the expanded / collapsed state
-  void update() {
-    elementIcon.classes.add(node.expanded ? cssNameIconExpanded : cssNameIconCollapsed);
-    elementIcon.classes.remove(node.expanded ? cssNameIconCollapsed : cssNameIconExpanded);
-
-    // Hide the icon if this belongs to a leaf node
-    bool visible = (node.nodes.length > 0);
-    if (visible) {
-      elementIcon.classes.remove("hidden");
-    } else {
-      elementIcon.classes.add("hidden");
-    }
-  }
-
-  void onClicked(Event e) {
-    node.toggleExpand();
-  }
-}
-
-
