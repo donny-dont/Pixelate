@@ -12,7 +12,7 @@ library pixelate_column_definitions;
 
 import 'dart:async';
 import 'dart:collection';
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Package libraries
