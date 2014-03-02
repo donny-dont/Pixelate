@@ -10,7 +10,7 @@ library pixelate_tab;
 // Standard libraries
 //---------------------------------------------------------------------
 
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Package libraries
@@ -87,9 +87,14 @@ class Tab extends PolymerElement {
 
     for (var i = 0; i < tabCount; ++i) {
       var tab = _tabs[i];
-      var tabContent = new Element.tag(FlexPanel.customTagName);
+      var tabContent = new Html.Element.tag(FlexPanel.customTagName);
 
+      tabContent.classes.add('tab');
       tabContent.innerHtml = tab.header;
+
+      if (i == 0) {
+        tabContent.classes.add('selected');
+      }
 
       tabArea.children.add(tabContent);
 
@@ -100,9 +105,17 @@ class Tab extends PolymerElement {
   /// Selects the tab at the given [index].
   void _selectTab(int index) {
     var tabCount = _tabs.length;
+    var tabSelectors = shadowRoot.querySelectorAll('.tab');
 
     for (var i = 0; i < tabCount; ++i) {
-      _tabs[i].selected = i == index;
+      var isSelected = i == index;
+      _tabs[i].selected = isSelected;
+
+      if (isSelected) {
+        tabSelectors[i].classes.add('selected');
+      } else {
+        tabSelectors[i].classes.remove('selected');
+      }
     }
   }
 }
