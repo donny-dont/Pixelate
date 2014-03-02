@@ -63,7 +63,7 @@ class ColumnDefinitions extends PolymerElement {
   /// An umodifiable view over the [ColumnDefinition]s contained in the element.
   UnmodifiableListView<ColumnDefinition> _columnsView;
   /// Observer for changes within the element.
-  MutationObserver _observer;
+  Html.MutationObserver _observer;
   /// Listeners for the [ColumnDefinition]s contained in the element.
   ///
   /// Used to intercept changes to the height attribute of the [ColumnDefinition].
@@ -90,7 +90,7 @@ class ColumnDefinitions extends PolymerElement {
     //
     // The column-definition elements are appended to the content area so using
     // the shadow dom will not result in a mutation.
-    _observer = new MutationObserver(_onMutation);
+    _observer = new Html.MutationObserver(_onMutation);
     _observer.observe(this, childList: true, subtree: true);
   }
 
@@ -117,10 +117,10 @@ class ColumnDefinitions extends PolymerElement {
   //---------------------------------------------------------------------
 
   /// Callback for when a mutation occurs.
-  void _onMutation(List<MutationRecord> mutations, MutationObserver observer) {
+  void _onMutation(List<Html.MutationRecord> mutations, Html.MutationObserver observer) {
     _updateColumns();
 
-    dispatchEvent(new CustomEvent(columnsChangedEvent));
+    dispatchEvent(new Html.CustomEvent(columnsChangedEvent));
   }
 
   /// Callback for when a change happens in the observer.
@@ -129,7 +129,7 @@ class ColumnDefinitions extends PolymerElement {
     //
     // Only instances of the ColumnDefinition are being observed so this event
     // can be fired right away.
-    dispatchEvent(new CustomEvent(columnsChangedEvent));
+    dispatchEvent(new Html.CustomEvent(columnsChangedEvent));
   }
 
   /// Update the column listing.
