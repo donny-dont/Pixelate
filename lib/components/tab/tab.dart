@@ -18,7 +18,7 @@ import 'dart:html';
 
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/components/flex_panel.dart';
-import 'package:pixelate/components/tab_item.dart';
+import 'package:pixelate/components/tab/tab_item.dart';
 
 //---------------------------------------------------------------------
 // Library contents
