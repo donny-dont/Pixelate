@@ -47,10 +47,27 @@ List<Map> getExamples(String path) {
   contents.forEach((value) {
     if (value is File) {
       var file = value as File;
+
+      // Read the file
+      var codeListing = file.readAsStringSync(encoding: ASCII).trim();
+
+      // Get the initial comment string for the description
+      var description = '';
+
+      if (codeListing.startsWith('<!--')) {
+        var endIndex = codeListing.indexOf('-->');
+
+        description = codeListing.substring(4, endIndex - 1).trim();
+        codeListing = codeListing.substring(endIndex + 3).trim();
+      } else {
+        description = 'Description unavailable';
+      }
+
+      // Create the example
       var example = new Map();
 
-      example['description'] = 'Testing this';
-      example['code'] = file.readAsStringSync(encoding: ASCII).trim();
+      example['description'] = description;
+      example['code'] = codeListing;
 
       examples.add(example);
     }
@@ -116,6 +133,7 @@ void main() {
   var siteTemplate = readMustacheTemplate('site_template.html');
   var template = readMustacheTemplate('component_template.html');
 
+  // Generate the components
   groups.forEach((group) {
     var components = group['components'] as List;
 
@@ -128,8 +146,27 @@ void main() {
           'examples': getExamples(path)
       };
 
+      // Determine imports
+      var componentDirectory = new Directory('packages/pixelate/${path}');
+      var imports = [];
+
+      if (componentDirectory.existsSync()) {
+        var files = componentDirectory.listSync();
+
+        files.forEach((file) {
+          var filePath = file.path;
+
+          if (filePath.endsWith('.html')) {
+            imports.add(filePath);
+          }
+        });
+      }
+
+      print(imports);
+
       var site = {
           'title': 'Components',
+          'imports': imports,
           'content': template.renderString(partial)
       };
 

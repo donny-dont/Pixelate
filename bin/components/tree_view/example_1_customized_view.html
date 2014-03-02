@@ -1,3 +1,6 @@
+<!--
+<p>A customized tree view where icons are added to the header. A tree view like this is common in modeling programs.</p>
+-->
 <px-tree-view>
   <!-- Meshes -->
   <px-tree-view-node>
@@ -5,6 +8,22 @@
       <div class="icon mesh-icon"></div>
       <div>Meshes</div>
     </px-flex-panel>
+
+    <!-- Skeleton -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon skeleton-icon"></div>
+        <div>Orc.skeleton</div>
+      </px-flex-panel>
+
+      <!-- Root node -->
+      <px-tree-view-node>
+        <px-flex-panel orientation="horizontal" class="tree-view-header">
+          <div class="icon bone-icon"></div>
+          <div>root</div>
+        </px-flex-panel>
+      </px-tree-view-node>
+    </px-tree-view-node>
   </px-tree-view-node>
 
   <!-- Lights -->
@@ -13,6 +32,22 @@
       <div class="icon light-icon"></div>
       <div>Lights</div>
     </px-flex-panel>
+
+    <!-- Sun -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon light-icon"></div>
+        <div>Sun</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Point Light -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon light-icon"></div>
+        <div>Point Light</div>
+      </px-flex-panel>
+    </px-tree-view-node>
   </px-tree-view-node>
 
   <!-- Cameras -->
@@ -21,5 +56,29 @@
       <div class="icon camera-icon"></div>
       <div>Cameras</div>
     </px-flex-panel>
+
+    <!-- Player Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Player Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Replay Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Replay Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Top View Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Top View Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
   </px-tree-view-node>
 </px-tree-view>
