@@ -46,13 +46,19 @@ abstract class Expandable {
   // Member variables
   //---------------------------------------------------------------------
 
-  /// Whether the content area is expanded.
-  bool get expanded;
-  set expanded(bool value);
+  /// Whether the expandable item is using a transition to animate.
+  ///
+  /// This is used internally to determine whether to set the max height
+  /// or the visibility property on the view.
+  bool _hasHeightTransition = false;
 
   //---------------------------------------------------------------------
   // Properties
   //---------------------------------------------------------------------
+
+  /// Whether the content area is expanded.
+  bool get expanded;
+  set expanded(bool value);
 
   /// The view of the content area.
   Element get view;
@@ -67,6 +73,16 @@ abstract class Expandable {
   void initializeExpandable() {
     view.style.overflow = 'hidden';
 
+    // Determine if the height will be transitioned
+    var computedStyle = view.getComputedStyle();
+
+    _hasHeightTransition = computedStyle.transitionProperty.indexOf('max-height') != -1;
+
+    // Connect to the transition event
+    if (_hasHeightTransition) {
+      onTransitionEnd.listen(_onTransitionEnd);
+    }
+
     if (!expanded) {
       _collapse();
     }
@@ -77,6 +93,7 @@ abstract class Expandable {
   //---------------------------------------------------------------------
 
   bool dispatchEvent(Event event);
+  ElementStream<TransitionEvent> get onTransitionEnd;
 
   //---------------------------------------------------------------------
   // Events
@@ -101,16 +118,45 @@ abstract class Expandable {
 
   /// Expands the element.
   void _expand() {
-    //view.style.maxHeight = '${content.clientHeight}px';
-    // Removes display:none style
-    view.classes.remove('collapse');
+    var style = view.style;
+
+    if (_hasHeightTransition) {
+      style.maxHeight = '${content.clientHeight}px';
+    } else {
+      style.display = '';
+    }
   }
 
   /// Collapses the element.
   void _collapse() {
-    //view.style.maxHeight = '0px';
-    // Adds a display:none to hide the element and free up space
-    view.classes.add('collapse');
+    var style = view.style;
+
+    if (_hasHeightTransition) {
+      // This is a hack to ensure that the max-height attribute is animated.
+
+      // First set the max-height attribute to the client's height
+      style.maxHeight = '${content.clientHeight}px';
+
+      // Force a recompute of the height
+      content.clientHeight;
+
+      // Then set the max height to 0
+      style.maxHeight = '0px';
+    } else {
+      style.display = 'none';
+    }
+  }
+
+  /// Callback for when a transition ends.
+  ///
+  /// Used to check the modify the max-height attribute when the animation ends
+  /// to ensure the element can stretch further.
+  void _onTransitionEnd(TransitionEvent transition) {
+    if (transition.propertyName == 'max-height') {
+      if (expanded) {
+        view.style.maxHeight = '';
+      }
+    }
   }
 
   //---------------------------------------------------------------------
