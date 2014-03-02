@@ -5,8 +5,8 @@
     <title>Tree View test</title>
 
     <style>
-      px-scroll-viewer {
-        width: 500px;
+      #scene_explorer_window {
+        width: 400px;
         height: 600px;
         background-color: #666;
       }
@@ -37,7 +37,7 @@
     <script src="packages/browser/dart.js"></script>
   </head>
   <body>
-    <px-scroll-viewer>
+    <px-scroll-viewer id="scene_explorer_window">
       <px-tree-view id="scene">
         <px-tree-view-node header="Meshes" icon="icons/mesh2.png">
           <px-flex-panel orientation="horizontal" class="tree-view-header">

@@ -32,8 +32,8 @@ class ListViewItem extends PolymerElement with Selectable {
   /// The name of the tag.
   static String get customTagName => _tagName;
   
-  String get cssClassItemSelected => "item_selected";
-  String get cssClassItemUnSelected => "item_unselected";
+  String get cssClassItemSelected => "node_selected";
+  String get cssClassItemUnSelected => "node_unselected";
 
   /// The text displayed on the list item
   @published String text = "Item";
