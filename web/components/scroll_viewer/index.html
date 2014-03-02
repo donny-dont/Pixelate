@@ -4,12 +4,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixelate</title>
-    <link rel="stylesheet" href="style.css">
+    <title></title>
+    <link rel="stylesheet" href="../../style.css">
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/expander.css">
 
     <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/accordion.html">
     <link rel="import" href="packages/pixelate/components/flex_panel.html">
+    <link rel="import" href="packages/pixelate/components/grid_panel.html">
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
@@ -23,8 +26,22 @@
           <h2>A set of reusable components for web applications</h2>
         </div>
       </div>
-      <div class="content" style="flex:1">
-      </div>
+      <px-flex-panel class="content" orientation="horizontal" style="flex:1">
+        <div class="left-menu">
+          <px-accordion class="selection">
+            <px-expander class="components" header="Layout">
+              <a href="components&#x2F;flex_panel&#x2F;">FlexPanel</a>
+              <a href="components&#x2F;grid_panel&#x2F;">GridPanel</a>
+              <a href="components&#x2F;scroll_viewer&#x2F;">ScrollViewer</a>
+            </px-expander>
+          </px-accordion>
+        </div>
+        <div class="documentation">
+          <div class="component-name">&lt;px-scroll-viewer&gt;</div>
+          <div class="overview">Testing this</div>
+          <h2>Examples</h2>
+        </div>
+      </px-flex-panel>
       <div class="footer">
         <px-flex-panel orientation="horizontal">
         </px-flex-panel>

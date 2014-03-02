@@ -1,0 +1,17 @@
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.camera-icon {
+  background: url('images/camera.png');
+}
+
+.light-icon {
+  background: url('images/lamp.png');
+}
+
+.mesh-icon {
+  background: url('images/mesh2.png');
+}

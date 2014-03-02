@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/flex_panel.html">
+
+    <!-- Setup Polymer -->
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+    <px-flex-panel orientation="vertical" style="min-height: 100%;">
+      <div class="header-area">
+  <div class="header">
+    <h1>Components</h1>
+    <h2>A set of reusable components for web applications</h2>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="horizontal" style="flex:1">
+  <div class="documentation" style="flex: 1;">
+    <div class="component-name">&lt;px-flex-panel&gt;</div>
+    <div class="overview">Testing this</div>
+    <h2>Examples</h2>
+    <p>Testing this</p>
+    <div class="example">
+      <px-flex-panel orientation="horizontal" style="height: 35px;">
+  <div class="blue">Left</div>
+  <div class="red" style="flex: 1;">Center</div>
+  <div class="green">Right</div>
+</px-flex-panel>
+      <pre class="code">
+        <code>
+&lt;px-flex-panel orientation=&quot;horizontal&quot; style=&quot;height: 35px;&quot;&gt;
+  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
+  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
+  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
+&lt;&#x2F;px-flex-panel&gt;
+        </code>
+      </pre>
+    </div>
+    <p>Testing this</p>
+    <div class="example">
+      <px-flex-panel style="height: 100px;">
+  <div class="blue">Left</div>
+  <div class="red" style="flex: 1;">Center</div>
+  <div class="green">Right</div>
+</px-flex-panel>
+      <pre class="code">
+        <code>
+&lt;px-flex-panel style=&quot;height: 100px;&quot;&gt;
+  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
+  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
+  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
+&lt;&#x2F;px-flex-panel&gt;
+        </code>
+      </pre>
+    </div>
+  </div>
+  <div class="component-selection">
+    <h2>Layout</h2>
+      <div class="link">
+        <a href="components/flex_panel/">FlexPanel</a>
+      </div>
+      <div class="link">
+        <a href="components/grid_panel/">GridPanel</a>
+      </div>
+    <h2>Navigation</h2>
+      <div class="link">
+        <a href="components/tree_view/">TreeView</a>
+      </div>
+  </div>
+</px-flex-panel>
+      <div class="footer">
+        <px-flex-panel orientation="horizontal">
+        </px-flex-panel>
+        <p>Code licensed under a zlib license. Documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+      </div>
+    </px-flex-panel>
+
+    <div class="navigation-area">
+      <px-flex-panel orientation="horizontal" class="navigation">
+        <div>Pixelate</div>
+        <div class="link"><a href="components/flex_panel/">Components</a></div>
+      </px-flex-panel>
+    </div>
+  </body>
+</html>

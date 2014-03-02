@@ -50,7 +50,7 @@ List<Map> getExamples(String path) {
       var example = new Map();
 
       example['description'] = 'Testing this';
-      example['code'] = file.readAsStringSync(encoding: ASCII);
+      example['code'] = file.readAsStringSync(encoding: ASCII).trim();
 
       examples.add(example);
     }
@@ -95,6 +95,12 @@ dynamic readJsonFile(filename) {
   return JSON.decode(contents);
 }
 
+mustache.Template readMustacheTemplate(String path) {
+  var source = readTextFile(path);
+
+  return mustache.parse(source);
+}
+
 void writeTextFile(String path, String contents) {
   var file = new File(path);
 
@@ -107,22 +113,27 @@ void writeTextFile(String path, String contents) {
 
 void main() {
   var groups = getGroups();
-  var source = readTextFile('component_template.html');
-  var template = mustache.parse(source);
+  var siteTemplate = readMustacheTemplate('site_template.html');
+  var template = readMustacheTemplate('component_template.html');
 
   groups.forEach((group) {
     var components = group['components'] as List;
 
     components.forEach((component) {
       var path = component['path'];
-      var site = {
+      var partial = {
           'groups': groups,
           'tag': component['tag'],
           'overview': 'Testing this',
           'examples': getExamples(path)
       };
 
-      writeTextFile('../web/${path}index.html', template.renderString(site));
+      var site = {
+          'title': 'Components',
+          'content': template.renderString(partial)
+      };
+
+      writeTextFile('../web/${path}index.html', siteTemplate.renderString(site));
     });
   });
 }
