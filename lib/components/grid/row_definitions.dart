@@ -12,14 +12,14 @@ library pixelate_row_definitions;
 
 import 'dart:async';
 import 'dart:collection';
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Package libraries
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/row_definition.dart';
+import 'package:pixelate/components/grid/row_definition.dart';
 
 //---------------------------------------------------------------------
 // Library contents
@@ -63,7 +63,7 @@ class RowDefinitions extends PolymerElement {
   /// An umodifiable view over the [RowDefinition]s contained in the element.
   UnmodifiableListView<RowDefinition> _rowsView;
   /// Observer for changes within the element.
-  MutationObserver _observer;
+  Html.MutationObserver _observer;
   /// Listeners for the [RowDefinition]s contained in the element.
   ///
   /// Used to intercept changes to the height attribute of the [RowDefinition].
@@ -90,7 +90,7 @@ class RowDefinitions extends PolymerElement {
     //
     // The [RowDefinition] elements are appended to the content area so using
     // the shadow dom will not result in a mutation.
-    _observer = new MutationObserver(_onMutation);
+    _observer = new Html.MutationObserver(_onMutation);
     _observer.observe(this, childList: true, subtree: true);
   }
 
@@ -117,10 +117,10 @@ class RowDefinitions extends PolymerElement {
   //---------------------------------------------------------------------
 
   /// Callback for when a mutation occurs.
-  void _onMutation(List<MutationRecord> mutations, MutationObserver observer) {
+  void _onMutation(List<Html.MutationRecord> mutations, Html.MutationObserver observer) {
     _updateRows();
 
-    dispatchEvent(new CustomEvent(rowsChangedEvent));
+    dispatchEvent(new Html.CustomEvent(rowsChangedEvent));
   }
 
   /// Callback for when a change happens in the observer.
@@ -129,7 +129,7 @@ class RowDefinitions extends PolymerElement {
     //
     // Only instances of the RowDefinition are being observed so this event can
     // be fired right away.
-    dispatchEvent(new CustomEvent(rowsChangedEvent));
+    dispatchEvent(new Html.CustomEvent(rowsChangedEvent));
   }
 
   /// Update the row listing.

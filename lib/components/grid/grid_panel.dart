@@ -10,15 +10,15 @@ library pixelate_grid_panel;
 // Standard libraries
 //---------------------------------------------------------------------
 
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Package libraries
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/column_definitions.dart';
-import 'package:pixelate/components/row_definitions.dart';
+import 'package:pixelate/components/grid/column_definitions.dart';
+import 'package:pixelate/components/grid/row_definitions.dart';
 
 //---------------------------------------------------------------------
 // Library contents
@@ -98,7 +98,7 @@ class GridPanel extends PolymerElement {
   /// The [RowDefinitions] contained in the element.
   RowDefinitions _rows;
   /// Observer for changes within the element.
-  MutationObserver _observer;
+  Html.MutationObserver _observer;
 
   //---------------------------------------------------------------------
   // Construction
@@ -114,7 +114,7 @@ class GridPanel extends PolymerElement {
       : super.created()
   {
     // Observe changes to the host element.
-    _observer = new MutationObserver(_onMutation);
+    _observer = new Html.MutationObserver(_onMutation);
     _observer.observe(this, childList: true, subtree: true);
   }
 
@@ -135,15 +135,15 @@ class GridPanel extends PolymerElement {
   // Events
   //---------------------------------------------------------------------
 
-  void rowsChange(CustomEvent event) {
+  void rowsChange(Html.CustomEvent event) {
     _layoutRows();
   }
 
-  void columnsChange(CustomEvent event) {
+  void columnsChange(Html.CustomEvent event) {
     _layoutColumns();
   }
 
-  void _onMutation(List<MutationRecord> mutations, MutationObserver observer) {
+  void _onMutation(List<Html.MutationRecord> mutations, Html.MutationObserver observer) {
     // \TODO take into account the mutation targets and choose accordingly
     _layoutColumns();
     _layoutRows();
@@ -205,7 +205,7 @@ class GridPanel extends PolymerElement {
   ///
   /// Uses the attributes contained in the element to determine the styling
   /// required to position the grid.
-  void _setGridPosition(Element element) {
+  void _setGridPosition(Html.Element element) {
     var attributes = element.attributes;
     var style = element.style;
 
