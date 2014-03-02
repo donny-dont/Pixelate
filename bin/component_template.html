@@ -23,9 +23,10 @@
     {{#groups}}
     <h2>{{name}}</h2>
       {{#components}}
-      <a href="{{path}}">{{name}}</a>
+      <div>
+        <a href="{{{path}}}">{{name}}</a>
+      </div>
       {{/components}}
-    </px-expander>
     {{/groups}}
   </div>
 </px-flex-panel>

@@ -50,7 +50,7 @@ List<Map> getExamples(String path) {
       var example = new Map();
 
       example['description'] = 'Testing this';
-      example['code'] = file.readAsStringSync(encoding: ASCII);
+      example['code'] = file.readAsStringSync(encoding: ASCII).trim();
 
       examples.add(example);
     }

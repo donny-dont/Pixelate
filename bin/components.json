@@ -5,5 +5,11 @@
       "flex_panel",
       "grid_panel"
     ]
+  },
+  {
+    "name": "Navigation",
+    "components": [
+      "tree_view"
+    ]
   }
 ]
