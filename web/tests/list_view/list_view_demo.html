@@ -5,13 +5,24 @@
     <title>List View test</title>
 
     <style>
+    
+      px-scroll-viewer {
+        width: 250px;
+        height: 300px;
+        background-color: #666;
+      }
+      
       #colors {
         width: 200px;
         height: 250px;
       }
     </style>
 
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/scroll_viewer.css">
+    
     <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/scroll_viewer.html">
     <link rel="import" href="packages/pixelate/components/list_view/list_view.html">
     <link rel="import" href="packages/pixelate/components/list_view/list_view_item.html">
     
@@ -21,21 +32,23 @@
   </head>
   <body>
     <div id="colors">
-      <px-list-view>
-        <px-list-view-item text="Red"></px-list-view-item>
-        <px-list-view-item text="Blue"></px-list-view-item>
-        <px-list-view-item text="Green"></px-list-view-item>
-        <px-list-view-item text="Orange"></px-list-view-item>
-        <px-list-view-item text="Yellow"></px-list-view-item>
-        <px-list-view-item text="Cyan"></px-list-view-item>
-        <px-list-view-item text="Grey"></px-list-view-item>
-        <px-list-view-item text="Black"></px-list-view-item>
-        <px-list-view-item text="Crimson"></px-list-view-item>
-        <px-list-view-item text="Teal"></px-list-view-item>
-        <px-list-view-item text="Voilet"></px-list-view-item>
-        <px-list-view-item text="Lime"></px-list-view-item>
-        <px-list-view-item text="White"></px-list-view-item>
-      </px-list-view>
+      <px-scroll-viewer>
+        <px-list-view>
+          <px-list-view-item text="Red"></px-list-view-item>
+          <px-list-view-item text="Blue"></px-list-view-item>
+          <px-list-view-item text="Green"></px-list-view-item>
+          <px-list-view-item text="Orange"></px-list-view-item>
+          <px-list-view-item text="Yellow"></px-list-view-item>
+          <px-list-view-item text="Cyan"></px-list-view-item>
+          <px-list-view-item text="Grey"></px-list-view-item>
+          <px-list-view-item text="Black"></px-list-view-item>
+          <px-list-view-item text="Crimson"></px-list-view-item>
+          <px-list-view-item text="Teal"></px-list-view-item>
+          <px-list-view-item text="Voilet"></px-list-view-item>
+          <px-list-view-item text="Lime"></px-list-view-item>
+          <px-list-view-item text="White"></px-list-view-item>
+        </px-list-view>
+      </px-scroll-viewer>
     </div>
   </body>
 </html>
