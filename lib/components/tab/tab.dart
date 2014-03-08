@@ -43,6 +43,7 @@ class Tab extends PolymerElement {
   //---------------------------------------------------------------------
 
   List<TabItem> _tabs;
+  @published String tabplacement = 'top';
 
   //---------------------------------------------------------------------
   // Construction
@@ -67,8 +68,16 @@ class Tab extends PolymerElement {
 
     _tabs = querySelectorAll(TabItem.customTagName);
 
+    _positionTabs();
     _createTabs();
     _selectTab(0);
+  }
+
+  //---------------------------------------------------------------------
+  // Events
+  //---------------------------------------------------------------------
+
+  void tabplacementChanged() {
   }
 
   //---------------------------------------------------------------------
@@ -118,4 +127,33 @@ class Tab extends PolymerElement {
       }
     }
   }
+
+  /// Positions the tabs
+  void _positionTabs() {
+    var hostDirection;
+    var tabDirection;
+
+    if (tabplacement == 'left') {
+      hostDirection = 'row';
+      tabDirection = 'vertical';
+    } else if (tabplacement == 'right') {
+      hostDirection = 'row-reverse';
+      tabDirection = 'vertical';
+    } else if (tabplacement == 'bottom') {
+      hostDirection = 'column-reverse';
+      tabDirection = 'horizontal';
+    } else {
+      hostDirection = 'column';
+      tabDirection = 'horizontal';
+    }
+
+    style.flexDirection = hostDirection;
+
+    var tabs = shadowRoot.querySelector('.tabs') as FlexPanel;
+    tabs.orientation = tabDirection;
+    print('Tab is horizontal ${tabs.horizontal}');
+
+    print('Tab direction $tabDirection');
+  }
 }
+

@@ -1,0 +1,24 @@
+<polymer-element name="px-expandable-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      .header { height: 100px; }
+      .expandable { height: 400px; }
+    </style>
+    <div class="header" on-click="{{toggle}}">
+    Header!
+    </div>
+    <!-- Content view -->
+    <div class="view">
+      <div class="expandable">
+        Testing!
+        <content></content>
+      </div>
+    </div>
+  </template>
+  <script type="application/dart" src="expandable_element.dart"></script>
+</polymer-element>

@@ -73,7 +73,7 @@ abstract class Droppable {
   void dragLeave() {}
 
   /// Callback for when something has been dropped on the area.
-  void drop() {}
+  void drop(DataTransfer dataTransfer) {}
 
   //---------------------------------------------------------------------
   // Private methods
@@ -81,8 +81,6 @@ abstract class Droppable {
 
   void _onDragEnter(MouseEvent event) {
     _preventDefault(event);
-
-    print(hoverclass);
 
     classes.add(hoverclass);
 
@@ -108,7 +106,7 @@ abstract class Droppable {
 
     classes.remove(hoverclass);
 
-    drop();
+    drop(event.dataTransfer);
   }
 
   void _preventDefault(MouseEvent event) {

@@ -13,7 +13,6 @@ library pixelate_selectable;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 
-
 //---------------------------------------------------------------------
 // Library contents
 //---------------------------------------------------------------------
@@ -41,7 +40,7 @@ abstract class Selectable {
   //---------------------------------------------------------------------
   /// The CSS class to be applied on the element on selected state
   String get cssClassItemSelected;
-  
+
   /// The CSS class to be applied on the element on an unselected state
   String get cssClassItemUnSelected;
 
@@ -52,7 +51,7 @@ abstract class Selectable {
   // Element methods
   //---------------------------------------------------------------------
   bool dispatchEvent(Event event);
-  
+
   //---------------------------------------------------------------------
   // Element methods
   //---------------------------------------------------------------------
@@ -60,9 +59,9 @@ abstract class Selectable {
     _selected = value;
     selectionElement.classes.add(_selected ? cssClassItemSelected : cssClassItemUnSelected);
     selectionElement.classes.remove(_selected ? cssClassItemUnSelected : cssClassItemSelected);
-    
+
     if (notifySelectionChanged) {
-      // Notify the parent 
+      // Notify the parent
       dispatchEvent(new CustomEvent(selectionChangedEvent, detail: this));
     }
   }

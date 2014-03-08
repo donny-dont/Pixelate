@@ -7,14 +7,16 @@
 library pixelate_expandable;
 
 //---------------------------------------------------------------------
-// Package libraries
+// Standard libraries
 //---------------------------------------------------------------------
 
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 
-// Import mirrors to get Expandable symbols in dart2js code
-//
+//---------------------------------------------------------------------
+// Package libraries
+//---------------------------------------------------------------------
+
+import 'package:polymer/polymer.dart';
 
 //---------------------------------------------------------------------
 // Library contents

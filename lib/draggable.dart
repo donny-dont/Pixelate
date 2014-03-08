@@ -6,21 +6,40 @@
 /// Contains the [Droppable] mixin.
 library pixelate_draggable;
 
+//---------------------------------------------------------------------
+// Standard libraries
+//---------------------------------------------------------------------
+
 import 'dart:html';
 
+
 abstract class Draggable {
+  //---------------------------------------------------------------------
+  // Properties
+  //---------------------------------------------------------------------
 
   String get dragdata;
-  set draggable(bool value);
 
-  ElementStream<MouseEvent> get onDragStart;
+  //---------------------------------------------------------------------
+  // Initialization
+  //---------------------------------------------------------------------
 
   /// Initialize the behavior
   void initializeDraggable() {
     draggable = true;
 
+    style.cursor = 'move';
+
     onDragStart.listen((event) {
       event.dataTransfer.setData('text/plain', dragdata);
     });
   }
+
+  //---------------------------------------------------------------------
+  // Element methods
+  //---------------------------------------------------------------------
+
+  set draggable(bool value);
+  CssStyleDeclaration get style;
+  ElementStream<MouseEvent> get onDragStart;
 }

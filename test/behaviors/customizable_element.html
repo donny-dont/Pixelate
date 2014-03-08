@@ -1,0 +1,35 @@
+<polymer-element name="px-expandable-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      /* Hidden class required for the cusomizable mixin */
+      .hidden { display: none !important; }
+    </style>
+    <px-flex-panel class="header" on-click="{{toggle}}" orientation="horizontal">
+      <div class="icon">
+        <template if="{{expanded}}">
+          <div class="collapse-icon"></div>
+        </template>
+        <template if="{{!expanded}}">
+          <div class="expand-icon"></div>
+        </template>
+      </div>
+      <px-flex-panel class="default-expander-header">
+        <div>{{header}}</div>
+      </px-flex-panel>
+      <!-- Potential override for the header -->
+      <content select=".expander-header"></content>
+    </px-flex-panel>
+    <!-- Content view -->
+    <div class="view">
+      <px-flex-panel class="expandable">
+        <content></content>
+      </px-flex-panel>
+    </div>
+  </template>
+  <script type="application/dart" src="customizable_element.dart"></script>
+</polymer-element>
