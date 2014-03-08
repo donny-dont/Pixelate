@@ -19,7 +19,7 @@ import 'dart:html' as Html;
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/grid/row_definition.dart';
+import 'package:pixelate/components/grid_panel/row_definition.dart';
 
 //---------------------------------------------------------------------
 // Library contents

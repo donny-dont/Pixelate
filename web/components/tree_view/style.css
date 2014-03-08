@@ -4,6 +4,10 @@
   margin-right: 5px;
 }
 
+.bone-icon {
+  background: url('images/bone.png');
+}
+
 .camera-icon {
   background: url('images/camera.png');
 }
@@ -14,4 +18,8 @@
 
 .mesh-icon {
   background: url('images/mesh2.png');
+}
+
+.skeleton-icon {
+  background: url('images/skeleton.png');
 }

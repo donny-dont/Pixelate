@@ -1,0 +1,19 @@
+<!--
+<p>A grid panel with content spanning multiple sizes.</p>
+-->
+<px-grid-panel>
+  <px-row-definitions>
+    <px-row-definition height="100px"></px-row-definition>
+    <px-row-definition height="200px"></px-row-definition>
+  </px-row-definitions>
+  <px-column-definitions>
+    <px-column-definition width="100px"></px-column-definition>
+    <px-column-definition width="200px"></px-column-definition>
+  </px-column-definitions>
+  <!-- First column -->
+  <div data-column="0" data-row="0" class="red grid-item">(0, 0)</div>
+  <div data-column="0" data-row="1" class="blue grid-item">(0, 1)</div>
+  <!-- Second column -->
+  <div data-column="1" data-row="0" class="green grid-item">(1, 0)</div>
+  <div data-column="1" data-row="1" class="purple grid-item">(1, 1)</div>
+</px-grid-panel>

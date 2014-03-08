@@ -68,6 +68,10 @@ html {
   padding: 10px;
 }
 
+.documentation > h2 {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .component-name {
   font-size: 48px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -89,9 +93,24 @@ html {
 .example > pre {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   background-color: black;
+  overflow-x: scroll;
 }
 
-code { margin: 0px !important; }
+.example > pre::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+  height: 6px; }
+.example > pre::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  background-color: rgba(255, 255, 255, 0.2); }
+.example > pre::-webkit-scrollbar-track {
+  background-color: transparent; }
+.example > pre::-webkit-scrollbar-corner {
+  background-color: rgba(255, 255, 255, 0.3); }
+
+code {
+  margin: 0px !important;
+}
 
 .footer {
   margin-top: 10px;

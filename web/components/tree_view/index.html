@@ -12,6 +12,7 @@
 
     <!-- Import the elements -->
     <link rel="import" href="packages/pixelate/components/flex_panel.html">
+    <link rel="import" href="packages/pixelate/components/scroll_viewer.html">
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view.html">
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
 
@@ -32,7 +33,7 @@
     <div class="component-name">&lt;px-tree-view&gt;</div>
     <div class="overview">Testing this</div>
     <h2>Examples</h2>
-    <p>Testing this</p>
+    <p>A simple tree view. Elements can be expanded or collapsed by double clicking the header, or by clicking the expansion icon.</p>
     <div class="example">
       <px-tree-view>
   <px-tree-view-node header="Pixelate">
@@ -63,7 +64,7 @@
         </code>
       </pre>
     </div>
-    <p>Testing this</p>
+    <p>A customized tree view where icons are added to the header. A tree view like this is common in modeling programs.</p>
     <div class="example">
       <px-tree-view>
   <!-- Meshes -->
@@ -72,6 +73,22 @@
       <div class="icon mesh-icon"></div>
       <div>Meshes</div>
     </px-flex-panel>
+
+    <!-- Skeleton -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon skeleton-icon"></div>
+        <div>Orc.skeleton</div>
+      </px-flex-panel>
+
+      <!-- Root node -->
+      <px-tree-view-node>
+        <px-flex-panel orientation="horizontal" class="tree-view-header">
+          <div class="icon bone-icon"></div>
+          <div>root</div>
+        </px-flex-panel>
+      </px-tree-view-node>
+    </px-tree-view-node>
   </px-tree-view-node>
 
   <!-- Lights -->
@@ -80,6 +97,22 @@
       <div class="icon light-icon"></div>
       <div>Lights</div>
     </px-flex-panel>
+
+    <!-- Sun -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon light-icon"></div>
+        <div>Sun</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Point Light -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon light-icon"></div>
+        <div>Point Light</div>
+      </px-flex-panel>
+    </px-tree-view-node>
   </px-tree-view-node>
 
   <!-- Cameras -->
@@ -88,6 +121,30 @@
       <div class="icon camera-icon"></div>
       <div>Cameras</div>
     </px-flex-panel>
+
+    <!-- Player Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Player Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Replay Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Replay Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Top View Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Top View Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
   </px-tree-view-node>
 </px-tree-view>
       <pre class="code">
@@ -99,6 +156,22 @@
       &lt;div class=&quot;icon mesh-icon&quot;&gt;&lt;&#x2F;div&gt;
       &lt;div&gt;Meshes&lt;&#x2F;div&gt;
     &lt;&#x2F;px-flex-panel&gt;
+
+    &lt;!-- Skeleton --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation=&quot;horizontal&quot; class=&quot;tree-view-header&quot;&gt;
+        &lt;div class=&quot;icon skeleton-icon&quot;&gt;&lt;&#x2F;div&gt;
+        &lt;div&gt;Orc.skeleton&lt;&#x2F;div&gt;
+      &lt;&#x2F;px-flex-panel&gt;
+
+      &lt;!-- Root node --&gt;
+      &lt;px-tree-view-node&gt;
+        &lt;px-flex-panel orientation=&quot;horizontal&quot; class=&quot;tree-view-header&quot;&gt;
+          &lt;div class=&quot;icon bone-icon&quot;&gt;&lt;&#x2F;div&gt;
+          &lt;div&gt;root&lt;&#x2F;div&gt;
+        &lt;&#x2F;px-flex-panel&gt;
+      &lt;&#x2F;px-tree-view-node&gt;
+    &lt;&#x2F;px-tree-view-node&gt;
   &lt;&#x2F;px-tree-view-node&gt;
 
   &lt;!-- Lights --&gt;
@@ -107,6 +180,22 @@
       &lt;div class=&quot;icon light-icon&quot;&gt;&lt;&#x2F;div&gt;
       &lt;div&gt;Lights&lt;&#x2F;div&gt;
     &lt;&#x2F;px-flex-panel&gt;
+
+    &lt;!-- Sun --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation=&quot;horizontal&quot; class=&quot;tree-view-header&quot;&gt;
+        &lt;div class=&quot;icon light-icon&quot;&gt;&lt;&#x2F;div&gt;
+        &lt;div&gt;Sun&lt;&#x2F;div&gt;
+      &lt;&#x2F;px-flex-panel&gt;
+    &lt;&#x2F;px-tree-view-node&gt;
+
+    &lt;!-- Point Light --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation=&quot;horizontal&quot; class=&quot;tree-view-header&quot;&gt;
+        &lt;div class=&quot;icon light-icon&quot;&gt;&lt;&#x2F;div&gt;
+        &lt;div&gt;Point Light&lt;&#x2F;div&gt;
+      &lt;&#x2F;px-flex-panel&gt;
+    &lt;&#x2F;px-tree-view-node&gt;
   &lt;&#x2F;px-tree-view-node&gt;
 
   &lt;!-- Cameras --&gt;
@@ -115,6 +204,30 @@
       &lt;div class=&quot;icon camera-icon&quot;&gt;&lt;&#x2F;div&gt;
       &lt;div&gt;Cameras&lt;&#x2F;div&gt;
     &lt;&#x2F;px-flex-panel&gt;
+
+    &lt;!-- Player Camera --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation=&quot;horizontal&quot; class=&quot;tree-view-header&quot;&gt;
+        &lt;div class=&quot;icon camera-icon&quot;&gt;&lt;&#x2F;div&gt;
+        &lt;div&gt;Player Camera&lt;&#x2F;div&gt;
+      &lt;&#x2F;px-flex-panel&gt;
+    &lt;&#x2F;px-tree-view-node&gt;
+
+    &lt;!-- Replay Camera --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation=&quot;horizontal&quot; class=&quot;tree-view-header&quot;&gt;
+        &lt;div class=&quot;icon camera-icon&quot;&gt;&lt;&#x2F;div&gt;
+        &lt;div&gt;Replay Camera&lt;&#x2F;div&gt;
+      &lt;&#x2F;px-flex-panel&gt;
+    &lt;&#x2F;px-tree-view-node&gt;
+
+    &lt;!-- Top View Camera --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation=&quot;horizontal&quot; class=&quot;tree-view-header&quot;&gt;
+        &lt;div class=&quot;icon camera-icon&quot;&gt;&lt;&#x2F;div&gt;
+        &lt;div&gt;Top View Camera&lt;&#x2F;div&gt;
+      &lt;&#x2F;px-flex-panel&gt;
+    &lt;&#x2F;px-tree-view-node&gt;
   &lt;&#x2F;px-tree-view-node&gt;
 &lt;&#x2F;px-tree-view&gt;
         </code>
@@ -124,21 +237,24 @@
   <div class="component-selection">
     <h2>Layout</h2>
       <div class="link">
-        <a href="components/flex_panel/">FlexPanel</a>
+        <a href="../../components/flex_panel/">FlexPanel</a>
       </div>
       <div class="link">
-        <a href="components/grid_panel/">GridPanel</a>
+        <a href="../../components/grid_panel/">GridPanel</a>
       </div>
     <h2>Navigation</h2>
       <div class="link">
-        <a href="components/tree_view/">TreeView</a>
+        <a href="../../components/accordion/">Accordion</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tree_view/">TreeView</a>
       </div>
   </div>
 </px-flex-panel>
       <div class="footer">
         <px-flex-panel orientation="horizontal">
         </px-flex-panel>
-        <p>Code licensed under a zlib license. Documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+        <p>Code licensed under a <a href="http://opensource.org/licenses/Zlib">zlib license</a>. Documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
       </div>
     </px-flex-panel>
 

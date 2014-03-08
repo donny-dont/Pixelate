@@ -8,11 +8,11 @@ library grid_test;
 import 'dart:async';
 import 'dart:html';
 import 'package:unittest/unittest.dart';
-import 'package:pixelate/components/grid_panel.dart';
-import 'package:pixelate/components/column_definition.dart';
-import 'package:pixelate/components/column_definitions.dart';
-import 'package:pixelate/components/row_definition.dart';
-import 'package:pixelate/components/row_definitions.dart';
+import 'package:pixelate/components/grid_panel/grid_panel.dart';
+import 'package:pixelate/components/grid_panel/column_definition.dart';
+import 'package:pixelate/components/grid_panel/column_definitions.dart';
+import 'package:pixelate/components/grid_panel/row_definition.dart';
+import 'package:pixelate/components/grid_panel/row_definitions.dart';
 
 GridPanel createGrid(int columns, int rows) {
   var grid = new Element.tag(GridPanel.customTagName) as GridPanel;

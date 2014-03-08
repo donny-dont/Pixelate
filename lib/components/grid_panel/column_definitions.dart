@@ -19,7 +19,7 @@ import 'dart:html' as Html;
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/grid/column_definition.dart';
+import 'package:pixelate/components/grid_panel/column_definition.dart';
 
 //---------------------------------------------------------------------
 // Library contents

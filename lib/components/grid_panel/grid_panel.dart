@@ -17,8 +17,8 @@ import 'dart:html' as Html;
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/grid/column_definitions.dart';
-import 'package:pixelate/components/grid/row_definitions.dart';
+import 'package:pixelate/components/grid_panel/column_definitions.dart';
+import 'package:pixelate/components/grid_panel/row_definitions.dart';
 
 //---------------------------------------------------------------------
 // Library contents

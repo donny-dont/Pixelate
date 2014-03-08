@@ -7,6 +7,12 @@
 library pixelate_file_drop;
 
 //---------------------------------------------------------------------
+// Standard libraries
+//---------------------------------------------------------------------
+
+import 'dart:html' as Html;
+
+//---------------------------------------------------------------------
 // Package libraries
 //---------------------------------------------------------------------
 
@@ -57,7 +63,7 @@ class FileDrop extends PolymerElement with Droppable {
   //---------------------------------------------------------------------
 
   @override
-  void drop() {
+  void drop(Html.DataTransfer dataTransfer) {
     print('Drop');
   }
 }
