@@ -33,7 +33,7 @@ class TreeView extends PolymerElement {
   static String get customTagName => _tagName;
 
   /// The currently selected node
-  TreeViewNode selectedNode;
+  ITreeViewNode selectedNode;
 
 
   /// Create an instance of the [TreeView] class.
@@ -57,7 +57,7 @@ class TreeView extends PolymerElement {
   /// Expands all the nodes in the tree view
   void expandAll() {
     nodes.forEach((node) {
-      if (node is TreeViewNode) {
+      if (node is ITreeViewNode) {
         node.expandAll();
       }
     });
@@ -66,7 +66,7 @@ class TreeView extends PolymerElement {
   /// Collapses all the nodes in the tree view
   void collapseAll() {
     nodes.forEach((node) {
-      if (node is TreeViewNode) {
+      if (node is ITreeViewNode) {
         node.collapseAll();
       }
     });

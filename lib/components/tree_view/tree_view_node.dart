@@ -28,9 +28,15 @@ import 'package:pixelate/selectable.dart';
 /// Tag name for the class.
 const String _tagName = 'px-tree-view-node';
 
+abstract class ITreeViewNode {
+  void expandAll();
+  void collapseAll();
+  void setSelected(bool value, [bool notifySelectionChanged = true]);
+}
+
 
 @CustomTag(_tagName)
-class TreeViewNode extends PolymerElement with Expandable, Customizable, Selectable {
+class TreeViewNode extends PolymerElement with Expandable, Customizable, Selectable implements ITreeViewNode {
   /// The name of the tag.
   static String get customTagName => _tagName;
 

@@ -1,0 +1,16 @@
+<link rel="import" href="../tree_view/tree_view.html">
+
+<polymer-element name="px-property-grid" on-selectionchanged="{{onNodeSelected}}">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+    </style>
+    <px-tree-view>
+      <content></content>
+    </px-tree-view>
+  </template>
+  <script type="application/dart" src="property_grid.dart"></script>
+</polymer-element>

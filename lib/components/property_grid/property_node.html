@@ -1,0 +1,21 @@
+<link rel="import" href="../flex_panel.html">
+<link rel="import" href="../tree_view/tree_view_node.html">
+
+<polymer-element name="px-property-node" extends="px-tree-view-node">
+  <template>
+    <style>
+      .property-node-host {
+        border: 1px;
+        border-color: red;
+      }
+      
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+    </style>
+    
+    <shadow></shadow>
+  </template>
+  <script type="application/dart" src="property_node.dart"></script>
+</polymer-element>

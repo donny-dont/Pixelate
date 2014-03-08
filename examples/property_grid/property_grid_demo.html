@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Tree View test</title>
+
+    <style>
+      #property_window {
+        width: 400px;
+        height: 600px;
+        background-color: #666;
+      }
+      
+      .tree-view-header > img {
+        margin-right: 5px;
+      }
+      
+    </style>
+
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/scroll_viewer.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/tree_view_node.css">
+
+    <!-- Import the elements -->
+    <link rel="import" href="packages/pixelate/components/scroll_viewer.html">
+    <link rel="import" href="packages/pixelate/components/property_grid/property_grid.html">
+    <link rel="import" href="packages/pixelate/components/property_grid/property_node.html">
+    <link rel="import" href="packages/pixelate/components/tree_view/tree_view.html">
+    <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
+
+    <!-- Polymer initialization -->
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+    <px-scroll-viewer id="property_window">
+      <px-property-grid id="scene">
+        <px-property-node>
+          <px-flex-panel orientation="horizontal" class="tree-view-header">
+            <img src="icons/mesh2.png" />
+            <div>Meshes</div>
+          </px-flex-panel>
+        </px-property-node>
+      </px-property-grid>
+    </px-scroll-viewer>
+
+    <script type="application/dart">
+      //export 'package:polymer/init.dart';
+      import "package:polymer/polymer.dart";
+      import "dart:html";
+      import 'package:pixelate/components/flex_panel.dart';
+      import "package:pixelate/components/tree_view/tree_view.dart";
+      import "package:pixelate/components/tree_view/tree_view_node.dart";
+
+      main() {
+        initPolymer().run(() {
+        });
+      }
+
+    </script>
+  </body>
+</html>
