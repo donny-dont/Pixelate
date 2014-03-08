@@ -9,6 +9,7 @@
   {
     "name": "Navigation",
     "components": [
+      "accordion",
       "tree_view"
     ]
   }

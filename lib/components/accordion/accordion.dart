@@ -1,4 +1,4 @@
-// Copyright (c) 2013, the Pixelate Project Authors.
+// Copyright (c) 2013-2014, the Pixelate Project Authors.
 // Please see the AUTHORS file for details. All rights reserved.
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
@@ -10,7 +10,7 @@ library pixelate_accordion;
 // Standard libraries
 //---------------------------------------------------------------------
 
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Package libraries
@@ -26,6 +26,25 @@ import 'package:pixelate/components/expander.dart';
 /// Tag name for the class.
 const String _tagName = 'px-accordion';
 
+/// Displays a list of [Expander] items, and controls their display.
+///
+/// By default the [Accordion] allows only a single [Expander] to be open at
+/// a time. When a different [Expander] is selected the previously active
+/// instance will be collapsed. This can be modified by specifying the
+/// [multiple] attribute.
+///
+///     <!-- Select single element; the default -->
+///     <px-accordion>
+///       <px-expander></px-expander>
+///       <px-expander></px-expander>
+///       <px-expander></px-expander>
+///     </px-accordion>
+///     <!-- Select multiple elements -->
+///     <px-accordion multiple>
+///       <px-expander></px-expander>
+///       <px-expander></px-expander>
+///       <px-expander></px-expander>
+///     </px-accordion>
 @CustomTag(_tagName)
 class Accordion extends PolymerElement {
   //---------------------------------------------------------------------
@@ -39,6 +58,7 @@ class Accordion extends PolymerElement {
   // Member variables
   //---------------------------------------------------------------------
 
+  /// Whether multiple [Expander]s can be opened at the same time.
   @published bool multiple = false;
 
   //---------------------------------------------------------------------
@@ -77,12 +97,17 @@ class Accordion extends PolymerElement {
   }
 
   /// Callback for when an element is expanded.
-  void onExpanded(Event e, var details, Node target) {
+  void onExpanded(Html.Event e, var details, Html.Node target) {
     if (!multiple) {
       _collapseOthers(details as Expander);
     }
   }
 
+  //---------------------------------------------------------------------
+  // Private methods
+  //---------------------------------------------------------------------
+
+  /// Collapses any elements that aren't [expanded].
   void _collapseOthers(Expander expanded) {
     var elements = querySelectorAll(Expander.customTagName);
 
