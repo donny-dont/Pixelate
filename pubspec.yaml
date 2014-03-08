@@ -16,4 +16,10 @@ dev_dependencies:
   unittest: any
 transformers:
 - polymer:
-    entry_points: web/test.html
+    entry_points:
+    - web/index.html
+    - web/components/accordion/index.html
+    - web/components/flex_panel/index.html
+    - web/components/grid_panel/index.html
+    - web/components/tree_view/index.html
+    
