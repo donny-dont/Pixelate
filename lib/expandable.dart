@@ -11,6 +11,8 @@ library pixelate_expandable;
 //---------------------------------------------------------------------
 
 import 'dart:html';
+// \TODO determine what needs to be exported. Otherwise building doesn't work.
+import 'dart:mirrors';
 
 //---------------------------------------------------------------------
 // Package libraries
