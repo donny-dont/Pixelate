@@ -8,11 +8,13 @@
     <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/expander.css">
     <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
     <link rel="import" href="../../packages/pixelate/components/flex_panel.html">
     <link rel="import" href="../../packages/pixelate/components/scroll_viewer.html">
+    <link rel="import" href="../../packages/pixelate/components/expander/expander.html">
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
@@ -33,34 +35,34 @@
 </div>
 <px-flex-panel class="content" orientation="horizontal" style="flex:1">
   <div class="documentation" style="flex: 1;">
-    <div class="component-name">&lt;px-flex-panel&gt;</div>
+    <div class="component-name">&lt;px-expander&gt;</div>
     <div class="overview"><p>Description goes here</p></div>
     <h2>Examples</h2>
-    Description unavailable
+    <p>A simple expander.</p>
     <div class="example">
-      <px-flex-panel orientation="horizontal" style="height: 35px;">
-  <div class="blue">Left</div>
-  <div class="red" style="flex: 1;">Center</div>
-  <div class="green">Right</div>
-</px-flex-panel>
-      <pre class="code"><code>&lt;px-flex-panel orientation=&quot;horizontal&quot; style=&quot;height: 35px;&quot;&gt;
-  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
-  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
-  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
-&lt;&#x2F;px-flex-panel&gt;</code></pre>
+      <px-expander header="Section 1">
+  <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+</px-expander>
+      <pre class="code"><code>&lt;px-expander header=&quot;Section 1&quot;&gt;
+  &lt;p&gt;Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.&lt;&#x2F;p&gt;
+&lt;&#x2F;px-expander&gt;</code></pre>
     </div>
-    Description unavailable
+    <p>An expander with a custom header.</p>
     <div class="example">
-      <px-flex-panel style="height: 100px;">
-  <div class="blue">Left</div>
-  <div class="red" style="flex: 1;">Center</div>
-  <div class="green">Right</div>
-</px-flex-panel>
-      <pre class="code"><code>&lt;px-flex-panel style=&quot;height: 100px;&quot;&gt;
-  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
-  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
-  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
-&lt;&#x2F;px-flex-panel&gt;</code></pre>
+      <px-expander header="Section 1">
+  <px-flex-panel class="expander-header" orientation="horizontal">
+    <div class="red">Overriden</div>
+    <div class="green">Header</div>
+  </px-flex-panel>
+  <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+</px-expander>
+      <pre class="code"><code>&lt;px-expander header=&quot;Section 1&quot;&gt;
+  &lt;px-flex-panel class=&quot;expander-header&quot; orientation=&quot;horizontal&quot;&gt;
+    &lt;div class=&quot;red&quot;&gt;Overriden&lt;&#x2F;div&gt;
+    &lt;div class=&quot;green&quot;&gt;Header&lt;&#x2F;div&gt;
+  &lt;&#x2F;px-flex-panel&gt;
+  &lt;p&gt;Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.&lt;&#x2F;p&gt;
+&lt;&#x2F;px-expander&gt;</code></pre>
     </div>
   </div>
   <div class="component-selection">

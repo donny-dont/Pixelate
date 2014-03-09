@@ -10,6 +10,7 @@
     "name": "Navigation",
     "components": [
       "accordion",
+      "expander",
       "tab",
       "tree_view"
     ]

@@ -17,7 +17,7 @@ import 'dart:html' as Html;
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/expander.dart';
+import 'package:pixelate/components/expander/expander.dart';
 
 //---------------------------------------------------------------------
 // Library contents
