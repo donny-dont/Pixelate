@@ -14,5 +14,11 @@
       "tab",
       "tree_view"
     ]
+  },
+  {
+    "name": "Controls",
+    "components": [
+      "progress_bar"
+    ]
   }
 ]

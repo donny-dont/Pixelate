@@ -5,6 +5,9 @@
   "Expander": [
     "packages/pixelate_flat/stylesheets/expander.css"
   ],
+  "ProgressBar": [
+    "packages/pixelate_flat/stylesheets/progress_bar.css"
+  ],
   "Tab": [
     "packages/pixelate_flat/stylesheets/tab.css"
   ],

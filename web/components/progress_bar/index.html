@@ -8,11 +8,13 @@
     <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/progress_bar.css">
     <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
     <link rel="import" href="../../packages/pixelate/components/flex_panel.html">
     <link rel="import" href="../../packages/pixelate/components/scroll_viewer.html">
+    <link rel="import" href="../../packages/pixelate/components/progress_bar/progress_bar.html">
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
@@ -33,34 +35,41 @@
 </div>
 <px-flex-panel class="content" orientation="horizontal" style="flex:1">
   <div class="documentation" style="flex: 1;">
-    <div class="component-name">&lt;px-flex-panel&gt;</div>
+    <div class="component-name">&lt;px-progress-bar&gt;</div>
     <div class="overview"><p>Description goes here</p></div>
     <h2>Examples</h2>
-    Description unavailable
+    <p>A customized tree view where icons are added to the header. A tree view like this is common in modeling programs.</p>
     <div class="example">
-      <px-flex-panel orientation="horizontal" style="height: 35px;">
-  <div class="blue">Left</div>
-  <div class="red" style="flex: 1;">Center</div>
-  <div class="green">Right</div>
-</px-flex-panel>
-      <pre class="code"><code>&lt;px-flex-panel orientation=&quot;horizontal&quot; style=&quot;height: 35px;&quot;&gt;
-  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
-  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
-  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
-&lt;&#x2F;px-flex-panel&gt;</code></pre>
+      <px-progress-bar value="0.25"></px-progress-bar>
+<px-progress-bar class="info" value="0.50"></px-progress-bar>
+<px-progress-bar class="warning" value="0.75"></px-progress-bar>
+<px-progress-bar class="error" value="1.00"></px-progress-bar>
+      <pre class="code"><code>&lt;px-progress-bar value=&quot;0.25&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;info&quot; value=&quot;0.50&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;warning&quot; value=&quot;0.75&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;error&quot; value=&quot;1.00&quot;&gt;&lt;&#x2F;px-progress-bar&gt;</code></pre>
     </div>
-    Description unavailable
+    <p>A customized tree view where icons are added to the header. A tree view like this is common in modeling programs.</p>
     <div class="example">
-      <px-flex-panel style="height: 100px;">
-  <div class="blue">Left</div>
-  <div class="red" style="flex: 1;">Center</div>
-  <div class="green">Right</div>
-</px-flex-panel>
-      <pre class="code"><code>&lt;px-flex-panel style=&quot;height: 100px;&quot;&gt;
-  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
-  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
-  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
-&lt;&#x2F;px-flex-panel&gt;</code></pre>
+      <px-progress-bar class="striped" value="0.25"></px-progress-bar>
+<px-progress-bar class="striped info" value="0.50"></px-progress-bar>
+<px-progress-bar class="striped warning" value="0.75"></px-progress-bar>
+<px-progress-bar class="striped error" value="1.00"></px-progress-bar>
+      <pre class="code"><code>&lt;px-progress-bar class=&quot;striped&quot; value=&quot;0.25&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;striped info&quot; value=&quot;0.50&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;striped warning&quot; value=&quot;0.75&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;striped error&quot; value=&quot;1.00&quot;&gt;&lt;&#x2F;px-progress-bar&gt;</code></pre>
+    </div>
+    <p>A customized tree view where icons are added to the header. A tree view like this is common in modeling programs.</p>
+    <div class="example">
+      <px-progress-bar class="animated striped" value="0.25"></px-progress-bar>
+<px-progress-bar class="animated striped info" value="0.50"></px-progress-bar>
+<px-progress-bar class="animated striped warning" value="0.75"></px-progress-bar>
+<px-progress-bar class="animated striped error" value="1.00"></px-progress-bar>
+      <pre class="code"><code>&lt;px-progress-bar class=&quot;animated striped&quot; value=&quot;0.25&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;animated striped info&quot; value=&quot;0.50&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;animated striped warning&quot; value=&quot;0.75&quot;&gt;&lt;&#x2F;px-progress-bar&gt;
+&lt;px-progress-bar class=&quot;animated striped error&quot; value=&quot;1.00&quot;&gt;&lt;&#x2F;px-progress-bar&gt;</code></pre>
     </div>
   </div>
   <div class="component-selection">
