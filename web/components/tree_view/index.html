@@ -5,20 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Components</title>
-    <link rel="stylesheet" href="../../style.css">
+    <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/tree_view_node.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/tree_view_node.css">
+    <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
-    <link rel="import" href="packages/pixelate/components/flex_panel.html">
-    <link rel="import" href="packages/pixelate/components/scroll_viewer.html">
-    <link rel="import" href="packages/pixelate/components/tree_view/tree_view.html">
-    <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
+    <link rel="import" href="../../packages/pixelate/components/flex_panel.html">
+    <link rel="import" href="../../packages/pixelate/components/scroll_viewer.html">
+    <link rel="import" href="../../packages/pixelate/components/tree_view/tree_view.html">
+    <link rel="import" href="../../packages/pixelate/components/tree_view/tree_view_node.html">
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>
+
+    <!-- Setup syntax highlighting -->
+    <link rel="stylesheet" href="../../syntax.css">
+    <script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </head>
   <body>
     <px-flex-panel orientation="vertical" style="min-height: 100%;">
@@ -31,7 +37,7 @@
 <px-flex-panel class="content" orientation="horizontal" style="flex:1">
   <div class="documentation" style="flex: 1;">
     <div class="component-name">&lt;px-tree-view&gt;</div>
-    <div class="overview">Testing this</div>
+    <div class="overview"><p>Description goes here</p></div>
     <h2>Examples</h2>
     <p>A simple tree view. Elements can be expanded or collapsed by double clicking the header, or by clicking the expansion icon.</p>
     <div class="example">
@@ -237,17 +243,20 @@
   <div class="component-selection">
     <h2>Layout</h2>
       <div class="link">
-        <a href="../../components/flex_panel/">FlexPanel</a>
+        <a href="../../components/flex_panel/index.html">FlexPanel</a>
       </div>
       <div class="link">
-        <a href="../../components/grid_panel/">GridPanel</a>
+        <a href="../../components/grid_panel/index.html">GridPanel</a>
       </div>
     <h2>Navigation</h2>
       <div class="link">
-        <a href="../../components/accordion/">Accordion</a>
+        <a href="../../components/accordion/index.html">Accordion</a>
       </div>
       <div class="link">
-        <a href="../../components/tree_view/">TreeView</a>
+        <a href="../../components/tab/index.html">Tab</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tree_view/index.html">TreeView</a>
       </div>
   </div>
 </px-flex-panel>

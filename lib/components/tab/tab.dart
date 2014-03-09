@@ -77,7 +77,9 @@ class Tab extends PolymerElement {
   // Events
   //---------------------------------------------------------------------
 
+  /// Callback
   void tabplacementChanged() {
+    _positionTabs();
   }
 
   //---------------------------------------------------------------------
@@ -128,7 +130,7 @@ class Tab extends PolymerElement {
     }
   }
 
-  /// Positions the tabs
+  /// Positions the tabs.
   void _positionTabs() {
     var hostDirection;
     var tabDirection;
@@ -151,9 +153,6 @@ class Tab extends PolymerElement {
 
     var tabs = shadowRoot.querySelector('.tabs') as FlexPanel;
     tabs.orientation = tabDirection;
-    print('Tab is horizontal ${tabs.horizontal}');
-
-    print('Tab direction $tabDirection');
+    tabs.classes.add(tabplacement);
   }
 }
-

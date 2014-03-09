@@ -5,19 +5,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{{relativePath}}}packages/pixelate_flat/stylesheets/main.css">
+    {{#styles}}
+    <link rel="stylesheet" href="{{{relativePath}}}{{{.}}}">
+    {{/styles}}
 
     <!-- Import the elements -->
-    <link rel="import" href="packages/pixelate/components/flex_panel.html">
-    <link rel="import" href="packages/pixelate/components/scroll_viewer.html">
+    <link rel="import" href="{{{relativePath}}}packages/pixelate/components/flex_panel.html">
+    <link rel="import" href="{{{relativePath}}}packages/pixelate/components/scroll_viewer.html">
     {{#imports}}
-    <link rel="import" href="{{{.}}}">
+    <link rel="import" href="{{{relativePath}}}{{{.}}}">
     {{/imports}}
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>
+
+    <!-- Setup syntax highlighting -->
+    <link rel="stylesheet" href="../../syntax.css">
+    <script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </head>
   <body>
     <px-flex-panel orientation="vertical" style="min-height: 100%;">

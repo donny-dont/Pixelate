@@ -21,5 +21,6 @@ transformers:
     - web/components/accordion/index.html
     - web/components/flex_panel/index.html
     - web/components/grid_panel/index.html
+    - web/components/tab/index.html
     - web/components/tree_view/index.html
     

@@ -60,7 +60,17 @@ html {
   margin: 16px auto 0 auto;
 }
 
-.selection {
+.component-selection {
+  margin-top: 39px;
+}
+
+.component-selection > h2 {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0px;
+}
+
+.component-selection > .link {
+  padding: 10px 6px;
 }
 
 .documentation {

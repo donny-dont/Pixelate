@@ -130,6 +130,7 @@ void writeTextFile(String path, String contents) {
 
 void main() {
   var groups = getGroups();
+  var componentStyles = readJsonFile('styles.json') as Map;
   var siteTemplate = readMustacheTemplate('site_template.html');
   var template = readMustacheTemplate('component_template.html');
 
@@ -139,10 +140,11 @@ void main() {
 
     components.forEach((component) {
       var path = component['path'];
+      var name = component['name'];
       var partial = {
           'groups': groups,
           'tag': component['tag'],
-          'overview': 'Testing this',
+          'overview': '<p>Description goes here</p>',
           'examples': getExamples(path)
       };
 
@@ -162,15 +164,24 @@ void main() {
         });
       }
 
-      print(imports);
+      var styles = componentStyles.containsKey(name)
+          ? componentStyles[name]
+          : [];
+
+      styles.add('style.css');
 
       var site = {
           'title': 'Components',
+          'relativePath': '../../',
+          'styles': styles,
           'imports': imports,
           'content': template.renderString(partial)
       };
 
-      writeTextFile('../web/${path}index.html', siteTemplate.renderString(site));
+      var outputPath = '../web/${path}index.html';
+      print('Outputing to $outputPath');
+
+      writeTextFile(outputPath, siteTemplate.renderString(site));
     });
   });
 }

@@ -1,0 +1,7 @@
+px-tab {
+  height: 225px;
+}
+
+px-tab-item > p {
+  padding: 10px;
+}

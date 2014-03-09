@@ -3,8 +3,8 @@
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
 
-/// Contains the [RowDefinitions] class.
-library pixelate_row_definitions;
+/// Contains the [TabItem] class.
+library pixelate_tab_item;
 
 //---------------------------------------------------------------------
 // Standard libraries
