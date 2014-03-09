@@ -129,6 +129,14 @@ code {
   background-color: black;
 }
 
+.external, .external:visited, .external:link {
+  text-decoration: none;
+  color: #8c5d79; }
+  .external:hover {
+    color: #a97d97; }
+  .external:active {
+    color: #734d64; }
+
 .footer > p {
   text-align: center;
 }
