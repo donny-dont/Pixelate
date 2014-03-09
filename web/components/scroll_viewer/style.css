@@ -1,0 +1,8 @@
+px-scroll-viewer {
+  height: 300px;
+}
+
+px-scroll-viewer > img {
+  display: block;
+  margin: 0px auto;
+}

@@ -11,6 +11,9 @@
   "Tab": [
     "packages/pixelate_flat/stylesheets/tab.css"
   ],
+  "ScrollViewer": [
+    "packages/pixelate_flat/stylesheets/scroll_viewer.css"
+  ],
   "TreeView": [
     "packages/pixelate_flat/stylesheets/tree_view_node.css"
   ]

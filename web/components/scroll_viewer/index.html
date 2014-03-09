@@ -4,56 +4,109 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Components</title>
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/scroll_viewer.css">
     <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/expander.css">
 
     <!-- Import the elements -->
-    <link rel="import" href="packages/pixelate/components/accordion/accordion.html">
-    <link rel="import" href="packages/pixelate/components/flex_panel.html">
-    <link rel="import" href="packages/pixelate/components/grid_panel/grid_panel.html">
+    <link rel="import" href="../../packages/pixelate/components/flex_panel.html">
+    <link rel="import" href="../../packages/pixelate/components/scroll_viewer/scroll_viewer.html">
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>
+
+    <!-- Setup syntax highlighting -->
+    <link rel="stylesheet" href="../../syntax.css">
+    <script src="../../highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </head>
   <body>
     <px-flex-panel orientation="vertical" style="min-height: 100%;">
       <div class="header-area">
-        <div class="header">
-          <h1>Components</h1>
-          <h2>A set of reusable components for web applications</h2>
-        </div>
+  <div class="header">
+    <h1>Components</h1>
+    <h2>A set of reusable components for web applications</h2>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="horizontal" style="flex:1">
+  <div class="documentation" style="flex: 1;">
+    <div class="component-name">&lt;px-scroll-viewer&gt;</div>
+    <div class="overview"><p>Description goes here</p></div>
+    <h2>Examples</h2>
+    <p>A scrollable view over an image.</p>
+    <div class="example">
+      <px-scroll-viewer>
+  <img src="../../images/polymer_logo.svg" width="1000px">
+</px-scroll-viewer>
+      <pre class="code"><code>&lt;px-scroll-viewer&gt;
+  &lt;img src=&quot;..&#x2F;..&#x2F;images&#x2F;polymer_logo.svg&quot; width=&quot;1000px&quot;&gt;
+&lt;&#x2F;px-scroll-viewer&gt;</code></pre>
+    </div>
+    <p>A scrollable view over an image.</p>
+    <div class="example">
+      <px-scroll-viewer horizontal="hidden">
+  <img src="../../images/polymer_logo.svg" width="1000px">
+</px-scroll-viewer>
+      <pre class="code"><code>&lt;px-scroll-viewer horizontal=&quot;hidden&quot;&gt;
+  &lt;img src=&quot;..&#x2F;..&#x2F;images&#x2F;polymer_logo.svg&quot; width=&quot;1000px&quot;&gt;
+&lt;&#x2F;px-scroll-viewer&gt;</code></pre>
+    </div>
+    <p>A scrollable view displaying scrollbars, despite not requiring them.</p>
+    <div class="example">
+      <px-scroll-viewer horizontal="visible" vertical="visible">
+  <img src="../../images/polymer_logo.svg" height="240px">
+</px-scroll-viewer>
+      <pre class="code"><code>&lt;px-scroll-viewer horizontal=&quot;visible&quot; vertical=&quot;visible&quot;&gt;
+  &lt;img src=&quot;..&#x2F;..&#x2F;images&#x2F;polymer_logo.svg&quot; height=&quot;240px&quot;&gt;
+&lt;&#x2F;px-scroll-viewer&gt;</code></pre>
+    </div>
+  </div>
+  <div class="component-selection">
+    <h2>Layout</h2>
+      <div class="link">
+        <a href="../../components/flex_panel/index.html">FlexPanel</a>
       </div>
-      <px-flex-panel class="content" orientation="horizontal" style="flex:1">
-        <div class="left-menu">
-          <px-accordion class="selection">
-            <px-expander class="components" header="Layout">
-              <a href="components&#x2F;flex_panel&#x2F;">FlexPanel</a>
-              <a href="components&#x2F;grid_panel&#x2F;">GridPanel</a>
-              <a href="components&#x2F;scroll_viewer&#x2F;">ScrollViewer</a>
-            </px-expander>
-          </px-accordion>
-        </div>
-        <div class="documentation">
-          <div class="component-name">&lt;px-scroll-viewer&gt;</div>
-          <div class="overview">Testing this</div>
-          <h2>Examples</h2>
-        </div>
-      </px-flex-panel>
+      <div class="link">
+        <a href="../../components/grid_panel/index.html">GridPanel</a>
+      </div>
+    <h2>Navigation</h2>
+      <div class="link">
+        <a href="../../components/accordion/index.html">Accordion</a>
+      </div>
+      <div class="link">
+        <a href="../../components/expander/index.html">Expander</a>
+      </div>
+      <div class="link">
+        <a href="../../components/scroll_viewer/index.html">ScrollViewer</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tab/index.html">Tab</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tree_view/index.html">TreeView</a>
+      </div>
+    <h2>Controls</h2>
+      <div class="link">
+        <a href="../../components/progress_bar/index.html">ProgressBar</a>
+      </div>
+  </div>
+</px-flex-panel>
       <div class="footer">
         <px-flex-panel orientation="horizontal">
         </px-flex-panel>
-        <p>Code licensed under a zlib license. Documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+        <p>Code licensed under a <a class="external" href="http://opensource.org/licenses/Zlib">zlib license</a>. Documentation under <a class="external" href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
       </div>
     </px-flex-panel>
 
     <div class="navigation-area">
-      <div class="navigation">
+      <px-flex-panel orientation="horizontal" class="navigation">
         <div>Pixelate</div>
-        <div>Components</div>
-      </div>
+        <div class="link"><a href="components/flex_panel/">Components</a></div>
+      </px-flex-panel>
     </div>
   </body>
 </html>
