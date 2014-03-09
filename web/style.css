@@ -8,6 +8,7 @@ html {
   top: 0;
   width: 100%;
   background-color: black;
+  border-bottom: 1px solid #4E4E4E;
 }
 
 .navigation {
