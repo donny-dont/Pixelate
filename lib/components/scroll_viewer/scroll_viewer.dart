@@ -29,19 +29,18 @@ const String _tagName = 'px-scroll-viewer';
 /// * hidden - the scroll bar is hidden; scrolling will be controlled manually.
 /// * auto - the scroll bar is only visible when needed.
 ///
-/// The rows are defined in the order they are inserted into the
-/// [RowDefinitions] element.
-///
-///     <!-- The row definitions -->
-///     <px-row-definitions>
-///       <!-- The first row (value of 0) -->
-///       <px-row-definition></px-row-definition>
-///       <!-- The second row (value of 1) -->
-///       <px-row-definition></px-row-definition>
-///     </px-row-definitions>
-///
-/// All rows used within the [GridPanel] are required to be defined within the
-/// [RowDefinitions].
+///     <!-- Scroll bar is only visible when needed; the default -->
+///     <px-scroll-viewer>
+///       <img src="logo.svg" width="1000px">
+///     </px-scroll-viewer>
+///     <!-- Scroll bar is always visible -->
+///     <px-scroll-viewer horizontal="visible">
+///       <img src="logo.svg" width="1000px">
+///     </px-scroll-viewer>
+///     <!-- Scroll bar is hidden -->
+///     <px-scroll-viewer horizontal="hidden">
+///       <img src="logo.svg" width="1000px">
+///     </px-scroll-viewer>
 @CustomTag(_tagName)
 class ScrollViewer extends PolymerElement {
   //---------------------------------------------------------------------

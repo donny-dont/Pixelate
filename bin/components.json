@@ -11,6 +11,7 @@
     "components": [
       "accordion",
       "expander",
+      "scroll_viewer",
       "tab",
       "tree_view"
     ]
