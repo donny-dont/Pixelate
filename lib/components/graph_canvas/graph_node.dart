@@ -59,20 +59,16 @@ class GraphNode extends PolymerElement with Transformable, Moveable {
       : super.created()
   {
     // Get the moveable element
-    //var test = getShadowRoot(GraphNode.customTagName);
-    style.backfaceVisibility = 'hidden';
-  }
-
-  void ready() {
-    super.ready();
-
     _moveableElement = getShadowRoot(GraphNode.customTagName).querySelector('.header');
 
     // Setup the mixins
     initializeMoveable();
     initializeTransformable();
-
   }
+
+  //---------------------------------------------------------------------
+  // Moveable properties
+  //---------------------------------------------------------------------
 
   Html.Element get moveableElement => _moveableElement;
 }
