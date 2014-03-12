@@ -1,0 +1,27 @@
+<link rel="import" href="../flex_panel.html">
+
+<polymer-element name="px-graph-node" attributes="header">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      /* Hidden class required for the cusomizable mixin */
+      .hidden { display: none !important; }
+    </style>
+    <px-flex-panel class="header" orientation="horizontal">
+      <px-flex-panel class="default-node-header">
+        <div>{{header}}</div>
+      </px-flex-panel>
+      <!-- Potential override for the header -->
+      <content select=".node-header"></content>
+    </px-flex-panel>
+    <!-- Content view -->
+    <px-flex-panel class="expandable">
+      <content></content>
+    </px-flex-panel>
+  </template>
+  <script type="application/dart" src="graph_node.dart"></script>
+</polymer-element>
