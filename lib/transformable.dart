@@ -10,7 +10,7 @@ library pixelate_transformable;
 // Package libraries
 //---------------------------------------------------------------------
 
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Library contents
@@ -31,15 +31,30 @@ abstract class Transformable {
   // PolymerElement properties
   //---------------------------------------------------------------------
 
-  CssStyleDeclaration get style;
+  Html.CssStyleDeclaration get style;
 
   //---------------------------------------------------------------------
   // Initialization
   //---------------------------------------------------------------------
 
   /// Initializes the behavior.
-  void initializeTransformable() {
+  ///
+  /// Use [promoteLayer] to force the element to its own compositing layer in
+  /// WebKit based browsers. While this will help paint times within the
+  /// browser it will result in blurring of the element's contents when zoomed
+  /// in.
+  void initializeTransformable([bool promoteLayer = false]) {
+    // Set the origin to the upper left corner
     style.transformOrigin = 'left top 0';
+
+    // In webkit browsers a 2D transform will not promote the element to its
+    // own compositor layer. To force this the backface-visibility attribute
+    // is set to hidden.
+    //
+    // \TODO Replace with will-change when landed.
+    if (promoteLayer) {
+      style.backfaceVisibility = 'hidden';
+    }
 
     _transform();
   }
@@ -78,8 +93,8 @@ abstract class Transformable {
   /// Used whenever the zoom or translation is changed.
   void _transform() {
     // A 2D transformation matrix looks like
-    // 0 1 2
-    // 3 4 5
-    style.transform = 'matrix($_zoom, 0, $_translateX, 0, _zoom, $_translateY)';
+    // 0 2 4
+    // 1 3 5
+    style.transform = 'matrix($_zoom, 0, 0, $_zoom, $_translateX, $_translateY)';
   }
 }

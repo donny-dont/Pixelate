@@ -67,9 +67,10 @@ abstract class Droppable {
   /// Callback for when something has entered the area through a drag.
   void dragEnter() {}
 
-  /// Callb
+  /// Callback for when something has been dragged over ther area.
   void dragOver() {}
 
+  /// Callback for when something has left the area through a drag.
   void dragLeave() {}
 
   /// Callback for when something has been dropped on the area.

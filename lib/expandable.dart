@@ -10,15 +10,7 @@ library pixelate_expandable;
 // Standard libraries
 //---------------------------------------------------------------------
 
-import 'dart:html';
-// \TODO determine what needs to be exported. Otherwise building doesn't work.
-import 'dart:mirrors';
-
-//---------------------------------------------------------------------
-// Package libraries
-//---------------------------------------------------------------------
-
-import 'package:polymer/polymer.dart';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Library contents
@@ -65,9 +57,9 @@ abstract class Expandable {
   set expanded(bool value);
 
   /// The view of the content area.
-  Element get view;
+  Html.Element get view;
   /// The content area to expand or contract.
-  Element get content;
+  Html.Element get content;
 
   //---------------------------------------------------------------------
   // Initialization
@@ -96,8 +88,8 @@ abstract class Expandable {
   // Element methods
   //---------------------------------------------------------------------
 
-  bool dispatchEvent(Event event);
-  ElementStream<TransitionEvent> get onTransitionEnd;
+  bool dispatchEvent(Html.Event event);
+  Html.ElementStream<Html.TransitionEvent> get onTransitionEnd;
 
   //---------------------------------------------------------------------
   // Events
@@ -117,7 +109,7 @@ abstract class Expandable {
       _collapse();
     }
 
-    dispatchEvent(new CustomEvent(eventType, detail: this));
+    dispatchEvent(new Html.CustomEvent(eventType, detail: this));
   }
 
   /// Expands the element.
@@ -155,7 +147,7 @@ abstract class Expandable {
   ///
   /// Used to check the modify the max-height attribute when the animation ends
   /// to ensure the element can stretch further.
-  void _onTransitionEnd(TransitionEvent transition) {
+  void _onTransitionEnd(Html.TransitionEvent transition) {
     if (transition.propertyName == 'max-height') {
       if (expanded) {
         view.style.maxHeight = '';
