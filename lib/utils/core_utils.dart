@@ -1,12 +1,13 @@
 library pixelate_utils_core;
 
-import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid_client.dart';
 import 'dart:html';
 import 'dart:math';
 
 var idGeneratorUid = new Uuid();
 /** Generates a unique id */
 String generateUid() {
+  
   return idGeneratorUid.v4();
 }
 
