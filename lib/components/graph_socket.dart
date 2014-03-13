@@ -5,6 +5,7 @@ import 'dart:math';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/graph/graph.dart';
+import 'package:pixelate/utils/core_utils.dart';
 
 /**
  * Graph node socket view 
@@ -24,6 +25,9 @@ class GraphSocketView extends PolymerElement {
   
   /** The socket model */
   GraphSocket socket;
+  
+  /** the node view that hosts this socket */
+  var nodeView;
 
   var _onSocketChanged = new StreamController<GraphSocket>.broadcast();
   Stream<GraphSocket> get onSocketChanged => _onSocketChanged.stream;
@@ -53,5 +57,17 @@ class GraphSocketView extends PolymerElement {
       }
     }
   }
+    
+  Point getPositionOffset() {
+    final offset = getElementOffset(this);
+    return new Point(offset.x + size.x / 2, offset.y + size.y / 2);
+  }
+  
+  Point get position {
+    final nodePosition = nodeView.position;
+    final socketOffset = getPositionOffset();
+    return new Point(nodePosition.x + socketOffset.x, nodePosition.y + socketOffset.y);
+  }
+
 }
 
