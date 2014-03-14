@@ -21,6 +21,20 @@ class GraphSocketView extends PolymerElement {
   /** The direction from which the link is plugged into this socket */
   @published String dir;
   
+  /** The data type used by this socket */
+  @published String data;
+  
+  /** The type of socket. valid values are "in", "out", "inout". Default is "inout" */
+  @published String type = "inout";
+  
+  /** Flag to indicate if the socket allows multiple links */
+  @published bool multiple = false;
+  
+  
+  /** 
+   * The direction from which the links are connected from. 
+   * This is used to apply tension on the spline. This value is parsed by the dir attribute
+   */
   var plugDirection = new Point(1, 0);
   
   /** The socket model */
@@ -53,9 +67,17 @@ class GraphSocketView extends PolymerElement {
       if (tokens.length >= 2) {
         final x = double.parse(tokens[0]);
         final y = double.parse(tokens[1]);
-        plugDirection = new Point(x, y);
+        
+        // Normalize the direction
+        var length = sqrt(x * x + y * y);
+        if (length < 1e-6) length = 1;
+        plugDirection = new Point(x / length, y / length);
       }
     }
+    
+    // Add default constraints
+    final constraint = ConstraintFactory.create("inout", socket, {"multiple": multiple, "type": type});
+    socket.constraints.add(constraint);
   }
     
   Point getPositionOffset() {
@@ -67,6 +89,11 @@ class GraphSocketView extends PolymerElement {
     final nodePosition = nodeView.position;
     final socketOffset = getPositionOffset();
     return new Point(nodePosition.x + socketOffset.x, nodePosition.y + socketOffset.y);
+  }
+  
+  num get radius {
+    
+    return imageElement.clientWidth / 2.0;    // TODO: Avoid using clientWidth for performance reasons
   }
 
 }

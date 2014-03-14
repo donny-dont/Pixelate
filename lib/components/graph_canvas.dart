@@ -178,8 +178,14 @@ class LinkCreationHandler {
   Point startDragPoint;
   
   /** Fired when the link creation is initiated */
-  void _handleLinkCreationStart(GraphSocketView socket, MouseEvent e) {
-    originSocket = socket;
+  void _handleLinkCreationStart(GraphSocketView socketView, MouseEvent e) {
+    // Check the constraints of the socket to determine if it can create a link from here
+    if (!socketView.socket.canAcceptOutgoingLink()) {
+      // Does not accept outgoing links.  Do not create a link from here
+      return;
+    }
+    
+    originSocket = socketView;
     
     // Hook to the window's mouse events
     linkCreationDragStream = window.onMouseMove.listen(_handleLinkCreationDrag);
@@ -200,7 +206,7 @@ class LinkCreationHandler {
     Point mouseOffsetSinceStart = new Point(e.page.x - startDragPoint.x, e.page.y - startDragPoint.y);
     Point destination = new Point(source.x + mouseOffsetSinceStart.x, source.y + mouseOffsetSinceStart.y);
 
-    creationLink.updateFromMetrics(source, sourceDirection, destination, destinationDirection);
+    creationLink.updateFromMetrics(source, sourceDirection, destination, destinationDirection, 0, 0);
   }
   
   /** 
@@ -244,6 +250,12 @@ class LinkCreationHandler {
     }
 
     _cancelGlobalMouseStream();
+    
+    // Check if we can create a link with this socket as the destination
+    if (socketView.socket.canAcceptIncomingLink(originSocket.socket)) {
+      // This socket does not allow incoming nodes. Do not create a link
+      return;
+    }
 
     // Create a new link in the document
     final linkId = generateUid();

@@ -3,6 +3,7 @@ import 'dart:svg';
 import 'dart:html';
 import 'dart:math' as math;
 import 'package:pixelate/graph/graph.dart';
+import 'package:pixelate/utils/core_utils.dart';
 import 'package:pixelate/components/graph_node.dart';
 
 /** The graph link view for rendering the spline path on the svg document */
@@ -47,6 +48,7 @@ class GraphLinkView {
     path.setAttribute("stroke", strokeColor);
     path.setAttribute("stroke-width", "$lineThickness");
     path.setAttribute("fill", "none");
+    path.setAttribute("marker-end", "url(#head)");
     
     selectionPath.setAttribute("stroke", "transparent");
     selectionPath.setAttribute("stroke-width", "$lineSelectionThickness");
@@ -79,7 +81,7 @@ class GraphLinkView {
       }
     }
   }
-
+  
   void update(Map<String, GraphNodeView> nodeViews) {
     if (link == null) return;
     link.update();
@@ -96,11 +98,13 @@ class GraphLinkView {
     final endPosition = destSocketView.position;
     final startPlugDirection = sourceSocketView.plugDirection;
     final endPlugDirection = destSocketView.plugDirection;
-    updateFromMetrics(startPosition, startPlugDirection, endPosition, endPlugDirection);
+    final startRadius = sourceSocketView.radius;
+    final endRadius = destSocketView.radius;
+    updateFromMetrics(startPosition, startPlugDirection, endPosition, endPlugDirection, startRadius, endRadius);
   }
   
   void updateFromMetrics(math.Point startPosition, math.Point startPlugDirection, 
-                         math.Point endPosition, math.Point endPlugDirection) {
+                         math.Point endPosition, math.Point endPlugDirection, num startRadius, num endRadius) {
     final startControlPoint = new math.Point(
         startPosition.x + startPlugDirection.x * splineStrength, 
         startPosition.y + startPlugDirection.y * splineStrength);
@@ -108,10 +112,10 @@ class GraphLinkView {
         endPosition.x + endPlugDirection.x * splineStrength, 
         endPosition.y + endPlugDirection.y * splineStrength);
     
-    final a = startPosition;
+    final a = addPoint(startPosition, multiplyPointScalar(startPlugDirection, startRadius));
     final b = startControlPoint;
     final c = endControlPoint;
-    final d = endPosition;
+    final d = addPoint(endPosition, multiplyPointScalar(endPlugDirection, startRadius));
     final splineData = "M ${a.x} ${a.y} C ${b.x} ${b.y} ${c.x} ${c.y} ${d.x} ${d.y}";
     path.setAttribute("d", splineData);
     selectionPath.setAttribute("d", splineData);
