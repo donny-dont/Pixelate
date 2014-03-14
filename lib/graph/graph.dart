@@ -10,3 +10,4 @@ part 'constraints/constraint.dart';
 part 'constraints/constraint_factory.dart';
 part 'constraints/impl/inout_constraint.dart';
 part 'constraints/impl/same_node_constraint.dart';
+part 'constraints/impl/duplicate_constraint.dart';

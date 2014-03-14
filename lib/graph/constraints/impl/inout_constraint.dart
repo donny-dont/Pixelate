@@ -44,6 +44,7 @@ class GraphConstraintInOut extends GraphConstraint {
   
   bool canAcceptIncomingLink(GraphSocket sourceSocket) {
     if (allowedIncoming < 0) return true;
+    int c = _incomingLinks.length;
     return _incomingLinks.length < allowedIncoming;
   }
 }

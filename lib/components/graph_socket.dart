@@ -76,8 +76,14 @@ class GraphSocketView extends PolymerElement {
     }
     
     // Add default constraints
-    final constraint = ConstraintFactory.create("inout", socket, {"multiple": multiple, "type": type});
-    socket.constraints.add(constraint);
+    {
+      final constraints = [
+         ConstraintFactory.create("inout", socket, {"multiple": multiple, "type": type}),
+         ConstraintFactory.create("same_node", socket),
+         ConstraintFactory.create("duplicate", socket),
+      ];
+      socket.constraints.addAll(constraints);
+    }
   }
     
   Point getPositionOffset() {

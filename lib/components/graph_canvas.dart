@@ -177,6 +177,8 @@ class LinkCreationHandler {
   /** the point when the drag started */
   Point startDragPoint;
   
+  bool dragging = false;
+  
   /** Fired when the link creation is initiated */
   void _handleLinkCreationStart(GraphSocketView socketView, MouseEvent e) {
     // Check the constraints of the socket to determine if it can create a link from here
@@ -195,10 +197,12 @@ class LinkCreationHandler {
     creationLink = new GraphLinkView(null, canvas);
     
     startDragPoint = new Point(e.page.x, e.page.y);
+    
+    dragging = true;
   }
   /** Handle the link creation process, while the pointer has not yet reached the destination */
   void _handleLinkCreationDrag(MouseEvent e) {
-    if (creationLink == null) return;
+    if (!dragging || creationLink == null) return;
     // update the temporary link's path from the source to the cursor position
     Point source = originSocket.position;
     Point sourceDirection = originSocket.plugDirection;
@@ -222,6 +226,8 @@ class LinkCreationHandler {
     }
     
     _cancelGlobalMouseStream();
+    
+    dragging = false;
   }
 
   /** cancels the stream subscription to stop listening to global mouse events */ 
@@ -239,6 +245,9 @@ class LinkCreationHandler {
   
   /** Cursor was released on a socket. Create a link if necessary */
   void _handleLinkCreationEndOnSocket(GraphSocketView socketView, MouseEvent e) {
+    if (!dragging) return;
+    dragging = false;
+    
     if (creationLink != null) {
       creationLink.destroy();
       creationLink = null;
@@ -252,7 +261,7 @@ class LinkCreationHandler {
     _cancelGlobalMouseStream();
     
     // Check if we can create a link with this socket as the destination
-    if (socketView.socket.canAcceptIncomingLink(originSocket.socket)) {
+    if (!socketView.socket.canAcceptIncomingLink(originSocket.socket)) {
       // This socket does not allow incoming nodes. Do not create a link
       return;
     }
