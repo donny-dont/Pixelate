@@ -4,6 +4,9 @@ import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/utils/core_utils.dart';
+import 'package:pixelate/graph/graph.dart';
+import 'package:pixelate/components/graph_socket.dart';
+import 'package:pixelate/components/graph_canvas.dart';
 
 /**
  * Polymer diagram node view
@@ -12,14 +15,61 @@ import 'package:pixelate/utils/core_utils.dart';
 class GraphNodeView extends PolymerElement {
   /** The ID of the DOM element for dragging this node with the mouse */
   @published String dragHandleId;
+  
+  /** The data model of this node. This is will be set by the canvas after creation of this object */
+  GraphNode _model;
+  GraphNode get model => _model;
+  set model(GraphNode value) {
+    _model = value;
+    _rebuildSockets();
+  }
 
+  /** A reference to the graph canvas. Will be set by the view on this object creation */
+  GraphCanvas canvas;
+  
   var _onNodeMoved = new StreamController<GraphNodeView>.broadcast();
   Stream<GraphNodeView> get onNodeMoved => _onNodeMoved.stream;
   
   GraphNodeView.created() : super.created();
+
+  var _onMoved = new StreamController<GraphNodeEvent>();
+  Stream<GraphNodeEvent> get onMoved => _onMoved.stream;
   
-  /** The graph canvas that hosts this node */
-  var canvas;
+  /** The position of the node relative to the parent (graph canvas) */
+  Point get position => getElementPosition(this);
+  
+
+  /** List of sockets views hosted by this node view, mapped by their ids */
+  var _socketViews = new Map<String, GraphSocketView>();
+  Map<String, GraphSocketView> get socketViews => _socketViews;
+  
+  void enteredView() {
+    super.enteredView();
+    
+    // Listen to node drag events
+    onNodeMoved.listen((e) => _onMoved.add(new GraphNodeEvent(this)));
+  }
+  
+  /** 
+   * Called when the node view is about to be destroyed. 
+   * Do not call this directly. Call GraphCanvas.destroyNode instead 
+   */
+  void destroy() {
+   model.destroy(); 
+  }
+  
+  void _rebuildSockets() {
+    // grab all the sockets from the DOM and register them with the node model
+    var socketViews = shadowRoot.querySelectorAll('px-graph-socket');
+    socketViews.addAll(querySelectorAll('px-graph-socket'));
+    
+    for (GraphSocketView socketView in socketViews) {
+      GraphSocket socket = model.createSocket(socketView.id);
+      socketView.socket = socket;
+      socketView.nodeView = this;
+      _socketViews[socket.id] = socketView;
+    }
+  }
   
   void enableDragging(String handleId) {
     final dragHandle = findChildElementById(this, handleId);
@@ -128,3 +178,11 @@ class DragEvent {
 }
 
 class Point2 { num x, y; }
+
+
+/** Node event object passed as parameter when firing various node events */
+class GraphNodeEvent {
+  GraphNodeView nodeView;
+  GraphNodeEvent(this.nodeView);
+}
+

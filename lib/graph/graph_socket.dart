@@ -5,33 +5,31 @@ class GraphSocket {
   /** The node that hosts this socket */
   GraphNode node;
   
-  /** The socket view */
-  GraphSocketView view;
-  
   /** Socket id */
   String id;
   
   /** Links connected to the socket */
   var links = new List<GraphLink>();
 
-  /** The direction from which the link is plugged into this socket */
-  Point get plugDirection => view.plugDirection; 
+  /** 
+   * The list of constraints attached to this node
+   * Constraints are used to determine if a link be attached to this socket 
+   */
+  List<GraphConstraint> constraints = [];
   
-  GraphSocket(this.view, this.node) {
-    // Extract the id from the view
-    id = view.id; 
+  GraphSocket(this.id, this.node);
+
+  /** Checks all the constraints and determines if an outgoing link can be accepted from this socket */
+  bool canAcceptOutgoingLink() {
+    var result = true;
+    constraints.forEach((constraint) { result = result && constraint.canAcceptOutgoingLink(); });
+    return result;
   }
   
-  Point getPositionOffset() {
-    final offset = getElementOffset(view);
-    final size = view.size;
-    return new Point(offset.x + size.x / 2, offset.y + size.y / 2);
+  /** Checks all the constraints and determines if an incoming link can be accepted from this socket */
+  bool canAcceptIncomingLink(GraphSocket sourceSocket) {
+    var result = true;
+    constraints.forEach((constraint) { result = result && constraint.canAcceptIncomingLink(sourceSocket); });
+    return result;
   }
-  
-  Point get position {
-    final nodePosition = node.position;
-    final socketOffset = getPositionOffset();
-    return new Point(nodePosition.x + socketOffset.x, nodePosition.y + socketOffset.y);
-  }
-  
 }

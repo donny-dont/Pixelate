@@ -5,6 +5,7 @@ import 'dart:math';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/graph/graph.dart';
+import 'package:pixelate/utils/core_utils.dart';
 
 /**
  * Graph node socket view 
@@ -20,10 +21,27 @@ class GraphSocketView extends PolymerElement {
   /** The direction from which the link is plugged into this socket */
   @published String dir;
   
+  /** The data type used by this socket */
+  @published String data;
+  
+  /** The type of socket. valid values are "in", "out", "inout". Default is "inout" */
+  @published String type = "inout";
+  
+  /** Flag to indicate if the socket allows multiple links */
+  @published bool multiple = false;
+  
+  
+  /** 
+   * The direction from which the links are connected from. 
+   * This is used to apply tension on the spline. This value is parsed by the dir attribute
+   */
   var plugDirection = new Point(1, 0);
   
   /** The socket model */
   GraphSocket socket;
+  
+  /** the node view that hosts this socket */
+  var nodeView;
 
   var _onSocketChanged = new StreamController<GraphSocket>.broadcast();
   Stream<GraphSocket> get onSocketChanged => _onSocketChanged.stream;
@@ -49,9 +67,40 @@ class GraphSocketView extends PolymerElement {
       if (tokens.length >= 2) {
         final x = double.parse(tokens[0]);
         final y = double.parse(tokens[1]);
-        plugDirection = new Point(x, y);
+        
+        // Normalize the direction
+        var length = sqrt(x * x + y * y);
+        if (length < 1e-6) length = 1;
+        plugDirection = new Point(x / length, y / length);
       }
     }
+    
+    // Add default constraints
+    {
+      final constraints = [
+         ConstraintFactory.create("inout", socket, {"multiple": multiple, "type": type}),
+         ConstraintFactory.create("same_node", socket),
+         ConstraintFactory.create("duplicate", socket),
+      ];
+      socket.constraints.addAll(constraints);
+    }
   }
+    
+  Point getPositionOffset() {
+    final offset = getElementOffset(this);
+    return new Point(offset.x + size.x / 2, offset.y + size.y / 2);
+  }
+  
+  Point get position {
+    final nodePosition = nodeView.position;
+    final socketOffset = getPositionOffset();
+    return new Point(nodePosition.x + socketOffset.x, nodePosition.y + socketOffset.y);
+  }
+  
+  num get radius {
+    
+    return imageElement.clientWidth / 2.0;    // TODO: Avoid using clientWidth for performance reasons
+  }
+
 }
 
