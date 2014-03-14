@@ -24,3 +24,4 @@ transformers:
     - web/components/progress_bar/index.html
     - web/components/tab/index.html
     - web/components/tree_view/index.html
+    - example/graph/graph_demo.html
