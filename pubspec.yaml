@@ -11,7 +11,7 @@ dependencies:
 dev_dependencies:
   mustache: any
   pixelate_flat:
-    path: ../pixelate-flat
+    git: https://github.com/donny-dont/Pixelate-Flat.git
   unittest: any
 transformers:
 - polymer:
