@@ -2,6 +2,9 @@
   "Accordion": [
     "packages/pixelate_flat/stylesheets/expander.css"
   ],
+  "Button": [
+    "packages/pixelate_flat/stylesheets/button.css"
+  ],
   "Expander": [
     "packages/pixelate_flat/stylesheets/expander.css"
   ],
