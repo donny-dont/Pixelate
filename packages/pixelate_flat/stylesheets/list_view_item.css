@@ -1,0 +1,16 @@
+px-list-view-item ^ .header {
+  cursor: pointer;
+  transition: background-color 1s;
+  padding: 10px 20px;
+  font-size: 16px;
+  line-height: 16px; }
+  px-list-view-item ^ .header:hover {
+    background-color: #897aa9; }
+  px-list-view-item ^ .header:active {
+    background-color: #574a73; }
+
+px-list-view-item ^ .icon {
+  margin-right: 5px; }
+
+px-list-view-item ^ .node_selected {
+  background-color: #6a5a8c; }

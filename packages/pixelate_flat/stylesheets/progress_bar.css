@@ -1,0 +1,31 @@
+px-progress-bar ^ .fill {
+  background-color: #1f7f5c; }
+
+px-progress-bar.info ^ .fill {
+  background-color: #5a9aa8; }
+
+px-progress-bar.warning ^ .fill {
+  background-color: #de8650; }
+
+px-progress-bar.danger ^ .fill {
+  background-color: #e56c69; }
+
+px-progress-bar.striped ^ .fill:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-size: 50px 50px;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); }
+
+@keyframes move {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 50px 50px; } }
+
+px-progress-bar.animated ^ .fill:after {
+  animation: move 2s linear infinite; }

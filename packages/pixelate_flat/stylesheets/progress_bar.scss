@@ -1,0 +1,45 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'partials/backgrounds';
+@import 'partials/colors';
+@import 'partials/variables';
+
+px-progress-bar .fill {
+  background-color: $color-success;
+}
+
+px-progress-bar.info .fill {
+  background-color: $color-info;
+}
+
+px-progress-bar.warning .fill {
+  background-color: $color-warning;
+}
+
+px-progress-bar.danger .fill {
+  background-color: $color-danger;
+}
+
+px-progress-bar.striped .fill:after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-size: 50px 50px;
+  @include background-stripes;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+px-progress-bar.animated .fill:after {
+  animation: move 2s linear infinite;
+}

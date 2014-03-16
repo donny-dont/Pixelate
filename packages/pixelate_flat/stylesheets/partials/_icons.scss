@@ -1,0 +1,21 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+$default-icon-font: "FontAwesome";
+$default-icon-size: 16px;
+$default-icon-margin: 5px;
+
+@mixin icon($icon-size: $default-icon-size, $icon-margin: $default-icon-size) {
+  width: $icon-size;
+  margin-right: $icon-margin;
+  text-align: center;
+}
+
+@mixin icon-font($content, $font: $default-icon-font) {
+  &:before {
+    font-family: $font;
+    content: $content;
+  }
+}

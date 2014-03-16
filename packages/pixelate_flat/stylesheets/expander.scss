@@ -1,0 +1,36 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'fonts/variables';
+@import 'partials/animations';
+@import 'partials/colors';
+@import 'partials/fonts';
+@import 'partials/icons';
+@import 'partials/variables';
+
+px-expander .header {
+  cursor: $cursor-click;
+  transition: $background-color-transition;
+  padding: $padding-default;
+
+  @include vertically-center-text($font-size-larger);
+  @include color-change($color-square-ui-purple);
+}
+
+px-expander .icon {
+  @include icon;
+}
+
+px-expander .expand-icon {
+  @include icon-font($expand-icon-content);
+}
+
+px-expander .collapse-icon {
+  @include icon-font($collapse-icon-content);
+}
+
+px-expander .view {
+  @include animate-height;
+}

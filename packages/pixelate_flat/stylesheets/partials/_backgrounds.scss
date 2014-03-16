@@ -1,0 +1,27 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@mixin background-grid($background-color, $line-color, $line-opacity: 0.3) {
+  background-color: $background-color;
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, 0px 0px, 0px 0px;
+  background-image: linear-gradient($line-color 2px, transparent 2px),
+                    linear-gradient(90deg, $line-color 2px, transparent 2px),
+                    linear-gradient(rgba($line-color, $line-opacity) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba($line-color, $line-opacity) 1px, transparent 1px);
+}
+
+@mixin background-stripes() {
+  background-image:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, .2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, .2) 50%,
+      rgba(255, 255, 255, .2) 75%,
+      transparent 75%, transparent
+    );
+}

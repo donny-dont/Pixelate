@@ -1,0 +1,154 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.navigation-area {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: black;
+  border-bottom: 1px solid #4E4E4E;
+}
+
+.navigation {
+  margin: 0px auto;
+  width: 900px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.navigation > div {
+  margin: 0 10px;
+}
+
+.link {
+  padding: 0px 5px;
+}
+
+.link:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.link > a:link, a:hover, a:visited, a:active {
+  text-decoration: none;
+  color: white;
+}
+
+.header-area {
+  background-image: url(images/pixelated.png);
+}
+
+.header {
+  height: 200px;
+  padding-top: 66px;
+  width: 900px;
+  margin: 0 auto;
+}
+
+.header.large {
+  height: 400px;
+}
+
+.header > h1 {
+  margin: 0;
+  font-size: 48px;
+}
+
+.header > h2 {
+  margin-top: 16px;
+  font-size: 32px;
+}
+
+.content {
+  width: 900px;
+  margin: 16px auto 0 auto;
+}
+
+.component-selection {
+  margin-top: 39px;
+}
+
+.component-selection > h2 {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0px;
+}
+
+.component-selection > .link {
+  padding: 10px 6px;
+}
+
+.documentation {
+  width: 100%;
+  padding: 10px;
+}
+
+.documentation > h2 {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.component-name {
+  font-size: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.components {
+  width: 300px;
+}
+
+.example {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.example > * {
+  padding: 10px;
+  margin: 0px;
+}
+
+.example > pre {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: black;
+  overflow-x: scroll;
+}
+
+.example > pre::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+  height: 6px; }
+.example > pre::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  background-color: rgba(255, 255, 255, 0.2); }
+.example > pre::-webkit-scrollbar-track {
+  background-color: transparent; }
+.example > pre::-webkit-scrollbar-corner {
+  background-color: rgba(255, 255, 255, 0.3); }
+
+code {
+  margin: 0px !important;
+}
+
+.footer {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: black;
+}
+
+.external, .external:visited, .external:link {
+  text-decoration: none;
+  color: #8c5d79; }
+  .external:hover {
+    color: #a97d97; }
+  .external:active {
+    color: #734d64; }
+
+.footer > p {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}

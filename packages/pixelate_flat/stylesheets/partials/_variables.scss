@@ -1,0 +1,47 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import '../fonts/variables';
+
+// Color palette from Square UI http://designmodo.com/square/
+$color-square-ui-darken-by: 8%;
+$color-square-ui-lighten-by: 12%;
+
+$color-square-ui-white: #ffffff;
+$color-square-ui-black: #232323;
+$color-square-ui-navy: #285258;
+$color-square-ui-red: #e56c69;
+$color-square-ui-green: #1f7f5c;
+$color-square-ui-purple: #6a5a8c;
+$color-square-ui-lilac: #8c5d79;
+$color-square-ui-blue: #5a9aa8;
+$color-square-ui-yellow: #de8650;
+
+// Background color transition
+$background-color-transition: background-color 1s;
+
+// Padding
+$padding-default: 10px 20px;
+
+// Font size
+$font-size-regular: 16px;
+$font-size-larger: 24px;
+
+// Cursors
+$cursor-click: pointer;
+
+// Icons
+$icon-size: 16px;
+$icon-margin: 5px;
+
+// Expansion icons
+$expand-icon-content: $fa-var-caret-right;
+$collapse-icon-content: $fa-var-caret-down;
+
+// Colors
+$color-success: $color-square-ui-green;
+$color-info: $color-square-ui-blue;
+$color-warning: $color-square-ui-yellow;
+$color-danger: $color-square-ui-red;

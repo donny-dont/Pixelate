@@ -1,0 +1,25 @@
+<link rel="import" href="../flex_panel.html">
+
+<polymer-element name="px-list-view-item">
+  <template> 
+    <style>
+      
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+      
+      /* Hidden class required for the cusomizable mixin */
+      .hidden { display: none !important; }
+      
+    </style>
+    <content>
+      <div>
+        <px-flex-panel orientation="horizontal" id="item_host" class="header node_unselected no_selection" on-click="{{onItemClicked}}">
+          {{text}}
+        </px-flex-panel>
+      </div>
+    </content>
+  </template>
+  <script type="application/dart" src="list_view_item.dart"></script>
+</polymer-element>

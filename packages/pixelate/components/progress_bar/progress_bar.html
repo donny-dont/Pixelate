@@ -1,0 +1,27 @@
+<link rel="import" href="../flex_panel.html">
+
+<polymer-element name="px-progress-bar" attributes="value">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box: box-sizing;
+      }
+
+      .content {
+        position: absolute;
+        z-index: 1;
+      }
+
+      .fill {
+        display: block;
+        position: relative;
+      }
+    </style>
+    <px-flex-panel class="content" orientation="horizontal">
+      <content></content>
+    </px-flex-panel>
+    <span class="fill">&nbsp;</span>
+  </template>
+  <script type="application/dart" src="progress_bar.dart"></script>
+</polymer-element>

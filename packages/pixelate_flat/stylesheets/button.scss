@@ -1,0 +1,29 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'partials/colors';
+@import 'partials/fonts';
+@import 'partials/variables';
+
+px-button {
+  cursor: $cursor-click;
+  transition: $background-color-transition;
+  padding: $padding-default;
+
+  @include vertically-center-text($font-size-larger);
+  @include color-change($color-success);
+}
+
+px-button.info {
+  @include color-change($color-info);
+}
+
+px-button.warning {
+  @include color-change($color-warning);
+}
+
+px-button.danger {
+  @include color-change($color-danger);
+}

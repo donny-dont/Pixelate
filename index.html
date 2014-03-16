@@ -1,0 +1,87 @@
+<!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelate</title>
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
+
+    <!-- Import the elements -->
+    
+
+    <!-- Setup Polymer -->
+    <script src="index.html_bootstrap.dart.js"></script>
+    
+
+    <!-- Setup syntax highlighting -->
+    <link rel="stylesheet" href="syntax.css">
+    <script src="highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body><polymer-element name="px-flex-panel" attributes="orientation">
+  <template> 
+    <style>
+      :host {
+        display: flex !important;
+        border-box; box-sizing; 
+      }
+      
+      :host > * {
+        border-box; box-sizing;
+      }
+    </style>
+    <content></content>    
+  </template>
+  
+</polymer-element>
+
+    <px-flex-panel orientation="vertical" style="min-height: 100%;">
+      <div class="header-area">
+  <div class="header">
+    <h1 class="center">Pixelate</h1>
+    <h2 class="center">A UI library for creating amazing web applications.</h2>
+    <p class="center">Currently v0.1.0</p>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="vertical" style="flex:1">
+  <h1 class="center">Designed for modern web applications</h1>
+  <h3 class="center">
+    Pixelate allows you to create web applications that rival native applications.
+    It provides a number of widgets that web applications need, allowing you to pick and choose what's important for your application.
+    Elements are themed to give a flat look and can be customized according to your own look and feel.
+  </h3>
+  <h3 class="center">All of this leaves you to focus on making your application great.</h3>
+  <px-flex-panel orientation="horizontal" class="built-on center">
+    <div>
+      <img src="images/polymer_logo.svg" height="200px">
+      <h2>Built with Polymer</h2>
+      <p>Leveraging web components for next generation web applications.</p>
+    </div>
+    <div>
+      <img src="images/dart_logo.svg" height="200px">
+      <h2>Using Dart</h2>
+      <p>The modern web language for building scalable web applications.</p>
+    </div>
+  </px-flex-panel>
+  <h2 class="center">Pixelate is open source. It's hosted, developed, and maintained on GitHub.</h2>
+</px-flex-panel>
+      <div class="footer">
+        <px-flex-panel orientation="horizontal">
+        </px-flex-panel>
+        <p>Code licensed under a <a class="external" href="http://opensource.org/licenses/Zlib">zlib license</a>. Documentation under <a class="external" href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+      </div>
+    </px-flex-panel>
+
+    <div class="navigation-area">
+      <px-flex-panel orientation="horizontal" class="navigation">
+        <div class="link"><a href="/index.html">Pixelate</a></div>
+        <div class="link"><a href="/getting_started/index.html">Getting started</a></div>
+        <div class="link"><a href="/components/flex_panel/index.html">Components</a></div>
+      </px-flex-panel>
+    </div>
+  
+
+</body></html>

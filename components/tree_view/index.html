@@ -1,0 +1,348 @@
+<!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelate Components</title>
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/tree_view_node.css">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Import the elements -->
+    
+    
+    
+
+    <!-- Setup Polymer -->
+    <script src="index.html_bootstrap.dart.js"></script>
+    
+
+    <!-- Setup syntax highlighting -->
+    <link rel="stylesheet" href="../../syntax.css">
+    <script src="../../highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body><polymer-element name="px-flex-panel" attributes="orientation">
+  <template> 
+    <style>
+      :host {
+        display: flex !important;
+        border-box; box-sizing; 
+      }
+      
+      :host > * {
+        border-box; box-sizing;
+      }
+    </style>
+    <content></content>    
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-tree-view-node" attributes="expanded header">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      /* Hidden class required for the cusomizable mixin */
+      .hidden { display: none !important; }
+    </style>
+      <div>
+        <px-flex-panel orientation="horizontal" id="node_host" class="header node_unselected no_selection" on-click="{{onNodeClicked}}" on-doubleclick="{{toggle}}">
+          <div class="icon" on-click="{{toggle}}">
+            <template if="{{expanded}}">
+              <div class="collapse-icon"></div>
+            </template>
+            <template if="{{!expanded}}">
+              <div class="expand-icon"></div>
+            </template>
+          </div>
+          <px-flex-panel class="default-tree-view-header">
+            <div>{{header}}</div>
+          </px-flex-panel>
+          <!-- Potential override for the header -->
+          <content select=".tree-view-header"></content>
+        </px-flex-panel>
+        <!-- Content view -->
+        <div class="view">
+          <px-flex-panel class="expandable">
+            <content></content>
+          </px-flex-panel>
+        </div>
+      </div>
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-tree-view" on-selectionchanged="{{onNodeSelected}}">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+    </style>
+    <content></content>
+  </template>
+  
+</polymer-element>
+
+    <px-flex-panel orientation="vertical" style="min-height: 100%;">
+      <div class="header-area">
+  <div class="header">
+    <h1>Components</h1>
+    <h2>A set of reusable components for web applications</h2>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="horizontal" style="flex:1">
+  <div class="documentation" style="flex: 1;">
+    <div class="component-name">&lt;px-tree-view&gt;</div>
+    <div class="overview"><p>Description goes here</p></div>
+    <h2>Examples</h2>
+    <p>A simple tree view. Elements can be expanded or collapsed by double clicking the header, or by clicking the expansion icon.</p>
+    <div class="example">
+      <px-tree-view>
+  <px-tree-view-node header="Pixelate">
+    <px-tree-view-node header="Layout">
+      <px-tree-view-node header="FlexPanel"></px-tree-view-node>
+      <px-tree-view-node header="GridPanel"></px-tree-view-node>
+    </px-tree-view-node>
+    <px-tree-view-node header="Navigation">
+      <px-tree-view-node header="TreeView"></px-tree-view-node>
+      <px-tree-view-node header="ListView"></px-tree-view-node>
+    </px-tree-view-node>
+  </px-tree-view-node>
+</px-tree-view>
+      <pre class="code"><code>&lt;px-tree-view&gt;
+  &lt;px-tree-view-node header="Pixelate"&gt;
+    &lt;px-tree-view-node header="Layout"&gt;
+      &lt;px-tree-view-node header="FlexPanel"&gt;&lt;/px-tree-view-node&gt;
+      &lt;px-tree-view-node header="GridPanel"&gt;&lt;/px-tree-view-node&gt;
+    &lt;/px-tree-view-node&gt;
+    &lt;px-tree-view-node header="Navigation"&gt;
+      &lt;px-tree-view-node header="TreeView"&gt;&lt;/px-tree-view-node&gt;
+      &lt;px-tree-view-node header="ListView"&gt;&lt;/px-tree-view-node&gt;
+    &lt;/px-tree-view-node&gt;
+  &lt;/px-tree-view-node&gt;
+&lt;/px-tree-view&gt;</code></pre>
+    </div>
+    <p>A customized tree view where icons are added to the header. A tree view like this is common in modeling programs.</p>
+    <div class="example">
+      <px-tree-view>
+  <!-- Meshes -->
+  <px-tree-view-node>
+    <px-flex-panel orientation="horizontal" class="tree-view-header">
+      <div class="icon mesh-icon"></div>
+      <div>Meshes</div>
+    </px-flex-panel>
+
+    <!-- Skeleton -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon skeleton-icon"></div>
+        <div>Orc.skeleton</div>
+      </px-flex-panel>
+
+      <!-- Root node -->
+      <px-tree-view-node>
+        <px-flex-panel orientation="horizontal" class="tree-view-header">
+          <div class="icon bone-icon"></div>
+          <div>root</div>
+        </px-flex-panel>
+      </px-tree-view-node>
+    </px-tree-view-node>
+  </px-tree-view-node>
+
+  <!-- Lights -->
+  <px-tree-view-node>
+    <px-flex-panel orientation="horizontal" class="tree-view-header">
+      <div class="icon light-icon"></div>
+      <div>Lights</div>
+    </px-flex-panel>
+
+    <!-- Sun -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon light-icon"></div>
+        <div>Sun</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Point Light -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon light-icon"></div>
+        <div>Point Light</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+  </px-tree-view-node>
+
+  <!-- Cameras -->
+  <px-tree-view-node>
+    <px-flex-panel orientation="horizontal" class="tree-view-header">
+      <div class="icon camera-icon"></div>
+      <div>Cameras</div>
+    </px-flex-panel>
+
+    <!-- Player Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Player Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Replay Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Replay Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+
+    <!-- Top View Camera -->
+    <px-tree-view-node>
+      <px-flex-panel orientation="horizontal" class="tree-view-header">
+        <div class="icon camera-icon"></div>
+        <div>Top View Camera</div>
+      </px-flex-panel>
+    </px-tree-view-node>
+  </px-tree-view-node>
+</px-tree-view>
+      <pre class="code"><code>&lt;px-tree-view&gt;
+  &lt;!-- Meshes --&gt;
+  &lt;px-tree-view-node&gt;
+    &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+      &lt;div class="icon mesh-icon"&gt;&lt;/div&gt;
+      &lt;div&gt;Meshes&lt;/div&gt;
+    &lt;/px-flex-panel&gt;
+
+    &lt;!-- Skeleton --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+        &lt;div class="icon skeleton-icon"&gt;&lt;/div&gt;
+        &lt;div&gt;Orc.skeleton&lt;/div&gt;
+      &lt;/px-flex-panel&gt;
+
+      &lt;!-- Root node --&gt;
+      &lt;px-tree-view-node&gt;
+        &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+          &lt;div class="icon bone-icon"&gt;&lt;/div&gt;
+          &lt;div&gt;root&lt;/div&gt;
+        &lt;/px-flex-panel&gt;
+      &lt;/px-tree-view-node&gt;
+    &lt;/px-tree-view-node&gt;
+  &lt;/px-tree-view-node&gt;
+
+  &lt;!-- Lights --&gt;
+  &lt;px-tree-view-node&gt;
+    &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+      &lt;div class="icon light-icon"&gt;&lt;/div&gt;
+      &lt;div&gt;Lights&lt;/div&gt;
+    &lt;/px-flex-panel&gt;
+
+    &lt;!-- Sun --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+        &lt;div class="icon light-icon"&gt;&lt;/div&gt;
+        &lt;div&gt;Sun&lt;/div&gt;
+      &lt;/px-flex-panel&gt;
+    &lt;/px-tree-view-node&gt;
+
+    &lt;!-- Point Light --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+        &lt;div class="icon light-icon"&gt;&lt;/div&gt;
+        &lt;div&gt;Point Light&lt;/div&gt;
+      &lt;/px-flex-panel&gt;
+    &lt;/px-tree-view-node&gt;
+  &lt;/px-tree-view-node&gt;
+
+  &lt;!-- Cameras --&gt;
+  &lt;px-tree-view-node&gt;
+    &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+      &lt;div class="icon camera-icon"&gt;&lt;/div&gt;
+      &lt;div&gt;Cameras&lt;/div&gt;
+    &lt;/px-flex-panel&gt;
+
+    &lt;!-- Player Camera --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+        &lt;div class="icon camera-icon"&gt;&lt;/div&gt;
+        &lt;div&gt;Player Camera&lt;/div&gt;
+      &lt;/px-flex-panel&gt;
+    &lt;/px-tree-view-node&gt;
+
+    &lt;!-- Replay Camera --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+        &lt;div class="icon camera-icon"&gt;&lt;/div&gt;
+        &lt;div&gt;Replay Camera&lt;/div&gt;
+      &lt;/px-flex-panel&gt;
+    &lt;/px-tree-view-node&gt;
+
+    &lt;!-- Top View Camera --&gt;
+    &lt;px-tree-view-node&gt;
+      &lt;px-flex-panel orientation="horizontal" class="tree-view-header"&gt;
+        &lt;div class="icon camera-icon"&gt;&lt;/div&gt;
+        &lt;div&gt;Top View Camera&lt;/div&gt;
+      &lt;/px-flex-panel&gt;
+    &lt;/px-tree-view-node&gt;
+  &lt;/px-tree-view-node&gt;
+&lt;/px-tree-view&gt;</code></pre>
+    </div>
+  </div>
+  <div class="component-selection">
+    <h2>Layout</h2>
+      <div class="link">
+        <a href="../../components/flex_panel/index.html">FlexPanel</a>
+      </div>
+      <div class="link">
+        <a href="../../components/grid_panel/index.html">GridPanel</a>
+      </div>
+    <h2>Navigation</h2>
+      <div class="link">
+        <a href="../../components/accordion/index.html">Accordion</a>
+      </div>
+      <div class="link">
+        <a href="../../components/expander/index.html">Expander</a>
+      </div>
+      <div class="link">
+        <a href="../../components/scroll_viewer/index.html">ScrollViewer</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tab/index.html">Tab</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tree_view/index.html">TreeView</a>
+      </div>
+    <h2>Controls</h2>
+      <div class="link">
+        <a href="../../components/button/index.html">Button</a>
+      </div>
+      <div class="link">
+        <a href="../../components/progress_bar/index.html">ProgressBar</a>
+      </div>
+  </div>
+</px-flex-panel>
+      <div class="footer">
+        <px-flex-panel orientation="horizontal">
+        </px-flex-panel>
+        <p>Code licensed under a <a class="external" href="http://opensource.org/licenses/Zlib">zlib license</a>. Documentation under <a class="external" href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+      </div>
+    </px-flex-panel>
+
+    <div class="navigation-area">
+      <px-flex-panel orientation="horizontal" class="navigation">
+        <div class="link"><a href="../..//index.html">Pixelate</a></div>
+        <div class="link"><a href="../..//getting_started/index.html">Getting started</a></div>
+        <div class="link"><a href="../..//components/flex_panel/index.html">Components</a></div>
+      </px-flex-panel>
+    </div>
+  
+
+</body></html>

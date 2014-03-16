@@ -1,0 +1,276 @@
+<!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelate Components</title>
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Import the elements -->
+    
+    
+    
+    
+    
+    
+
+    <!-- Setup Polymer -->
+    <script src="index.html_bootstrap.dart.js"></script>
+    
+
+    <!-- Setup syntax highlighting -->
+    <link rel="stylesheet" href="../../syntax.css">
+    <script src="../../highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body><polymer-element name="px-flex-panel" attributes="orientation">
+  <template> 
+    <style>
+      :host {
+        display: flex !important;
+        border-box; box-sizing; 
+      }
+      
+      :host > * {
+        border-box; box-sizing;
+      }
+    </style>
+    <content></content>    
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-column-definition" attributes="width">
+  <template> 
+    <style>
+      @host { :scope { display: none; } }
+    </style>
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-column-definitions">
+  <template>
+    <style>
+      @host { :scope { display: none; } }
+    </style>
+    <content select="px-column-definition"></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-row-definition" attributes="height">
+  <template> 
+    <style>
+      @host { :scope { display: none; } }
+    </style>
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-row-definitions">
+  <template>
+    <style>
+      @host { :scope { display: none; } }
+    </style>
+    <content select="px-row-definition"></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-grid-panel">
+  <template>
+    <style>
+      :host {
+        display: grid;
+      }
+    </style>
+    <content select="px-column-definitions" on-columnschange="{{columnsChange}}"></content>
+    <content select="px-row-definitions" on-rowschange="{{rowsChange}}"></content>
+    <content></content>
+  </template>
+  
+</polymer-element>
+
+    <px-flex-panel orientation="vertical" style="min-height: 100%;">
+      <div class="header-area">
+  <div class="header">
+    <h1>Components</h1>
+    <h2>A set of reusable components for web applications</h2>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="horizontal" style="flex:1">
+  <div class="documentation" style="flex: 1;">
+    <div class="component-name">&lt;px-grid-panel&gt;</div>
+    <div class="overview"><p>Description goes here</p></div>
+    <h2>Examples</h2>
+    <p>A grid panel with content spanning multiple sizes.</p>
+    <div class="example">
+      <px-grid-panel>
+  <px-row-definitions>
+    <px-row-definition height="100px"></px-row-definition>
+    <px-row-definition height="200px"></px-row-definition>
+  </px-row-definitions>
+  <px-column-definitions>
+    <px-column-definition width="100px"></px-column-definition>
+    <px-column-definition width="200px"></px-column-definition>
+  </px-column-definitions>
+  <!-- First column -->
+  <div data-column="0" data-row="0" class="red grid-item">(0, 0)</div>
+  <div data-column="0" data-row="1" class="blue grid-item">(0, 1)</div>
+  <!-- Second column -->
+  <div data-column="1" data-row="0" class="green grid-item">(1, 0)</div>
+  <div data-column="1" data-row="1" class="purple grid-item">(1, 1)</div>
+</px-grid-panel>
+      <pre class="code"><code>&lt;px-grid-panel&gt;
+  &lt;px-row-definitions&gt;
+    &lt;px-row-definition height="100px"&gt;&lt;/px-row-definition&gt;
+    &lt;px-row-definition height="200px"&gt;&lt;/px-row-definition&gt;
+  &lt;/px-row-definitions&gt;
+  &lt;px-column-definitions&gt;
+    &lt;px-column-definition width="100px"&gt;&lt;/px-column-definition&gt;
+    &lt;px-column-definition width="200px"&gt;&lt;/px-column-definition&gt;
+  &lt;/px-column-definitions&gt;
+  &lt;!-- First column --&gt;
+  &lt;div data-column="0" data-row="0" class="red grid-item"&gt;(0, 0)&lt;/div&gt;
+  &lt;div data-column="0" data-row="1" class="blue grid-item"&gt;(0, 1)&lt;/div&gt;
+  &lt;!-- Second column --&gt;
+  &lt;div data-column="1" data-row="0" class="green grid-item"&gt;(1, 0)&lt;/div&gt;
+  &lt;div data-column="1" data-row="1" class="purple grid-item"&gt;(1, 1)&lt;/div&gt;
+&lt;/px-grid-panel&gt;</code></pre>
+    </div>
+    <p>A grid panel displaying input that contains elements spanning multiple rows.</p>
+    <div class="example">
+      <px-grid-panel>
+  <px-row-definitions>
+    <px-row-definition></px-row-definition>
+    <px-row-definition></px-row-definition>
+    <px-row-definition></px-row-definition>
+    <px-row-definition></px-row-definition>
+    <px-row-definition></px-row-definition>
+    <px-row-definition></px-row-definition>
+    <px-row-definition></px-row-definition>
+  </px-row-definitions>
+  <px-column-definitions>
+    <px-column-definition></px-column-definition>
+    <px-column-definition></px-column-definition>
+    <px-column-definition></px-column-definition>
+  </px-column-definitions>
+  <!-- First column -->
+  <div data-column="0" data-row="0">First Name:</div>
+  <div data-column="0" data-row="1">Last Name:</div>
+  <div data-column="0" data-row="2">Address:</div>
+  <div data-column="0" data-row="3">Address 2:</div>
+  <div data-column="0" data-row="4">City:</div>
+  <div data-column="0" data-row="5">State:</div>
+  <div data-column="0" data-row="6">Zip:</div>
+  <!-- Second column -->
+  <input data-column="1" data-row="0" type="text">
+  <input data-column="1" data-row="1" type="text">
+  <input data-column="1" data-row="2" type="text">
+  <input data-column="1" data-row="3" type="text">
+  <input data-column="1" data-row="4" type="text">
+  <input data-column="1" data-row="5" type="text">
+  <input data-column="1" data-row="6" type="text">
+  <!-- Third column -->
+  <div data-column="2" data-row="0" data-rowspan="7">
+    <div>Department</div>
+    <select multiple="" size="3">
+      <option>Finance</option>
+      <option>Human Resources</option>
+      <option>Marketing</option>
+    </select>
+  </div>
+</px-grid-panel>
+      <pre class="code"><code>&lt;px-grid-panel&gt;
+  &lt;px-row-definitions&gt;
+    &lt;px-row-definition&gt;&lt;/px-row-definition&gt;
+    &lt;px-row-definition&gt;&lt;/px-row-definition&gt;
+    &lt;px-row-definition&gt;&lt;/px-row-definition&gt;
+    &lt;px-row-definition&gt;&lt;/px-row-definition&gt;
+    &lt;px-row-definition&gt;&lt;/px-row-definition&gt;
+    &lt;px-row-definition&gt;&lt;/px-row-definition&gt;
+    &lt;px-row-definition&gt;&lt;/px-row-definition&gt;
+  &lt;/px-row-definitions&gt;
+  &lt;px-column-definitions&gt;
+    &lt;px-column-definition&gt;&lt;/px-column-definition&gt;
+    &lt;px-column-definition&gt;&lt;/px-column-definition&gt;
+    &lt;px-column-definition&gt;&lt;/px-column-definition&gt;
+  &lt;/px-column-definitions&gt;
+  &lt;!-- First column --&gt;
+  &lt;div data-column="0" data-row="0"&gt;First Name:&lt;/div&gt;
+  &lt;div data-column="0" data-row="1"&gt;Last Name:&lt;/div&gt;
+  &lt;div data-column="0" data-row="2"&gt;Address:&lt;/div&gt;
+  &lt;div data-column="0" data-row="3"&gt;Address 2:&lt;/div&gt;
+  &lt;div data-column="0" data-row="4"&gt;City:&lt;/div&gt;
+  &lt;div data-column="0" data-row="5"&gt;State:&lt;/div&gt;
+  &lt;div data-column="0" data-row="6"&gt;Zip:&lt;/div&gt;
+  &lt;!-- Second column --&gt;
+  &lt;input data-column="1" data-row="0" type="text"&gt;
+  &lt;input data-column="1" data-row="1" type="text"&gt;
+  &lt;input data-column="1" data-row="2" type="text"&gt;
+  &lt;input data-column="1" data-row="3" type="text"&gt;
+  &lt;input data-column="1" data-row="4" type="text"&gt;
+  &lt;input data-column="1" data-row="5" type="text"&gt;
+  &lt;input data-column="1" data-row="6" type="text"&gt;
+  &lt;!-- Third column --&gt;
+  &lt;div data-column="2" data-row="0" data-rowspan="7"&gt;
+    &lt;div&gt;Department&lt;/div&gt;
+    &lt;select multiple size="3"&gt;
+      &lt;option&gt;Finance&lt;/option&gt;
+      &lt;option&gt;Human Resources&lt;/option&gt;
+      &lt;option&gt;Marketing&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+&lt;/px-grid-panel&gt;</code></pre>
+    </div>
+  </div>
+  <div class="component-selection">
+    <h2>Layout</h2>
+      <div class="link">
+        <a href="../../components/flex_panel/index.html">FlexPanel</a>
+      </div>
+      <div class="link">
+        <a href="../../components/grid_panel/index.html">GridPanel</a>
+      </div>
+    <h2>Navigation</h2>
+      <div class="link">
+        <a href="../../components/accordion/index.html">Accordion</a>
+      </div>
+      <div class="link">
+        <a href="../../components/expander/index.html">Expander</a>
+      </div>
+      <div class="link">
+        <a href="../../components/scroll_viewer/index.html">ScrollViewer</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tab/index.html">Tab</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tree_view/index.html">TreeView</a>
+      </div>
+    <h2>Controls</h2>
+      <div class="link">
+        <a href="../../components/button/index.html">Button</a>
+      </div>
+      <div class="link">
+        <a href="../../components/progress_bar/index.html">ProgressBar</a>
+      </div>
+  </div>
+</px-flex-panel>
+      <div class="footer">
+        <px-flex-panel orientation="horizontal">
+        </px-flex-panel>
+        <p>Code licensed under a <a class="external" href="http://opensource.org/licenses/Zlib">zlib license</a>. Documentation under <a class="external" href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+      </div>
+    </px-flex-panel>
+
+    <div class="navigation-area">
+      <px-flex-panel orientation="horizontal" class="navigation">
+        <div class="link"><a href="../..//index.html">Pixelate</a></div>
+        <div class="link"><a href="../..//getting_started/index.html">Getting started</a></div>
+        <div class="link"><a href="../..//components/flex_panel/index.html">Components</a></div>
+      </px-flex-panel>
+    </div>
+  
+
+</body></html>

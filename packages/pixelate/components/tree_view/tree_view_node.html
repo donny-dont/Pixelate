@@ -1,0 +1,39 @@
+<link rel="import" href="../flex_panel.html">
+
+<polymer-element name="px-tree-view-node" attributes="expanded header">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      /* Hidden class required for the cusomizable mixin */
+      .hidden { display: none !important; }
+    </style>
+      <div>
+        <px-flex-panel orientation="horizontal" id="node_host" class="header node_unselected no_selection" on-click="{{onNodeClicked}}" on-doubleclick="{{toggle}}">
+          <div class="icon" on-click="{{toggle}}">
+            <template if="{{expanded}}">
+              <div class="collapse-icon"></div>
+            </template>
+            <template if="{{!expanded}}">
+              <div class="expand-icon"></div>
+            </template>
+          </div>
+          <px-flex-panel class="default-tree-view-header">
+            <div>{{header}}</div>
+          </px-flex-panel>
+          <!-- Potential override for the header -->
+          <content select=".tree-view-header"></content>
+        </px-flex-panel>
+        <!-- Content view -->
+        <div class="view">
+          <px-flex-panel class="expandable">
+            <content></content>
+          </px-flex-panel>
+        </div>
+      </div>
+  </template>
+  <script type="application/dart" src="tree_view_node.dart"></script>
+</polymer-element>

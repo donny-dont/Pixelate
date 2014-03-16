@@ -1,0 +1,66 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'partials/backgrounds';
+@import 'partials/colors';
+@import 'partials/variables';
+
+// Fonts
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(../fonts/Montserrat.woff) format('woff');
+}
+
+@font-face {
+  font-family: "FontAwesome";
+  src: url(../fonts/fontawesome-webfont.ttf) format("truetype");
+}
+
+body {
+  margin: 0px;
+  color: $color-square-ui-white;
+  background-color: $color-square-ui-black;
+
+  font-family: 'Montserrat', sans-serif;
+}
+
+*, *:before, *:after {
+  user-select: none;
+ -webkit-user-select: none;
+}
+
+.navy {
+  @include color-change($color-square-ui-navy);
+}
+
+.red {
+  @include color-change($color-square-ui-red);
+}
+
+.green {
+  @include color-change($color-square-ui-green);
+}
+
+.purple {
+  @include color-change($color-square-ui-purple);
+}
+
+.lilac {
+  @include color-change($color-square-ui-lilac);
+}
+
+.blue {
+  @include color-change($color-square-ui-blue);
+}
+
+.yellow {
+  @include color-change($color-square-ui-yellow);
+}
+
+.grid {
+  @include background-grid(transparent, rgba($color-square-ui-white, 0.2));
+}

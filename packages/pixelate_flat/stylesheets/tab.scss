@@ -1,0 +1,38 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'fonts/variables';
+@import 'partials/colors';
+@import 'partials/fonts';
+@import 'partials/variables';
+
+px-tab .tabs.top {
+  border-bottom: 1px solid $color-square-ui-blue;
+}
+
+px-tab .tabs.bottom {
+  border-top: 1px solid $color-square-ui-blue;
+}
+
+px-tab .tabs.left {
+  border-right: 1px solid $color-square-ui-blue;
+}
+
+px-tab .tabs.right {
+  border-left: 1px solid $color-square-ui-blue;
+}
+
+px-tab .tab {
+  cursor: $cursor-click;
+  padding: $padding-default;
+  transition: $background-color-transition;
+
+  @include vertically-center-text($font-size-larger);
+  @include color-change-interaction($color-square-ui-blue);
+}
+
+px-tab .tab.selected {
+  background-color: $color-square-ui-blue;
+}

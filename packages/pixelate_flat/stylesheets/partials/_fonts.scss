@@ -1,0 +1,9 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@mixin vertically-center-text($font-size) {
+  font-size: $font-size;
+  line-height: $font-size;
+}

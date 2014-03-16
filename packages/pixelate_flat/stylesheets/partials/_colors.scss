@@ -1,0 +1,23 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+$default-darken-by: 8%;
+$default-lighten-by: 12%;
+
+@mixin color-change($base-color, $darken-by: $default-darken-by, $lighten-by: $default-lighten-by) {
+  background-color: $base-color;
+
+  @include color-change-interaction($base-color, $darken-by, $lighten-by);
+}
+
+@mixin color-change-interaction($base-color, $darken-by: $default-darken-by, $lighten-by: $default-lighten-by) {
+  &:hover {
+    background-color: lighten($base-color, $lighten-by);
+  }
+
+  &:active {
+    background-color: darken($base-color, $darken-by);
+  }
+}
