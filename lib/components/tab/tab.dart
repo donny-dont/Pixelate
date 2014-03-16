@@ -17,7 +17,7 @@ import 'dart:html' as Html;
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/flex_panel.dart';
+import 'package:pixelate/components/flex_panel/flex_panel.dart';
 import 'package:pixelate/components/tab/tab_item.dart';
 
 //---------------------------------------------------------------------
