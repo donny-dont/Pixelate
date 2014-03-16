@@ -57,6 +57,12 @@ abstract class Moveable {
   Html.Element get moveableElement;
 
   //---------------------------------------------------------------------
+  // Element properties
+  //---------------------------------------------------------------------
+
+  Html.CssStyleDeclaration get style;
+
+  //---------------------------------------------------------------------
   // Transformable properties
   //---------------------------------------------------------------------
 
@@ -76,6 +82,9 @@ abstract class Moveable {
   void initializeMoveable() {
     // Style the element's pointer
     moveableElement.style.cursor = 'move';
+
+    // Element will move around with an absolute positioning
+    style.position = 'absolute';
 
     // Hook into the events
     moveableElement.onMouseDown.listen(_onMoveBegin);
@@ -126,8 +135,6 @@ abstract class Moveable {
     var mouseX = mousePoint.x;
     var mouseY = mousePoint.y;
     var invZoomLevel = 1.0 / zoomLevel;
-
-    print('MX: $mouseX MY: $mouseY LX: $_lastX LY: $_lastY Z: $zoomLevel');
 
     translateX += (mouseX - _lastX) * invZoomLevel;
     translateY += (mouseY - _lastY) * invZoomLevel;

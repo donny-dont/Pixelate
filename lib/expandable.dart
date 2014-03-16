@@ -196,8 +196,6 @@ abstract class Expandable {
       }
 
       _hasHeightTransition = hasTransition;
-
-      print('Has height transition? $_hasHeightTransition');
     }
   }
 }
