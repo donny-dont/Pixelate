@@ -13,6 +13,7 @@ dev_dependencies:
   pixelate_flat:
     path: ../pixelate-flat
   unittest: any
+  path: any
 transformers:
 - polymer:
     entry_points:
