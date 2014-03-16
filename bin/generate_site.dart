@@ -5,6 +5,8 @@
 
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:path/path.dart' show join;
 import 'package:mustache/mustache.dart' as mustache;
 
 //---------------------------------------------------------------------
@@ -26,8 +28,36 @@ Map getComponentInformation(String name) {
   return {
     'name': className,
     'path': 'components/$name/',
+    'filename': '${name}.dart',
     'tag': tagName
   };
+}
+
+void buildDocs(List<String> sourceFiles) {
+  // Generate the docs
+  var docgenArgs = ['-j', '-v', '--include-private', '--no-include-sdk',
+              '--no-include-dependent-packages', '--package-root=./packages'];
+  docgenArgs.addAll(sourceFiles);
+  // TODO: fix workingDirectory
+  ProcessResult processResult =
+      Process.runSync('docgen', docgenArgs, workingDirectory: '../');
+  if (processResult.stderr != '') {
+    print("failed to create docs: ${processResult.stderr}");
+  }
+
+  print("processResult ${processResult.stdout}");
+}
+
+String getOverview(Map component) {
+  var docNamePart = component["filename"]
+                    .substring(0, component["filename"].length - 5);
+  var docFile = join('../', 'docs', 'pixelate', 'pixelate_${docNamePart}.json');
+  var docData = readJsonFile(docFile) as Map;
+  var docClass = (docData["classes"]["class"] as List)
+      .firstWhere((e) => e["name"] == component['name']);
+  // TODO: is "preview" the right element we want? How about "comment"
+  var overview = docClass["preview"] == null ? "" : docClass["preview"];
+  return overview;
 }
 
 List<String> findComponents(String path) {
@@ -133,6 +163,13 @@ void generateComponentPages(mustache.Template siteTemplate) {
   var componentStyles = readJsonFile('styles.json') as Map;
   var template = readMustacheTemplate('component_template.html');
 
+  // Generate the docs
+  var sourceFiles = groups
+      .map((g) => g['components']
+      .map((c) => join('lib', c["path"], c["filename"])))
+      .expand((i) => i).toList();
+  buildDocs(sourceFiles);
+
   // Generate the components
   groups.forEach((group) {
     var components = group['components'] as List;
@@ -140,10 +177,11 @@ void generateComponentPages(mustache.Template siteTemplate) {
     components.forEach((component) {
       var path = component['path'];
       var name = component['name'];
+
       var partial = {
           'groups': groups,
           'tag': component['tag'],
-          'overview': '<p>Description goes here</p>',
+          'overview': getOverview(component),
           'examples': getExamples(path)
       };
 
