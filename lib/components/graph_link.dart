@@ -3,11 +3,16 @@ import 'dart:svg';
 import 'dart:html';
 import 'dart:math' as math;
 import 'package:pixelate/graph/graph.dart';
+import 'package:pixelate/utils/core_utils.dart';
+import 'package:pixelate/components/graph_node.dart';
 
 /** The graph link view for rendering the spline path on the svg document */
 class GraphLinkView {
+  /** The graph canvas that hosts this link */
+  var canvas;
+  
   /** The host SVG element */
-  SvgElement svg;
+  SvgElement get svg => canvas.svg;
   
   /** The link data model */
   GraphLink link;
@@ -39,10 +44,11 @@ class GraphLinkView {
   /** The thickness of the invisibile selection area */
   final lineSelectionThickness = 8;
   
-  GraphLinkView(this.link, this.svg) {
+  GraphLinkView(this.link, this.canvas) {
     path.setAttribute("stroke", strokeColor);
     path.setAttribute("stroke-width", "$lineThickness");
     path.setAttribute("fill", "none");
+    path.setAttribute("marker-end", "url(#head)");
     
     selectionPath.setAttribute("stroke", "transparent");
     selectionPath.setAttribute("stroke-width", "$lineSelectionThickness");
@@ -56,7 +62,6 @@ class GraphLinkView {
 
     svg.children.add(path);
     svg.children.add(selectionPath);
-    update();
   }
   
   void _onMouseOver(e) {
@@ -71,23 +76,35 @@ class GraphLinkView {
     if (e.which == 3) { // Right click
       if (link != null) {
         // delete the link
-        link.document.deleteLink(link.id);
+        canvas.deleteLink(link.id);
         return;
       }
     }
   }
   
-  void update() {
+  void update(Map<String, GraphNodeView> nodeViews) {
     if (link == null) return;
-    final startPosition = link.source.position;
-    final endPosition = link.destination.position;
-    final startPlugDirection = link.source.plugDirection;
-    final endPlugDirection = link.destination.plugDirection;
-    updateFromMetrics(startPosition, startPlugDirection, endPosition, endPlugDirection);
+    link.update();
+    // Get the nodes references by this link
+    final sourceNodeView = nodeViews[link.source.node.id];
+    final destNodeView = nodeViews[link.destination.node.id];
+    
+    // Get the sockets within these nodes that are referenced by this link
+    final sourceSocketView = sourceNodeView.socketViews[link.source.id];
+    final destSocketView = destNodeView.socketViews[link.destination.id];
+    assert(sourceSocketView != null && destSocketView != null);
+    
+    final startPosition = sourceSocketView.position;
+    final endPosition = destSocketView.position;
+    final startPlugDirection = sourceSocketView.plugDirection;
+    final endPlugDirection = destSocketView.plugDirection;
+    final startRadius = sourceSocketView.radius;
+    final endRadius = destSocketView.radius;
+    updateFromMetrics(startPosition, startPlugDirection, endPosition, endPlugDirection, startRadius, endRadius);
   }
   
   void updateFromMetrics(math.Point startPosition, math.Point startPlugDirection, 
-                         math.Point endPosition, math.Point endPlugDirection) {
+                         math.Point endPosition, math.Point endPlugDirection, num startRadius, num endRadius) {
     final startControlPoint = new math.Point(
         startPosition.x + startPlugDirection.x * splineStrength, 
         startPosition.y + startPlugDirection.y * splineStrength);
@@ -95,16 +112,19 @@ class GraphLinkView {
         endPosition.x + endPlugDirection.x * splineStrength, 
         endPosition.y + endPlugDirection.y * splineStrength);
     
-    final a = startPosition;
+    final a = addPoint(startPosition, multiplyPointScalar(startPlugDirection, startRadius));
     final b = startControlPoint;
     final c = endControlPoint;
-    final d = endPosition;
+    final d = addPoint(endPosition, multiplyPointScalar(endPlugDirection, startRadius));
     final splineData = "M ${a.x} ${a.y} C ${b.x} ${b.y} ${c.x} ${c.y} ${d.x} ${d.y}";
     path.setAttribute("d", splineData);
     selectionPath.setAttribute("d", splineData);
   }
   
   void destroy() {
+    if (link != null) {
+      link.destroy();
+    }
     svg.children.remove(path);
     svg.children.remove(selectionPath);
   }

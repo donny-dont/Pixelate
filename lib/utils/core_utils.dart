@@ -1,13 +1,12 @@
 library pixelate_utils_core;
 
-import 'package:uuid/uuid.dart';
 import 'dart:html';
 import 'dart:math';
 
-var idGeneratorUid = new Uuid();
 /** Generates a unique id */
+int _idGenerationCounter = 0;
 String generateUid() {
-  return idGeneratorUid.v4();
+  return "${++_idGenerationCounter}";
 }
 
 /** Parses the string "Npx" to an integer N */
@@ -39,6 +38,17 @@ Element findChildElementById(Element element, String id) {
   return _findChildElement(element, (e) => e.id == id);
 }
 
+Point addPoint(Point a, Point b) {
+  return new Point(a.x + b.x, a.y + b.y);
+}
+
+Point multiplyPoint(Point a, Point b) {
+  return new Point(a.x * b.x, a.y * b.y);
+}
+
+Point multiplyPointScalar(Point a, num b) {
+  return new Point(a.x * b, a.y * b);
+}
 
 typedef bool VerifyElement(Element e);
 Element _findChildElement(Element element, VerifyElement verifyElement) {

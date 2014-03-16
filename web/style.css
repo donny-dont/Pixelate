@@ -2,6 +2,10 @@ html {
   height: 100%;
 }
 
+body {
+  height: 100%;
+}
+
 .navigation-area {
   position: fixed;
   left: 0;
@@ -44,6 +48,10 @@ html {
   padding-top: 66px;
   width: 900px;
   margin: 0 auto;
+}
+
+.header.large {
+  height: 400px;
 }
 
 .header > h1 {
@@ -138,5 +146,9 @@ code {
     color: #734d64; }
 
 .footer > p {
+  text-align: center;
+}
+
+.center {
   text-align: center;
 }

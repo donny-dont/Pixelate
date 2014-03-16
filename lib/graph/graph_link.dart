@@ -13,10 +13,7 @@ class GraphLink {
   
   /** The link id */
   String id;
-  
-  /** The link view */
-  GraphLinkView view;
-  
+    
   /** Create a graph link from existing socket objects */
   GraphLink.from(this.id, this.document, this.source, this.destination);
   
@@ -29,12 +26,10 @@ class GraphLink {
   }
   
   void update() {
-    view.update();
   }
   
   void destroy() {
     source.links.remove(this);
     destination.links.remove(this);
-    view.destroy();
   }
 }

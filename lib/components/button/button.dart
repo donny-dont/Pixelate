@@ -7,12 +7,6 @@
 library pixelate_button;
 
 //---------------------------------------------------------------------
-// Standard libraries
-//---------------------------------------------------------------------
-
-import 'dart:html';
-
-//---------------------------------------------------------------------
 // Package libraries
 //---------------------------------------------------------------------
 
@@ -25,7 +19,7 @@ import 'package:polymer/polymer.dart';
 /// Tag name for the class.
 const String _tagName = 'px-button';
 
-
+/// A button control which reacts to being clicked.
 @CustomTag(_tagName)
 class Button extends PolymerElement {
   //---------------------------------------------------------------------
@@ -39,6 +33,12 @@ class Button extends PolymerElement {
   // Construction
   //---------------------------------------------------------------------
 
+  /// Create an instance of the [Button] class.
+  ///
+  /// This constructor should not be called directly. Instead use the
+  /// [Element.tag] constructor as follows.
+  ///
+  ///     var instance = new Element.tag(Button.customTagName);
   Button.created()
       : super.created();
 }

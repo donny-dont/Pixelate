@@ -125,13 +125,12 @@ void writeTextFile(String path, String contents) {
 }
 
 //---------------------------------------------------------------------
-// Entry point
+// Pages
 //---------------------------------------------------------------------
 
-void main() {
+void generateComponentPages(mustache.Template siteTemplate) {
   var groups = getGroups();
   var componentStyles = readJsonFile('styles.json') as Map;
-  var siteTemplate = readMustacheTemplate('site_template.html');
   var template = readMustacheTemplate('component_template.html');
 
   // Generate the components
@@ -171,7 +170,7 @@ void main() {
       styles.add('style.css');
 
       var site = {
-          'title': 'Components',
+          'title': 'Pixelate Components',
           'relativePath': '../../',
           'styles': styles,
           'imports': imports,
@@ -184,4 +183,52 @@ void main() {
       writeTextFile(outputPath, siteTemplate.renderString(site));
     });
   });
+}
+
+void generateGettingStartedPage(mustache.Template siteTemplate) {
+  var template = readMustacheTemplate('getting_started_template.html');
+
+  var site = {
+      'title': 'Pixelate',
+      'relativePath': '../',
+      'styles': [ 'style.css' ],
+      'imports': [],
+      'content': template.renderString({})
+  };
+
+  var outputPath = '../web/getting_started/index.html';
+  print('Outputing to $outputPath');
+  writeTextFile(outputPath, siteTemplate.renderString(site));
+}
+
+void generateIndexPage(mustache.Template siteTemplate) {
+  var template = readMustacheTemplate('index_template.html');
+
+  var partial = {
+      'version': 'v0.1.0'
+  };
+
+  var site = {
+      'title': 'Pixelate',
+      'relativePath': '',
+      'styles': [],
+      'imports': [],
+      'content': template.renderString(partial)
+  };
+
+  var outputPath = '../web/index.html';
+  print('Outputing to $outputPath');
+  writeTextFile(outputPath, siteTemplate.renderString(site));
+}
+
+//---------------------------------------------------------------------
+// Entry point
+//---------------------------------------------------------------------
+
+void main() {
+  var siteTemplate = readMustacheTemplate('site_template.html');
+
+  generateIndexPage(siteTemplate);
+  generateGettingStartedPage(siteTemplate);
+  generateComponentPages(siteTemplate);
 }

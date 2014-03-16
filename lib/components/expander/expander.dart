@@ -11,6 +11,8 @@ library pixelate_expander;
 //---------------------------------------------------------------------
 
 import 'dart:html';
+@MirrorsUsed(targets: const ['pixelate_expandable.Expandable.toggle', 'pixelate_expandable.Expandable.expandedChanged'])
+import 'dart:mirrors';
 
 //---------------------------------------------------------------------
 // Package libraries
