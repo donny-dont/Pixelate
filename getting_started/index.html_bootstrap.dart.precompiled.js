@@ -2219,7 +2219,7 @@ tQ:{
 "^":"a;M,J9,zO",
 t:[function(a,b){if(!J.de(b,0))H.vh(P.N(b))
 return this.zO},"call$1","gIA",2,0,null,334,[]],
-$isOd:true}}],["app_bootstrap","file:///C:/Users/don/Documents/GitHub/Pixelate/web/components/flex_panel/index.html_bootstrap.dart",,E,{
+$isOd:true}}],["app_bootstrap","file:///C:/Users/don/Documents/GitHub/Pixelate/web/getting_started/index.html_bootstrap.dart",,E,{
 "^":"",
 QL:[function(){$.x2=["package:pixelate/components/flex_panel.dart","index.html.0.dart"]
 $.uP=!1

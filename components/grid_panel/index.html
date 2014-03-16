@@ -1,6 +1,6 @@
-<!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
-<script src="packages/custom_element/custom-elements.debug.js"></script>
-<script src="packages/browser/interop.js"></script>
+<!DOCTYPE html><html><head><script src="../../packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="../../packages/custom_element/custom-elements.debug.js"></script>
+<script src="../../packages/browser/interop.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +11,16 @@
     <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     <!-- Setup Polymer -->
     <script src="index.html_bootstrap.dart.js"></script>
-    
+
 
     <!-- Setup syntax highlighting -->
     <link rel="stylesheet" href="../../syntax.css">
@@ -28,28 +28,28 @@
     <script>hljs.initHighlightingOnLoad();</script>
   </head>
   <body><polymer-element name="px-flex-panel" attributes="orientation">
-  <template> 
+  <template>
     <style>
       :host {
         display: flex !important;
-        border-box; box-sizing; 
+        border-box; box-sizing;
       }
-      
+
       :host > * {
         border-box; box-sizing;
       }
     </style>
-    <content></content>    
+    <content></content>
   </template>
-  
+
 </polymer-element>
 <polymer-element name="px-column-definition" attributes="width">
-  <template> 
+  <template>
     <style>
       @host { :scope { display: none; } }
     </style>
   </template>
-  
+
 </polymer-element>
 <polymer-element name="px-column-definitions">
   <template>
@@ -58,15 +58,15 @@
     </style>
     <content select="px-column-definition"></content>
   </template>
-  
+
 </polymer-element>
 <polymer-element name="px-row-definition" attributes="height">
-  <template> 
+  <template>
     <style>
       @host { :scope { display: none; } }
     </style>
   </template>
-  
+
 </polymer-element>
 <polymer-element name="px-row-definitions">
   <template>
@@ -75,7 +75,7 @@
     </style>
     <content select="px-row-definition"></content>
   </template>
-  
+
 </polymer-element>
 <polymer-element name="px-grid-panel">
   <template>
@@ -88,7 +88,7 @@
     <content select="px-row-definitions" on-rowschange="{{rowsChange}}"></content>
     <content></content>
   </template>
-  
+
 </polymer-element>
 
     <px-flex-panel orientation="vertical" style="min-height: 100%;">
@@ -266,11 +266,11 @@
 
     <div class="navigation-area">
       <px-flex-panel orientation="horizontal" class="navigation">
-        <div class="link"><a href="../..//index.html">Pixelate</a></div>
-        <div class="link"><a href="../..//getting_started/index.html">Getting started</a></div>
-        <div class="link"><a href="../..//components/flex_panel/index.html">Components</a></div>
+        <div class="link"><a href="../../index.html">Pixelate</a></div>
+        <div class="link"><a href="../../getting_started/index.html">Getting started</a></div>
+        <div class="link"><a href="../../components/flex_panel/index.html">Components</a></div>
       </px-flex-panel>
     </div>
-  
+
 
 </body></html>
