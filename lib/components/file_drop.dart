@@ -63,7 +63,7 @@ class FileDrop extends PolymerElement with Droppable {
   //---------------------------------------------------------------------
 
   @override
-  void drop(Html.DataTransfer dataTransfer) {
+  void drop(Html.DataTransfer dataTransfer, int x, int y) {
     print('Drop');
   }
 }

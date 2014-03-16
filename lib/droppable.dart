@@ -39,7 +39,7 @@ abstract class Droppable {
   String get hoverclass;
 
   //---------------------------------------------------------------------
-  // PolymerElement Properties
+  // Element Properties
   //---------------------------------------------------------------------
 
   CssClassSet get classes;
@@ -47,6 +47,7 @@ abstract class Droppable {
   ElementStream<MouseEvent> get onDragOver;
   ElementStream<MouseEvent> get onDragLeave;
   ElementStream<MouseEvent> get onDrop;
+  Rectangle get offset;
 
   //---------------------------------------------------------------------
   // Initialization
@@ -74,7 +75,11 @@ abstract class Droppable {
   void dragLeave() {}
 
   /// Callback for when something has been dropped on the area.
-  void drop(DataTransfer dataTransfer) {}
+  ///
+  /// The values of [x] and [y] are relative to the element this is being
+  /// dropped on. This can be used when the drop will cause a change to the
+  /// destination element.
+  void drop(DataTransfer dataTransfer, int x, int y) {}
 
   //---------------------------------------------------------------------
   // Private methods
@@ -97,7 +102,10 @@ abstract class Droppable {
   void _onDragLeave(MouseEvent event) {
     _preventDefault(event);
 
-    classes.remove(hoverclass);
+    // Remove the hover if the mouse is outside the bounds of the element
+    if (!offset.containsPoint(event.client)) {
+      classes.remove(hoverclass);
+    }
 
     dragLeave();
   }
@@ -107,7 +115,9 @@ abstract class Droppable {
 
     classes.remove(hoverclass);
 
-    drop(event.dataTransfer);
+    var offset = event.offset;
+
+    drop(event.dataTransfer, offset.x, offset.y);
   }
 
   void _preventDefault(MouseEvent event) {
