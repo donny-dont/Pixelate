@@ -10,7 +10,7 @@ library pixelate_list_view_item;
 // Standard libraries
 //---------------------------------------------------------------------
 
-import 'dart:html';
+import 'dart:html' as Html;
 
 //---------------------------------------------------------------------
 // Package libraries
@@ -29,24 +29,17 @@ const String _tagName = 'px-list-view-item';
 
 @CustomTag(_tagName)
 class ListViewItem extends PolymerElement with Selectable {
+  //---------------------------------------------------------------------
+  // Class variables
+  //---------------------------------------------------------------------
+
   /// The name of the tag.
   static String get customTagName => _tagName;
-  
-  String get cssClassItemSelected => "node_selected";
-  String get cssClassItemUnSelected => "node_unselected";
 
-  /// The text displayed on the list item
-  @published String text = "Item";
-  
-  /// The Id of the list item. This id is used when raising events
-  @published String id = "item";
+  //---------------------------------------------------------------------
+  // Construction
+  //---------------------------------------------------------------------
 
-  /// The list item's host element
-  Element elementItem;
-
-  /// The element affected by the selection state. Used by the Selectable mixin
-  Element get selectionElement => elementItem;
-  
   /// Create an instance of the [ListViewItem] class.
   ///
   /// This constructor should not be called directly. Instead use the
@@ -54,22 +47,20 @@ class ListViewItem extends PolymerElement with Selectable {
   ///
   ///     var instance = new Element.tag(ListViewItem.customTagName);
   ListViewItem.created()
-      : super.created()
-  {
-  }
+      : super.created();
 
-  void enteredView() {
-    super.enteredView();
+  //---------------------------------------------------------------------
+  // Selectable properties
+  //---------------------------------------------------------------------
 
-    elementItem = shadowRoot.querySelector("#item_host");
+  String get selectedclass => "selected";
+  Html.Element get selectionElement => this;
+
+  //---------------------------------------------------------------------
+  // Public methods
+  //---------------------------------------------------------------------
+
+  void toggle(Html.Event e) {
+    selected = !selected;
   }
-  
-  String toString() => text;
-  
-  void onItemClicked(Event e) {
-    selected = true;
-  }
-  
 }
-
-
