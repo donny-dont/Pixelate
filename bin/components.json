@@ -20,6 +20,7 @@
     "name": "Controls",
     "components": [
       "button",
+      "list_view",
       "progress_bar"
     ]
   }

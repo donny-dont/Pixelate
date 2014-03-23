@@ -8,11 +8,13 @@
     <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/list_view_item.css">
     <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
     <link rel="import" href="../../packages/pixelate/components/flex_panel/flex_panel.html">
-    <link rel="import" href="../../packages/pixelate/components/flex_panel/flex_panel.html">
+    <link rel="import" href="../../packages/pixelate/components/list_view/list_view.html">
+    <link rel="import" href="../../packages/pixelate/components/list_view/list_view_item.html">
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
@@ -33,34 +35,63 @@
 </div>
 <px-flex-panel class="content" orientation="horizontal" style="flex:1">
   <div class="documentation" style="flex: 1;">
-    <div class="component-name">&lt;px-flex-panel&gt;</div>
-    <div class="overview"><p>Represents a container that utilizes a flexible layout.</p></div>
+    <div class="component-name">&lt;px-list-view&gt;</div>
+    <div class="overview"></div>
     <h2>Examples</h2>
-    Description unavailable
+    <p>A simple list view. Elements can be selected by clicking them. Only a single element can be selected at a time.</p>
     <div class="example">
-      <px-flex-panel orientation="horizontal" style="height: 35px;">
-  <div class="blue">Left</div>
-  <div class="red" style="flex: 1;">Center</div>
-  <div class="green">Right</div>
-</px-flex-panel>
-      <pre class="code"><code>&lt;px-flex-panel orientation=&quot;horizontal&quot; style=&quot;height: 35px;&quot;&gt;
-  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
-  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
-  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
-&lt;&#x2F;px-flex-panel&gt;</code></pre>
+      <px-list-view>
+  <px-list-view-item>Value 1</px-list-view-item>
+  <px-list-view-item>Value 2</px-list-view-item>
+  <px-list-view-item>Value 3</px-list-view-item>
+</px-list-view>
+      <pre class="code"><code>&lt;px-list-view&gt;
+  &lt;px-list-view-item&gt;Value 1&lt;&#x2F;px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 2&lt;&#x2F;px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 3&lt;&#x2F;px-list-view-item&gt;
+&lt;&#x2F;px-list-view&gt;</code></pre>
     </div>
-    Description unavailable
+    <p>A simple list view where multiple elements can be selected at a time. To toggle selection click the element again.</p>
     <div class="example">
-      <px-flex-panel style="height: 100px;">
-  <div class="blue">Left</div>
-  <div class="red" style="flex: 1;">Center</div>
-  <div class="green">Right</div>
-</px-flex-panel>
-      <pre class="code"><code>&lt;px-flex-panel style=&quot;height: 100px;&quot;&gt;
-  &lt;div class=&quot;blue&quot;&gt;Left&lt;&#x2F;div&gt;
-  &lt;div class=&quot;red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
-  &lt;div class=&quot;green&quot;&gt;Right&lt;&#x2F;div&gt;
-&lt;&#x2F;px-flex-panel&gt;</code></pre>
+      <px-list-view multiple>
+  <px-list-view-item>Value 1</px-list-view-item>
+  <px-list-view-item>Value 2</px-list-view-item>
+  <px-list-view-item>Value 3</px-list-view-item>
+</px-list-view>
+      <pre class="code"><code>&lt;px-list-view multiple&gt;
+  &lt;px-list-view-item&gt;Value 1&lt;&#x2F;px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 2&lt;&#x2F;px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 3&lt;&#x2F;px-list-view-item&gt;
+&lt;&#x2F;px-list-view&gt;</code></pre>
+    </div>
+    <p>A list view with a complex layout. In this example the list elements are images.</p>
+    <div class="example">
+      <px-list-view>
+  <h3>Animals</h3>
+  <px-flex-panel orientation="horizontal">
+    <px-list-view-item class="wallpaper bunny"></px-list-view-item>
+    <px-list-view-item class="wallpaper bird"></px-list-view-item>
+    <px-list-view-item class="wallpaper kitties"></px-list-view-item>
+  </px-flex-panel>
+  <h3>Nature</h3>
+  <px-flex-panel orientation="horizontal">
+    <px-list-view-item class="wallpaper rainbow"></px-list-view-item>
+    <px-list-view-item class="wallpaper flowers"></px-list-view-item>
+  </px-flex-panel>
+</px-list-view>
+      <pre class="code"><code>&lt;px-list-view&gt;
+  &lt;h3&gt;Animals&lt;&#x2F;h3&gt;
+  &lt;px-flex-panel orientation=&quot;horizontal&quot;&gt;
+    &lt;px-list-view-item class=&quot;wallpaper bunny&quot;&gt;&lt;&#x2F;px-list-view-item&gt;
+    &lt;px-list-view-item class=&quot;wallpaper bird&quot;&gt;&lt;&#x2F;px-list-view-item&gt;
+    &lt;px-list-view-item class=&quot;wallpaper kitties&quot;&gt;&lt;&#x2F;px-list-view-item&gt;
+  &lt;&#x2F;px-flex-panel&gt;
+  &lt;h3&gt;Nature&lt;&#x2F;h3&gt;
+  &lt;px-flex-panel orientation=&quot;horizontal&quot;&gt;
+    &lt;px-list-view-item class=&quot;wallpaper rainbow&quot;&gt;&lt;&#x2F;px-list-view-item&gt;
+    &lt;px-list-view-item class=&quot;wallpaper flowers&quot;&gt;&lt;&#x2F;px-list-view-item&gt;
+  &lt;&#x2F;px-flex-panel&gt;
+&lt;&#x2F;px-list-view&gt;</code></pre>
     </div>
   </div>
   <div class="component-selection">

@@ -8,6 +8,9 @@
   "Expander": [
     "packages/pixelate_flat/stylesheets/expander.css"
   ],
+  "ListView": [
+    "packages/pixelate_flat/stylesheets/list_view_item.css"
+  ],
   "ProgressBar": [
     "packages/pixelate_flat/stylesheets/progress_bar.css"
   ],
