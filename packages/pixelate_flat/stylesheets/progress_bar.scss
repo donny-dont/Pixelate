@@ -31,7 +31,7 @@ px-progress-bar.striped .fill:after {
   @include background-stripes;
 }
 
-@keyframes move {
+@-webkit-keyframes move {
   0% {
     background-position: 0 0;
   }
@@ -41,5 +41,5 @@ px-progress-bar.striped .fill:after {
 }
 
 px-progress-bar.animated .fill:after {
-  animation: move 2s linear infinite;
+  -webkit-animation: move 2s linear infinite;
 }

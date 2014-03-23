@@ -5,7 +5,7 @@
 
 $default-icon-font: "FontAwesome";
 $default-icon-size: 16px;
-$default-icon-margin: 5px;
+$default-icon-margin: 0px;
 
 @mixin icon($icon-size: $default-icon-size, $icon-margin: $default-icon-size) {
   width: $icon-size;

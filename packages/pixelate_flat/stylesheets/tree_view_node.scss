@@ -32,11 +32,11 @@ px-tree-view-node .collapse-icon {
 }
 
 px-tree-view-node .view {
-  margin-left: 12px;
+  margin-left: $default-icon-size + $default-icon-margin;
 
   @include animate-height;
 }
 
-px-tree-view-node .node_selected {
+px-tree-view-node .selected {
   background-color: $color-square-ui-purple;
 }

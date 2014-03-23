@@ -1,4 +1,4 @@
-<link rel="import" href="../flex_panel.html">
+<link rel="import" href="../flex_panel/flex_panel.html">
 
 <polymer-element name="px-tree-view-node" attributes="expanded header">
   <template>
@@ -12,7 +12,7 @@
       .hidden { display: none !important; }
     </style>
       <div>
-        <px-flex-panel orientation="horizontal" id="node_host" class="header node_unselected no_selection" on-click="{{onNodeClicked}}" on-doubleclick="{{toggle}}">
+        <px-flex-panel orientation="horizontal" id="node_host" class="header" on-click="{{selection}}" on-doubleclick="{{toggle}}">
           <div class="icon" on-click="{{toggle}}">
             <template if="{{expanded}}">
               <div class="collapse-icon"></div>

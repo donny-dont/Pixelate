@@ -1,0 +1,29 @@
+<link rel="import" href="../flex_panel/flex_panel.html">
+
+<polymer-element name="px-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 9999;
+      }
+    </style>
+    <px-flex-panel class="container" orientation="vertical">
+      <px-flex-panel class="header" orientation="horizontal">
+        <px-flex-panel class="default-dialog-header">
+          <div>{{header}}</div>
+        </px-flex-panel>
+        <!-- Potential override for the header -->
+        <content select=".expander-header"></content>
+      </px-flex-panel>
+      <content></content>
+    </px-flex-panel>
+  </template>
+  <script type="application/dart" src="dialog.dart"></script>
+</polymer-element>

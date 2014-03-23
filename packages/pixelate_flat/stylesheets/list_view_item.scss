@@ -9,7 +9,7 @@
 @import 'partials/fonts';
 @import 'partials/variables';
 
-px-list-view-item .header {
+px-list-view-item {
   cursor: $cursor-click;
   transition: $background-color-transition;
   padding: $padding-default;
@@ -18,10 +18,6 @@ px-list-view-item .header {
   @include color-change-interaction($color-square-ui-purple);
 }
 
-px-list-view-item .icon {
-  margin-right: 5px;
-}
-
-px-list-view-item .node_selected {
+px-list-view-item.selected {
   background-color: $color-square-ui-purple;
 }

@@ -1,0 +1,12 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'partials/backgrounds';
+@import 'partials/colors';
+@import 'partials/variables';
+
+px-graph-canvas {
+  @include background-grid(transparent, rgba($color-square-ui-white, 0.2));
+}

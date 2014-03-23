@@ -1,0 +1,189 @@
+<!DOCTYPE html><html><head><script src="../../packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="../../packages/custom_element/custom-elements.debug.js"></script>
+<script src="../../packages/browser/interop.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelate Components</title>
+    <!-- Import the styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/list_view_item.css">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Import the elements -->
+
+
+
+
+    <!-- Setup Polymer -->
+    <script src="index.html_bootstrap.dart.js"></script>
+
+
+    <!-- Setup syntax highlighting -->
+    <link rel="stylesheet" href="../../syntax.css">
+    <script src="../../highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body><polymer-element name="px-flex-panel" attributes="orientation">
+  <template>
+    <style>
+      :host {
+        display: flex !important;
+        border-box; box-sizing;
+      }
+
+      :host > * {
+        border-box; box-sizing;
+      }
+    </style>
+    <content></content>
+  </template>
+
+</polymer-element>
+<polymer-element name="px-list-view-item" on-click="{{selection}}">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+    </style>
+    <content></content>
+  </template>
+
+</polymer-element>
+<polymer-element name="px-list-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+    </style>
+    <content></content>
+  </template>
+
+</polymer-element>
+
+    <px-flex-panel orientation="vertical" style="min-height: 100%;">
+      <div class="header-area">
+  <div class="header">
+    <h1>Components</h1>
+    <h2>A set of reusable components for web applications</h2>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="horizontal" style="flex:1">
+  <div class="documentation" style="flex: 1;">
+    <div class="component-name">&lt;px-list-view&gt;</div>
+    <div class="overview"></div>
+    <h2>Examples</h2>
+    <p>A simple list view. Elements can be selected by clicking them. Only a single element can be selected at a time.</p>
+    <div class="example">
+      <px-list-view>
+  <px-list-view-item>Value 1</px-list-view-item>
+  <px-list-view-item>Value 2</px-list-view-item>
+  <px-list-view-item>Value 3</px-list-view-item>
+</px-list-view>
+      <pre class="code"><code>&lt;px-list-view&gt;
+  &lt;px-list-view-item&gt;Value 1&lt;/px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 2&lt;/px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 3&lt;/px-list-view-item&gt;
+&lt;/px-list-view&gt;</code></pre>
+    </div>
+    <p>A simple list view where multiple elements can be selected at a time. To toggle selection click the element again.</p>
+    <div class="example">
+      <px-list-view multiple="">
+  <px-list-view-item>Value 1</px-list-view-item>
+  <px-list-view-item>Value 2</px-list-view-item>
+  <px-list-view-item>Value 3</px-list-view-item>
+</px-list-view>
+      <pre class="code"><code>&lt;px-list-view multiple&gt;
+  &lt;px-list-view-item&gt;Value 1&lt;/px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 2&lt;/px-list-view-item&gt;
+  &lt;px-list-view-item&gt;Value 3&lt;/px-list-view-item&gt;
+&lt;/px-list-view&gt;</code></pre>
+    </div>
+    <p>A list view with a complex layout. In this example the list elements are images.</p>
+    <div class="example">
+      <px-list-view>
+  <h3>Animals</h3>
+  <px-flex-panel orientation="horizontal">
+    <px-list-view-item class="wallpaper bunny"></px-list-view-item>
+    <px-list-view-item class="wallpaper bird"></px-list-view-item>
+    <px-list-view-item class="wallpaper kitties"></px-list-view-item>
+  </px-flex-panel>
+  <h3>Nature</h3>
+  <px-flex-panel orientation="horizontal">
+    <px-list-view-item class="wallpaper rainbow"></px-list-view-item>
+    <px-list-view-item class="wallpaper flowers"></px-list-view-item>
+  </px-flex-panel>
+</px-list-view>
+      <pre class="code"><code>&lt;px-list-view&gt;
+  &lt;h3&gt;Animals&lt;/h3&gt;
+  &lt;px-flex-panel orientation="horizontal"&gt;
+    &lt;px-list-view-item class="wallpaper bunny"&gt;&lt;/px-list-view-item&gt;
+    &lt;px-list-view-item class="wallpaper bird"&gt;&lt;/px-list-view-item&gt;
+    &lt;px-list-view-item class="wallpaper kitties"&gt;&lt;/px-list-view-item&gt;
+  &lt;/px-flex-panel&gt;
+  &lt;h3&gt;Nature&lt;/h3&gt;
+  &lt;px-flex-panel orientation="horizontal"&gt;
+    &lt;px-list-view-item class="wallpaper rainbow"&gt;&lt;/px-list-view-item&gt;
+    &lt;px-list-view-item class="wallpaper flowers"&gt;&lt;/px-list-view-item&gt;
+  &lt;/px-flex-panel&gt;
+&lt;/px-list-view&gt;</code></pre>
+    </div>
+  </div>
+  <div class="component-selection">
+    <h2>Layout</h2>
+      <div class="link">
+        <a href="../../components/flex_panel/index.html">FlexPanel</a>
+      </div>
+      <div class="link">
+        <a href="../../components/grid_panel/index.html">GridPanel</a>
+      </div>
+    <h2>Navigation</h2>
+      <div class="link">
+        <a href="../../components/accordion/index.html">Accordion</a>
+      </div>
+      <div class="link">
+        <a href="../../components/expander/index.html">Expander</a>
+      </div>
+      <div class="link">
+        <a href="../../components/scroll_viewer/index.html">ScrollViewer</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tab/index.html">Tab</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tree_view/index.html">TreeView</a>
+      </div>
+    <h2>Controls</h2>
+      <div class="link">
+        <a href="../../components/button/index.html">Button</a>
+      </div>
+      <div class="link">
+        <a href="../../components/list_view/index.html">ListView</a>
+      </div>
+      <div class="link">
+        <a href="../../components/progress_bar/index.html">ProgressBar</a>
+      </div>
+  </div>
+</px-flex-panel>
+      <div class="footer">
+        <px-flex-panel orientation="horizontal">
+        </px-flex-panel>
+        <p>Code licensed under a <a class="external" href="http://opensource.org/licenses/Zlib">zlib license</a>. Documentation under <a class="external" href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+      </div>
+    </px-flex-panel>
+
+    <div class="navigation-area">
+      <px-flex-panel orientation="horizontal" class="navigation">
+        <div class="link"><a href="../../index.html">Pixelate</a></div>
+        <div class="link"><a href="../../getting_started/index.html">Getting started</a></div>
+        <div class="link"><a href="../../components/flex_panel/index.html">Components</a></div>
+      </px-flex-panel>
+    </div>
+
+
+</body></html>

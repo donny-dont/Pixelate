@@ -1,0 +1,31 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'partials/colors';
+@import 'partials/fonts';
+@import 'partials/variables';
+
+px-dialog {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+px-dialog .container {
+  background-color: $color-square-ui-black
+}
+
+px-dialog .header {
+}
+
+px-button.info {
+  @include color-change($color-info);
+}
+
+px-button.warning {
+  @include color-change($color-warning);
+}
+
+px-button.danger {
+  @include color-change($color-danger);
+}

@@ -23,10 +23,10 @@ px-tree-view-node ^ .collapse-icon:before {
   content: "\f0d7"; }
 
 px-tree-view-node ^ .view {
-  margin-left: 12px;
+  margin-left: 16px;
   transition-property: max-height;
   transition-duration: 0.25s;
   transition-timing-function: ease; }
 
-px-tree-view-node ^ .node_selected {
+px-tree-view-node ^ .selected {
   background-color: #6a5a8c; }
