@@ -60,7 +60,7 @@ class ListViewItem extends PolymerElement with Selectable {
   // Public methods
   //---------------------------------------------------------------------
 
-  void toggle(Html.Event e) {
+  void selection(Html.Event e) {
     selected = !selected;
   }
 }

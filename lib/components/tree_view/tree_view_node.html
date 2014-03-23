@@ -12,7 +12,7 @@
       .hidden { display: none !important; }
     </style>
       <div>
-        <px-flex-panel orientation="horizontal" id="node_host" class="header node_unselected no_selection" on-click="{{onNodeClicked}}" on-doubleclick="{{toggle}}">
+        <px-flex-panel orientation="horizontal" id="node_host" class="header" on-click="{{selection}}" on-doubleclick="{{toggle}}">
           <div class="icon" on-click="{{toggle}}">
             <template if="{{expanded}}">
               <div class="collapse-icon"></div>

@@ -224,7 +224,6 @@
     </px-flex-panel>
 
     <script type="application/dart">
-    	//export 'package:polymer/init.dart';
     	import "package:polymer/polymer.dart";
     	import "dart:html";
     	import 'package:pixelate/components/flex_panel/flex_panel.dart';
@@ -242,24 +241,26 @@
     	}
 
     	void onRemove(Event e) {
-    	  TreeViewNode selected = treeView.selectedNode;
+    	  TreeViewNode selected = treeView.selectedItem;
     	  if (selected != null) {
 	      	  selected.remove();
     	  }
     	}
 
     	void onAddChild(Event e) {
-    	  TreeViewNode selected = treeView.selectedNode;
+    	  TreeViewNode selected = treeView.selectedItem;
     	  if (selected != null) {
     	      print ("Adding child");
 	      	  var node = _createNewNode();
 	      	  selected.nodes.insert(0, node);
 	      	  selected.expanded = true;
+    	  } else {
+    	    print('Nothing selected');
     	  }
     	}
 
     	void onAddSibling(Event e) {
-    	  TreeViewNode selected = treeView.selectedNode;
+    	  TreeViewNode selected = treeView.selectedItem;
     	  if (selected != null) {
     	  	// Find the index of this selected item so we can insert it after it
     	  	int index = selected.parent.nodes.indexOf(selected);

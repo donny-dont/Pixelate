@@ -42,7 +42,7 @@ abstract class Selectable {
   /// The CSS class to be applied on the element on selected state.
   String get selectedclass;
 
-  /// The element that is affected by the selection state
+  /// The element that is affected by the selection state.
   Element get selectionElement;
 
   //---------------------------------------------------------------------
