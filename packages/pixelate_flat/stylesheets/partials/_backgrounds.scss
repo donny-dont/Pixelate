@@ -25,3 +25,9 @@
       transparent 75%, transparent
     );
 }
+
+@mixin background-circle($radius) {
+  border-radius: 50%;
+  width: $radius;
+  height: $radius;
+}
