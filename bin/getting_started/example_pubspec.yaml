@@ -1,0 +1,4 @@
+name: your_cool_app
+dependencies:
+  pixelate: any
+  pixelate_flat: any
