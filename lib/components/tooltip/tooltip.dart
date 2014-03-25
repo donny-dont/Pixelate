@@ -7,12 +7,6 @@
 library pixelate_tooltip;
 
 //---------------------------------------------------------------------
-// Standard libraries
-//---------------------------------------------------------------------
-
-import 'dart:html' as Html;
-
-//---------------------------------------------------------------------
 // Package libraries
 //---------------------------------------------------------------------
 
@@ -25,7 +19,7 @@ import 'package:polymer/polymer.dart';
 /// Tag name for the class.
 const String _tagName = 'px-tooltip';
 
-/// A button control which reacts to being clicked.
+/// A control that creates a pop-up element to display information for an element.
 @CustomTag(_tagName)
 class Tooltip extends PolymerElement {
   //---------------------------------------------------------------------
@@ -51,7 +45,7 @@ class Tooltip extends PolymerElement {
   /// This constructor should not be called directly. Instead use the
   /// [Element.tag] constructor as follows.
   ///
-  ///     var instance = new Element.tag(Button.customTagName);
+  ///     var instance = new Element.tag(Tooltip.customTagName);
   Tooltip.created()
       : super.created();
 
@@ -63,7 +57,16 @@ class Tooltip extends PolymerElement {
   void ready() {
     super.ready();
 
-    _updatePosition();
+    _positionText();
+  }
+
+  //---------------------------------------------------------------------
+  // Events
+  //---------------------------------------------------------------------
+
+  /// Callback for when the tab placement has changed.
+  void placementChanged() {
+    _positionText();
   }
 
   //---------------------------------------------------------------------
@@ -71,11 +74,12 @@ class Tooltip extends PolymerElement {
   //---------------------------------------------------------------------
 
   /// Positions the tooltip using the given placement
-  void _updatePosition() {
+  void _positionText() {
     var component = this.querySelector(_tagName);
-    if (placement == 'top' ||
+
+    if (placement == 'top'    ||
         placement == 'bottom' ||
-        placement == 'left' ||
+        placement == 'left'   ||
         placement == 'right') {
       this.classes.add(placement);
     } else {
