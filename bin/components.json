@@ -21,7 +21,8 @@
     "components": [
       "button",
       "list_view",
-      "progress_bar"
+      "progress_bar",
+      "tooltip"
     ]
   }
 ]
