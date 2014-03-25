@@ -77,7 +77,7 @@ class Tab extends PolymerElement {
   // Events
   //---------------------------------------------------------------------
 
-  /// Callback
+  /// Callback for when the tab placement has changed.
   void tabplacementChanged() {
     _positionTabs();
   }

@@ -1,0 +1,23 @@
+<link rel="import" href="../flex_panel.html">
+
+<polymer-element name="px-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: red;
+        z-index: 999;
+      }
+    </style>
+    <px-flex-panel class="container">
+      <content></content>
+    </px-flex-panel>
+  </template>
+  <script type="application/dart" src="dialog.dart"></script>
+</polymer-element>
