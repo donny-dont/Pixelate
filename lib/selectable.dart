@@ -38,32 +38,37 @@ abstract class Selectable {
   //---------------------------------------------------------------------
   // Properties
   //---------------------------------------------------------------------
-  /// The CSS class to be applied on the element on selected state
-  String get cssClassItemSelected;
 
-  /// The CSS class to be applied on the element on an unselected state
-  String get cssClassItemUnSelected;
+  /// The CSS class to be applied on the element on selected state.
+  String get selectedclass;
 
-  /// The element that is affected by the selection state
+  /// The element that is affected by the selection state.
   Element get selectionElement;
 
   //---------------------------------------------------------------------
   // Element methods
   //---------------------------------------------------------------------
+
   bool dispatchEvent(Event event);
 
   //---------------------------------------------------------------------
   // Element methods
   //---------------------------------------------------------------------
+
   void setSelected(bool value, [bool notifySelectionChanged = true]) {
     _selected = value;
-    selectionElement.classes.add(_selected ? cssClassItemSelected : cssClassItemUnSelected);
-    selectionElement.classes.remove(_selected ? cssClassItemUnSelected : cssClassItemSelected);
+
+    var classes = selectionElement.classes;
+
+    if (_selected) {
+      classes.add(selectedclass);
+    } else {
+      classes.remove(selectedclass);
+    }
 
     if (notifySelectionChanged) {
       // Notify the parent
       dispatchEvent(new CustomEvent(selectionChangedEvent, detail: this));
     }
   }
-
 }

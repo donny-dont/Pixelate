@@ -33,34 +33,16 @@ const String _tagName = 'px-tree-view-node';
 
 @CustomTag(_tagName)
 class TreeViewNode extends PolymerElement with Expandable, Customizable, Selectable {
+  //---------------------------------------------------------------------
+  // Class variables
+  //---------------------------------------------------------------------
+
   /// The name of the tag.
   static String get customTagName => _tagName;
 
-  static String elementIdHost = "node_host";
-
-  /// Css class to apply on an selected element. Required by the Selectable mixin
-  String get cssClassItemSelected => "node_selected";
-
-  /// Css class to apply on an unselected element. Required by the Selectable mixin
-  String get cssClassItemUnSelected => "node_unselected";
-
-  /// The element affected by the selection state. Used by the Selectable mixin
-  Html.Element get selectionElement => elementNode;
-
-  /// The text displayed on the tree node
-  @published String header = '';
-
-  /// The Id of the tree node. This id is used when raising events
-  @published String id = "node";
-
-  /// The host DOM element of the tree node
-  Html.Element elementNode;
-
-  /// Indicates the expanded/collapsed state of the tree node
-  @published bool expanded = false;
-
-  /// Observer for changes within the element.
-  Html.MutationObserver _observer;
+  //---------------------------------------------------------------------
+  // Member variables
+  //---------------------------------------------------------------------
 
   /// The view for the expandable portion.
   ///
@@ -70,6 +52,19 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
   ///
   /// Required for the [Expandable] mixin to function.
   Html.Element _content;
+  /// The element that is affected by the selection state.
+  Html.Element _selectionElement;
+  /// Observer for changes within the element.
+  Html.MutationObserver _observer;
+
+  /// The text displayed on the tree node
+  @published String header = '';
+  /// Indicates the expanded/collapsed state of the tree node
+  @published bool expanded = false;
+
+  //---------------------------------------------------------------------
+  // Construction
+  //---------------------------------------------------------------------
 
   /// Create an instance of the [TreeViewNode] class.
   ///
@@ -85,6 +80,7 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
 
     _content = shadowRoot.querySelector('.expandable');
     _view = shadowRoot.querySelector('.view');
+    _selectionElement = shadowRoot.querySelector('.header');
 
     initializeExpandable();
 
@@ -98,37 +94,45 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
   }
 
   //---------------------------------------------------------------------
+  // Selectable properties
+  //---------------------------------------------------------------------
+
+  String get selectedclass => "selected";
+  Html.Element get selectionElement => _selectionElement;
+
+  //---------------------------------------------------------------------
   // Expandable properties
   //---------------------------------------------------------------------
 
   Html.Element get content => _content;
   Html.Element get view => _view;
 
+  //---------------------------------------------------------------------
+  // PolymerElement properties
+  //---------------------------------------------------------------------
+
   @override
   void ready() {
     super.ready();
-    elementNode = shadowRoot.querySelector("#$elementIdHost");
+
     _layoutIcon();
   }
 
-  void onNodeClicked(Html.Event e) {
-    selected = true;
+  //---------------------------------------------------------------------
+  // Events
+  //---------------------------------------------------------------------
+
+  void selection(Html.Event e) {
+    selected = !selected;
   }
 
   void _onMutation(List<Html.MutationRecord> mutations, Html.MutationObserver observer) {
     _layoutIcon();
   }
 
-  void _layoutIcon() {
-    var icon = getShadowRoot(customTagName).querySelector('.icon');
-    var childNodes = querySelectorAll(customTagName);
-
-    if (childNodes.length > 0) {
-      icon.style.visibility = 'visible';
-    } else {
-      icon.style.visibility = 'hidden';
-    }
-  }
+  //---------------------------------------------------------------------
+  // Public methods
+  //---------------------------------------------------------------------
 
   /// Expands all the child nodes
   void expandAll() {
@@ -148,5 +152,17 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
         node.collapseAll();
       }
     });
+  }
+
+  //---------------------------------------------------------------------
+  // Private methods
+  //---------------------------------------------------------------------
+
+  /// Determines if the icon should be displayed.
+  void _layoutIcon() {
+    var icon = getShadowRoot(customTagName).querySelector('.icon');
+    var childNodes = querySelectorAll(customTagName);
+
+    icon.style.visibility = (childNodes.length > 0) ? 'visible' : 'hidden';
   }
 }

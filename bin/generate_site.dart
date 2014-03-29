@@ -38,9 +38,16 @@ void buildDocs(List<String> sourceFiles) {
   var docgenArgs = ['-j', '-v', '--include-private', '--no-include-sdk',
               '--no-include-dependent-packages', '--package-root=./packages'];
   docgenArgs.addAll(sourceFiles);
+
+  var docgen = 'docgen';
+
+  if (Platform.isWindows) {
+    docgen += '.bat';
+  }
+
   // TODO: fix workingDirectory
   ProcessResult processResult =
-      Process.runSync('docgen', docgenArgs, workingDirectory: '../');
+      Process.runSync(docgen, docgenArgs, workingDirectory: '../');
   if (processResult.stderr != '') {
     print("failed to create docs: ${processResult.stderr}");
   }
@@ -133,7 +140,7 @@ List getGroups() {
 String readTextFile(path) {
   var file = new File(path);
 
-  return file.readAsStringSync(encoding: ASCII);
+  return file.readAsStringSync(encoding: ASCII).trim();
 }
 
 dynamic readJsonFile(filename) {
@@ -225,13 +232,20 @@ void generateComponentPages(mustache.Template siteTemplate) {
 
 void generateGettingStartedPage(mustache.Template siteTemplate) {
   var template = readMustacheTemplate('getting_started_template.html');
+  var pubspec = readTextFile('getting_started/example_pubspec.yaml');
+  var example = readTextFile('getting_started/first_component.html');
+
+  var partial = {
+      'pubspec': pubspec,
+      'example': example
+  };
 
   var site = {
       'title': 'Pixelate',
       'relativePath': '../',
       'styles': [ 'style.css' ],
       'imports': [],
-      'content': template.renderString({})
+      'content': template.renderString(partial)
   };
 
   var outputPath = '../web/getting_started/index.html';

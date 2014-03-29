@@ -17,6 +17,7 @@ import 'dart:html';
 //---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
+import 'package:pixelate/selection_group.dart';
 import 'package:pixelate/components/tree_view/tree_view_node.dart';
 
 //---------------------------------------------------------------------
@@ -28,13 +29,17 @@ const String _tagName = 'px-tree-view';
 
 
 @CustomTag(_tagName)
-class TreeView extends PolymerElement {
+class TreeView extends PolymerElement with SelectionGroup {
+  //---------------------------------------------------------------------
+  // Class variables
+  //---------------------------------------------------------------------
+
   /// The name of the tag.
   static String get customTagName => _tagName;
 
-  /// The currently selected node
-  TreeViewNode selectedNode;
-
+  //---------------------------------------------------------------------
+  // Construction
+  //---------------------------------------------------------------------
 
   /// Create an instance of the [TreeView] class.
   ///
@@ -43,18 +48,23 @@ class TreeView extends PolymerElement {
   ///
   ///     var instance = new Element.tag(TreeView.customTagName);
   TreeView.created()
-      : super.created();
-
-  void onNodeSelected(Event e, var details, Node target) {
-    var newSelectedNode = details;
-    if (selectedNode != null && selectedNode != newSelectedNode) {
-      // deselect the previously selected node
-      selectedNode.setSelected(false, false);
-    }
-    selectedNode = newSelectedNode;
+      : super.created()
+  {
+    initializeSelectionGroup();
   }
 
-  /// Expands all the nodes in the tree view
+  //---------------------------------------------------------------------
+  // SelectionGroup properties
+  //---------------------------------------------------------------------
+
+  @published bool multiple = false;
+  String get selectableSelectors => TreeViewNode.customTagName;
+
+  //---------------------------------------------------------------------
+  // Public methods
+  //---------------------------------------------------------------------
+
+  /// Expands all the nodes in the tree view.
   void expandAll() {
     nodes.forEach((node) {
       if (node is TreeViewNode) {
@@ -63,7 +73,7 @@ class TreeView extends PolymerElement {
     });
   }
 
-  /// Collapses all the nodes in the tree view
+  /// Collapses all the nodes in the tree view.
   void collapseAll() {
     nodes.forEach((node) {
       if (node is TreeViewNode) {

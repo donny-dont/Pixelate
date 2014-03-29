@@ -1,22 +1,29 @@
 <div class="header-area">
   <div class="header">
     <h1>Getting started</h1>
-    <h2>A set of reusable components for web applications</h2>
+    <h2>An overview on how to begin using Pixelate</h2>
   </div>
 </div>
 <px-flex-panel class="content" orientation="vertical" style="flex:1">
-  <h1>Designed for modern web applications</h1>
-  <px-flex-panel orientation="horizontal" class="built-on">
-    <div>
-      <img src="images/polymer_logo.svg" height="200px">
-      <h2>Built with Polymer</h2>
-      <p>Leveraging web components for next generation web applications.</p>
+  <div class="documentation">
+    <h2>Installation</h2>
+    <p>Pixelate is provided as a <a class="external" href="http://pub.dartlang.org/packages/pixelate">pub package</a> for easy installation. Modify the pubspec.yaml file to include references to Pixelate and the default theme as follows.</p>
+    <div class="example">
+      <pre class="code">
+        <code>{{pubspec}}</code>
+      </pre>
     </div>
-    <div>
-      <img src="images/dart_logo.svg" height="200px">
-      <h2>Using Dart</h2>
-      <p>The modern web language for building scalable web applications.</p>
+    <p>If you use Dart Editor, select your project from the Files view, then goto Tools, and run Pub Install.</p>
+    <p>If you use the command line, ensure the Dart SDK is on your path, and then run: pub install</p>
+    <h2>Getting Started</h2>
+    <p>To start using a Pixelate component it needs to be referenced and added to the site's HTML. All components can be found within the packages/pixelate/components path. These can be added through the import tag within the HTML document as follows.</p>
+    <div class="example">
+      <pre class="code">
+        <code>{{example}}</code>
+      </pre>
     </div>
-  </px-flex-panel>
-  <h2>Pixelate is open source. It's hosted, developed, and maintained on GitHub.</h2>
+    <h2>Themes</h2>
+    <p>Pixelate elements do not come with their own built in look and feel. Instead the elements can be styled externally through a theme. Theme's are provided as additional pub packages so its simple for a user to swap for a theme that fits the designer's whims.</p>
+    <p>The Pixelate author's provide the <a class="external" href="http://pub.dartlang.org/packages/pixelate_flat">Pixelate Flat Theme</a>, which is a modern, darkly colored, flat design. It is inspired by <a class="external" href="http://designmodo.com/square/">Square UI</a> from <a class="external" href="http://designmodo.com">Designmodo</a>.</p>
+  </div>
 </px-flex-panel>

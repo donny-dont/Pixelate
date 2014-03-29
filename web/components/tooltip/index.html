@@ -8,13 +8,12 @@
     <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
-    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/expander.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/tooltip.css">
     <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
-    <link rel="import" href="../../packages/polymer/polymer.html">
     <link rel="import" href="../../packages/pixelate/components/flex_panel/flex_panel.html">
-    <link rel="import" href="../../packages/pixelate/components/expander/expander.html">
+    <link rel="import" href="../../packages/pixelate/components/tooltip/tooltip.html">
 
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
@@ -38,34 +37,25 @@
 </div>
 <px-flex-panel class="content" orientation="horizontal" style="flex:1">
   <div class="documentation" style="flex: 1;">
-    <div class="component-name">&lt;px-expander&gt;</div>
-    <div class="overview"><p>Represents a control that displays a header that has a collapsible window that displays content.</p></div>
+    <div class="component-name">&lt;px-tooltip&gt;</div>
+    <div class="overview"><p>A control that creates a pop-up element to display information for an element.</p></div>
     <h2>Examples</h2>
-    <p>A simple expander.</p>
+    <p>Simple tooltips.</p>
     <div class="example">
-      <px-expander header="Header">
-  <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-</px-expander>
-      <pre class="code"><code>&lt;px-expander header=&quot;Header&quot;&gt;
-  &lt;p&gt;Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.&lt;&#x2F;p&gt;
-&lt;&#x2F;px-expander&gt;</code></pre>
-    </div>
-    <p>An expander with a custom header.</p>
-    <div class="example">
-      <px-expander header="Section 1">
-  <px-flex-panel class="expander-header" orientation="horizontal">
-    <div class="red">Overriden</div>
-    <div class="green">Header</div>
-  </px-flex-panel>
-  <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-</px-expander>
-      <pre class="code"><code>&lt;px-expander header=&quot;Section 1&quot;&gt;
-  &lt;px-flex-panel class=&quot;expander-header&quot; orientation=&quot;horizontal&quot;&gt;
-    &lt;div class=&quot;red&quot;&gt;Overriden&lt;&#x2F;div&gt;
-    &lt;div class=&quot;green&quot;&gt;Header&lt;&#x2F;div&gt;
-  &lt;&#x2F;px-flex-panel&gt;
-  &lt;p&gt;Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.&lt;&#x2F;p&gt;
-&lt;&#x2F;px-expander&gt;</code></pre>
+      <px-flex-panel orientation="vertical">
+  <p>This tooltip is the <px-tooltip text="I am the default">default</px-tooltip> tooltip.</p>
+  <p>This tooltip is placed on <px-tooltip text="I am placed on the top" placement="top">top</px-tooltip>.</p>
+  <p>This tooltip is placed on <px-tooltip text="I am placed on the bottom" placement="bottom">bottom</px-tooltip>.</p>
+  <p>This tooltip is placed on <px-tooltip text="I am placed on the left" placement="left">left</px-tooltip>.</p>
+  <p>This tooltip is placed on <px-tooltip text="I am placed on the right" placement="right">right</px-tooltip>.</p>
+</px-flex-panel>
+      <pre class="code"><code>&lt;px-flex-panel orientation=&quot;vertical&quot;&gt;
+  &lt;p&gt;This tooltip is the &lt;px-tooltip text=&quot;I am the default&quot;&gt;default&lt;&#x2F;px-tooltip&gt; tooltip.&lt;&#x2F;p&gt;
+  &lt;p&gt;This tooltip is placed on &lt;px-tooltip text=&quot;I am placed on the top&quot; placement=&quot;top&quot;&gt;top&lt;&#x2F;px-tooltip&gt;.&lt;&#x2F;p&gt;
+  &lt;p&gt;This tooltip is placed on &lt;px-tooltip text=&quot;I am placed on the bottom&quot; placement=&quot;bottom&quot;&gt;bottom&lt;&#x2F;px-tooltip&gt;.&lt;&#x2F;p&gt;
+  &lt;p&gt;This tooltip is placed on &lt;px-tooltip text=&quot;I am placed on the left&quot; placement=&quot;left&quot;&gt;left&lt;&#x2F;px-tooltip&gt;.&lt;&#x2F;p&gt;
+  &lt;p&gt;This tooltip is placed on &lt;px-tooltip text=&quot;I am placed on the right&quot; placement=&quot;right&quot;&gt;right&lt;&#x2F;px-tooltip&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;px-flex-panel&gt;</code></pre>
     </div>
   </div>
   <div class="component-selection">

@@ -1,0 +1,24 @@
+.wallpaper {
+  width: 200px;
+  height: 125px;
+}
+
+.bird {
+  background:url('images/bird.jpg') center center no-repeat;
+}
+
+.bunny {
+  background:url('images/bunny.jpg') center center no-repeat;
+}
+
+.kitties {
+  background:url('images/kitties.jpg') center center no-repeat;
+}
+
+.rainbow {
+  background:url('images/rainbow.jpg') center center no-repeat;
+}
+
+.flowers {
+  background:url('images/flowers.jpg') center center no-repeat;
+}

@@ -8,6 +8,9 @@
   "Expander": [
     "packages/pixelate_flat/stylesheets/expander.css"
   ],
+  "ListView": [
+    "packages/pixelate_flat/stylesheets/list_view_item.css"
+  ],
   "ProgressBar": [
     "packages/pixelate_flat/stylesheets/progress_bar.css"
   ],
@@ -19,5 +22,8 @@
   ],
   "TreeView": [
     "packages/pixelate_flat/stylesheets/tree_view_node.css"
+  ],
+  "Tooltip": [
+    "packages/pixelate_flat/stylesheets/tooltip.css"
   ]
 }
