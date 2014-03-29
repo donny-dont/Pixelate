@@ -27,6 +27,7 @@ transformers:
     - web/components/progress_bar/index.html
     - web/components/scroll_viewer/index.html
     - web/components/tab/index.html
+    - web/components/tooltip/index.html
     - web/components/tree_view/index.html
     - web/getting_started/index.html
     - example/graph/graph_demo.html

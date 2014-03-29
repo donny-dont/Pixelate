@@ -22,5 +22,8 @@
   ],
   "TreeView": [
     "packages/pixelate_flat/stylesheets/tree_view_node.css"
+  ],
+  "Tooltip": [
+    "packages/pixelate_flat/stylesheets/tooltip.css"
   ]
 }
