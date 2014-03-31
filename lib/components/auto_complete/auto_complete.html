@@ -1,0 +1,15 @@
+<polymer-element name="px-auto-complete">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+    </style>
+    <px-flex-panel orientation="horizontal">
+      <input type="text" placeholder="{{placeholderText}}" />
+      <content></content>
+    </px-flex-panel>
+  </template>
+  <script type="application/dart" src="auto_complete.dart"></script>
+</polymer-element>
