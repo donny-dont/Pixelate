@@ -4,7 +4,7 @@ import 'dart:html';
 import 'dart:math' as math;
 import 'package:pixelate/graph/graph.dart';
 import 'package:pixelate/utils/core_utils.dart';
-import 'package:pixelate/components/graph_node.dart';
+import 'package:pixelate/components/graph_canvas/graph_node.dart';
 
 /** The graph link view for rendering the spline path on the svg document */
 class GraphLinkView {

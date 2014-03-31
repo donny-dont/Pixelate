@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/utils/core_utils.dart';
 import 'package:pixelate/graph/graph.dart';
-import 'package:pixelate/components/graph_socket.dart';
-import 'package:pixelate/components/graph_canvas.dart';
+import 'package:pixelate/components/graph_canvas/graph_socket.dart';
+import 'package:pixelate/components/graph_canvas/graph_canvas.dart';
 
 /**
  * Polymer diagram node view
