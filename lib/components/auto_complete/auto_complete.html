@@ -5,9 +5,21 @@
         display: block;
         border-box; box-sizing;
       }
+
+      #suggestions {
+        background: white;
+        color: black;
+      }
     </style>
     <px-flex-panel orientation="horizontal">
       <input type="text" placeholder="{{placeholderText}}" />
+      <div id="suggestions">
+        <ul>
+          <template repeat="{{ suggestion in suggestions }}">
+            <li>{{ suggestion }}</li>
+          </template>
+        </ul>
+      </div>
       <content></content>
     </px-flex-panel>
   </template>

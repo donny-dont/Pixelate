@@ -31,7 +31,9 @@ class AutoComplete extends PolymerElement {
   //--
   // Class variables
   //--
-  String placeholderText = "Auto Complete";
+  @observable String placeholderText = "Auto Complete";
+  @observable ObservableList<String> suggestions = new ObservableList<String>();
+
   Html.Element _input;
 
   /// The name of the tag.
@@ -60,5 +62,9 @@ class AutoComplete extends PolymerElement {
 
   void lookupInput(String value) {
     print("Value is: " + value);
+
+    suggestions.clear();
+    suggestions.add("Hello");
+    suggestions.add("World");
   }
 }
