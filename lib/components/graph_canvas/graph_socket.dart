@@ -98,9 +98,6 @@ class GraphSocketView extends PolymerElement {
   }
   
   num get radius {
-    
-    return imageElement.clientWidth / 2.0;    // TODO: Avoid using clientWidth for performance reasons
+    return clientWidth / 2.0;    // TODO: Avoid using clientWidth for performance reasons
   }
-
 }
-

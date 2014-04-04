@@ -50,6 +50,8 @@ class FlexPanel extends PolymerElement {
   ///
   /// This can either be 'horizontal' or 'vertical'.
   @published String orientation = 'vertical';
+  /// Whether contents should wrap around.
+  @published bool wrap = false;
 
   //---------------------------------------------------------------------
   // Construction
@@ -90,6 +92,11 @@ class FlexPanel extends PolymerElement {
     _layout();
   }
 
+  /// Callback for when [wrap] changes.
+  void wrapChanged(bool oldValue) {
+    _layout();
+  }
+
   //---------------------------------------------------------------------
   // Private methods
   //---------------------------------------------------------------------
@@ -97,5 +104,6 @@ class FlexPanel extends PolymerElement {
   /// Setup the flexible layout.
   void _layout() {
     style.flexDirection = (vertical) ? 'column' : 'row';
+    style.flexWrap = (wrap) ? 'wrap' : 'nowrap';
   }
 }
