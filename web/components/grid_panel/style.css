@@ -1,1 +1,20 @@
-.grid-item { height: 100%; }
+.grid-item {
+  padding: 5px;
+  height: 100%;
+}
+
+.red {
+  background-color: #e56c69;
+}
+
+.blue {
+  background-color: #5a9aa8;
+}
+
+.green {
+  background-color: #1f7f5c;
+}
+
+.purple {
+  background-color: #6a5a8c;
+}
