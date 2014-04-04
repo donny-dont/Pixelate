@@ -1,6 +1,6 @@
 library pixelate_demo_graph_appnode;
 import 'package:polymer/polymer.dart';
-import 'package:pixelate/components/graph_node.dart';
+import 'package:pixelate/components/graph_canvas/graph_node.dart';
 
 @CustomTag('app-node')
 class AppNode extends GraphNodeView with Observable {

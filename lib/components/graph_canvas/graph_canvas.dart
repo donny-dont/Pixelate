@@ -5,18 +5,17 @@ import 'dart:svg' as s;
 import 'dart:async';
 import 'dart:html';
 import 'dart:math' as math;
-import 'package:pixelate/components/graph_node.dart';
-import 'package:pixelate/components/graph_link.dart';
-import 'package:pixelate/components/graph_socket.dart';
+import 'package:pixelate/components/graph_canvas/graph_node.dart';
+import 'package:pixelate/components/graph_canvas/graph_link.dart';
+import 'package:pixelate/components/graph_canvas/graph_socket.dart';
 import 'package:pixelate/utils/core_utils.dart';
 import 'package:pixelate/graph/graph.dart';
 import 'package:pixelate/graph/graph_serializer.dart';
 
-/**
- * A Polymer click counter element.
- */
+import 'package:pixelate/transformable.dart';
+
 @CustomTag('px-graph-canvas')
-class GraphCanvas extends PolymerElement {
+class GraphCanvas extends PolymerElement with Transformable {
   s.SvgElement svg;
   
   /** The initial document to load on the graph canvas */
@@ -34,7 +33,11 @@ class GraphCanvas extends PolymerElement {
   /** List of graph link views */
   Map<String, GraphLinkView> linkViews = new Map<String, GraphLinkView>();
   
-  GraphCanvas.created() : super.created();
+  GraphCanvas.created()
+    : super.created()
+  {
+    initializeTransformable(true);
+  }
 
   /** The outer content container that holds the SVG and Node dom elements */
   Element containerElement;
@@ -51,8 +54,8 @@ class GraphCanvas extends PolymerElement {
     super.enteredView();
     svg = this.shadowRoot.querySelector("#diagram_svg");
     nodeHostElement = this.shadowRoot.querySelector("#diagram_dom");
-    containerElement = this.shadowRoot.querySelector("#outer_content");
-    containerElement.onContextMenu.listen((MouseEvent e) => e.preventDefault());
+    containerElement = this;
+    //containerElement.onContextMenu.listen((MouseEvent e) => e.preventDefault());
 
     linkCreationHandler = new LinkCreationHandler(this);
     document = new GraphDocument();
@@ -275,5 +278,3 @@ class LinkCreationHandler {
     canvas.createLink(linkId, sourceNodeId, sourceSocketId, destNodeId, destSocketId);
   }
 }
-
-

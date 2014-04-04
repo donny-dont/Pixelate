@@ -3,7 +3,7 @@ library pixelate_graph_serializer;
 import 'dart:convert';
 import 'dart:async';
 import 'dart:html';
-import 'package:pixelate/components/graph_canvas.dart';
+import 'package:pixelate/components/graph_canvas/graph_canvas.dart';
 
 
   /////////// Serialization. TODO: Move to another library /////////////////
@@ -17,14 +17,14 @@ class GraphSerializer {
     });
     return completer.future;
   }
-  
+
   /** Load the document from json */
   void loadFromJson(String json, GraphCanvas canvas) {
     var data = JSON.decode(json);
     canvas.document.id = data["diagramId"];
-    
+
     canvas.clear();
-    
+
     // Create nodes
     var nodeInfoList = data["nodes"];
     for (var nodeInfo in nodeInfoList) {
@@ -35,7 +35,7 @@ class GraphSerializer {
       final top = nodeInfo["top"];
       canvas.createNode(nodeId, nodeType, left, top);
     }
-    
+
     // Create links
     var linkInfoList = data["links"];
     for (var linkInfo in linkInfoList) {

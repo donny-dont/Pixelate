@@ -75,8 +75,6 @@ class Tooltip extends PolymerElement {
 
   /// Positions the tooltip using the given placement
   void _positionText() {
-    var component = this.querySelector(_tagName);
-
     if (placement == 'top'    ||
         placement == 'bottom' ||
         placement == 'left'   ||
