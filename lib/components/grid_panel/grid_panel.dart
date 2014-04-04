@@ -169,7 +169,7 @@ class GridPanel extends PolymerElement {
     }
 
     // Set the style
-    style.setProperty('grid-definition-columns', property);
+    style.setProperty('grid-template-columns', property);
   }
 
   /// Sets the layout for the rows.
@@ -187,7 +187,7 @@ class GridPanel extends PolymerElement {
     }
 
     // Set the style
-    style.setProperty('grid-definition-rows', property);
+    style.setProperty('grid-template-rows', property);
   }
 
   /// Lays out the child elements.

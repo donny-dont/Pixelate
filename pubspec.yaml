@@ -7,7 +7,7 @@ description: A collection of polymer components for web application developers.
 homepage: https://github.com/donny-dont/Pixelate
 dependencies:
   logging: any
-  polymer: any
+  polymer: ">=0.10.0-pre.6 <0.11.0"
 dev_dependencies:
   mustache: any
   pixelate_flat:
@@ -30,4 +30,6 @@ transformers:
     - web/components/tooltip/index.html
     - web/components/tree_view/index.html
     - web/getting_started/index.html
-    - example/graph/graph_demo.html
+    - example/graph_canvas/index.html
+    - example/list_view/index.html
+    - example/tree_view/index.html

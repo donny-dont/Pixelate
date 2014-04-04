@@ -4,18 +4,23 @@
   <head>
     <meta charset="utf-8">
     <title>Graph Demo</title>
+
+    <!-- Import Polymer -->
+    <link rel="import" href="packages/polymer/polymer.html">
+
     <!-- Import the styles -->
     <link rel="stylesheet" href="graph_demo.css">
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/graph_canvas.css">
 
-    <!-- import the click-counter -->
+    <!-- Import the elements -->
     <link rel="import" href="packages/pixelate/components/graph_canvas/graph_canvas.html">
     <link rel="import" href="packages/pixelate/components/graph_canvas/graph_node.html">
     <link rel="import" href="packages/pixelate/components/graph_canvas/graph_socket.html">
     <link rel="import" href="custom_nodes/normal_map_node.html">
     <link rel="import" href="custom_nodes/ao_map_node.html">
     <link rel="import" href="custom_nodes/constant_node.html">
+
     <!-- Setup Polymer -->
     <script type="application/dart">export 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>

@@ -1,0 +1,9 @@
+.expander-header {
+  width: 100%;
+}
+
+.badge {
+  width: 32px;
+  text-align: center;
+  background-color: rgba(0,0,0,0.5);
+}

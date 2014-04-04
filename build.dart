@@ -7,8 +7,19 @@ import 'package:polymer/builder.dart';
 
 main(args) {
   build(entryPoints: [
-      'web/test.html',
-      'web/tests/graph/graph_demo.html',
-      'web/components.html'
+      'web/index.html',
+      'web/components/accordion/index.html',
+      'web/components/button/index.html',
+      'web/components/expander/index.html',
+      'web/components/flex_panel/index.html',
+      'web/components/grid_panel/index.html',
+      'web/components/progress_bar/index.html',
+      'web/components/scroll_viewer/index.html',
+      'web/components/tab/index.html',
+      'web/components/tree_view/index.html',
+      'web/getting_started/index.html',
+      'example/graph/index.html',
+      'example/list_view/index.html',
+      'example/tree_view/index.html'
   ], options: parseOptions(args));
 }
