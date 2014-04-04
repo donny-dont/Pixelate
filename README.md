@@ -2,6 +2,8 @@
 
 > A UI widget library for creating modern web applications; Pixelate targets the modern web by using Web Components. The library leverages the [Polymer.dart library](https://www.dartlang.org/polymer-dart/) to create a set of widgets that would be expected in native native application development.
 
+[![Build Status](https://drone.io/github.com/donny-dont/Pixelate/status.png)](https://drone.io/github.com/donny-dont/Pixelate/latest)
+
 # Components
 The following components are available for use.
  * **Layout**
