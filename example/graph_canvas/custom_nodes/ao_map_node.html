@@ -15,7 +15,7 @@
       #drag_handle    { width: 100%; height: 20px; position: absolute; }
 
       px-graph-socket { position: absolute; }
-      .caption { 
+      .caption {
         position: absolute;
         color: #ccc;
         font-family:Tahoma, Geneva, sans-serif;
@@ -23,10 +23,10 @@
         text-shadow: 1px 1px #111;
         margin-top: -1px;
       }
-      
+
     </style>
     <div id="node_body">
-    
+
       <!-- get the hosts' shadow and insert here -->
       <shadow></shadow>
       <div id="drag_handle"></div>
@@ -35,7 +35,7 @@
          Notice the dir attribute in the sockets. We want the direction of the incoming spline from south for the
          in_quality socket.   Hence x=0 and y=1.  Since out_aomap is on the right of the node, x is 1 and y is 0.
          The direction can be any normalized vector
-       -->      
+       -->
       <px-graph-socket id="in_normal" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
       <px-graph-socket id="in_height" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
       <px-graph-socket id="in_quality" image="orb_grey.png" hoverImage="orb_blue.png" dir="0,1" type="in"></px-graph-socket>
@@ -45,10 +45,10 @@
       <div id="txtHeightTex" class="caption">Height Tex</div>
       <div id="txtQuality" class="caption">Quality</div>
       <div id="txtAOMap" class="caption">AO Map</div>
-      
+
     </div>
   </template>
-  <script type="application/dart">
+  <script type="application/dart;component=1">
   import 'package:polymer/polymer.dart';
   import 'app_node.dart';
 

@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <title>Graph Demo</title>
 
-    <!-- Import Polymer -->
+    <!-- Setup Polymer -->
     <link rel="import" href="packages/polymer/polymer.html">
+    <script src="packages/browser/dart.js"></script>
 
     <!-- Import the styles -->
     <link rel="stylesheet" href="graph_demo.css">
@@ -20,10 +21,6 @@
     <link rel="import" href="custom_nodes/normal_map_node.html">
     <link rel="import" href="custom_nodes/ao_map_node.html">
     <link rel="import" href="custom_nodes/constant_node.html">
-
-    <!-- Setup Polymer -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
-    <script src="packages/browser/dart.js"></script>
   </head>
   <body>
     <div id="graph_container">

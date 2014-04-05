@@ -11,8 +11,6 @@ library pixelate_tree_view_node;
 //---------------------------------------------------------------------
 
 import 'dart:html' as Html;
-@MirrorsUsed(targets: const ['pixelate_expandable.Expandable.toggle', 'pixelate_expandable.Expandable.expandedChanged'])
-import 'dart:mirrors';
 
 //---------------------------------------------------------------------
 // Package libraries
