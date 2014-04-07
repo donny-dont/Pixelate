@@ -1,4 +1,4 @@
-// Copyright (c) 2013, the Pixelate Project Authors.
+// Copyright (c) 2013-2014, the Pixelate Project Authors.
 // Please see the AUTHORS file for details. All rights reserved.
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
@@ -11,8 +11,6 @@ library pixelate_expander;
 //---------------------------------------------------------------------
 
 import 'dart:html';
-@MirrorsUsed(targets: const ['pixelate_expandable.Expandable.toggle', 'pixelate_expandable.Expandable.expandedChanged'])
-import 'dart:mirrors';
 
 //---------------------------------------------------------------------
 // Package libraries

@@ -1,16 +1,16 @@
-<polymer-element name="px-flex-panel" attributes="orientation">
-  <template> 
+<polymer-element name="px-flex-panel" attributes="orientation,wrap">
+  <template>
     <style>
       :host {
         display: flex !important;
         border-box: box-sizing;
       }
-      
+
       :host > * {
         border-box: box-sizing;
       }
     </style>
-    <content></content>    
+    <content></content>
   </template>
-  <script type="application/dart" src="flex_panel.dart"></script>
+  <script type="application/dart;component=1" src="flex_panel.dart"></script>
 </polymer-element>

@@ -1,4 +1,4 @@
-// Copyright (c) 2013, the Pixelate Project Authors.
+// Copyright (c) 2013-2014, the Pixelate Project Authors.
 // Please see the AUTHORS file for details. All rights reserved.
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
@@ -169,7 +169,7 @@ class GridPanel extends PolymerElement {
     }
 
     // Set the style
-    style.setProperty('grid-definition-columns', property);
+    style.setProperty('grid-template-columns', property);
   }
 
   /// Sets the layout for the rows.
@@ -187,7 +187,7 @@ class GridPanel extends PolymerElement {
     }
 
     // Set the style
-    style.setProperty('grid-definition-rows', property);
+    style.setProperty('grid-template-rows', property);
   }
 
   /// Lays out the child elements.

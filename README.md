@@ -2,6 +2,8 @@
 
 > A UI widget library for creating modern web applications; Pixelate targets the modern web by using Web Components. The library leverages the [Polymer.dart library](https://www.dartlang.org/polymer-dart/) to create a set of widgets that would be expected in native native application development.
 
+[![Build Status](https://drone.io/github.com/donny-dont/Pixelate/status.png)](https://drone.io/github.com/donny-dont/Pixelate/latest)
+
 # Components
 The following components are available for use.
  * **Layout**
@@ -9,14 +11,15 @@ The following components are available for use.
    * [GridPanel](http://donny-dont.github.io/Pixelate/components/grid_panel/index.html)
  * **Navigation**
    * [Accordion](http://donny-dont.github.io/Pixelate/components/accordion/index.html)
-  * [Expander](http://donny-dont.github.io/Pixelate/components/expander/index.html)
-  * [ScrollViewer](http://donny-dont.github.io/Pixelate/components/scroll_viewer/index.html)
-  * [Tab](http://donny-dont.github.io/Pixelate/components/tab/index.html)
-  * [ScrollViewer](http://donny-dont.github.io/Pixelate/components/tree_view/index.html)
+   * [Expander](http://donny-dont.github.io/Pixelate/components/expander/index.html)
+   * [ScrollViewer](http://donny-dont.github.io/Pixelate/components/scroll_viewer/index.html)
+   * [Tab](http://donny-dont.github.io/Pixelate/components/tab/index.html)
+   * [ScrollViewer](http://donny-dont.github.io/Pixelate/components/tree_view/index.html)
  * **Controls**
    * [Button](http://donny-dont.github.io/Pixelate/components/button/index.html)
    * [ListView](http://donny-dont.github.io/Pixelate/components/list_view/index.html)
    * [ProgressBar](http://donny-dont.github.io/Pixelate/components/progress_bar/index.html)
+   * [Tooltip](http://donny-dont.github.io/Pixelate/components/tooltip/index.html)
 
 # Themes
 
@@ -46,6 +49,7 @@ Pixelate has been tested on the following browsers
 # Authors
  * [Ali Akbar](https://github.com/coderespawn)
  * [Don Olmstead](https://github.com/donny-dont)
+ * [Erik Gui](https://github.com/erikgui)
 
 # Copyright and license
 

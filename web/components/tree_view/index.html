@@ -5,10 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixelate Components</title>
+    <!-- Setup Polymer -->
+    <link rel="import" href="packages/polymer/polymer.html">
+
     <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
-    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/tree_view_node.css">
+    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/tree_view.css">
     <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
@@ -16,8 +19,7 @@
     <link rel="import" href="../../packages/pixelate/components/tree_view/tree_view.html">
     <link rel="import" href="../../packages/pixelate/components/tree_view/tree_view_node.html">
 
-    <!-- Setup Polymer -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <!-- Bootstrap Dart -->
     <script src="packages/browser/dart.js"></script>
 
     <!-- Check for web platform features -->
@@ -44,7 +46,7 @@
     <p>A simple tree view. Elements can be expanded or collapsed by double clicking the header, or by clicking the expansion icon.</p>
     <div class="example">
       <px-tree-view>
-  <px-tree-view-node header="Pixelate">
+  <px-tree-view-node header="Components (double click to expand)">
     <px-tree-view-node header="Layout">
       <px-tree-view-node header="FlexPanel"></px-tree-view-node>
       <px-tree-view-node header="GridPanel"></px-tree-view-node>
@@ -56,7 +58,7 @@
   </px-tree-view-node>
 </px-tree-view>
       <pre class="code"><code>&lt;px-tree-view&gt;
-  &lt;px-tree-view-node header=&quot;Pixelate&quot;&gt;
+  &lt;px-tree-view-node header=&quot;Components (double click to expand)&quot;&gt;
     &lt;px-tree-view-node header=&quot;Layout&quot;&gt;
       &lt;px-tree-view-node header=&quot;FlexPanel&quot;&gt;&lt;&#x2F;px-tree-view-node&gt;
       &lt;px-tree-view-node header=&quot;GridPanel&quot;&gt;&lt;&#x2F;px-tree-view-node&gt;

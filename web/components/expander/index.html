@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixelate Components</title>
+    <!-- Setup Polymer -->
+    <link rel="import" href="packages/polymer/polymer.html">
+
     <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
@@ -15,8 +18,7 @@
     <link rel="import" href="../../packages/pixelate/components/flex_panel/flex_panel.html">
     <link rel="import" href="../../packages/pixelate/components/expander/expander.html">
 
-    <!-- Setup Polymer -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <!-- Bootstrap Dart -->
     <script src="packages/browser/dart.js"></script>
 
     <!-- Check for web platform features -->
@@ -53,15 +55,15 @@
     <div class="example">
       <px-expander header="Section 1">
   <px-flex-panel class="expander-header" orientation="horizontal">
-    <div class="red">Overriden</div>
-    <div class="green">Header</div>
+    <div style="flex:1;">Overriden Header</div>
+    <div class="badge">2</div>
   </px-flex-panel>
   <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
 </px-expander>
       <pre class="code"><code>&lt;px-expander header=&quot;Section 1&quot;&gt;
   &lt;px-flex-panel class=&quot;expander-header&quot; orientation=&quot;horizontal&quot;&gt;
-    &lt;div class=&quot;red&quot;&gt;Overriden&lt;&#x2F;div&gt;
-    &lt;div class=&quot;green&quot;&gt;Header&lt;&#x2F;div&gt;
+    &lt;div style=&quot;flex:1;&quot;&gt;Overriden Header&lt;&#x2F;div&gt;
+    &lt;div class=&quot;badge&quot;&gt;2&lt;&#x2F;div&gt;
   &lt;&#x2F;px-flex-panel&gt;
   &lt;p&gt;Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.&lt;&#x2F;p&gt;
 &lt;&#x2F;px-expander&gt;</code></pre>

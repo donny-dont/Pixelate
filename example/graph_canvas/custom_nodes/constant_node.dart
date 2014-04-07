@@ -3,14 +3,12 @@
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
 
-library customizable_test;
+import 'package:polymer/polymer.dart';
+import 'app_node.dart';
 
-import 'package:unittest/unittest.dart';
-
-void main() {
-  group('Customizable tests', () {
-    test('Bleh', () {
-      expect(1, 1);
-    });
-  });
+@CustomTag('constant-node')
+class ConstantNode extends AppNode {
+  ConstantNode.created() : super.created() {
+    title = "Constant";
+  }
 }

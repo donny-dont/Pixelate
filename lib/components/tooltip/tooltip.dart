@@ -1,4 +1,4 @@
-// Copyright (c) 2013, the Pixelate Project Authors.
+// Copyright (c) 2013-2014, the Pixelate Project Authors.
 // Please see the AUTHORS file for details. All rights reserved.
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
@@ -75,8 +75,6 @@ class Tooltip extends PolymerElement {
 
   /// Positions the tooltip using the given placement
   void _positionText() {
-    var component = this.querySelector(_tagName);
-
     if (placement == 'top'    ||
         placement == 'bottom' ||
         placement == 'left'   ||

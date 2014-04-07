@@ -2,8 +2,9 @@
 
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List View test</title>
-
     <style>
       px-scroll-viewer {
         width: 250px;
@@ -17,9 +18,12 @@
       }
     </style>
 
+    <!-- Setup Polymer -->
+    <link rel="import" href="packages/polymer/polymer.html">
+
     <!-- Import the styles -->
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/list_view_item.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/list_view.css">
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/scroll_viewer.css">
 
     <!-- Import the elements -->
@@ -27,8 +31,7 @@
     <link rel="import" href="packages/pixelate/components/list_view/list_view.html">
     <link rel="import" href="packages/pixelate/components/list_view/list_view_item.html">
 
-    <!-- Polymer initialization -->
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <!-- Bootstrap Dart -->
     <script src="packages/browser/dart.js"></script>
   </head>
   <body>

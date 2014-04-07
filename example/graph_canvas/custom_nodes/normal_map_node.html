@@ -19,7 +19,7 @@
       #drag_handle { width: 100%; height: 20px; position: absolute; }
 
       px-graph-socket { position: absolute; }
-      .caption { 
+      .caption {
         position: absolute;
         color: #ccc;
         font-family:Tahoma, Geneva, sans-serif;
@@ -27,14 +27,14 @@
         text-shadow: 1px 1px #111;
         margin-top: -1px;
       }
-      
+
     </style>
     <div id="node_body">
-    
+
       <!-- get the hosts' shadow and insert here -->
       <shadow></shadow>
       <div id="drag_handle"></div>
-      
+
       <px-graph-socket id="in_diffuse_r" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
       <px-graph-socket id="in_diffuse_g" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
       <px-graph-socket id="in_diffuse_b" image="orb_grey.png" hoverImage="orb_blue.png" dir="-1,0"></px-graph-socket>
@@ -49,19 +49,8 @@
       <div id="txtDiffuseA" class="caption">A (Diffuse)</div>
       <div id="txtNormalMap" class="caption">Normal Map</div>
       <div id="txtHeightMap" class="caption">Height Map</div>
-      
+
     </div>
   </template>
-  <script type="application/dart">
-  import 'package:polymer/polymer.dart';
-  import 'app_node.dart';
-
-  @CustomTag('normal-map-node')
-  class NormalMapNode extends AppNode {
-    NormalMapNode.created() : super.created() {
-      title = "Normal Map";
-    }
-  }
-  </script>
+  <script type="application/dart;component=1" src="normal_map_node.dart"></script>
 </polymer-element>
-

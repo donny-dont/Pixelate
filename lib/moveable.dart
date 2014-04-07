@@ -23,30 +23,44 @@ import 'package:pixelate/transformable.dart';
 // Library contents
 //---------------------------------------------------------------------
 
-/// Creates a behavior for a [PolymerElement] that handles dropping content.
+/// Creates a behavior for a [PolymerElement] that handles moveable content.
 ///
-/// When the custom element is created the [initializeDraggable] method needs to
+/// The [Moveable] mixin allows the user to reposition an element within the
+/// layout by selecting it and moving it to a new position on the screen.
+///
+/// When the custom element is created the [initializeMoveable] method needs to
 /// be called. This sets up the behavior as a mixin cannot have a constructor.
+/// Additionally a moveable element should be used in conjunction with the
+/// [Transformable] mixin which handles 2D transformations.
 ///
-///     class DroppableElement extends PolymerElement with Droppable {
+///     class MoveableElement extends PolymerElement with Moveable, Transformable {
 ///       DroppableElement.created()
 ///           : super.created()
 ///       {
-///         initializeDroppable();
+///         initializeTransformable();
+///         initializeMoveable();
 ///       }
 ///     }
-///
-///
 abstract class Moveable {
+  //---------------------------------------------------------------------
+  // Class variables
+  //---------------------------------------------------------------------
+
+  static const String movedEvent = 'moved';
+
   //---------------------------------------------------------------------
   // Member variables
   //---------------------------------------------------------------------
 
   /// Whether the element is being moved.
   bool _isMoving = false;
+  /// The last x position of the element.
   int _lastX = 0;
+  /// The last y position of the element.
   int _lastY = 0;
+  /// A subscription to mouse up events.
   StreamSubscription<Html.MouseEvent> _mouseUpSubscription;
+  /// A subscription to mouse move events.
   StreamSubscription<Html.MouseEvent> _mouseMoveSubscription;
 
   //---------------------------------------------------------------------
@@ -61,6 +75,7 @@ abstract class Moveable {
   //---------------------------------------------------------------------
 
   Html.CssStyleDeclaration get style;
+  bool dispatchEvent(Html.Event event);
 
   //---------------------------------------------------------------------
   // Transformable properties
@@ -141,5 +156,8 @@ abstract class Moveable {
 
     _lastX = mouseX;
     _lastY = mouseY;
+
+    // Notify that the element was moved
+    dispatchEvent(new Html.CustomEvent(movedEvent, detail: this));
   }
 }

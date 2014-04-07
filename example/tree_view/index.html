@@ -2,8 +2,9 @@
 
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tree View test</title>
-
     <style>
       #scene_explorer_window {
         width: 400px;
@@ -21,11 +22,14 @@
       }
     </style>
 
+    <!-- Setup Polymer -->
+    <link rel="import" href="packages/polymer/polymer.html">
+
     <!-- Import the styles -->
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/main.css">
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/button.css">
     <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/scroll_viewer.css">
-    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/tree_view_node.css">
+    <link rel="stylesheet" href="packages/pixelate_flat/stylesheets/tree_view.css">
 
     <!-- Import the elements -->
     <link rel="import" href="packages/pixelate/components/button/button.html">
@@ -33,7 +37,7 @@
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view.html">
     <link rel="import" href="packages/pixelate/components/tree_view/tree_view_node.html">
 
-    <!-- Polymer initialization -->
+    <!-- Bootstrap Dart -->
     <script src="packages/browser/dart.js"></script>
   </head>
   <body>
@@ -223,21 +227,21 @@
       <px-button id="btnAddChild">Add Child</px-button>
     </px-flex-panel>
 
-    <script type="application/dart">
+    <script type="application/dart;component=1">
+      import "dart:html";
     	import "package:polymer/polymer.dart";
-    	import "dart:html";
     	import 'package:pixelate/components/flex_panel/flex_panel.dart';
     	import "package:pixelate/components/tree_view/tree_view.dart";
     	import "package:pixelate/components/tree_view/tree_view_node.dart";
 
-    	TreeView treeView;
-    	main() {
-    	  initPolymer().run(() {
-    	    treeView = querySelector("#scene");
-    	    querySelector("#btnRemoveNode").onClick.listen(onRemove);
-    	    querySelector("#btnAddChild").onClick.listen(onAddChild);
-    	    querySelector("#btnAddSibling").onClick.listen(onAddSibling);
-    	  });
+    	var treeView;
+
+    	@initMethod
+    	void initialize() {
+  	    treeView = querySelector("#scene");
+  	    querySelector("#btnRemoveNode").onClick.listen(onRemove);
+  	    querySelector("#btnAddChild").onClick.listen(onAddChild);
+  	    querySelector("#btnAddSibling").onClick.listen(onAddSibling);
     	}
 
     	void onRemove(Event e) {
