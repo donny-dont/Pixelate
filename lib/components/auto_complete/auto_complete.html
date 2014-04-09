@@ -1,4 +1,5 @@
 <link rel="import" href="../flex_panel/flex_panel.html">
+<link rel="import" href="../list_view/list_view.html">
 <link rel="import" href="auto_complete_source.html">
 
 <polymer-element name="px-auto-complete">
@@ -17,11 +18,11 @@
     <px-flex-panel>
       <input type="text" placeholder="{{placeholderText}}" />
       <div id="suggestions" style="flex:1">
-        <ul>
+        <px-list-view>
           <template repeat="{{ suggestion in suggestions }}">
-            <li>{{ suggestion }}</li>
+            <px-list-view-item>{{ suggestion }}</px-list-view-item>
           </template>
-        </ul>
+        </px-list-view>
       </div>
       <content></content>
     </px-flex-panel>

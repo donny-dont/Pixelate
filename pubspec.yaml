@@ -3,17 +3,18 @@ version: 0.1.0
 authors:
 - Don Olmstead
 - Ali Akbar
+- Dan Ristic
 description: A collection of polymer components for web application developers.
 homepage: https://github.com/donny-dont/Pixelate
 dependencies:
   logging: any
-  polymer: "0.10.0-pre.7 <0.11.0"
+  polymer: 0.10.0-pre.7 <0.11.0
 dev_dependencies:
   mustache: any
+  path: any
   pixelate_flat:
     path: ../pixelate-flat
   unittest: any
-  path: any
 transformers:
 - polymer:
     entry_points:

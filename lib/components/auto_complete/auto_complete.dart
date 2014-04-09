@@ -18,6 +18,7 @@ import 'dart:html' as Html;
 
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/components/auto_complete/auto_complete_source.dart';
+import 'package:pixelate/components/list_view/list_view.dart';
 
 //--
 // Library Contents
@@ -36,6 +37,7 @@ class AutoComplete extends PolymerElement {
   @observable ObservableList<String> suggestions = new ObservableList<String>();
 
   Html.InputElement _input;
+  ListView _list;
   AutoCompleteSource _source;
 
   /// The name of the tag.
@@ -59,10 +61,17 @@ class AutoComplete extends PolymerElement {
     // Look for data source attatched to this object
     _source = this.querySelector("px-auto-complete-source") as AutoCompleteSource;
     
+    // Return if we cannot find a source
     if(_source == null) {
       print("WARNING: No source found for px-auto-complete");
       return;
     }
+    
+    _list = shadowRoot.querySelector("px-list-view") as ListView;
+    
+    _list.addEventListener("selectionchanged", (event) {
+      handleSelection(_list.selectedItem.selectionElement);
+    });
     
     _input = shadowRoot.querySelector('input');
 
@@ -72,16 +81,25 @@ class AutoComplete extends PolymerElement {
       if(value != "") {
         lookupInput(_input.value); 
       } else {
-        suggestions.clear();
+        close();
       }
     });
+  }
+  
+  void close() {
+    suggestions.clear();
+  }
+  
+  void handleSelection(Html.Element selectedElement) {
+    _input.value = selectedElement.text;
+    close();
   }
 
   void lookupInput(String value) {
     value = value.toLowerCase();
     
     // Find union of the two lists
-    suggestions.clear();
+    close();
     suggestions.addAll(_source.data.where((String term) {
       return term.toLowerCase().startsWith(value);
     }));
