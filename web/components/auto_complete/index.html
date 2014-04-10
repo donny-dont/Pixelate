@@ -11,12 +11,12 @@
     <!-- Import the styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/main.css">
-    <link rel="stylesheet" href="../../packages/pixelate_flat/stylesheets/list_view.css">
     <link rel="stylesheet" href="../../style.css">
 
     <!-- Import the elements -->
-    <link rel="import" href="../../packages/pixelate/components/auto_complete/auto_complete.html">
     <link rel="import" href="../../packages/pixelate/components/flex_panel/flex_panel.html">
+    <link rel="import" href="../../packages/pixelate/components/auto_complete/auto_complete.html">
+    <link rel="import" href="../../packages/pixelate/components/auto_complete/auto_complete_source.html">
 
     <!-- Bootstrap Dart -->
     <script src="packages/browser/dart.js"></script>
@@ -40,24 +40,28 @@
 <px-flex-panel class="content" orientation="horizontal" style="flex:1">
   <div class="documentation" style="flex: 1;">
     <div class="component-name">&lt;px-auto-complete&gt;</div>
-    <div class="overview"><p>Represents a container that utilizes a flexible layout.</p></div>
+    <div class="overview"><p>An auto complete form control.</p></div>
     <h2>Examples</h2>
-    Description unavailable
+    <p>An auto complete that is populated by a static list.</p>
     <div class="example">
       <px-auto-complete>
-        <px-auto-complete-source>
-          <ul>
-            <li>One</li>
-            <li>Two</li>
-            <li>Three</li>
-          </ul>
-        </px-auto-complete-source>
-      </px-auto-complete>
-      <pre class="code"><code>&lt;px-flex-panel orientation=&quot;horizontal&quot;&gt;
-  &lt;div class=&quot;text center blue&quot;&gt;Left&lt;&#x2F;div&gt;
-  &lt;div class=&quot;text center red&quot; style=&quot;flex: 1;&quot;&gt;Center&lt;&#x2F;div&gt;
-  &lt;div class=&quot;text center green&quot;&gt;Right&lt;&#x2F;div&gt;
-&lt;&#x2F;px-flex-panel&gt;</code></pre>
+  <px-auto-complete-source>
+    <ul>
+      <li>One</li>
+      <li>Two</li>
+      <li>Three</li>
+    </ul>
+  </px-auto-complete-source>
+</px-auto-complete>
+      <pre class="code"><code>&lt;px-auto-complete&gt;
+  &lt;px-auto-complete-source&gt;
+    &lt;ul&gt;
+      &lt;li&gt;One&lt;&#x2F;li&gt;
+      &lt;li&gt;Two&lt;&#x2F;li&gt;
+      &lt;li&gt;Three&lt;&#x2F;li&gt;
+    &lt;&#x2F;ul&gt;
+  &lt;&#x2F;px-auto-complete-source&gt;
+&lt;&#x2F;px-auto-complete&gt;</code></pre>
     </div>
   </div>
   <div class="component-selection">
@@ -96,6 +100,9 @@
       </div>
       <div class="link">
         <a href="../../components/tooltip/index.html">Tooltip</a>
+      </div>
+      <div class="link">
+        <a href="../../components/auto_complete/index.html">AutoComplete</a>
       </div>
   </div>
 </px-flex-panel>

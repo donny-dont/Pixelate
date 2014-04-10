@@ -6,21 +6,21 @@
 /// Contains the [AutoCompleteSource] class.
 library pixelate_auto_complete;
 
-//----
+//---------------------------------------------------------------------
 // Standard libraries
-//-----
+//---------------------------------------------------------------------
 
 import 'dart:html' as Html;
 
-//-------------
+//---------------------------------------------------------------------
 // Package libraries
-//--------
+//---------------------------------------------------------------------
 
 import 'package:polymer/polymer.dart';
 
-//--
+//---------------------------------------------------------------------
 // Library Contents
-//----
+//---------------------------------------------------------------------
 
 /// Tag name for the class.
 const String _tagName = 'px-auto-complete-source';
@@ -28,17 +28,17 @@ const String _tagName = 'px-auto-complete-source';
 /// An auto complete form control.
 @CustomTag(_tagName)
 class AutoCompleteSource extends PolymerElement {
-  //--
-  // Class variables
-  //--
+  //---------------------------------------------------------------------
+  // Member variables
+  //---------------------------------------------------------------------
   List<String> data = new List<String>();
 
   /// The name of the tag.
   static String get customTagName => _tagName;
 
-  //--
+  //---------------------------------------------------------------------
   // Construction
-  //--
+  //---------------------------------------------------------------------
 
   /// Create an instance of the [AutoComplete] class.
   ///
@@ -49,10 +49,10 @@ class AutoCompleteSource extends PolymerElement {
   AutoCompleteSource.created()
       : super.created()
   {
-    Html.UListElement list = this.querySelector("ul") as Html.UListElement;
+    Html.UListElement _list = this.querySelector("ul") as Html.UListElement;
     
-    if(list != null) {
-      this.generateSourceFromElement(list);
+    if(_list != null) {
+      this.generateSourceFromElement(_list);
     }
   }
   
