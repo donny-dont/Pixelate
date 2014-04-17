@@ -49,17 +49,18 @@ class AutoCompleteSource extends PolymerElement {
   AutoCompleteSource.created()
       : super.created()
   {
-    Html.UListElement list = this.querySelector("ul") as Html.UListElement;
+    var list = this.querySelector("ul") as Html.UListElement;
     
-    if(list != null) {
+    if (list != null) {
       this._generateSourceFromElement(list);
     }
   }
   
   void _generateSourceFromElement(Html.UListElement list) {
-    list.children.forEach((Html.LIElement e) {
-      if (e is! Html.LIElement) return;
-      data.add(e.text);
+    list.children.forEach((child) {
+      if (child is Html.LIElement) {
+        data.add(child.text); 
+      }
     });
   }
 }

@@ -19,6 +19,7 @@ import 'dart:html' as Html;
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/components/auto_complete/auto_complete_source.dart';
 import 'package:pixelate/components/list_view/list_view.dart';
+import 'package:pixelate/selectable.dart';
 
 //---------------------------------------------------------------------
 // Library Contents
@@ -54,30 +55,27 @@ class AutoComplete extends PolymerElement {
   ///
   ///     var instance = new Element.tag(AutoComplete.customTagName);
   AutoComplete.created()
-      : super.created()
-  {
-    
-  }
+      : super.created();
   
-  void ready() {
+  @override void ready() {
     var shadowRoot = getShadowRoot(customTagName);
         
     // Look for AutoCompleteSource attatched to this object
-    for(Html.Element child in children) {
+    for (var child in children) {
       if (child is AutoCompleteSource) {
         _source = child;
       }
     }
     
     // Return if we cannot find a source
-    if(_source == null) {
+    if (_source == null) {
       print("WARNING: No source found for px-auto-complete");
       return;
     }
     
     // Listen for selection events on the list view
     _list = shadowRoot.querySelector("px-list-view") as ListView;
-    _list.addEventListener("selectionchanged", (event) {
+    _list.on[Selectable.selectionChangedEvent].listen((event) {
       handleSelection(_list.selectedItem.selectionElement);
     });
     
@@ -86,7 +84,7 @@ class AutoComplete extends PolymerElement {
     var listener = _input.onInput.listen((event) {
       String value = _input.value;
       
-      if(value != "") {
+      if (value.isNotEmpty) {
         lookupInput(_input.value); 
       } else {
         close();
