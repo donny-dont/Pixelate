@@ -23,7 +23,7 @@ mv dartdoc-viewer/client/out/web ./.docs_staging
 pub build web 
 
 # TODO: stage web
-cp -r web .web_staging
+cp -r build/web .web_staging
 
 # fetch origin
 git fetch origin
