@@ -16,13 +16,14 @@ rm dartdoc-viewer/client/out/web/static/packages
 rm dartdoc-viewer/client/out/web/static/js/packages
 rm dartdoc-viewer/client/out/web/static/css/packages
 
+# Stage doc files
 mv dartdoc-viewer/client/out/packages dartdoc-viewer/client/out/web/packages
 mv dartdoc-viewer/client/out/web ./.docs_staging
 
 # TODO: run pub build web.. This will transform Pixelate and proper packages folder
 pub build web 
 
-# TODO: stage web
+# stage web files
 cp -r build/web .web_staging
 
 # fetch origin
@@ -39,17 +40,14 @@ git checkout --track -b gh-pages origin/gh-pages
 
 # delete any files that might still be around.
 rm -rf *
+
+# unstage files
 date > date.txt
-# TODO: unstage .web_staging
-mv .web_staging web
-# TODO: At this point Pixelate might want to just `mv .docs_staging web/docs`
-mv .docs_staging web/docs
-# 
-#cd .docs_staging
-#cp -r . ..
-#cd ../
+cp -r .web_staging/* .
+cp -r .docs_staging docs
 rm -rf .docs_staging
 rm -rf .web_staging
+
 git add -A
 git commit -m"auto commit from drone"
 git remote set-url origin git@github.com:donny-dont/Pixelate.git
