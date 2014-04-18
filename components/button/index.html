@@ -49,9 +49,9 @@ You can replace platform.js and polymer.html with different versions if desired.
 <!-- TODO(sigmund): replace boot.js by boot.dart (dartbug.com/18007)
 <script type="application/dart">export "package:polymer/boot.dart";</script>
  -->
-<script src="packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="packages/web_components/platform.js"></script>
+<script src="../../packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="../../packages/web_components/platform.js"></script>
 <!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
-<script src="packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+<script src="../../packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
 
   <script>
 
@@ -83,7 +83,7 @@ You can replace platform.js and polymer.html with different versions if desired.
 
   </script>
 
-</polymer-element><script src="packages/web_components/dart_support.js"></script><style>px-button {
+</polymer-element><script src="../../packages/web_components/dart_support.js"></script><style>px-button {
   width: 144px;
   margin-right: 5px;
 }
@@ -91,11 +91,11 @@ You can replace platform.js and polymer.html with different versions if desired.
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
-  src: local("Montserrat-Regular"), url(packages/pixelate_flat/fonts/montserrat-webfont.woff) format("woff"); }
+  src: local("Montserrat-Regular"), url(../../packages/pixelate_flat/fonts/montserrat-webfont.woff) format("woff"); }
 
 @font-face {
   font-family: 'FontAwesome';
-  src: url(packages/pixelate_flat/fonts/fontawesome-webfont.ttf) format("truetype"); }
+  src: url(../../packages/pixelate_flat/fonts/fontawesome-webfont.ttf) format("truetype"); }
 
 body {
   margin: 0px;
