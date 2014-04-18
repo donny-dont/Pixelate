@@ -68,9 +68,12 @@ void fixIndexFiles(List<Map> indexFiles) {
 
     // Replace contents
     var fixThese = [
-        'packages/shadow_dom/shadow_dom.debug.js',
-        'packages/custom_element/custom-elements.debug.js',
-        'packages/browser/interop.js'
+        'packages/polymer/src/js/use_native_dartium_shadowdom.js',
+        'packages/web_components/platform.js',
+        'packages/polymer/src/js/polymer/polymer.js',
+        'packages/web_components/dart_support.js',
+        'packages/pixelate_flat/fonts/fontawesome-webfont.ttf',
+        'packages/pixelate_flat/fonts/montserrat-webfont.woff'
     ];
 
     fixThese.forEach((fix) {

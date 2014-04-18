@@ -21,27 +21,33 @@ mv dartdoc-viewer/client/out/packages dartdoc-viewer/client/out/web/packages
 mv dartdoc-viewer/client/out/web ./.docs_staging
 
 # TODO: run pub build web.. This will transform Pixelate and proper packages folder
-pub build web 
+pub build web
 
-# stage web files
+# Fix the paths in the built files
+# TODO: Remove when https://code.google.com/p/dart/issues/detail?id=17596 is fixed
+cd bin
+dart --package-root=packages fix_paths.dart
+cd ..
+
+# Stage web files
 cp -r build/web .web_staging
 
-# fetch origin
+# Fetch origin
 git fetch origin
 
-# get branches 
+# Get branches
 git branch -v -a
 
-# delete any files that might still be around.
+# Delete any files that might still be around.
 rm -rf *
 
-# copy docs up to github gh-pages branch
+# Copy docs up to GitHub gh-pages branch
 git checkout --track -b gh-pages origin/gh-pages
 
-# delete any files that might still be around.
+# Delete any files that might still be around.
 rm -rf *
 
-# unstage files
+# Unstage files
 date > date.txt
 cp -r .web_staging/* .
 cp -r .docs_staging docs
