@@ -1,29 +1,25 @@
-px-expander ^ .header {
+body ^^ px-expander ^ .header {
   cursor: pointer;
   transition: background-color 1s;
   padding: 10px 20px;
   font-size: 24px;
   line-height: 24px;
   background-color: #6a5a8c; }
-  px-expander ^ .header:hover {
+  body ^^ px-expander ^ .header:hover {
     background-color: #897aa9; }
-  px-expander ^ .header:active {
+  body ^^ px-expander ^ .header:active {
     background-color: #574a73; }
-
-px-expander ^ .icon {
+body ^^ px-expander ^ .icon {
   width: 16px;
   margin-right: 16px;
   text-align: center; }
-
-px-expander ^ .expand-icon:before {
+body ^^ px-expander ^ .expand-icon:before {
   font-family: "FontAwesome";
   content: "\f0da"; }
-
-px-expander ^ .collapse-icon:before {
+body ^^ px-expander ^ .collapse-icon:before {
   font-family: "FontAwesome";
   content: "\f0d7"; }
-
-px-expander ^ .view {
+body ^^ px-expander ^ .view {
   transition-property: max-height;
   transition-duration: 0.25s;
   transition-timing-function: ease; }

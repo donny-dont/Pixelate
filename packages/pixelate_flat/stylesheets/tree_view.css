@@ -1,0 +1,27 @@
+body ^^ px-tree-view-node ^ .header {
+  cursor: pointer;
+  transition: background-color 1s;
+  padding: 10px 20px;
+  font-size: 16px;
+  line-height: 16px; }
+  body ^^ px-tree-view-node ^ .header:hover {
+    background-color: #897aa9; }
+  body ^^ px-tree-view-node ^ .header:active {
+    background-color: #574a73; }
+body ^^ px-tree-view-node ^ .icon {
+  width: 16px;
+  margin-right: 16px;
+  text-align: center; }
+body ^^ px-tree-view-node ^ .expand-icon:before {
+  font-family: "FontAwesome";
+  content: "\f0da"; }
+body ^^ px-tree-view-node ^ .collapse-icon:before {
+  font-family: "FontAwesome";
+  content: "\f0d7"; }
+body ^^ px-tree-view-node ^ .view {
+  margin-left: 16px;
+  transition-property: max-height;
+  transition-duration: 0.25s;
+  transition-timing-function: ease; }
+body ^^ px-tree-view-node ^ .selected {
+  background-color: #6a5a8c; }

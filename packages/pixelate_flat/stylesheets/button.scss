@@ -7,6 +7,12 @@
 @import 'partials/fonts';
 @import 'partials/variables';
 
+body /deep/ {
+
+//---------------------------------------------------------------------
+// px-button
+//---------------------------------------------------------------------
+
 px-button {
   cursor: $cursor-click;
   transition: $background-color-transition;
@@ -14,16 +20,18 @@ px-button {
 
   @include vertically-center-text($font-size-larger);
   @include color-change($color-success);
+
+  &.info {
+    @include color-change($color-info);
+  }
+
+  &.warning {
+    @include color-change($color-warning);
+  }
+
+  &.danger {
+    @include color-change($color-danger);
+  }
 }
 
-px-button.info {
-  @include color-change($color-info);
-}
-
-px-button.warning {
-  @include color-change($color-warning);
-}
-
-px-button.danger {
-  @include color-change($color-danger);
-}
+} // end body /deep/

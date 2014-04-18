@@ -1,0 +1,54 @@
+// Copyright (c) 2014, the Pixelate Project Authors.
+// Please see the AUTHORS file for details. All rights reserved.
+// Use of this source code is governed by a zlib license that can be found in
+// the LICENSE file.
+
+@import 'fonts/variables';
+@import 'partials/animations';
+@import 'partials/colors';
+@import 'partials/fonts';
+@import 'partials/icons';
+@import 'partials/variables';
+
+body /deep/ {
+
+//---------------------------------------------------------------------
+// px-tree-view-node
+//---------------------------------------------------------------------
+
+px-tree-view-node {
+  &::shadow {
+    .header {
+      cursor: $cursor-click;
+      transition: $background-color-transition;
+      padding: $padding-default;
+
+      @include vertically-center-text($font-size-regular);
+      @include color-change-interaction($color-square-ui-purple);
+    }
+
+    .icon {
+      @include icon;
+    }
+
+    .expand-icon {
+      @include icon-font($expand-icon-content);
+    }
+
+    .collapse-icon {
+      @include icon-font($collapse-icon-content);
+    }
+
+    .view {
+      margin-left: $default-icon-size + $default-icon-margin;
+
+      @include animate-height;
+    }
+
+    .selected {
+      background-color: $color-square-ui-purple;
+    }
+  }
+}
+
+} // end body /deep/

@@ -7,29 +7,9 @@
 @import 'partials/colors';
 @import 'partials/variables';
 
-px-progress-bar .fill {
-  background-color: $color-success;
-}
-
-px-progress-bar.info .fill {
-  background-color: $color-info;
-}
-
-px-progress-bar.warning .fill {
-  background-color: $color-warning;
-}
-
-px-progress-bar.danger .fill {
-  background-color: $color-danger;
-}
-
-px-progress-bar.striped .fill:after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background-size: 50px 50px;
-  @include background-stripes;
-}
+//---------------------------------------------------------------------
+// Keyframes
+//---------------------------------------------------------------------
 
 @-webkit-keyframes move {
   0% {
@@ -40,6 +20,66 @@ px-progress-bar.striped .fill:after {
   }
 }
 
-px-progress-bar.animated .fill:after {
-  -webkit-animation: move 2s linear infinite;
+body /deep/ {
+
+//---------------------------------------------------------------------
+// px-progress-bar
+//---------------------------------------------------------------------
+
+px-progress-bar {
+  &::shadow {
+    .fill {
+      background-color: $color-success;
+    }
+  }
+
+  &.info {
+    &::shadow {
+      .fill {
+        background-color: $color-info;
+      }
+    }
+  }
+
+  &.warning {
+    &::shadow {
+      .fill {
+        background-color: $color-warning;
+      }
+    }
+  }
+
+  &.danger {
+    &::shadow {
+      .fill {
+        background-color: $color-danger;
+      }
+    }
+  }
+
+  &.striped {
+    &::shadow {
+      .fill {
+        &:after {
+          content: "";
+          position: absolute;
+          top: 0; left: 0; bottom: 0; right: 0;
+          background-size: 50px 50px;
+          @include background-stripes;
+        }
+      }
+    }
+  }
+
+  &.animated {
+    &::shadow {
+      .fill {
+        &:after {
+          -webkit-animation: move 2s linear infinite;
+        }
+      }
+    }
+  }
 }
+
+} // end body /deep/

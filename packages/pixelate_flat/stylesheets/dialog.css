@@ -1,26 +1,4 @@
-px-dialog {
+body ^^ px-dialog {
   background-color: rgba(0, 0, 0, 0.75); }
-
-px-dialog ^ .container {
-  background-color: #232323; }
-
-px-button.info {
-  background-color: #5a9aa8; }
-  px-button.info:hover {
-    background-color: #82b3bd; }
-  px-button.info:active {
-    background-color: #4b828e; }
-
-px-button.warning {
-  background-color: #de8650; }
-  px-button.warning:hover {
-    background-color: #e8aa83; }
-  px-button.warning:active {
-    background-color: #d86e2e; }
-
-px-button.danger {
-  background-color: #e56c69; }
-  px-button.danger:hover {
-    background-color: #ee9f9d; }
-  px-button.danger:active {
-    background-color: #df4a46; }
+  body ^^ px-dialog ^ .container {
+    background-color: #232323; }

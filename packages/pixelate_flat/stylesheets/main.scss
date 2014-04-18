@@ -12,12 +12,12 @@
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
-  src: local('Montserrat-Regular'), url(../fonts/Montserrat.woff) format('woff');
+  src: local('Montserrat-Regular'), url(../fonts/montserrat-webfont.woff) format('woff');
 }
 
 @font-face {
-  font-family: "FontAwesome";
-  src: url(../fonts/fontawesome-webfont.ttf) format("truetype");
+  font-family: 'FontAwesome';
+  src: url(../fonts/fontawesome-webfont.ttf) format('truetype');
 }
 
 body {
@@ -31,36 +31,4 @@ body {
 *, *:before, *:after {
   user-select: none;
  -webkit-user-select: none;
-}
-
-.navy {
-  @include color-change($color-square-ui-navy);
-}
-
-.red {
-  @include color-change($color-square-ui-red);
-}
-
-.green {
-  @include color-change($color-square-ui-green);
-}
-
-.purple {
-  @include color-change($color-square-ui-purple);
-}
-
-.lilac {
-  @include color-change($color-square-ui-lilac);
-}
-
-.blue {
-  @include color-change($color-square-ui-blue);
-}
-
-.yellow {
-  @include color-change($color-square-ui-yellow);
-}
-
-.grid {
-  @include background-grid(transparent, rgba($color-square-ui-white, 0.2));
 }

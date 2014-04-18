@@ -10,27 +10,39 @@
 @import 'partials/icons';
 @import 'partials/variables';
 
-px-expander .header {
-  cursor: $cursor-click;
-  transition: $background-color-transition;
-  padding: $padding-default;
+body /deep/ {
 
-  @include vertically-center-text($font-size-larger);
-  @include color-change($color-square-ui-purple);
+//---------------------------------------------------------------------
+// px-expander
+//---------------------------------------------------------------------
+
+px-expander {
+  &::shadow {
+    .header {
+      cursor: $cursor-click;
+      transition: $background-color-transition;
+      padding: $padding-default;
+
+      @include vertically-center-text($font-size-larger);
+      @include color-change($color-square-ui-purple);
+    }
+
+    .icon {
+      @include icon;
+    }
+
+    .expand-icon {
+      @include icon-font($expand-icon-content);
+    }
+
+    .collapse-icon {
+      @include icon-font($collapse-icon-content);
+    }
+
+    .view {
+      @include animate-height;
+    }
+  }
 }
 
-px-expander .icon {
-  @include icon;
-}
-
-px-expander .expand-icon {
-  @include icon-font($expand-icon-content);
-}
-
-px-expander .collapse-icon {
-  @include icon-font($collapse-icon-content);
-}
-
-px-expander .view {
-  @include animate-height;
-}
+} // end body /deep/
