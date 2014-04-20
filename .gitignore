@@ -26,3 +26,7 @@ build
 
 # Documentation
 docs
+
+# gh-pages generation
+.docs_staging
+.web_staging
