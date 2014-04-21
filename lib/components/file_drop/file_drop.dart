@@ -3,7 +3,7 @@
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
 
-/// Contains the [GridPanel] class.
+/// Contains the [FileDrop] class.
 library pixelate_file_drop;
 
 //---------------------------------------------------------------------
@@ -45,12 +45,12 @@ class FileDrop extends PolymerElement with Droppable {
   // Construction
   //---------------------------------------------------------------------
 
-  /// Create an instance of the [GridPanel] class.
+  /// Create an instance of the [FileDrop] class.
   ///
   /// This constructor should not be called directly. Instead use the
   /// [Element.tag] constructor as follows.
   ///
-  ///     var instance = new Element.tag(GridPanel.customTagName);
+  ///     var instance = new Element.tag(FileDrop.customTagName);
   FileDrop.created()
       : super.created()
   {
