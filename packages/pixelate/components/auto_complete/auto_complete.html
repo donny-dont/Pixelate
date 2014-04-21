@@ -1,0 +1,35 @@
+<link rel="import" href="../flex_panel/flex_panel.html">
+<link rel="import" href="../list_view/list_view.html">
+<link rel="import" href="auto_complete_source.html">
+
+<polymer-element name="px-auto-complete">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      #suggestions {
+        background: white;
+        color: black;
+      }
+      
+      px-list-view .highlighted {
+        background: gray;
+      }
+    </style>
+    <px-flex-panel>
+      <input type="text" placeholder="{{placeholderText}}" />
+      <div id="suggestions" style="flex:1">
+        <px-list-view>
+          <template repeat="{{ suggestion in suggestions }}">
+            <px-list-view-item>{{ suggestion }}</px-list-view-item>
+          </template>
+        </px-list-view>
+      </div>
+      <content></content>
+    </px-flex-panel>
+  </template>
+  <script type="application/dart;component=1" src="auto_complete.dart"></script>
+</polymer-element>

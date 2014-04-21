@@ -813,6 +813,7 @@ pixelate/pixelate_selection_group.SelectionGroup.multipleChanged method
 pixelate/pixelate_selection_group.SelectionGroup.none property
 pixelate/pixelate_selection_group.SelectionGroup.on getter
 pixelate/pixelate_selection_group.SelectionGroup.querySelectorAll method
+pixelate/pixelate_selection_group.SelectionGroup.selectableItems getter
 pixelate/pixelate_selection_group.SelectionGroup.selectableSelectors getter
 pixelate/pixelate_selection_group.SelectionGroup.selectedIndex getter
 pixelate/pixelate_selection_group.SelectionGroup.selectedIndex= setter
