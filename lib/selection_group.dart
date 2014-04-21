@@ -87,6 +87,8 @@ abstract class SelectionGroup {
   //---------------------------------------------------------------------
   // Properties
   //---------------------------------------------------------------------
+  
+  List<Selectable> get selectableItems => _selectableItems;
 
   /// The index of the first currently selected item.
   ///
@@ -98,11 +100,12 @@ abstract class SelectionGroup {
     if (_selectableItems.length <= value) {
       throw new ArgumentError('Invalid index');
     }
-
+    
     var selected = _selectableItems[_selectedIndex];
 
     // Update the index
     _selectedIndex = value;
+    
 
     // Update the selected element list
     _clearSelections();

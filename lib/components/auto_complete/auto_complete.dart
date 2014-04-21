@@ -19,6 +19,7 @@ import 'dart:html' as Html;
 import 'package:polymer/polymer.dart';
 import 'package:pixelate/components/auto_complete/auto_complete_source.dart';
 import 'package:pixelate/components/list_view/list_view.dart';
+import 'package:pixelate/components/list_view/list_view_item.dart';
 import 'package:pixelate/selectable.dart';
 
 //---------------------------------------------------------------------
@@ -36,6 +37,7 @@ class AutoComplete extends PolymerElement {
   //---------------------------------------------------------------------
   @observable String placeholderText = "Auto Complete";
   @observable ObservableList<String> suggestions = new ObservableList<String>();
+  String highlightClass = "highlighted";
 
   Html.InputElement _input;
   ListView _list;
@@ -76,7 +78,19 @@ class AutoComplete extends PolymerElement {
     // Listen for selection events on the list view
     _list = shadowRoot.querySelector("px-list-view") as ListView;
     _list.on[Selectable.selectionChangedEvent].listen((event) {
-      handleSelection(_list.selectedItem.selectionElement);
+      if (_list.selectedItem != null) {
+        handleSelection(_list.selectedItem.selectionElement);
+      }
+    });
+    
+    _list.onMouseOver.listen((event) {
+      if(event.target is ListViewItem) {
+        _list.querySelectorAll("px-list-view-item.${highlightClass}").forEach((el) {
+          el.classes.remove(highlightClass);
+        });
+        
+        (event.target as Html.Element).classes.add(highlightClass);
+      }
     });
     
     _input = shadowRoot.querySelector('input');
@@ -88,6 +102,32 @@ class AutoComplete extends PolymerElement {
         lookupInput(_input.value); 
       } else {
         close();
+      }
+    });
+    
+    var keyListener = _input.onKeyDown.listen((event) {
+      Selectable selected = _list.querySelector("px-list-view-item.${highlightClass}") as Selectable;
+      var itemIndex = _list.selectableItems.indexOf(selected);
+      
+      if (event.keyCode == Html.KeyCode.DOWN) {
+        if (itemIndex + 1 < _list.selectableItems.length) {
+          if (itemIndex != -1) selected.selectionElement.classes.remove(highlightClass);
+          itemIndex += 1;
+          _list.selectableItems[itemIndex].selectionElement.classes.add(highlightClass);
+          event.preventDefault();
+        }
+      } else if (event.keyCode == Html.KeyCode.UP) {
+        if (itemIndex - 1 >= 0) {
+          if (itemIndex != -1) selected.selectionElement.classes.remove(highlightClass);
+          itemIndex -= 1;
+          _list.selectableItems[itemIndex].selectionElement.classes.add(highlightClass);
+          event.preventDefault();
+        }
+      } else if (event.keyCode == Html.KeyCode.ENTER) {
+        if (itemIndex != -1) {
+          _list.selectedItem = selected;
+          event.preventDefault();
+        }
       }
     });
   }
