@@ -22,7 +22,8 @@
       "button",
       "list_view",
       "progress_bar",
-      "tooltip"
+      "tooltip",
+      "auto_complete"
     ]
   }
 ]
