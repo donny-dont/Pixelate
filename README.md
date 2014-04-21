@@ -50,6 +50,7 @@ Pixelate has been tested on the following browsers
  * [Ali Akbar](https://github.com/coderespawn)
  * [Don Olmstead](https://github.com/donny-dont)
  * [Erik Gui](https://github.com/erikgui)
+ * [Dan Ristic](https://github.com/dristic)
 
 # Copyright and license
 
