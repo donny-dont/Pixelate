@@ -6,7 +6,13 @@ pub get
 
 # TODO: dartanalyzer on all libraries and main entry points in Pixelate 
 
-docgen --compile --package-root=./packages --no-include-sdk --include-private lib/*.dart
+# Get library files
+L1=$(ls lib/*.dart) 
+# Get component library files
+L2=$(for r in $(ls -d lib/components/*) ; do echo ${r}/`basename $r`.dart; done)
+# Join library files with component library files
+R=$(for L in "${L1[@]}" "${L2[@]}" ; do echo "$L" ; done)
+docgen --compile --package-root=./packages --no-include-sdk --include-private $R
 
 rm dartdoc-viewer/client/out/web/packages
 rm dartdoc-viewer/client/out/web/docs/packages
