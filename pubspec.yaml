@@ -20,6 +20,7 @@ transformers:
     entry_points:
     - web/index.html
     - web/components/accordion/index.html
+    - web/components/auto_complete/index.html
     - web/components/button/index.html
     - web/components/expander/index.html
     - web/components/flex_panel/index.html
