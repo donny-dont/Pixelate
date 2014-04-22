@@ -18,9 +18,6 @@
     <link rel="import" href="../../packages/pixelate/components/auto_complete/auto_complete.html">
     <link rel="import" href="../../packages/pixelate/components/auto_complete/auto_complete_source.html">
 
-    <!-- Bootstrap Dart -->
-    <script src="packages/browser/dart.js"></script>
-
     <!-- Check for web platform features -->
     <script src="../../feature.check.js"></script>
 
@@ -42,7 +39,9 @@
     <div class="component-name">&lt;px-auto-complete&gt;</div>
     <div class="overview"><p>An auto complete form control.</p></div>
     <h2>Examples</h2>
-    <p>An auto complete that is populated by a static list.</p>
+    <p>
+  An auto complete that is populated by a static list.
+</p>
     <div class="example">
       <px-auto-complete>
   <px-auto-complete-source>
@@ -60,6 +59,22 @@
       &lt;li&gt;Two&lt;&#x2F;li&gt;
       &lt;li&gt;Three&lt;&#x2F;li&gt;
     &lt;&#x2F;ul&gt;
+  &lt;&#x2F;px-auto-complete-source&gt;
+&lt;&#x2F;px-auto-complete&gt;</code></pre>
+    </div>
+    <p>
+  An auto complete element that is populated from a json endpoint.
+  Try "Polymer" or "JavaScript".
+</p>
+    <div class="example">
+      <px-auto-complete>
+  <px-auto-complete-source
+    url="../../data/auto_complete.json">
+  </px-auto-complete-source>
+</px-auto-complete>
+      <pre class="code"><code>&lt;px-auto-complete&gt;
+  &lt;px-auto-complete-source
+    url=&quot;..&#x2F;..&#x2F;data&#x2F;auto_complete.json&quot;&gt;
   &lt;&#x2F;px-auto-complete-source&gt;
 &lt;&#x2F;px-auto-complete&gt;</code></pre>
     </div>
