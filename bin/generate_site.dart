@@ -35,7 +35,7 @@ Map getComponentInformation(String name) {
 
 void buildDocs(List<String> sourceFiles) {
   // Generate the docs
-  var docgenArgs = ['-j', '-v', '--include-private', '--no-include-sdk',
+  var docgenArgs = ['-v', '--include-private', '--no-include-sdk',
               '--no-include-dependent-packages', '--package-root=./packages'];
   docgenArgs.addAll(sourceFiles);
 
