@@ -1,29 +1,29 @@
-body ^^ px-button {
+body /deep/ px-button {
   cursor: pointer;
   transition: background-color 1s;
   padding: 10px 20px;
   font-size: 24px;
   line-height: 24px;
   background-color: #1f7f5c; }
-  body ^^ px-button:hover {
+  body /deep/ px-button:hover {
     background-color: #2bb080; }
-  body ^^ px-button:active {
+  body /deep/ px-button:active {
     background-color: #175e44; }
-  body ^^ px-button.info {
+  body /deep/ px-button.info {
     background-color: #5a9aa8; }
-    body ^^ px-button.info:hover {
+    body /deep/ px-button.info:hover {
       background-color: #82b3bd; }
-    body ^^ px-button.info:active {
+    body /deep/ px-button.info:active {
       background-color: #4b828e; }
-  body ^^ px-button.warning {
+  body /deep/ px-button.warning {
     background-color: #de8650; }
-    body ^^ px-button.warning:hover {
+    body /deep/ px-button.warning:hover {
       background-color: #e8aa83; }
-    body ^^ px-button.warning:active {
+    body /deep/ px-button.warning:active {
       background-color: #d86e2e; }
-  body ^^ px-button.danger {
+  body /deep/ px-button.danger {
     background-color: #e56c69; }
-    body ^^ px-button.danger:hover {
+    body /deep/ px-button.danger:hover {
       background-color: #ee9f9d; }
-    body ^^ px-button.danger:active {
+    body /deep/ px-button.danger:active {
       background-color: #df4a46; }

@@ -1,4 +1,4 @@
-body ^^ px-dialog {
+body /deep/ px-dialog {
   background-color: rgba(0, 0, 0, 0.75); }
-  body ^^ px-dialog ^ .container {
+  body /deep/ px-dialog::shadow .container {
     background-color: #232323; }

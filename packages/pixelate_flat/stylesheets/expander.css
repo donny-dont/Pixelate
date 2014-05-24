@@ -1,25 +1,25 @@
-body ^^ px-expander ^ .header {
+body /deep/ px-expander::shadow .header {
   cursor: pointer;
   transition: background-color 1s;
   padding: 10px 20px;
   font-size: 24px;
   line-height: 24px;
   background-color: #6a5a8c; }
-  body ^^ px-expander ^ .header:hover {
+  body /deep/ px-expander::shadow .header:hover {
     background-color: #897aa9; }
-  body ^^ px-expander ^ .header:active {
+  body /deep/ px-expander::shadow .header:active {
     background-color: #574a73; }
-body ^^ px-expander ^ .icon {
+body /deep/ px-expander::shadow .icon {
   width: 16px;
   margin-right: 16px;
   text-align: center; }
-body ^^ px-expander ^ .expand-icon:before {
+body /deep/ px-expander::shadow .expand-icon:before {
   font-family: "FontAwesome";
   content: "\f0da"; }
-body ^^ px-expander ^ .collapse-icon:before {
+body /deep/ px-expander::shadow .collapse-icon:before {
   font-family: "FontAwesome";
   content: "\f0d7"; }
-body ^^ px-expander ^ .view {
+body /deep/ px-expander::shadow .view {
   transition-property: max-height;
   transition-duration: 0.25s;
   transition-timing-function: ease; }

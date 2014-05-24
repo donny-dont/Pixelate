@@ -1,27 +1,27 @@
-body ^^ px-tree-view-node ^ .header {
+body /deep/ px-tree-view-node::shadow .header {
   cursor: pointer;
   transition: background-color 1s;
   padding: 10px 20px;
   font-size: 16px;
   line-height: 16px; }
-  body ^^ px-tree-view-node ^ .header:hover {
+  body /deep/ px-tree-view-node::shadow .header:hover {
     background-color: #897aa9; }
-  body ^^ px-tree-view-node ^ .header:active {
+  body /deep/ px-tree-view-node::shadow .header:active {
     background-color: #574a73; }
-body ^^ px-tree-view-node ^ .icon {
+body /deep/ px-tree-view-node::shadow .icon {
   width: 16px;
   margin-right: 16px;
   text-align: center; }
-body ^^ px-tree-view-node ^ .expand-icon:before {
+body /deep/ px-tree-view-node::shadow .expand-icon:before {
   font-family: "FontAwesome";
   content: "\f0da"; }
-body ^^ px-tree-view-node ^ .collapse-icon:before {
+body /deep/ px-tree-view-node::shadow .collapse-icon:before {
   font-family: "FontAwesome";
   content: "\f0d7"; }
-body ^^ px-tree-view-node ^ .view {
+body /deep/ px-tree-view-node::shadow .view {
   margin-left: 16px;
   transition-property: max-height;
   transition-duration: 0.25s;
   transition-timing-function: ease; }
-body ^^ px-tree-view-node ^ .selected {
+body /deep/ px-tree-view-node::shadow .selected {
   background-color: #6a5a8c; }

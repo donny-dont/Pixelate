@@ -5,15 +5,15 @@
   100% {
     background-position: 50px 50px; } }
 
-body ^^ px-progress-bar ^ .fill {
+body /deep/ px-progress-bar::shadow .fill {
   background-color: #1f7f5c; }
-body ^^ px-progress-bar.info ^ .fill {
+body /deep/ px-progress-bar.info::shadow .fill {
   background-color: #5a9aa8; }
-body ^^ px-progress-bar.warning ^ .fill {
+body /deep/ px-progress-bar.warning::shadow .fill {
   background-color: #de8650; }
-body ^^ px-progress-bar.danger ^ .fill {
+body /deep/ px-progress-bar.danger::shadow .fill {
   background-color: #e56c69; }
-body ^^ px-progress-bar.striped ^ .fill:after {
+body /deep/ px-progress-bar.striped::shadow .fill:after {
   content: "";
   position: absolute;
   top: 0;
@@ -22,5 +22,5 @@ body ^^ px-progress-bar.striped ^ .fill:after {
   right: 0;
   background-size: 50px 50px;
   background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); }
-body ^^ px-progress-bar.animated ^ .fill:after {
+body /deep/ px-progress-bar.animated::shadow .fill:after {
   -webkit-animation: move 2s linear infinite; }
