@@ -11,6 +11,7 @@ library pixelate_auto_complete;
 //---------------------------------------------------------------------
 
 import 'dart:html' as Html;
+import 'dart:convert';
 
 //---------------------------------------------------------------------
 // Package libraries
@@ -29,8 +30,15 @@ const String _tagName = 'px-auto-complete-source';
 @CustomTag(_tagName)
 class AutoCompleteSource extends PolymerElement {
   //---------------------------------------------------------------------
+  // Public attributes
+  //---------------------------------------------------------------------
+  @published String url;
+  @published String handleAs = "json";
+  
+  //---------------------------------------------------------------------
   // Member variables
   //---------------------------------------------------------------------
+  String contentType = 'application/json';
   List<String> data = new List<String>();
 
   /// The name of the tag.
@@ -47,13 +55,27 @@ class AutoCompleteSource extends PolymerElement {
   ///
   ///     var instance = new Element.tag(AutoComplete.customTagName);
   AutoCompleteSource.created()
-      : super.created()
-  {
+      : super.created();
+  
+  @override void ready() {
     var list = this.querySelector("ul") as Html.UListElement;
-    
+        
     if (list != null) {
       this._generateSourceFromElement(list);
+    } else if (url.isNotEmpty) {
+      _generateSourceFromRequest();
     }
+  }
+  
+  void _generateSourceFromRequest() {
+    Html.HttpRequest.getString(url).then((responseText) {
+      if (handleAs == "json") {
+        data = JSON.decode(responseText);
+        print("Found data ${data}");
+      } else {
+        print("Could not recognize px-auto-complete-source-type handleAs: ${handleAs}");
+      }
+    });
   }
   
   void _generateSourceFromElement(Html.UListElement list) {

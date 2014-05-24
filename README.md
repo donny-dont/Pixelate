@@ -20,6 +20,7 @@ The following components are available for use.
    * [ListView](http://donny-dont.github.io/Pixelate/components/list_view/index.html)
    * [ProgressBar](http://donny-dont.github.io/Pixelate/components/progress_bar/index.html)
    * [Tooltip](http://donny-dont.github.io/Pixelate/components/tooltip/index.html)
+   * [AutoComplete](http://donny-dont.github.io/Pixelate/components/auto_complete/index.html)
 
 # Themes
 
