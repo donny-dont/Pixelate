@@ -28,6 +28,9 @@
           <template repeat="{{items}}">
             <dartdoc-item class="panel" item="{{}}"></dartdoc-item>
           </template>
+          <template repeat="{{typedefs}}">
+            <dartdoc-typedef class="panel" item="{{}}"></dartdoc-typedef>
+          </template>
           <template repeat="{{methods}}">
             <method-panel class="panel" item="{{}}"></method-panel>
           </template>

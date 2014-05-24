@@ -101,6 +101,11 @@ class Viewer extends ChangeNotifier {
   /// This will be empty if we simply want to select the library or class.
   String get activeMember => _hash;
 
+  /// This value is true when all the generated docs are for a single package.
+  /// In that case we do not display the package name (in the breadcrumbs for
+  /// example) since it is the same throughout.
+  bool viewingSinglePackage = false;
+
   // Private constructor for singleton instantiation.
   Viewer() {
     var manifest = retrieveFileContents(sourcePath);
@@ -111,6 +116,9 @@ class Viewer extends ChangeNotifier {
       var startPageName = libraries['start-page'];
       startPage = startPageName == null ? homePage :
           homePage.memberNamed(startPageName, orElse: () => homePage);
+
+      viewingSinglePackage = (libraries['libraries'].map(
+          (e) => e['packageName']).toSet()..remove('')).length == 1;
     });
     var indexFuture = retrieveFileContents('docs/index.json').then(
         (String json) {
@@ -219,7 +227,14 @@ class Viewer extends ChangeNotifier {
     // Avoid reloading the page if it isn't necessary.
     if (page != null && page != currentPage) {
       var main = window.document.querySelector("#dartdoc-main");
-      main.hideOrShowNavigation(hide: true);
+      try {
+        // TODO(alanknight): Element is sometimes not getting upgraded
+        // before this gets called so we get the method not existing in JS.
+        // Suppress the error. dartbug.com/18380
+        main.hideOrShowNavigation(hide: true);
+      } on Error {
+        print("Catching and ignoring an error on hideOrShowNavigation");
+      }
       currentPage = page;
     }
     _hash = location.anchorPlus;
@@ -390,17 +405,26 @@ class Viewer extends ChangeNotifier {
   /// indicator to show the user that something is happening.
   Element get loadIndicator {
     if (_loadIndicator == null) {
-      _loadIndicator = dartdocMain.shadowRoot
-          .querySelector("#loading-indicator");
+      var shadow = dartdocMain.shadowRoot;
+      if (shadow == null) return null;
+      _loadIndicator = shadow.querySelector("#loading-indicator");
     }
     return _loadIndicator;
   }
 
   /// Make the indicator that we're loading data visible.
-  showLoadIndicator() => loadIndicator.style.display = '';
+  void showLoadIndicator() {
+    if (loadIndicator != null) {
+      loadIndicator.style.display = '';
+    }
+  }
 
   /// Hide the indicator that we're loading data.
-  hideLoadIndicator() => loadIndicator.style.display = 'none';
+  void hideLoadIndicator() {
+    if (loadIndicator != null) {
+      loadIndicator.style.display = 'none';
+    }
+  }
 }
 
 Iterable _concat(Iterable list1, Iterable list2) =>

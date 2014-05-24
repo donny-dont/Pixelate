@@ -4,12 +4,16 @@
 
 <polymer-element name="dartdoc-typedef" attributes="item">
   <template>
-    <div class="page-header"><h1>{{item.name}} typedef</h1></div>
 
     <!-- Signature -->
     <div class="panel-heading">
       <dartdoc-annotation annotations="{{item.annotations}}">
       </dartdoc-annotation>
+
+      <div class="page-header">
+        <b><a id="{{idName}}" href="{{item.prefixedAnchorHref}}">
+          {{item.name}}</a></b>
+      </div>
 
       <p class="panel-title">typedef
         <a href="{{prefixedLocation}}">{{item.type.simpleType}}</a>

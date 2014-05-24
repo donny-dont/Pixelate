@@ -23,6 +23,7 @@ class CategoryElement extends DartdocElement with ChangeNotifier  {
   // null. We do it this way to keep the <template if> outside of the
   // <template repeat>, so the repeat is more strongly typed.
   @reflectable @published ObservableList<Item> get items => __$items; ObservableList<Item> __$items; @reflectable set items(ObservableList<Item> value) { __$items = notifyPropertyChange(#items, __$items, value); }
+  @reflectable @published ObservableList<Typedef> get typedefs => __$typedefs; ObservableList<Typedef> __$typedefs; @reflectable set typedefs(ObservableList<Typedef> value) { __$typedefs = notifyPropertyChange(#typedefs, __$typedefs, value); }
   @reflectable @published ObservableList<Variable> get variables => __$variables; ObservableList<Variable> __$variables; @reflectable set variables(ObservableList<Variable> value) { __$variables = notifyPropertyChange(#variables, __$variables, value); }
   @reflectable @published ObservableList<Method> get methods => __$methods; ObservableList<Method> __$methods; @reflectable set methods(ObservableList<Method> value) { __$methods = notifyPropertyChange(#methods, __$methods, value); }
 
@@ -63,11 +64,13 @@ class CategoryElement extends DartdocElement with ChangeNotifier  {
   void itemsChanged() => _updateHasItems();
   void variablesChanged() => _updateHasItems();
   void methodsChanged() => _updateHasItems();
+  void typedefsChanged() => _updateHasItems();
 
   void _updateHasItems() {
     hasItems = items != null && items.isNotEmpty ||
         variables != null && variables.isNotEmpty ||
-        methods != null && methods.isNotEmpty;
+        methods != null && methods.isNotEmpty ||
+        typedefs != null && typedefs.isNotEmpty;
   }
 
   void hideShow(event, detail, AnchorElement target) {

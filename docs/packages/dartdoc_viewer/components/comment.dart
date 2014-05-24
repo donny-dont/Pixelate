@@ -52,7 +52,9 @@ class CommentElement extends DivElement with Polymer, ChangeNotifier {
     }
     if (comment != '' && comment != null) {
       // TODO(jmesserly): for now, trusting doc comment HTML.
-      _commentElement = new Element.html(comment, treeSanitizer: nullSanitizer);
+      _commentElement = new Element.div();
+      _commentElement.appendHtml(comment);
+
       var firstParagraph = (_commentElement is ParagraphElement) ?
           _commentElement : _commentElement.querySelector("p");
       if (firstParagraph != null) {

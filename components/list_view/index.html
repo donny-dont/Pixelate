@@ -16,6 +16,9 @@
     
     
 
+    <!-- Initialize Polymer -->
+    
+
     <!-- Check for web platform features -->
     
 
@@ -44,14 +47,9 @@ You can replace platform.js and polymer.html with different versions if desired.
 
 <!-- Teach dart2js about Shadow DOM polyfill objects. -->
 
-
-<!-- Bootstrap the user application in a new isolate. -->
-
-<!-- TODO(sigmund): replace boot.js by boot.dart (dartbug.com/18007)
-<script type="application/dart">export "package:polymer/boot.dart";</script>
- -->
 <script src="../../packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="../../packages/web_components/platform.js"></script>
 <!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+
 <script src="../../packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
 
   <script>
@@ -550,6 +548,7 @@ code {
         <div class="link"><a href="../../index.html">Pixelate</a></div>
         <div class="link"><a href="../../getting_started/index.html">Getting started</a></div>
         <div class="link"><a href="../../components/flex_panel/index.html">Components</a></div>
+        <div class="link"><a href="../../docs/#pixelate/">Documentation</a></div>
       </px-flex-panel>
     </div>
   

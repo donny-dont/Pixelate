@@ -28,6 +28,8 @@ class _HtmlInliner extends PolymerTransformer {
   final AssetId docId;
   final seen = new Set<AssetId>();
   final scriptIds = <AssetId>[];
+  final extractedFiles = new Set<AssetId>();
+  bool experimentalBootstrap = false;
 
   /// The number of extracted inline Dart scripts. Used as a counter to give
   /// unique-ish filenames.
@@ -46,13 +48,16 @@ class _HtmlInliner extends PolymerTransformer {
 
     return readPrimaryAsHtml(transform).then((doc) {
       document = doc;
-      // Add the main script's ID, or null if none is present.
-      // This will be used by ScriptCompactor.
+      experimentalBootstrap = document.querySelectorAll('link').any((link) =>
+          link.attributes['rel'] == 'import' &&
+          link.attributes['href'] == POLYMER_EXPERIMENTAL_HTML);
       changed = _extractScripts(document, docId);
       return _visitImports(document);
     }).then((importsFound) {
-      bool scriptsRemoved = _removeScripts(document);
-      changed = changed || importsFound || scriptsRemoved;
+      changed = changed || importsFound;
+      return _removeScripts(document);
+    }).then((scriptsRemoved) {
+      changed = changed || scriptsRemoved;
 
       var output = transform.primaryInput;
       if (changed) output = new Asset.fromString(docId, document.outerHtml);
@@ -60,8 +65,11 @@ class _HtmlInliner extends PolymerTransformer {
 
       // We produce a secondary asset with extra information for later phases.
       transform.addOutput(new Asset.fromString(
-          docId.addExtension('.scriptUrls'),
-          JSON.encode(scriptIds, toEncodable: (id) => id.serialize())));
+          docId.addExtension('._data'),
+          JSON.encode({
+            'experimental_bootstrap': experimentalBootstrap,
+            'script_ids': scriptIds,
+          }, toEncodable: (id) => id.serialize())));
     });
   }
 
@@ -122,8 +130,7 @@ class _HtmlInliner extends PolymerTransformer {
       var type = node.attributes['type'];
       var rel = node.attributes['rel'];
       if (tag == 'style' || tag == 'script' &&
-            (type == null || type == TYPE_JS || type == TYPE_DART_APP ||
-             type == TYPE_DART_COMPONENT) ||
+            (type == null || type == TYPE_JS || type == TYPE_DART) ||
           tag == 'link' && (rel == 'stylesheet' || rel == 'import')) {
         // Move the node into the body, where its contents will be placed.
         doc.body.insertBefore(node, insertionPoint);
@@ -155,22 +162,36 @@ class _HtmlInliner extends PolymerTransformer {
     });
   }
 
-  /// Remove "application/dart;component=1" scripts and remember their
-  /// [AssetId]s for later use.
+  /// Remove all Dart scripts and remember their [AssetId]s for later use.
   ///
   /// Dartium only allows a single script tag per page, so we can't inline
   /// the script tags. Instead we remove them entirely.
-  bool _removeScripts(Document doc) {
+  Future<bool> _removeScripts(Document doc) {
     bool changed = false;
-    for (var script in doc.querySelectorAll('script')) {
-      if (script.attributes['type'] == TYPE_DART_COMPONENT) {
+    return Future.forEach(doc.querySelectorAll('script'), (script) {
+      if (script.attributes['type'] == TYPE_DART) {
         changed = true;
         script.remove();
         var src = script.attributes['src'];
-        scriptIds.add(uriToAssetId(docId, src, logger, script.sourceSpan));
+        var srcId = uriToAssetId(docId, src, logger, script.sourceSpan);
+
+        // We check for extractedFiles because 'hasInput' below is only true for
+        // assets that existed before this transformer runs (hasInput is false
+        // for files created by [_extractScripts]).
+        if (extractedFiles.contains(srcId)) {
+          scriptIds.add(srcId);
+          return true;
+        }
+        return transform.hasInput(srcId).then((exists) {
+          if (!exists) {
+            logger.warning('Script file at "$src" not found.',
+              span: script.sourceSpan);
+          } else {
+            scriptIds.add(srcId);
+          }
+        });
       }
-    }
-    return changed;
+    }).then((_) => changed);
   }
 
   /// Split inline scripts into their own files. We need to do this for dart2js
@@ -179,16 +200,8 @@ class _HtmlInliner extends PolymerTransformer {
   /// This also validates that there weren't any duplicate scripts.
   bool _extractScripts(Document doc, AssetId sourceId) {
     bool changed = false;
-    bool first = true;
     for (var script in doc.querySelectorAll('script')) {
-      var type = script.attributes['type'];
-      if (type != TYPE_DART_COMPONENT && type != TYPE_DART_APP) continue;
-
-      // only one Dart script per document is supported in Dartium.
-      if (type == TYPE_DART_APP) {
-        if (!first) logger.warning(COMPONENT_WARNING, span: script.sourceSpan);
-        first = false;
-      }
+      if (script.attributes['type'] != TYPE_DART) continue;
 
       var src = script.attributes['src'];
       if (src != null) continue;
@@ -219,6 +232,7 @@ class _HtmlInliner extends PolymerTransformer {
 
         code = "library $libName;\n$code";
       }
+      extractedFiles.add(newId);
       transform.addOutput(new Asset.fromString(newId, code));
     }
     return changed;
@@ -255,8 +269,7 @@ class ImportInliner extends Transformer {
       new _HtmlInliner(options, transform).apply();
 }
 
-const TYPE_DART_APP = 'application/dart';
-const TYPE_DART_COMPONENT = 'application/dart;component=1';
+const TYPE_DART = 'application/dart';
 const TYPE_JS = 'text/javascript';
 
 /// Internally adjusts urls in the html that we are about to inline.
@@ -278,13 +291,11 @@ class _UrlNormalizer extends TreeVisitor {
     });
     if (node.localName == 'style') {
       node.text = visitCss(node.text);
-    } else if (node.localName == 'script') {
-      var type = node.attributes['type'];
+    } else if (node.localName == 'script' &&
+        node.attributes['type'] == TYPE_DART) {
       // TODO(jmesserly): we might need to visit JS too to handle ES Harmony
       // modules.
-      if (type == TYPE_DART_APP || type == TYPE_DART_COMPONENT) {
-        node.text = visitInlineDart(node.text);
-      }
+      node.text = visitInlineDart(node.text);
     }
     super.visitElement(node);
   }
@@ -391,10 +402,3 @@ const _urlAttributes = const [
 ];
 
 _getSpan(SourceFile file, AstNode node) => file.span(node.offset, node.end);
-
-const COMPONENT_WARNING =
-    'More than one Dart script per HTML document is not supported, but in the '
-    'near future Dartium will execute each tag as a separate isolate. If this '
-    'code is meant to load definitions that are part of the same application '
-    'you should switch it to use the "application/dart;component=1" mime-type '
-    'instead.';

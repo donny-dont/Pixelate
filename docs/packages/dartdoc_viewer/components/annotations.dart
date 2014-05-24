@@ -23,7 +23,7 @@ class AnnotationElement extends PolymerElement with ChangeNotifier  {
     for (var annotation in annotations.annotations) {
       if (annotation.link.isDocumented) {
         out.write('<a href="#${annotation.link.location}">'
-            '${annotation.link.simpleType}</a>');
+            '${annotation.shortName}</a>');
       } else {
         out.write(annotation.link.simpleType);
       }
@@ -32,7 +32,7 @@ class AnnotationElement extends PolymerElement with ChangeNotifier  {
       out.write(annotation.parameters.join(", "));
       if (hasParams) out.write(")");
       if (annotation != annotations.annotations.last) {
-        out.write(", ");
+        out.write(",<br />");
       }
     }
     if (annotations.supportedBrowsers.isNotEmpty) {

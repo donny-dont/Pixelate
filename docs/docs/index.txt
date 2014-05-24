@@ -145,7 +145,9 @@ dart-core.FormatException.FormatException- constructor
 dart-core.FormatException.message property
 dart-core.FormatException.toString method
 dart-core.Function class
+dart-core.Function.== operator
 dart-core.Function.apply method
+dart-core.Function.hashCode getter
 dart-core.IntegerDivisionByZeroException class
 dart-core.IntegerDivisionByZeroException.IntegerDivisionByZeroException- constructor
 dart-core.IntegerDivisionByZeroException.toString method
@@ -401,6 +403,7 @@ dart-core.String.codeUnitAt method
 dart-core.String.codeUnits getter
 dart-core.String.contains method
 dart-core.String.endsWith method
+dart-core.String.hashCode getter
 dart-core.String.indexOf method
 dart-core.String.isEmpty getter
 dart-core.String.isNotEmpty getter
@@ -438,7 +441,9 @@ dart-core.StringSink.writeAll method
 dart-core.StringSink.writeCharCode method
 dart-core.StringSink.writeln method
 dart-core.Symbol class
+dart-core.Symbol.== operator
 dart-core.Symbol.Symbol- constructor
+dart-core.Symbol.hashCode getter
 dart-core.Type class
 dart-core.TypeError class
 dart-core.UnimplementedError class
@@ -576,23 +581,6 @@ dart-core._Override class
 dart-core._Override._Override- constructor
 dart-core._Proxy class
 dart-core._Proxy._Proxy- constructor
-dart-core._UnmodifiableMap class
-dart-core._UnmodifiableMap.[] operator
-dart-core._UnmodifiableMap.[]= operator
-dart-core._UnmodifiableMap._UnmodifiableMap- constructor
-dart-core._UnmodifiableMap._map property
-dart-core._UnmodifiableMap.addAll method
-dart-core._UnmodifiableMap.clear method
-dart-core._UnmodifiableMap.containsKey method
-dart-core._UnmodifiableMap.containsValue method
-dart-core._UnmodifiableMap.forEach method
-dart-core._UnmodifiableMap.isEmpty getter
-dart-core._UnmodifiableMap.isNotEmpty getter
-dart-core._UnmodifiableMap.keys getter
-dart-core._UnmodifiableMap.length getter
-dart-core._UnmodifiableMap.putIfAbsent method
-dart-core._UnmodifiableMap.remove method
-dart-core._UnmodifiableMap.values getter
 dart-core._combineSurrogatePair method
 dart-core._isLeadSurrogate method
 dart-core._isTrailSurrogate method
@@ -777,6 +765,7 @@ pixelate/pixelate_accordion.Element.abortEvent property
 pixelate/pixelate_accordion.Element.animate method
 pixelate/pixelate_accordion.Element.appendHtml method
 pixelate/pixelate_accordion.Element.appendText method
+pixelate/pixelate_accordion.Element.attached method
 pixelate/pixelate_accordion.Element.attributeChanged method
 pixelate/pixelate_accordion.Element.attributes getter
 pixelate/pixelate_accordion.Element.attributes= setter
@@ -808,6 +797,7 @@ pixelate/pixelate_accordion.Element.createShadowRoot method
 pixelate/pixelate_accordion.Element.cutEvent property
 pixelate/pixelate_accordion.Element.dataset getter
 pixelate/pixelate_accordion.Element.dataset= setter
+pixelate/pixelate_accordion.Element.detached method
 pixelate/pixelate_accordion.Element.dir property
 pixelate/pixelate_accordion.Element.documentOffset getter
 pixelate/pixelate_accordion.Element.doubleClickEvent property
@@ -1151,13 +1141,13 @@ pixelate/pixelate_accordion.Node.Node-_ constructor
 pixelate/pixelate_accordion.Node.Node-_created constructor
 pixelate/pixelate_accordion.Node.PROCESSING_INSTRUCTION_NODE property
 pixelate/pixelate_accordion.Node.TEXT_NODE property
-pixelate/pixelate_accordion.Node._baseUri property
 pixelate/pixelate_accordion.Node._clearChildren method
 pixelate/pixelate_accordion.Node._localName property
 pixelate/pixelate_accordion.Node._namespaceUri property
 pixelate/pixelate_accordion.Node._removeChild method
 pixelate/pixelate_accordion.Node._replaceChild method
 pixelate/pixelate_accordion.Node.append method
+pixelate/pixelate_accordion.Node.baseUri property
 pixelate/pixelate_accordion.Node.childNodes property
 pixelate/pixelate_accordion.Node.clone method
 pixelate/pixelate_accordion.Node.contains method
@@ -1276,6 +1266,7 @@ pixelate/pixelate_accordion.Polymer.ready method
 pixelate/pixelate_accordion.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_accordion.Polymer.register method
 pixelate/pixelate_accordion.Polymer.registerObserver method
+pixelate/pixelate_accordion.Polymer.registerSync method
 pixelate/pixelate_accordion.Polymer.resetStyleInheritance getter
 pixelate/pixelate_accordion.Polymer.scopeHasElementStyle method
 pixelate/pixelate_accordion.Polymer.serializeValue method
@@ -1365,6 +1356,7 @@ pixelate/pixelate_auto_complete.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_auto_complete.Element.animate method
 pixelate/pixelate_auto_complete.Element.appendHtml method
 pixelate/pixelate_auto_complete.Element.appendText method
+pixelate/pixelate_auto_complete.Element.attached method
 pixelate/pixelate_auto_complete.Element.attributeChanged method
 pixelate/pixelate_auto_complete.Element.attributes getter
 pixelate/pixelate_auto_complete.Element.attributes= setter
@@ -1381,6 +1373,7 @@ pixelate/pixelate_auto_complete.Element.createFragment method
 pixelate/pixelate_auto_complete.Element.createShadowRoot method
 pixelate/pixelate_auto_complete.Element.dataset getter
 pixelate/pixelate_auto_complete.Element.dataset= setter
+pixelate/pixelate_auto_complete.Element.detached method
 pixelate/pixelate_auto_complete.Element.documentOffset getter
 pixelate/pixelate_auto_complete.Element.enteredView method
 pixelate/pixelate_auto_complete.Element.focus method
@@ -1690,6 +1683,7 @@ pixelate/pixelate_auto_complete.Polymer.ready method
 pixelate/pixelate_auto_complete.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_auto_complete.Polymer.register method
 pixelate/pixelate_auto_complete.Polymer.registerObserver method
+pixelate/pixelate_auto_complete.Polymer.registerSync method
 pixelate/pixelate_auto_complete.Polymer.resetStyleInheritance getter
 pixelate/pixelate_auto_complete.Polymer.scopeHasElementStyle method
 pixelate/pixelate_auto_complete.Polymer.serializeValue method
@@ -1768,6 +1762,7 @@ pixelate/pixelate_button.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_button.Element.animate method
 pixelate/pixelate_button.Element.appendHtml method
 pixelate/pixelate_button.Element.appendText method
+pixelate/pixelate_button.Element.attached method
 pixelate/pixelate_button.Element.attributeChanged method
 pixelate/pixelate_button.Element.attributes getter
 pixelate/pixelate_button.Element.attributes= setter
@@ -1784,6 +1779,7 @@ pixelate/pixelate_button.Element.createFragment method
 pixelate/pixelate_button.Element.createShadowRoot method
 pixelate/pixelate_button.Element.dataset getter
 pixelate/pixelate_button.Element.dataset= setter
+pixelate/pixelate_button.Element.detached method
 pixelate/pixelate_button.Element.documentOffset getter
 pixelate/pixelate_button.Element.enteredView method
 pixelate/pixelate_button.Element.focus method
@@ -2093,6 +2089,7 @@ pixelate/pixelate_button.Polymer.ready method
 pixelate/pixelate_button.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_button.Polymer.register method
 pixelate/pixelate_button.Polymer.registerObserver method
+pixelate/pixelate_button.Polymer.registerSync method
 pixelate/pixelate_button.Polymer.resetStyleInheritance getter
 pixelate/pixelate_button.Polymer.scopeHasElementStyle method
 pixelate/pixelate_button.Polymer.serializeValue method
@@ -2194,6 +2191,7 @@ pixelate/pixelate_dialog.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_dialog.Element.animate method
 pixelate/pixelate_dialog.Element.appendHtml method
 pixelate/pixelate_dialog.Element.appendText method
+pixelate/pixelate_dialog.Element.attached method
 pixelate/pixelate_dialog.Element.attributeChanged method
 pixelate/pixelate_dialog.Element.attributes getter
 pixelate/pixelate_dialog.Element.attributes= setter
@@ -2210,6 +2208,7 @@ pixelate/pixelate_dialog.Element.createFragment method
 pixelate/pixelate_dialog.Element.createShadowRoot method
 pixelate/pixelate_dialog.Element.dataset getter
 pixelate/pixelate_dialog.Element.dataset= setter
+pixelate/pixelate_dialog.Element.detached method
 pixelate/pixelate_dialog.Element.documentOffset getter
 pixelate/pixelate_dialog.Element.enteredView method
 pixelate/pixelate_dialog.Element.focus method
@@ -2519,6 +2518,7 @@ pixelate/pixelate_dialog.Polymer.ready method
 pixelate/pixelate_dialog.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_dialog.Polymer.register method
 pixelate/pixelate_dialog.Polymer.registerObserver method
+pixelate/pixelate_dialog.Polymer.registerSync method
 pixelate/pixelate_dialog.Polymer.resetStyleInheritance getter
 pixelate/pixelate_dialog.Polymer.scopeHasElementStyle method
 pixelate/pixelate_dialog.Polymer.serializeValue method
@@ -2639,6 +2639,7 @@ pixelate/pixelate_expander.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_expander.Element.animate method
 pixelate/pixelate_expander.Element.appendHtml method
 pixelate/pixelate_expander.Element.appendText method
+pixelate/pixelate_expander.Element.attached method
 pixelate/pixelate_expander.Element.attributeChanged method
 pixelate/pixelate_expander.Element.attributes getter
 pixelate/pixelate_expander.Element.attributes= setter
@@ -2655,6 +2656,7 @@ pixelate/pixelate_expander.Element.createFragment method
 pixelate/pixelate_expander.Element.createShadowRoot method
 pixelate/pixelate_expander.Element.dataset getter
 pixelate/pixelate_expander.Element.dataset= setter
+pixelate/pixelate_expander.Element.detached method
 pixelate/pixelate_expander.Element.documentOffset getter
 pixelate/pixelate_expander.Element.enteredView method
 pixelate/pixelate_expander.Element.focus method
@@ -2973,6 +2975,7 @@ pixelate/pixelate_expander.Polymer.ready method
 pixelate/pixelate_expander.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_expander.Polymer.register method
 pixelate/pixelate_expander.Polymer.registerObserver method
+pixelate/pixelate_expander.Polymer.registerSync method
 pixelate/pixelate_expander.Polymer.resetStyleInheritance getter
 pixelate/pixelate_expander.Polymer.scopeHasElementStyle method
 pixelate/pixelate_expander.Polymer.serializeValue method
@@ -3077,6 +3080,7 @@ pixelate/pixelate_file_drop.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_file_drop.Element.animate method
 pixelate/pixelate_file_drop.Element.appendHtml method
 pixelate/pixelate_file_drop.Element.appendText method
+pixelate/pixelate_file_drop.Element.attached method
 pixelate/pixelate_file_drop.Element.attributeChanged method
 pixelate/pixelate_file_drop.Element.attributes getter
 pixelate/pixelate_file_drop.Element.attributes= setter
@@ -3093,6 +3097,7 @@ pixelate/pixelate_file_drop.Element.createFragment method
 pixelate/pixelate_file_drop.Element.createShadowRoot method
 pixelate/pixelate_file_drop.Element.dataset getter
 pixelate/pixelate_file_drop.Element.dataset= setter
+pixelate/pixelate_file_drop.Element.detached method
 pixelate/pixelate_file_drop.Element.documentOffset getter
 pixelate/pixelate_file_drop.Element.enteredView method
 pixelate/pixelate_file_drop.Element.focus method
@@ -3407,6 +3412,7 @@ pixelate/pixelate_file_drop.Polymer.ready method
 pixelate/pixelate_file_drop.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_file_drop.Polymer.register method
 pixelate/pixelate_file_drop.Polymer.registerObserver method
+pixelate/pixelate_file_drop.Polymer.registerSync method
 pixelate/pixelate_file_drop.Polymer.resetStyleInheritance getter
 pixelate/pixelate_file_drop.Polymer.scopeHasElementStyle method
 pixelate/pixelate_file_drop.Polymer.serializeValue method
@@ -3500,6 +3506,7 @@ pixelate/pixelate_flex_panel.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_flex_panel.Element.animate method
 pixelate/pixelate_flex_panel.Element.appendHtml method
 pixelate/pixelate_flex_panel.Element.appendText method
+pixelate/pixelate_flex_panel.Element.attached method
 pixelate/pixelate_flex_panel.Element.attributeChanged method
 pixelate/pixelate_flex_panel.Element.attributes getter
 pixelate/pixelate_flex_panel.Element.attributes= setter
@@ -3516,6 +3523,7 @@ pixelate/pixelate_flex_panel.Element.createFragment method
 pixelate/pixelate_flex_panel.Element.createShadowRoot method
 pixelate/pixelate_flex_panel.Element.dataset getter
 pixelate/pixelate_flex_panel.Element.dataset= setter
+pixelate/pixelate_flex_panel.Element.detached method
 pixelate/pixelate_flex_panel.Element.documentOffset getter
 pixelate/pixelate_flex_panel.Element.enteredView method
 pixelate/pixelate_flex_panel.Element.focus method
@@ -3836,6 +3844,7 @@ pixelate/pixelate_flex_panel.Polymer.ready method
 pixelate/pixelate_flex_panel.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_flex_panel.Polymer.register method
 pixelate/pixelate_flex_panel.Polymer.registerObserver method
+pixelate/pixelate_flex_panel.Polymer.registerSync method
 pixelate/pixelate_flex_panel.Polymer.resetStyleInheritance getter
 pixelate/pixelate_flex_panel.Polymer.scopeHasElementStyle method
 pixelate/pixelate_flex_panel.Polymer.serializeValue method
@@ -3911,6 +3920,7 @@ pixelate/pixelate_graph_canvas.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_graph_canvas.Element.animate method
 pixelate/pixelate_graph_canvas.Element.appendHtml method
 pixelate/pixelate_graph_canvas.Element.appendText method
+pixelate/pixelate_graph_canvas.Element.attached method
 pixelate/pixelate_graph_canvas.Element.attributeChanged method
 pixelate/pixelate_graph_canvas.Element.attributes getter
 pixelate/pixelate_graph_canvas.Element.attributes= setter
@@ -3927,6 +3937,7 @@ pixelate/pixelate_graph_canvas.Element.createFragment method
 pixelate/pixelate_graph_canvas.Element.createShadowRoot method
 pixelate/pixelate_graph_canvas.Element.dataset getter
 pixelate/pixelate_graph_canvas.Element.dataset= setter
+pixelate/pixelate_graph_canvas.Element.detached method
 pixelate/pixelate_graph_canvas.Element.documentOffset getter
 pixelate/pixelate_graph_canvas.Element.enteredView method
 pixelate/pixelate_graph_canvas.Element.focus method
@@ -4271,6 +4282,7 @@ pixelate/pixelate_graph_canvas.Polymer.ready method
 pixelate/pixelate_graph_canvas.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_graph_canvas.Polymer.register method
 pixelate/pixelate_graph_canvas.Polymer.registerObserver method
+pixelate/pixelate_graph_canvas.Polymer.registerSync method
 pixelate/pixelate_graph_canvas.Polymer.resetStyleInheritance getter
 pixelate/pixelate_graph_canvas.Polymer.scopeHasElementStyle method
 pixelate/pixelate_graph_canvas.Polymer.serializeValue method
@@ -4358,6 +4370,7 @@ pixelate/pixelate_grid_panel.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_grid_panel.Element.animate method
 pixelate/pixelate_grid_panel.Element.appendHtml method
 pixelate/pixelate_grid_panel.Element.appendText method
+pixelate/pixelate_grid_panel.Element.attached method
 pixelate/pixelate_grid_panel.Element.attributeChanged method
 pixelate/pixelate_grid_panel.Element.attributes getter
 pixelate/pixelate_grid_panel.Element.attributes= setter
@@ -4374,6 +4387,7 @@ pixelate/pixelate_grid_panel.Element.createFragment method
 pixelate/pixelate_grid_panel.Element.createShadowRoot method
 pixelate/pixelate_grid_panel.Element.dataset getter
 pixelate/pixelate_grid_panel.Element.dataset= setter
+pixelate/pixelate_grid_panel.Element.detached method
 pixelate/pixelate_grid_panel.Element.documentOffset getter
 pixelate/pixelate_grid_panel.Element.enteredView method
 pixelate/pixelate_grid_panel.Element.focus method
@@ -4697,6 +4711,7 @@ pixelate/pixelate_grid_panel.Polymer.ready method
 pixelate/pixelate_grid_panel.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_grid_panel.Polymer.register method
 pixelate/pixelate_grid_panel.Polymer.registerObserver method
+pixelate/pixelate_grid_panel.Polymer.registerSync method
 pixelate/pixelate_grid_panel.Polymer.resetStyleInheritance getter
 pixelate/pixelate_grid_panel.Polymer.scopeHasElementStyle method
 pixelate/pixelate_grid_panel.Polymer.serializeValue method
@@ -4772,6 +4787,7 @@ pixelate/pixelate_list_view.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_list_view.Element.animate method
 pixelate/pixelate_list_view.Element.appendHtml method
 pixelate/pixelate_list_view.Element.appendText method
+pixelate/pixelate_list_view.Element.attached method
 pixelate/pixelate_list_view.Element.attributeChanged method
 pixelate/pixelate_list_view.Element.attributes getter
 pixelate/pixelate_list_view.Element.attributes= setter
@@ -4788,6 +4804,7 @@ pixelate/pixelate_list_view.Element.createFragment method
 pixelate/pixelate_list_view.Element.createShadowRoot method
 pixelate/pixelate_list_view.Element.dataset getter
 pixelate/pixelate_list_view.Element.dataset= setter
+pixelate/pixelate_list_view.Element.detached method
 pixelate/pixelate_list_view.Element.documentOffset getter
 pixelate/pixelate_list_view.Element.enteredView method
 pixelate/pixelate_list_view.Element.focus method
@@ -5102,6 +5119,7 @@ pixelate/pixelate_list_view.Polymer.ready method
 pixelate/pixelate_list_view.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_list_view.Polymer.register method
 pixelate/pixelate_list_view.Polymer.registerObserver method
+pixelate/pixelate_list_view.Polymer.registerSync method
 pixelate/pixelate_list_view.Polymer.resetStyleInheritance getter
 pixelate/pixelate_list_view.Polymer.scopeHasElementStyle method
 pixelate/pixelate_list_view.Polymer.serializeValue method
@@ -5222,6 +5240,7 @@ pixelate/pixelate_progress_bar.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_progress_bar.Element.animate method
 pixelate/pixelate_progress_bar.Element.appendHtml method
 pixelate/pixelate_progress_bar.Element.appendText method
+pixelate/pixelate_progress_bar.Element.attached method
 pixelate/pixelate_progress_bar.Element.attributeChanged method
 pixelate/pixelate_progress_bar.Element.attributes getter
 pixelate/pixelate_progress_bar.Element.attributes= setter
@@ -5238,6 +5257,7 @@ pixelate/pixelate_progress_bar.Element.createFragment method
 pixelate/pixelate_progress_bar.Element.createShadowRoot method
 pixelate/pixelate_progress_bar.Element.dataset getter
 pixelate/pixelate_progress_bar.Element.dataset= setter
+pixelate/pixelate_progress_bar.Element.detached method
 pixelate/pixelate_progress_bar.Element.documentOffset getter
 pixelate/pixelate_progress_bar.Element.enteredView method
 pixelate/pixelate_progress_bar.Element.focus method
@@ -5547,6 +5567,7 @@ pixelate/pixelate_progress_bar.Polymer.ready method
 pixelate/pixelate_progress_bar.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_progress_bar.Polymer.register method
 pixelate/pixelate_progress_bar.Polymer.registerObserver method
+pixelate/pixelate_progress_bar.Polymer.registerSync method
 pixelate/pixelate_progress_bar.Polymer.resetStyleInheritance getter
 pixelate/pixelate_progress_bar.Polymer.scopeHasElementStyle method
 pixelate/pixelate_progress_bar.Polymer.serializeValue method
@@ -5631,6 +5652,7 @@ pixelate/pixelate_scroll_viewer.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_scroll_viewer.Element.animate method
 pixelate/pixelate_scroll_viewer.Element.appendHtml method
 pixelate/pixelate_scroll_viewer.Element.appendText method
+pixelate/pixelate_scroll_viewer.Element.attached method
 pixelate/pixelate_scroll_viewer.Element.attributeChanged method
 pixelate/pixelate_scroll_viewer.Element.attributes getter
 pixelate/pixelate_scroll_viewer.Element.attributes= setter
@@ -5647,6 +5669,7 @@ pixelate/pixelate_scroll_viewer.Element.createFragment method
 pixelate/pixelate_scroll_viewer.Element.createShadowRoot method
 pixelate/pixelate_scroll_viewer.Element.dataset getter
 pixelate/pixelate_scroll_viewer.Element.dataset= setter
+pixelate/pixelate_scroll_viewer.Element.detached method
 pixelate/pixelate_scroll_viewer.Element.documentOffset getter
 pixelate/pixelate_scroll_viewer.Element.enteredView method
 pixelate/pixelate_scroll_viewer.Element.focus method
@@ -5956,6 +5979,7 @@ pixelate/pixelate_scroll_viewer.Polymer.ready method
 pixelate/pixelate_scroll_viewer.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_scroll_viewer.Polymer.register method
 pixelate/pixelate_scroll_viewer.Polymer.registerObserver method
+pixelate/pixelate_scroll_viewer.Polymer.registerSync method
 pixelate/pixelate_scroll_viewer.Polymer.resetStyleInheritance getter
 pixelate/pixelate_scroll_viewer.Polymer.scopeHasElementStyle method
 pixelate/pixelate_scroll_viewer.Polymer.serializeValue method
@@ -6077,6 +6101,7 @@ pixelate/pixelate_tab.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_tab.Element.animate method
 pixelate/pixelate_tab.Element.appendHtml method
 pixelate/pixelate_tab.Element.appendText method
+pixelate/pixelate_tab.Element.attached method
 pixelate/pixelate_tab.Element.attributeChanged method
 pixelate/pixelate_tab.Element.attributes getter
 pixelate/pixelate_tab.Element.attributes= setter
@@ -6093,6 +6118,7 @@ pixelate/pixelate_tab.Element.createFragment method
 pixelate/pixelate_tab.Element.createShadowRoot method
 pixelate/pixelate_tab.Element.dataset getter
 pixelate/pixelate_tab.Element.dataset= setter
+pixelate/pixelate_tab.Element.detached method
 pixelate/pixelate_tab.Element.documentOffset getter
 pixelate/pixelate_tab.Element.enteredView method
 pixelate/pixelate_tab.Element.focus method
@@ -6402,6 +6428,7 @@ pixelate/pixelate_tab.Polymer.ready method
 pixelate/pixelate_tab.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_tab.Polymer.register method
 pixelate/pixelate_tab.Polymer.registerObserver method
+pixelate/pixelate_tab.Polymer.registerSync method
 pixelate/pixelate_tab.Polymer.resetStyleInheritance getter
 pixelate/pixelate_tab.Polymer.scopeHasElementStyle method
 pixelate/pixelate_tab.Polymer.serializeValue method
@@ -6488,6 +6515,7 @@ pixelate/pixelate_tooltip.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_tooltip.Element.animate method
 pixelate/pixelate_tooltip.Element.appendHtml method
 pixelate/pixelate_tooltip.Element.appendText method
+pixelate/pixelate_tooltip.Element.attached method
 pixelate/pixelate_tooltip.Element.attributeChanged method
 pixelate/pixelate_tooltip.Element.attributes getter
 pixelate/pixelate_tooltip.Element.attributes= setter
@@ -6504,6 +6532,7 @@ pixelate/pixelate_tooltip.Element.createFragment method
 pixelate/pixelate_tooltip.Element.createShadowRoot method
 pixelate/pixelate_tooltip.Element.dataset getter
 pixelate/pixelate_tooltip.Element.dataset= setter
+pixelate/pixelate_tooltip.Element.detached method
 pixelate/pixelate_tooltip.Element.documentOffset getter
 pixelate/pixelate_tooltip.Element.enteredView method
 pixelate/pixelate_tooltip.Element.focus method
@@ -6813,6 +6842,7 @@ pixelate/pixelate_tooltip.Polymer.ready method
 pixelate/pixelate_tooltip.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_tooltip.Polymer.register method
 pixelate/pixelate_tooltip.Polymer.registerObserver method
+pixelate/pixelate_tooltip.Polymer.registerSync method
 pixelate/pixelate_tooltip.Polymer.resetStyleInheritance getter
 pixelate/pixelate_tooltip.Polymer.scopeHasElementStyle method
 pixelate/pixelate_tooltip.Polymer.serializeValue method
@@ -6910,6 +6940,7 @@ pixelate/pixelate_tree_view.Element._scrollIntoViewIfNeeded method
 pixelate/pixelate_tree_view.Element.animate method
 pixelate/pixelate_tree_view.Element.appendHtml method
 pixelate/pixelate_tree_view.Element.appendText method
+pixelate/pixelate_tree_view.Element.attached method
 pixelate/pixelate_tree_view.Element.attributeChanged method
 pixelate/pixelate_tree_view.Element.attributes getter
 pixelate/pixelate_tree_view.Element.attributes= setter
@@ -6926,6 +6957,7 @@ pixelate/pixelate_tree_view.Element.createFragment method
 pixelate/pixelate_tree_view.Element.createShadowRoot method
 pixelate/pixelate_tree_view.Element.dataset getter
 pixelate/pixelate_tree_view.Element.dataset= setter
+pixelate/pixelate_tree_view.Element.detached method
 pixelate/pixelate_tree_view.Element.documentOffset getter
 pixelate/pixelate_tree_view.Element.enteredView method
 pixelate/pixelate_tree_view.Element.focus method
@@ -7235,6 +7267,7 @@ pixelate/pixelate_tree_view.Polymer.ready method
 pixelate/pixelate_tree_view.Polymer.reflectPropertyToAttribute method
 pixelate/pixelate_tree_view.Polymer.register method
 pixelate/pixelate_tree_view.Polymer.registerObserver method
+pixelate/pixelate_tree_view.Polymer.registerSync method
 pixelate/pixelate_tree_view.Polymer.resetStyleInheritance getter
 pixelate/pixelate_tree_view.Polymer.scopeHasElementStyle method
 pixelate/pixelate_tree_view.Polymer.serializeValue method
