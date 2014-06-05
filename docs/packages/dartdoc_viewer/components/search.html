@@ -17,13 +17,15 @@ BSD-style license that can be found in the LICENSE file.
             aria-labelledby="dropdownMenu" on-click="{{selectDropDownItem}}">
           <template if="{{results.isEmpty}}">
             <li class="search-result disabled">
-              <a tabindex="-1" href="#">No Results.</a>
+              <a tabindex="-1" href=""
+                  on-click="{{rerouteLink}}">No Results.</a>
             </li>
           </template>
           <template repeat="{{results}}">
             <!-- A tabIndex of 0 allows for tab navigation through results -->
             <li tabindex="0" class="search-result">
-              <a is="search-result" item="{{}}" id="search{{position}}"
+              <a is="search-result" on-click="{{rerouteLink}}"
+                  item="{{}}" id="search{{position}}"
                   data-ref-id="{{url}}" >
               </a>
             </li>
@@ -34,5 +36,5 @@ BSD-style license that can be found in the LICENSE file.
 
   </template>
 </polymer-element>
-<script type="application/dart;component=1" src="search.dart">
+<script type="application/dart" src="search.dart">
 </script>

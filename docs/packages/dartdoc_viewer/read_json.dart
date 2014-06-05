@@ -2,11 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library read_yaml;
+library read_json;
 
-import 'package:dartdoc_viewer/data.dart';
 import 'package:dartdoc_viewer/item.dart';
-import 'package:yaml/yaml.dart';
 
 import 'dart:async';
 import 'dart:html';
@@ -19,10 +17,9 @@ Future<String> retrieveFileContents(String path) =>
     HttpRequest.getString(Uri.encodeFull(path));
 
 /**
- * Creates a [Library] object from the [response] string of YAML.
+ * Creates a [Library] object from the [response] string of JSON.
  */
 Item loadData(String response) {
-  var doc = isYaml ? loadYaml(response) :
-      response == '' ? null : JSON.decode(response);
+  var doc = response == '' ? null : JSON.decode(response);
   return doc == null ? null : new Library(doc);
 }

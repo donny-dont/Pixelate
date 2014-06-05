@@ -6,17 +6,32 @@ library category_item;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:html' show ProgressEvent;
 
 import 'package:dartdoc_viewer/data.dart';
-import 'package:dartdoc_viewer/read_yaml.dart';
+import 'package:dartdoc_viewer/read_json.dart';
 import 'package:polymer/polymer.dart';
-import 'package:yaml/yaml.dart';
 import 'package:dartdoc_viewer/location.dart';
 import 'package:dartdoc_viewer/search.dart' show searchIndex;
+import 'package:dartdoc_viewer/shared.dart';
 import 'package:collection/equality.dart';
 
 // TODO(tmandel): Don't hardcode in a path if it can be avoided.
-const docsPath = 'docs/';
+String get docsPath {
+  var resultStr = docsPathNoVersionNum;
+  if (dartdocMain.hostDocsVersion != '') {
+    resultStr += 'buildversion/${dartdocMain.hostDocsVersion}/';
+  }
+  return resultStr;
+ }
+
+String get docsPathNoVersionNum => useHistory?
+    '$docsEntryPoint/docs/' : 'docs/';
+
+// TODO(janicejl): JSON path should not be hardcoded.
+// Path to the JSON file being read in. This file will always be in JSON
+// format and contains the format of the rest of the files.
+final String sourcePath = '${docsPath}library_list.json';
 
 _returnNull() => null;
 
@@ -31,6 +46,9 @@ class Container extends ChangeNotifier {
       comment == '<span></span>' || comment == '<div></div>';
 
   Container(this.name, [comment]) : __$comment = comment;
+  // The constructor below is a workaround for dartbug.com/15101, so that
+  // "pub serve" doesn't get unhappy.
+  Container.withComment(this.name, comment) : __$comment = comment;
 
   String toString() => "$runtimeType($name)";
 }
@@ -112,22 +130,22 @@ class Category extends Container {
     }
   }
 
-  Category.forFunctions(Map yaml, String name, {bool isConstructor: false,
+  Category.forFunctions(Map json, String name, {bool isConstructor: false,
       String className: '', bool isOperator: false, Class owner})
         : super(name) {
-    if (yaml != null) {
-      yaml.keys.forEach((key) {
+    if (json != null) {
+      json.keys.forEach((key) {
         memberNames.add(key);
         memberCounter++;
-        content.add(new Method(yaml[key], isConstructor: isConstructor,
+        content.add(new Method(json[key], isConstructor: isConstructor,
             className: className, isOperator: isOperator, owner: owner));
       });
     }
   }
 
-  Category.forTypedefs(Map yaml) : super ('Typedefs') {
-    if (yaml != null) {
-      yaml.keys.forEach((key) => content.add(new Typedef(yaml[key])));
+  Category.forTypedefs(Map json) : super ('Typedefs') {
+    if (json != null) {
+      json.keys.forEach((key) => content.add(new Typedef(json[key])));
     }
   }
 
@@ -177,14 +195,17 @@ class Filter {
 /**
  * A [Container] synonymous with a page.
  */
-class Item extends Container {
+class Item extends Container with ChangeNotifier  {
   /// A list of [Item]s representing the path to this [Item].
   List<Item> path = [];
   @observable final String qualifiedName;
   Item _owner;
 
+  /// The version of the API we're looking at.
+  @reflectable @observable String get version => __$version; String __$version; @reflectable set version(String value) { __$version = notifyPropertyChange(#version, __$version, value); }
+
   Item(String name, this.qualifiedName, [String comment])
-      : super(name, comment);
+      : super.withComment(name, comment);
 
   /// [Item]'s name with its properties appended for user visible Strings.
   @observable String get decoratedName => name;
@@ -210,7 +231,8 @@ class Item extends Container {
   String get linkHref => Uri.encodeFull(qualifiedName);
 
   /// [linkHref] but with the leading # separator.
-  String get prefixedLinkHref => locationPrefixed(linkHref);
+  String get prefixedLinkHref =>
+      prefixedLocationWhenPossible(new DocsLocation(qualifiedName), linkHref);
 
   /// The [DocsLocation] for our URI.
   DocsLocation get location => new DocsLocation(qualifiedName);
@@ -235,7 +257,8 @@ class Item extends Container {
   String get anchorHref => Uri.encodeFull(anchorHrefLocation.withAnchor);
 
   /// [anchorHref] but with the leading # separator.
-  String get prefixedAnchorHref => locationPrefixed(anchorHref);
+  String get prefixedAnchorHref =>
+      prefixedLocationWhenPossible(anchorHrefLocation, anchorHref);
 
   bool get isLoaded => true;
 
@@ -257,6 +280,8 @@ class Item extends Container {
   Item get firstItemUsableAsPage => this;
 
   Home get home => owner == null ? null : owner.home;
+
+  String get breadcrumbName => decoratedName;
 }
 
 /// Sorts each inner [List] by qualified names.
@@ -288,18 +313,18 @@ class Home extends Item {
   DocsLocation get anchorHrefLocation =>
       new DocsLocation(name == null ? 'home' : name);
 
-  static _nameFromYaml(Map yaml) {
-    var package = yaml['packageName'];
+  static _nameFromJson(Map json) {
+    var package = json['packageName'];
     return package == null ? 'home' : package;
   }
 
-  /// The constructor parses the [yaml] input and constructs
+  /// The constructor parses the [json] input and constructs
   /// [Placeholder] objects to display before loading libraries.
-  Home(Map yaml) : super(_nameFromYaml(yaml), _nameFromYaml(yaml),
-      _wrapComment(yaml['introduction'])) {
-
+  Home(Map json) : super(_nameFromJson(json), _nameFromJson(json),
+      _wrapComment(json['introduction'])) {
+    version = json['version'];
     // TODO(alanknight): Fix complicated, recursive constructor.
-    var libraryList = yaml['libraries'];
+    var libraryList = json['libraries'];
     var packages = new Map();
     if (isTopLevelHome) {
       libraryList.forEach((each) =>
@@ -321,17 +346,21 @@ class Home extends Item {
               orElse: () => libraries.first);
           var package = new Home({
               'libraries' : libraries,
-              'packageName' : packageName
+              'packageName' : packageName,
+              'version': libraries.length > 0? libraries.first['version'] : null
           });
           package.owner = this;
           this.libraries.add(package);
         });
 
     _sort([this.libraries]);
-    makeMainLibrarySpecial(yaml);
+    makeMainLibrarySpecial(json);
     pageIndex[qualifiedName] = this;
     if (isTopLevelHome) pageIndex[''] = this;
   }
+
+  String get breadcrumbName => version != null && version != '' ?
+      version : super.breadcrumbName;
 
   bool get isTopLevelHome => name == 'home';
 
@@ -340,12 +369,12 @@ class Home extends Item {
   /// to be the one that has the same name as the package. If there is no
   /// such library, pick the first one in the (alphabetical) list and get
   /// the README from it.
-  void makeMainLibrarySpecial(yaml) {
+  void makeMainLibrarySpecial(json) {
     var mainLib = libraries.firstWhere((each) => each.name == name,
         orElse: () => libraries.isEmpty ? null : libraries.first);
     if (mainLib != null) {
       libraries..remove(mainLib)..insert(0, mainLib);
-      var libs = yaml['libraries'];
+      var libs = json['libraries'];
       var main = libs.firstWhere((each) => each['name'] == mainLib.name);
       var intro = main['packageIntro'];
       if (intro != null && !intro.isEmpty) {
@@ -379,24 +408,35 @@ abstract class LazyItem extends Item {
   final String previewComment;
 
   LazyItem(String qualifiedName, String name, this.previewComment,
-      [String comment])
-      : super(name, qualifiedName, comment);
+      [String comment]) : super(name, qualifiedName, comment);
 
   /// Loads this [Item]'s data and populates all fields.
   Future load() {
     if (isLoaded) return new Future.value(this);
-    var location = '$docsPath$qualifiedName.' + (isYaml ? 'yaml' : 'json');
+    var location = '$docsPath$qualifiedName.json';
     var data = retrieveFileContents(location);
     return data.then((response) {
-      var yaml = isYaml ? loadYaml(response) : JSON.decode(response);
-      loadValues(yaml);
+      loadValues(JSON.decode(response));
       buildHierarchy(this, this);
       return new Future.value(this);
-    });
+    }).catchError(_loadError);
+  }
+
+  /// Fallback function -- if we fail to load the specific version of a file,
+  /// revert to asking for an unversioned one.
+  Future _loadError(event) {
+    if (event is ProgressEvent && event.target.status == 404
+        && dartdocMain.hostDocsVersion != '') {
+      // Try request again for no specific version of the json.
+      dartdocMain.hostDocsVersion = '';
+      return load();
+    } else {
+      throw event;
+    }
   }
 
   /// Populates all of this [Item]'s fields.
-  void loadValues(Map yaml);
+  void loadValues(Map json);
 }
 
 /**
@@ -416,8 +456,8 @@ class Library extends LazyItem {
       : super(map['qualifiedName'], map['name'], map['preview']);
 
   /// Normal constructor for testing.
-  Library(Map yaml) : super(yaml['qualifiedName'], yaml['name'], '') {
-    loadValues(yaml);
+  Library(Map json) : super(json['qualifiedName'], json['name'], '') {
+    loadValues(json);
     buildHierarchy(this, this);
   }
 
@@ -430,10 +470,10 @@ class Library extends LazyItem {
     }
   }
 
-  void loadValues(Map yaml) {
-    this.comment = _wrapComment(yaml['comment']);
+  void loadValues(Map json) {
+    this.comment = _wrapComment(json['comment']);
     var classes, exceptions, typedefs;
-    var allClasses = yaml['classes'];
+    var allClasses = json['classes'];
     if (allClasses != null) {
       classes = allClasses['class'];
       exceptions = allClasses['error'];
@@ -443,14 +483,14 @@ class Library extends LazyItem {
     errors = new Category.forClasses(exceptions, 'Exceptions');
     this.classes = new Category.forClasses(classes, 'Classes');
     var setters, getters, methods, operators;
-    var allFunctions = yaml['functions'];
+    var allFunctions = json['functions'];
     if (allFunctions != null) {
       setters = allFunctions['setters'];
       getters = allFunctions['getters'];
       methods = allFunctions['methods'];
       operators = allFunctions['operators'];
     }
-    variables = new Category.forVariables(yaml['variables'], getters, setters);
+    variables = new Category.forVariables(json['variables'], getters, setters);
     functions = new Category.forFunctions(methods, 'Functions');
     this.operators = new Category.forFunctions(operators, 'Operators',
         isOperator: true);
@@ -549,8 +589,8 @@ class Class extends LazyItem {
   }
 
   /// Normal constructor for testing.
-  Class(Map yaml) : super(yaml['qualifiedName'], yaml['name'], '') {
-    loadValues(yaml);
+  Class(Map json) : super(json['qualifiedName'], json['name'], '') {
+    loadValues(json);
   }
 
   /// The link to an anchor within a larger page, if appropriate. For classes
@@ -562,28 +602,27 @@ class Class extends LazyItem {
     if (isLoaded) {
       [functions, constructs, operators].forEach((category) {
         category.content.forEach((clazz) {
-          buildHierarchy(clazz, this);
         });
       });
     }
   }
 
-  void loadValues(Map yaml) {
+  void loadValues(Map json) {
     flushCaches();
-    comment = _wrapComment(yaml['comment']);
-    isAbstract = _boolFor('isAbstract', yaml);
-    superClass = new LinkableType(yaml['superclass']);
-    subclasses = yaml['subclass'] == null ? [] :
-      yaml['subclass'].map((item) => new LinkableType(item)).toList();
-    annotations = new AnnotationGroup(yaml['annotations']);
-    interfaces = yaml['implements'] == null ? [] :
-        yaml['implements'].map((item) => new LinkableType(item)).toList();
-    var genericValues = yaml['generics'];
+    comment = _wrapComment(json['comment']);
+    isAbstract = _boolFor('isAbstract', json);
+    superClass = new LinkableType(json['superclass']);
+    subclasses = json['subclass'] == null ? [] :
+      json['subclass'].map((item) => new LinkableType(item)).toList();
+    annotations = new AnnotationGroup(json['annotations']);
+    interfaces = json['implements'] == null ? [] :
+        json['implements'].map((item) => new LinkableType(item)).toList();
+    var genericValues = json['generics'];
     if (genericValues != null) {
       genericValues.keys.forEach((generic) => generics.add(generic));
     }
     var setters, getters, methods, operates, constructors;
-    var allMethods = yaml['methods'];
+    var allMethods = json['methods'];
     if (allMethods != null) {
       setters = allMethods['setters'];
       getters = allMethods['getters'];
@@ -591,15 +630,15 @@ class Class extends LazyItem {
       operates = allMethods['operators'];
       constructors = allMethods['constructors'];
     }
-    variables = new Category.forVariables(yaml['variables'], getters, setters);
+    variables = new Category.forVariables(json['variables'], getters, setters);
     functions = new Category.forFunctions(methods, 'Methods', className: name,
         owner: this);
     operators = new Category.forFunctions(operates, 'Operators',
         isOperator: true, className: name, owner: this);
     constructs = new Category.forFunctions(constructors, 'Constructors',
         isConstructor: true, className: name, owner: this);
-    var inheritedMethods = yaml['inheritedMethods'];
-    var inheritedVariables = yaml['inheritedVariables'];
+    var inheritedMethods = json['inheritedMethods'];
+    var inheritedVariables = json['inheritedVariables'];
     if (inheritedMethods != null) {
       setters = inheritedMethods['setters'];
       getters = inheritedMethods['getters'];
@@ -711,10 +750,10 @@ class Annotation {
   final LinkableType link;
   final List<String> parameters;
 
-  Annotation(Map yaml)
-      : this.qualifiedName = yaml['name'],
-        this.link = new LinkableType(yaml['name']),
-        this.parameters = yaml['parameters'] == null ? [] : yaml['parameters'];
+  Annotation(Map json)
+      : this.qualifiedName = json['name'],
+        this.link = new LinkableType(json['name']),
+        this.parameters = json['parameters'] == null ? [] : json['parameters'];
 
   /// Hash by XORing together our name and parameters.
   int get hashCode => parameters.fold(
@@ -766,13 +805,13 @@ class Typedef extends Parameterized {
   final AnnotationGroup annotations;
   final String previewComment;
 
-  Typedef(Map yaml)
-      : type = new LinkableType(yaml['return']),
-        annotations = new AnnotationGroup(yaml['annotations']),
-        previewComment = yaml['preview'],
-        super(yaml['name'], yaml['qualifiedName'],
-            _wrapComment(yaml['comment'])) {
-    parameters = getParameters(yaml['parameters']);
+  Typedef(Map json)
+      : type = new LinkableType(json['return']),
+        annotations = new AnnotationGroup(json['annotations']),
+        previewComment = json['preview'],
+        super(json['name'], json['qualifiedName'],
+            _wrapComment(json['comment'])) {
+    parameters = getParameters(json['parameters']);
   }
 }
 
@@ -791,18 +830,18 @@ class Method extends Parameterized {
   final NestedType type;
   String commentFrom;
 
-  Method(Map yaml, {this.isConstructor: false, this.className: '',
+  Method(Map json, {this.isConstructor: false, this.className: '',
       this.isOperator: false, this.inheritedFrom: '',
       String commentFrom: '', owner: null})
-      : this.isStatic = _boolFor('static', yaml),
-        this.isAbstract = _boolFor('abstract', yaml),
-        this.isConstant = _boolFor('constant', yaml),
-        this.type = new NestedType(yaml['return'].first),
-        this.annotations = new AnnotationGroup(yaml['annotations']),
-        super(yaml['name'], yaml['qualifiedName'],
-            _wrapComment(yaml['comment'])) {
-    commentFrom = commentFrom == '' ? yaml['commentFrom'] : commentFrom;
-    parameters = getParameters(yaml['parameters']);
+      : this.isStatic = _boolFor('static', json),
+        this.isAbstract = _boolFor('abstract', json),
+        this.isConstant = _boolFor('constant', json),
+        this.type = new NestedType(json['return'].first),
+        this.annotations = new AnnotationGroup(json['annotations']),
+        super(json['name'], json['qualifiedName'],
+            _wrapComment(json['comment'])) {
+    commentFrom = commentFrom == '' ? json['commentFrom'] : commentFrom;
+    parameters = getParameters(json['parameters']);
     _owner = owner;
   }
 
@@ -847,11 +886,11 @@ class Closure extends Parameterized {
   final NestedType returnType;
   final String name;
 
-  Closure(String name, Map yaml, [Item owner]) :
+  Closure(String name, Map json, [Item owner]) :
     name = name,
-    returnType = new NestedType(yaml['return'].first),
+    returnType = new NestedType(json['return'].first),
     super('closure', null) {
-    parameters = getParameters(yaml['parameters']);
+    parameters = getParameters(json['parameters']);
     _owner = owner;
   }
 
@@ -885,15 +924,15 @@ class Parameter extends Item {
   final AnnotationGroup annotations;
   final Closure functionDeclaration;
 
-  Parameter(String name, Map yaml, [Item owner])
-      : isOptional = _boolFor('optional', yaml),
-        isNamed = _boolFor('named', yaml),
-        hasDefault = _boolFor('default', yaml),
-        type = new NestedType(yaml['type'].first),
-        defaultValue = yaml['value'],
-        annotations = new AnnotationGroup(yaml['annotations']),
-        functionDeclaration = yaml['functionDeclaration'] == null? null
-            : new Closure(name, yaml['functionDeclaration'], owner),
+  Parameter(String name, Map json, [Item owner])
+      : isOptional = _boolFor('optional', json),
+        isNamed = _boolFor('named', json),
+        hasDefault = _boolFor('default', json),
+        type = new NestedType(json['type'].first),
+        defaultValue = json['value'],
+        annotations = new AnnotationGroup(json['annotations']),
+        functionDeclaration = json['functionDeclaration'] == null? null
+            : new Closure(name, json['functionDeclaration'], owner),
         super(name, null) {
     _owner = owner;
   }
@@ -955,27 +994,27 @@ class Variable extends Parameterized {
   Parameter setterParameter;
   NestedType type;
 
-  Variable(Map yaml, {this.isGetter: false, this.isSetter: false,
+  Variable(Map json, {this.isGetter: false, this.isSetter: false,
       this.inheritedFrom: '', String commentFrom: '', Item owner})
-      : isFinal = _boolFor('final', yaml),
-        isStatic = _boolFor('static', yaml),
-        isConstant = _boolFor('constant', yaml),
-        isAbstract = _boolFor('abstract', yaml),
-        annotations = new AnnotationGroup(yaml['annotations']),
-        super(yaml['name'], yaml['qualifiedName'],
-            _wrapComment(yaml['comment'])) {
-    this.commentFrom = commentFrom == '' ? yaml['commentFrom'] : commentFrom;
+      : isFinal = _boolFor('final', json),
+        isStatic = _boolFor('static', json),
+        isConstant = _boolFor('constant', json),
+        isAbstract = _boolFor('abstract', json),
+        annotations = new AnnotationGroup(json['annotations']),
+        super(json['name'], json['qualifiedName'],
+            _wrapComment(json['comment'])) {
+    this.commentFrom = commentFrom == '' ? json['commentFrom'] : commentFrom;
     _owner = owner;
     if (isGetter) {
-      type = new NestedType(yaml['return'].first);
+      type = new NestedType(json['return'].first);
     } else if (isSetter) {
-      type = new NestedType(yaml['return'].first);
-      var parameters = yaml['parameters'];
+      type = new NestedType(json['return'].first);
+      var parameters = json['parameters'];
       var parameterName = parameters.keys.first;
       setterParameter = new Parameter(parameterName,
           parameters[parameterName], this);
     } else {
-      type = new NestedType(yaml['type'].first);
+      type = new NestedType(json['type'].first);
     }
   }
 
@@ -1015,14 +1054,14 @@ class NestedType {
   final LinkableType outer;
   final List<NestedType> inner;
 
-  factory NestedType(Map yaml) {
+  factory NestedType(Map json) {
     LinkableType outer;
     var inner = <NestedType>[];
-    if (yaml == null) {
+    if (json == null) {
       outer = new LinkableType('void');
     } else {
-      outer = new LinkableType(yaml['outer']);
-      var innerMap = yaml['inner'];
+      outer = new LinkableType(json['outer']);
+      var innerMap = json['inner'];
       if (innerMap != null)
       innerMap.forEach((element) => inner.add(new NestedType(element)));
     }
@@ -1053,6 +1092,9 @@ class LinkableType {
   String get simpleType => loc.locationWithoutAnchor.name;
 
   String get location => loc.withoutAnchor;
+
+  String get prefixedLocation =>
+      prefixedLocationWhenPossible(loc, loc.withoutAnchor);
 
   String get qualifiedName => location;
 

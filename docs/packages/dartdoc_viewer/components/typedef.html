@@ -16,7 +16,8 @@
       </div>
 
       <p class="panel-title">typedef
-        <a href="{{prefixedLocation}}">{{item.type.simpleType}}</a>
+        <a href="{{prefixedLocationWhenPossible(item.type.location)}}"
+            on-click="{{rerouteLink}}">{{item.type.simpleType}}</a>
         {{item.name}}
         <dartdoc-parameter parameters="{{item.parameters}}"></dartdoc-parameter>
       </p>
@@ -26,5 +27,5 @@
     <div is="dartdoc-comment" item="{{item}}"></div>
   </template>
 
-  <script type="application/dart;component=1" src="typedef.dart"></script>
+  <script type="application/dart" src="typedef.dart"></script>
 </polymer-element>

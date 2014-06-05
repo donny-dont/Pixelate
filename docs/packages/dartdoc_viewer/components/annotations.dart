@@ -22,7 +22,8 @@ class AnnotationElement extends PolymerElement with ChangeNotifier  {
     var out = new StringBuffer();
     for (var annotation in annotations.annotations) {
       if (annotation.link.isDocumented) {
-        out.write('<a href="#${annotation.link.location}">'
+        out.write('<a href="${annotation.link.prefixedLocation}"'
+            ' on-click="{{routeLink}}>'
             '${annotation.shortName}</a>');
       } else {
         out.write(annotation.link.simpleType);

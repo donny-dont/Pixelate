@@ -7,15 +7,16 @@ library viewer;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html' show Element, querySelector, window, ScrollAlignment,
-    Event, AnchorElement;
+    Event, AnchorElement, document;
 
 
 import 'package:polymer/polymer.dart';
 import 'package:dartdoc_viewer/data.dart';
 import 'package:dartdoc_viewer/item.dart';
 import 'package:dartdoc_viewer/location.dart';
-import 'package:dartdoc_viewer/read_yaml.dart';
+import 'package:dartdoc_viewer/read_json.dart';
 import 'package:dartdoc_viewer/search.dart';
+import 'package:dartdoc_viewer/shared.dart';
 
 import 'analytics.dart' as analytics;
 import 'shared.dart';
@@ -71,6 +72,12 @@ class Viewer extends ChangeNotifier {
     if (_currentPage == newPage) return;
 
     _currentPage = notifyPropertyChange(#currentPage, _currentPage, newPage);
+
+    if (dartdocMain.sdkVersionString == null) {
+      retrieveFileContents('${docsPathNoVersionNum}latest.txt').then((value) {
+        dartdocMain.sdkVersionString = value;
+      }).catchError((_) => null);
+    }
     _updateLibraries();
   }
 
@@ -101,29 +108,25 @@ class Viewer extends ChangeNotifier {
   /// This will be empty if we simply want to select the library or class.
   String get activeMember => _hash;
 
-  /// This value is true when all the generated docs are for a single package.
-  /// In that case we do not display the package name (in the breadcrumbs for
-  /// example) since it is the same throughout.
-  bool viewingSinglePackage = false;
+  /// True if SDK links should redirect to the original api.dartlang.org site.
+  final bool redirectToDartlang;
 
   // Private constructor for singleton instantiation.
-  Viewer() {
+  Viewer({bool redirectToDartlang: true})
+      : redirectToDartlang = redirectToDartlang {
     var manifest = retrieveFileContents(sourcePath);
     var libraryFuture = manifest.then((response) {
       var libraries = JSON.decode(response);
-      isYaml = libraries['filetype'] == 'yaml';
       homePage = new Home(libraries);
       var startPageName = libraries['start-page'];
       startPage = startPageName == null ? homePage :
           homePage.memberNamed(startPageName, orElse: () => homePage);
-
-      viewingSinglePackage = (libraries['libraries'].map(
-          (e) => e['packageName']).toSet()..remove('')).length == 1;
+      dartdocMain.sdkVersionString = libraries['sdkVersion'];
     });
-    var indexFuture = retrieveFileContents('docs/index.json').then(
+    var indexFuture = retrieveFileContents('${docsPath}index.json').then(
         (String json) {
-            searchIndex.map = JSON.decode(json);
-         });
+          searchIndex.map = JSON.decode(json);
+        });
 
     Future.wait([libraryFuture, indexFuture]).then((_) {
       _finishedCompleter.complete();
@@ -216,28 +219,23 @@ class Viewer extends ChangeNotifier {
   }
 
   /// Updates [currentPage] to be [page].
-  Future _updatePage(Item page, DocsLocation location) {
+  Future _updatePage(Item page, DocsLocation location,
+                     [bool shouldPush = true]) {
     var replacement = _pageAndLocationFor(page, location);
     var newPage = replacement.first;
     var newLocation = replacement.last;
     if (page != newPage || location != newLocation) {
-      return handleLink(_replaceLocation(newLocation));
+      return handleLink(_replaceLocation(newLocation), shouldPush);
     }
 
     // Avoid reloading the page if it isn't necessary.
     if (page != null && page != currentPage) {
       var main = window.document.querySelector("#dartdoc-main");
-      try {
-        // TODO(alanknight): Element is sometimes not getting upgraded
-        // before this gets called so we get the method not existing in JS.
-        // Suppress the error. dartbug.com/18380
-        main.hideOrShowNavigation(hide: true);
-      } on Error {
-        print("Catching and ignoring an error on hideOrShowNavigation");
-      }
+      main.hideOrShowNavigation(hide: true);
       currentPage = page;
     }
     _hash = location.anchorPlus;
+    if (useHistory) _replaceLocation(location, shouldPush);
     _tracker.track(window.location.href);
     _scrollScreen(location.anchorPlus);
     return new Future.value(true);
@@ -254,29 +252,35 @@ class Viewer extends ChangeNotifier {
   }
 
   /// Replace the window location with [location]
-  String _replaceLocation(DocsLocation location) {
+  String _replaceLocation(DocsLocation location, [bool shouldPush = true]) {
     var newUri = location.withAnchor;
     var encoded = Uri.encodeFull(newUri);
-    window.location.replace(locationPrefixed(encoded));
+    var prefixed = locationPrefixed(newUri);
+    if (shouldPush && useHistory) {
+      window.history.pushState(null, "", prefixed);
+    } else if (!useHistory) {
+      window.location.replace(prefixed);
+    }
     return encoded;
   }
 
   /// Loads the [libraryName] [Library] and [className] [Class] if necessary
   /// and updates the current page to the member described by [location]
   /// once the correct member is found and loaded.
-  Future _loadAndUpdatePage(DocsLocation location) {
+  Future _loadAndUpdatePage(DocsLocation location, [bool shouldPush = true]) {
     // If it's loaded, it will be in the index.
     var destination = pageIndex[location.withoutAnchor];
     if (destination == null) {
       var newLocation = _rewriteLocation(location);
       if (newLocation != location) {
-        return handleLink(_replaceLocation(newLocation));
+        return handleLink(_replaceLocation(newLocation), useHistory);
       } else {
-        return getItem(location).then((items) =>
-            _updatePage(location.itemFromList(items.toList()), location));
+        return getItem(location).then((items) => _updatePage(
+            location.itemFromList(items.toList()), location, shouldPush));
       }
     } else {
-      return destination.load().then((_) => _updatePage(destination, location));
+      return destination.load().then((_) =>
+          _updatePage(destination, location, shouldPush));
     }
   }
 
@@ -347,27 +351,39 @@ class Viewer extends ChangeNotifier {
   /// [currentPage] is updated and state is not pushed to the history api.
   /// Returns a [Future] to determine if a link was found or not.
   /// [location] is a [String] path to the location (either a qualified name
-  /// or a url path).
-  Future handleLink(String uri) {
+  /// or a url path).  The [shouldPush] parameter tells us if we should do
+  /// a pushState of the navigation. Normally we do, but if this was a
+  /// result of navigating using the back/forward buttons we shouldn't.
+  Future handleLink(String uri, [bool shouldPush = true]) {
     // Links are the hash part of the URI without the leading #.
     // Valid forms for links are
-    // home - the global home page
-    // library.memberName.subMember@anchor
+    // [version~]home - the global home page, where version is the version of
+    //    the docs we are looking at.
+    // [version~]library.memberName.subMember@anchor
     // where @anchor is optional and library can be any of
     // dart:library, library-foo, package-foo/library-bar
     // So we need an unambiguous form.
-    // [package/]libraryWithDashes[.class.method]@anchor
+    // [version~][package/]libraryWithDashes[.class.method]@anchor
+
+    if (uri.contains(VERSION_NUM_SEPARATOR)) {
+      var deprefixedUri = locationDeprefixed(uri);
+      dartdocMain.hostDocsVersion = deprefixedUri.substring(
+          0, deprefixedUri.indexOf(VERSION_NUM_SEPARATOR));
+      uri = deprefixedUri.substring(deprefixedUri.indexOf(
+          VERSION_NUM_SEPARATOR) + VERSION_NUM_SEPARATOR.length);
+    }
 
     // We will tolerate colons in the location instead of dashes, though
     var decoded = Uri.decodeFull(uri);
     var location = new DocsLocation(decoded);
 
     if (location.libraryName == 'home') {
-      _updatePage(homePage, location);
+      _updatePage(homePage, location, shouldPush);
       return new Future.value(true);
     }
     showLoadIndicator();
-    return _loadAndUpdatePage(location)..whenComplete(hideLoadIndicator);
+    return _loadAndUpdatePage(location, shouldPush)
+        ..whenComplete(hideLoadIndicator);
     // TODO(alanknight) : This is now letting the history automatically
     // update, even for non-found items. Is that an issue?
   }

@@ -140,9 +140,9 @@ class ClassElement extends MemberElement {
     });
   }
 
-  AnchorElement makeLink(cls, {bool hidden : false}) =>
-    new AnchorElement()
-      ..href = "#${cls.location}"
+  AnchorElement makeLink(cls, {bool hidden : false}) => new AnchorElement()
+      ..href = "${cls.prefixedLocation}"
+      ..onClick.listen((event) => rerouteLink(event, null, event.target))
       ..id = 'subclass-hidden'
       ..classes = (hidden ? ['hidden'] : [])
       ..text = cls.simpleType;

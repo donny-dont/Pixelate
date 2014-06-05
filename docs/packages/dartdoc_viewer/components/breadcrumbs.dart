@@ -40,14 +40,6 @@ class Breadcrumbs extends PolymerElement with ChangeNotifier  {
         breadcrumbs.add(p);
       }
       breadcrumbs = breadcrumbs.reversed.toList();
-      if (breadcrumbs.isNotEmpty) {
-        lastCrumb = breadcrumbs.removeLast();
-        if (breadcrumbs.isNotEmpty && viewer.viewingSinglePackage) {
-          // If the whole site of docs is for a package, no need to display the
-          // package name in the breadcrumbs.
-          breadcrumbs.removeAt(0);
-        }
-      }
     }
 
     // Fire an event to tell our parent that we updated, in case it wants to

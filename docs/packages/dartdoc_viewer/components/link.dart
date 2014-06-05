@@ -9,6 +9,7 @@ import 'package:dartdoc_viewer/item.dart';
 import 'package:dartdoc_viewer/search.dart' show searchIndex;
 import 'package:polymer/polymer.dart';
 import 'package:dartdoc_viewer/location.dart';
+import 'package:dartdoc_viewer/member.dart';
 
 // TODO(jmesserly): just extend HtmlElement?
 @CustomTag("dartdoc-link")
@@ -29,10 +30,16 @@ class LinkElement extends PolymerElement with ChangeNotifier  {
     Element child;
     final location = type.loc.withoutAnchor;
     if (searchIndex.map.containsKey(location)) {
-      child = new AnchorElement()..href = locationPrefixed(type.loc.withAnchor);
+      child = new AnchorElement()
+        ..href = locationPrefixed(type.loc.withAnchor)
+        ..onClick.listen((event) => rerouteLink(event, null, event.target));
     } else {
       child = new Element.tag('i');
     }
     this.append(child..text = type.simpleType);
   }
+
+  /// This is called from the template, so needs to be available
+  /// as an instance method.
+  void rerouteLink(event, detail, target) => routeLink(event, detail, target);
 }

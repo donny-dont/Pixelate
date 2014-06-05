@@ -2,15 +2,15 @@
   <template>
     <ul class="nav navbar-nav">
       <template repeat="{{breadcrumbs}}">
-        <li><a class="btn-link" href="{{prefixedLinkHref}}">
-          {{decoratedName}}</a></li>
+        <li><a class="btn-link" on-click="{{rerouteLink}}"
+             href="{{prefixedLinkHref}}">{{breadcrumbName}}</a></li>
       </template>
       <template if="{{lastCrumb}}">
         <li class="active">
-          <a class="btn-link">{{lastCrumb.decoratedName}}</a>
+          <a class="btn-link">{{lastCrumb.breadcrumbName}}</a>
         </li>
       </template>
     </ul>
   </template>
-  <script type="application/dart;component=1" src="breadcrumbs.dart"></script>
+  <script type="application/dart" src="breadcrumbs.dart"></script>
 </polymer-element>

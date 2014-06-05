@@ -9,6 +9,8 @@ import 'package:polymer/polymer.dart';
 import 'package:polymer/src/build/utils.dart' show toCamelCase;
 import 'package:dartdoc_viewer/app.dart' show viewer, defaultSyntax;
 import 'package:dartdoc_viewer/shared.dart';
+import 'package:dartdoc_viewer/location.dart';
+import 'package:dartdoc_viewer/member.dart';
 
 /// An element in a page's minimap displayed on the right of the page.
 @CustomTag("dartdoc-minimap")
@@ -38,8 +40,8 @@ class MinimapElement extends PolymerElement with ChangeNotifier  {
   void itemChanged() {
     if (category == null || item == null) return;
 
-    categoryLink =
-        '${item.prefixedLinkHref}@${category.name.replaceAll(" ", "-")}';
+    categoryLink = '${item.prefixedLinkHref}$ANCHOR_STRING'
+        '${category.name.replaceAll(" ", "-")}';
   }
 
   void categoryChanged() {
@@ -51,4 +53,7 @@ class MinimapElement extends PolymerElement with ChangeNotifier  {
     itemsToShow =
         new ObservableList.from(category.filteredContent(viewer.filter));
   }
+  /// This is called from the template, so needs to be available
+  /// as an instance method.
+  void rerouteLink(event, detail, target) => routeLink(event, detail, target);
 }

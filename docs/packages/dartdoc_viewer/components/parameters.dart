@@ -49,7 +49,8 @@ class ParameterElement extends DartdocElement with ChangeNotifier  {
       outerSpan.appendText(optionalOpeningDelimiter);
     }
     for (var element in elements) {
-      // TODO(kevmoo): Fix annotation rendering for paramaters - Issue 18133
+      // TODO(kevmoo): Fix annotation rendering for parameters - Issue 18133
+
       // Skip dynamic as an outer parameter type (but not as generic)
       var space = '';
       if (!element.type.isDynamic) {

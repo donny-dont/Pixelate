@@ -10,15 +10,16 @@
     <template if="{{item.isConstant}}">const</template>
     <template if="{{item.isSetter}}">
       set
-      <b><a id="{{idName}}" href="{{item.prefixedAnchorHref}}"
-          >{{name}}</a></b><dartdoc-parameter 
+      <b><a id="{{idName}}" on-click="{{rerouteLink}}"
+          href="{{item.prefixedAnchorHref}}">{{name}}</a></b><dartdoc-parameter
           parameters="{{item.parameters}}"></dartdoc-parameter>
     </template>
     <template if="{{isNotSetter}}">
       <dartdoc-type type="{{item.type}}"></dartdoc-type>
       {{getter}}
-      <b><a id="{{idName}}" href="{{item.prefixedAnchorHref}}">{{name}}</a></b>
+      <b><a id="{{idName}}" on-click="{{rerouteLink}}"
+          href="{{item.prefixedAnchorHref}}">{{name}}</a></b>
     </template>
   </template>
-  <script type="application/dart;component=1" src="variable-heading.dart"></script>
+  <script type="application/dart" src="variable-heading.dart"></script>
 </polymer-element>

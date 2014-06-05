@@ -55,25 +55,7 @@ abstract class DartdocElement extends PolymerElement {
 
   Viewer get viewer => app.viewer;
 
-  void enteredView() {
-    super.enteredView();
-    // Handle clicks and redirect.
-    onClick.listen(handleClick);
-  }
-
-  String get _pathname => window.location.pathname;
-
-  void handleClick(Event e) {
-    if (e.target is AnchorElement) {
-      var anchor = e.target;
-      if (anchor.host == window.location.host
-          && anchor.pathname == _pathname && !(e as MouseEvent).ctrlKey) {
-        e.preventDefault();
-        var location = anchor.hash.substring(1, anchor.hash.length);
-        viewer.handleLink(location);
-      }
-    }
-  }
+  rerouteLink(event, detail, target) => routeLink(event, detail, target);
 }
 
 //// This is a web component to be extended by all Dart members with comments.
@@ -146,5 +128,19 @@ abstract class InheritedElement extends MemberElement with ChangeNotifier  {
         (!hasInheritedComment || viewer.isInherited);
     shouldShowCommentFrom = item.hasComment &&
         hasInheritedComment && viewer.isInherited;
+  }
+}
+
+/// The user has clicked on a link. If it's one of ours, just update
+/// the current item and page and don't navigate.
+void routeLink(Event e, detail, target) {
+  if (!useHistory) return; // No-op.
+  if (target is ! AnchorElement) return;
+  if (target.host == window.location.host
+      && !(e as MouseEvent).ctrlKey) {
+    e.preventDefault();
+    var newUri = target.href;
+    var location = new DocsLocation(newUri);
+    app.viewer.handleLink(location.withAnchor, useHistory);
   }
 }

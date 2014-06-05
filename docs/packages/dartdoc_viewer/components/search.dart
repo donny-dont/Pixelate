@@ -10,6 +10,7 @@ import 'package:dartdoc_viewer/app.dart';
 import 'package:dartdoc_viewer/shared.dart';
 import 'package:dartdoc_viewer/search.dart';
 import 'package:dartdoc_viewer/location.dart';
+import 'package:dartdoc_viewer/member.dart';
 import 'package:polymer/polymer.dart';
 
 /**
@@ -96,9 +97,11 @@ class Search extends PolymerElement with ChangeNotifier  {
     if (refId == null || refId.isEmpty) return;
     var newLocation = new DocsLocation(refId).withAnchor;
     var encoded = Uri.encodeFull(newLocation);
-    viewer.handleLink(encoded);
-    window.history.pushState(locationPrefixed(encoded),
-        viewer.title, locationPrefixed(encoded));
+    viewer.handleLink(encoded, useHistory);
+    if (useHistory) {
+      window.history.pushState(locationPrefixed(encoded),
+          viewer.title, locationPrefixed(encoded));
+    }
     searchQuery = "";
     results.clear();
   }
@@ -157,4 +160,8 @@ class Search extends PolymerElement with ChangeNotifier  {
   }
 
   InputElement get searchBox => shadowRoot.querySelector('#q');
+
+  /// This is called from the template, so needs to be available
+  /// as an instance method.
+  void rerouteLink(event, detail, target) => routeLink(event, detail, target);
 }

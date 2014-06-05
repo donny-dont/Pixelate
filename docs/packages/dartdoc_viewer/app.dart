@@ -24,8 +24,7 @@ import 'viewer.dart';
 import 'package:dartdoc_viewer/location.dart';
 
 /// The [Viewer] object being displayed.
-final Viewer viewer = new Viewer();
-
+final Viewer viewer = new Viewer(redirectToDartlang: false);
 
 /// The path of this app on startup.
 String _pathname;
@@ -33,59 +32,53 @@ String _pathname;
 /// The latest url reached by a popState event.
 String location;
 
-/// The google crawler will try to translate #! anchors into query parameters
-/// with an _escaped_fragment_ in front of them. Assume that's the only query
-/// parameter.
-const _ESCAPED_FRAGMENT = '?_escaped_fragment_=';
-
-/// From the URL, determine what location it corresponds to. We will
-/// accept hashes that start with [AJAX_LOCATION_PREFIX],
-/// [BASIC_LOCATION_PREFIX], and [_ESCAPED_FRAGMENT].
-String findLocation() {
-  var hash = window.location.hash;
-  var query = window.location.search;
-  if (query.startsWith(_ESCAPED_FRAGMENT)) {
-    return query.substring(_ESCAPED_FRAGMENT.length, query.length);
-  } else {
-    return locationDeprefixed(hash);
-  }
-}
-
 /// Listens for browser navigation and acts accordingly.
 void startHistory() {
-  location = findLocation();
-  windowLocation.changes.listen(navigate);
+  // Allow for the location to be in the hash, in the old style.
+  var hashLocation = parseFragmentLocation();
+  if (hashLocation != null && !hashLocation.isEmpty || !useHistory) {
+    location = hashLocation;
+  } else {
+    location = window.location.pathname + window.location.hash;
+  }
+  window.onPopState.listen(navigate);
+}
+
+/// Read the old-style URL fragment.
+String parseFragmentLocation() {
+  var hash = locationDeprefixed(window.location.hash);
+  return hash.startsWith(ID_STRING) ? '' : hash;
 }
 
 void navigate(event) {
   // TODO(alanknight): Should we be URI encoding/decoding this?
-  var newLocation = findLocation();
+  var newLocation = window.location.pathname + window.location.hash;
+  if (!useHistory) newLocation = locationDeprefixed(window.location.hash);
   if (viewer.homePage != null) {
-    viewer.handleLink(newLocation);
+    viewer.handleLink(newLocation, false);
   }
 }
 
 /// Handles browser navigation.
-@initMethod
 void initApp() {
-  window.onResize.listen((event) {
-    viewer.isDesktop = window.innerWidth > DESKTOP_SIZE_BOUNDARY;
-    dartdocMain.collapseSearchAndOptionsIfNeeded();
-    dartdocMain.hideOrShowNavigation();
-  });
-
   Polymer.onReady.then((_) {
-    dartdocMain.hideOrShowNavigation();
-  });
+    window.onResize.listen((event) {
+      viewer.isDesktop = window.innerWidth > DESKTOP_SIZE_BOUNDARY;
+      dartdocMain.collapseSearchAndOptionsIfNeeded();
+      dartdocMain.hideOrShowNavigation();
+    });
 
-  startHistory();
-  // If a user navigates to a page other than the homepage, the viewer
-  // must first load fully before navigating to the specified page.
-  viewer.finished.then((_) {
-    if (location != null && location != '') {
-      viewer.handleLink(location);
-    } else {
-      viewer.currentPage = viewer.startPage;
-    }
+    dartdocMain.hideOrShowNavigation();
+
+    startHistory();
+    // If a user navigates to a page other than the homepage, the viewer
+    // must first load fully before navigating to the specified page.
+    viewer.finished.then((_) {
+      if (location != null && location != '') {
+        viewer.handleLink(location, useHistory);
+      } else {
+        viewer.currentPage = viewer.startPage;
+      }
+    });
   });
 }

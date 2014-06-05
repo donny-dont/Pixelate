@@ -5,7 +5,8 @@
   <template>
     <ul class="nav nav-pills nav-stacked">
       <li id="nameGoesHere">
-        <a href="{{item.prefixedLinkHref}}" id="{{idName}}">
+        <a href="{{item.prefixedLinkHref}}" on-click="{{rerouteLink}}"
+            id="{{idName}}">
             {{item.decoratedName}}</a>
         <template if="{{item.previewComment}}">
           <hr><div is="dartdoc-comment" preview item="{{item}}"></div>
@@ -13,5 +14,5 @@
       </li>
     </ul>
   </template>
-  <script type="application/dart;component=1" src="item.dart"></script>
+  <script type="application/dart" src="item.dart"></script>
 </polymer-element>

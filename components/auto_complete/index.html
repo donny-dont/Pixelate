@@ -1,0 +1,540 @@
+<!DOCTYPE html><html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelate Components</title>
+    <!-- Setup Polymer -->
+    
+
+    <!-- Import the styles -->
+    
+    
+    
+
+    <!-- Import the elements -->
+    
+    
+    
+
+    <!-- Initialize Polymer -->
+    
+
+    <!-- Check for web platform features -->
+    
+
+    <!-- Setup syntax highlighting -->
+    
+    
+    
+  </head>
+  <body>
+
+<!--
+These two files are from the Polymer project:
+https://github.com/Polymer/platform/ and https://github.com/Polymer/polymer/.
+
+You can replace platform.js and polymer.html with different versions if desired.
+-->
+<!-- minified for deployment: -->
+
+
+
+<!-- unminfied for debugging:
+<script src="../../packages/web_components/platform.concat.js"></script>
+<script src="src/js/polymer/polymer.concat.js"></script>
+<link rel="import" href="src/js/polymer/polymer-body.html">
+-->
+
+<!-- Teach dart2js about Shadow DOM polyfill objects. -->
+
+<script src="../../packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="../../packages/web_components/platform.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+
+<script src="../../packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element><script src="../../packages/web_components/dart_support.js"></script><style></style><style>@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Montserrat-Regular"), url(../../packages/pixelate_flat/fonts/montserrat-webfont.woff) format("woff"); }
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url(../../packages/pixelate_flat/fonts/fontawesome-webfont.ttf) format("truetype"); }
+
+body {
+  margin: 0px;
+  color: white;
+  background-color: #232323;
+  font-family: 'Montserrat', sans-serif; }
+
+*, *:before, *:after {
+  user-select: none;
+  -webkit-user-select: none; }
+</style><style>html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.navigation-area {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: black;
+  border-bottom: 1px solid #4E4E4E;
+}
+
+.navigation {
+  margin: 0px auto;
+  width: 900px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.navigation > div {
+  margin: 0 10px;
+}
+
+.link {
+  padding: 0px 5px;
+}
+
+.link:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.link > a:link, a:hover, a:visited, a:active {
+  text-decoration: none;
+  color: white;
+}
+
+.header-area {
+  background-image: url(../../images/pixelated.png);
+}
+
+.header {
+  height: 200px;
+  padding-top: 66px;
+  width: 900px;
+  margin: 0 auto;
+}
+
+.header.large {
+  height: 400px;
+}
+
+.header > h1 {
+  margin: 0;
+  font-size: 48px;
+}
+
+.header > h2 {
+  margin-top: 16px;
+  font-size: 32px;
+}
+
+.content {
+  width: 900px;
+  margin: 16px auto 0 auto;
+}
+
+.component-selection {
+  margin-top: 39px;
+}
+
+.component-selection > h2 {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0px;
+}
+
+.component-selection > .link {
+  padding: 10px 6px;
+}
+
+.documentation {
+  width: 100%;
+  padding: 10px;
+}
+
+.documentation > h2 {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.component-name {
+  font-size: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.components {
+  width: 300px;
+}
+
+.example {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.example > * {
+  padding: 10px;
+  margin: 0px;
+}
+
+.example > pre {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: black;
+  overflow-x: scroll;
+}
+
+.example > pre::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+  height: 6px; }
+.example > pre::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  background-color: rgba(255, 255, 255, 0.2); }
+.example > pre::-webkit-scrollbar-track {
+  background-color: transparent; }
+.example > pre::-webkit-scrollbar-corner {
+  background-color: rgba(255, 255, 255, 0.3); }
+
+code {
+  margin: 0px !important;
+}
+
+.footer {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: black;
+}
+
+.external, .external:visited, .external:link {
+  text-decoration: none;
+  color: #8c5d79; }
+  .external:hover {
+    color: #a97d97; }
+  .external:active {
+    color: #734d64; }
+
+.footer > p {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}</style><polymer-element name="px-flex-panel" attributes="orientation,wrap">
+  <template>
+    <style>
+      :host {
+        display: flex !important;
+        border-box: box-sizing;
+      }
+
+      :host > * {
+        border-box: box-sizing;
+      }
+    </style>
+    <content></content>
+  </template>
+  
+</polymer-element>
+
+
+
+
+
+
+
+
+<polymer-element name="px-list-view-item" on-click="{{selection}}">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box: box-sizing;
+      }
+    </style>
+    <content></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-list-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box: box-sizing;
+      }
+    </style>
+    <content></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="px-auto-complete-source">
+  <template></template>
+  
+</polymer-element>
+<polymer-element name="px-auto-complete">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-box; box-sizing;
+      }
+
+      #suggestions {
+        background: white;
+        color: black;
+      }
+      
+      px-list-view .highlighted {
+        background: gray;
+      }
+    </style>
+    <px-flex-panel>
+      <input type="text" placeholder="{{placeholderText}}">
+      <div id="suggestions" style="flex:1">
+        <px-list-view>
+          <template repeat="{{ suggestion in suggestions }}">
+            <px-list-view-item>{{ suggestion }}</px-list-view-item>
+          </template>
+        </px-list-view>
+      </div>
+      <content></content>
+    </px-flex-panel>
+  </template>
+  
+</polymer-element>
+<script src="../../feature.check.js"></script><style>/* Base16 Atelier Lakeside Dark - Theme */
+/* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/lakeside/) */
+/* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) */
+/* https://github.com/jmblog/color-themes-for-highlightjs */
+
+/* Atelier Lakeside Dark Comment */
+.hljs-comment,
+.hljs-title {
+  color: #7195a8;
+}
+
+/* Atelier Lakeside Dark Red */
+.hljs-variable,
+.hljs-tag,
+.hljs-regexp,
+.ruby .hljs-constant,
+.xml .hljs-tag .hljs-title,
+.xml .hljs-pi,
+.xml .hljs-doctype,
+.html .hljs-doctype,
+.css .hljs-id,
+.css .hljs-class,
+.css .hljs-pseudo {
+  color: #897aa9;
+}
+
+/* Atelier Lakeside Dark Orange */
+.hljs-number,
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-built_in,
+.hljs-literal,
+.hljs-params,
+.hljs-constant {
+  color: #935c25;
+}
+
+/* Atelier Lakeside Dark Yellow */
+.hljs-ruby .hljs-class .hljs-title,
+.css .hljs-rules .hljs-attribute {
+  color: #de8650;
+}
+
+/* Atelier Lakeside Dark Green */
+.hljs-string,
+.hljs-value,
+.hljs-inheritance,
+.hljs-header,
+.ruby .hljs-symbol,
+.xml .hljs-cdata {
+  color: #8c5d79;
+}
+
+/* Atelier Lakeside Dark Aqua */
+.css .hljs-hexcolor {
+  color: #2d8f6f;
+}
+
+/* Atelier Lakeside Dark Blue */
+.hljs-function,
+.python .hljs-decorator,
+.python .hljs-title,
+.ruby .hljs-function .hljs-title,
+.ruby .hljs-title .hljs-keyword,
+.perl .hljs-sub,
+.javascript .hljs-title,
+.coffeescript .hljs-title {
+  color: #257fad;
+}
+
+/* Atelier Lakeside Dark Purple */
+.hljs-keyword,
+.hljs-attribute,
+.javascript .hljs-function {
+  color: #e56c69;
+}
+
+.hljs {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.5em;
+}
+
+.coffeescript .javascript,
+.javascript .xml,
+.tex .hljs-formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .hljs-cdata {
+  opacity: 0.5;
+}</style><script src="../../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script>
+    <px-flex-panel orientation="vertical" style="min-height: 100%;">
+      <div class="header-area">
+  <div class="header">
+    <h1>Components</h1>
+    <h2>A set of reusable components for web applications</h2>
+  </div>
+</div>
+<px-flex-panel class="content" orientation="horizontal" style="flex:1">
+  <div class="documentation" style="flex: 1;">
+    <div class="component-name">&lt;px-auto-complete&gt;</div>
+    <div class="overview"><p>An auto complete form control.</p></div>
+    <h2>Examples</h2>
+    <p>
+  An auto complete that is populated by a static list.
+</p>
+    <div class="example">
+      <px-auto-complete>
+  <px-auto-complete-source>
+    <ul>
+      <li>One</li>
+      <li>Two</li>
+      <li>Three</li>
+    </ul>
+  </px-auto-complete-source>
+</px-auto-complete>
+      <pre class="code"><code>&lt;px-auto-complete&gt;
+  &lt;px-auto-complete-source&gt;
+    &lt;ul&gt;
+      &lt;li&gt;One&lt;/li&gt;
+      &lt;li&gt;Two&lt;/li&gt;
+      &lt;li&gt;Three&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/px-auto-complete-source&gt;
+&lt;/px-auto-complete&gt;</code></pre>
+    </div>
+    <p>
+  An auto complete element that is populated from a json endpoint.
+  Try "Polymer" or "JavaScript".
+</p>
+    <div class="example">
+      <px-auto-complete>
+  <px-auto-complete-source url="../../data/auto_complete.json">
+  </px-auto-complete-source>
+</px-auto-complete>
+      <pre class="code"><code>&lt;px-auto-complete&gt;
+  &lt;px-auto-complete-source
+    url="../../data/auto_complete.json"&gt;
+  &lt;/px-auto-complete-source&gt;
+&lt;/px-auto-complete&gt;</code></pre>
+    </div>
+  </div>
+  <div class="component-selection">
+    <h2>Layout</h2>
+      <div class="link">
+        <a href="../../components/flex_panel/index.html">FlexPanel</a>
+      </div>
+      <div class="link">
+        <a href="../../components/grid_panel/index.html">GridPanel</a>
+      </div>
+    <h2>Navigation</h2>
+      <div class="link">
+        <a href="../../components/accordion/index.html">Accordion</a>
+      </div>
+      <div class="link">
+        <a href="../../components/expander/index.html">Expander</a>
+      </div>
+      <div class="link">
+        <a href="../../components/scroll_viewer/index.html">ScrollViewer</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tab/index.html">Tab</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tree_view/index.html">TreeView</a>
+      </div>
+    <h2>Controls</h2>
+      <div class="link">
+        <a href="../../components/button/index.html">Button</a>
+      </div>
+      <div class="link">
+        <a href="../../components/list_view/index.html">ListView</a>
+      </div>
+      <div class="link">
+        <a href="../../components/progress_bar/index.html">ProgressBar</a>
+      </div>
+      <div class="link">
+        <a href="../../components/tooltip/index.html">Tooltip</a>
+      </div>
+      <div class="link">
+        <a href="../../components/auto_complete/index.html">AutoComplete</a>
+      </div>
+  </div>
+</px-flex-panel>
+      <div class="footer">
+        <px-flex-panel orientation="horizontal">
+        </px-flex-panel>
+        <p>Code licensed under a <a class="external" href="http://opensource.org/licenses/Zlib">zlib license</a>. Documentation under <a class="external" href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a></p>
+      </div>
+    </px-flex-panel>
+
+    <div class="navigation-area">
+      <px-flex-panel orientation="horizontal" class="navigation">
+        <div class="link"><a href="../../index.html">Pixelate</a></div>
+        <div class="link"><a href="../../getting_started/index.html">Getting started</a></div>
+        <div class="link"><a href="../../components/flex_panel/index.html">Components</a></div>
+        <div class="link"><a href="../../docs/#pixelate/">Documentation</a></div>
+      </px-flex-panel>
+    </div>
+  
+<script src="index.html_bootstrap.dart.js"></script></body></html>
