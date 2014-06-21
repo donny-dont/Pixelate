@@ -1,0 +1,10 @@
+# Copy this file to config.yaml
+# config.yaml is ignored in .gitignore because this file should be unique to the
+# website deployed (we don't want to check in this file and get analytics for
+# everyone that uses the dartdoc-viewer framework for their website).
+#
+# Change the below keys to correspond with the values for Google Analytics and
+# Google Web Master Tools
+trackingCode: UA-00000000-0
+trackingDomain: example.com
+siteVerification: google0000000000000000

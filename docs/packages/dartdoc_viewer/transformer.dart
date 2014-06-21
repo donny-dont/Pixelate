@@ -19,7 +19,7 @@ class GoogleWebmasterVerifier extends Transformer {
 
   Future<bool> isPrimary(assetOrId) {
     var id = assetOrId is Asset ? assetOrId.id : assetOrId;
-    var contains = id.path.startsWith('asset/config.yaml');
+    var contains = id.path.startsWith(_CONFIG_PATH);
     return new Future.value(contains);
   }
 
@@ -70,14 +70,13 @@ class AnalyticsTransformer extends Transformer {
     var configAssetId = new AssetId(_PACKAGE_NAME, _CONFIG_PATH);
 
     return transform.getInput(configAssetId)
-        .catchError((error, stack) => null)
+      .catchError((error, stack) => transform.logger.warning(error.toString()))
         .then((configAsset) {
       if (configAsset == null) return null;
       return configAsset.readAsString();
     }).then((configContent) {
       _Config config = null;
-
-      if(configContent != null) {
+      if (configContent != null) {
         config = new _Config.fromContent(configContent);
       }
 
@@ -137,7 +136,7 @@ class _Config {
   }
 }
 
-const _CONFIG_PATH = 'asset/config.yaml';
+const _CONFIG_PATH = 'lib/config/config.yaml';
 const _PACKAGE_NAME = 'dartdoc_viewer';
 const _INDEX_FILE_PATH = 'web/index.html';
 const _ANALYTICS_PLACE_HOLDER = '<!-- Google Analytics -->';
