@@ -74,7 +74,7 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
       : super.created()
   {
     // Initialize the expandable mixin
-    var shadowRoot = getShadowRoot(customTagName);
+    var shadowRoot = shadowRoots[customTagName];
 
     _content = shadowRoot.querySelector('.expandable');
     _view = shadowRoot.querySelector('.view');
@@ -158,7 +158,7 @@ class TreeViewNode extends PolymerElement with Expandable, Customizable, Selecta
 
   /// Determines if the icon should be displayed.
   void _layoutIcon() {
-    var icon = getShadowRoot(customTagName).querySelector('.icon');
+    var icon = shadowRoots[customTagName].querySelector('.icon');
     var childNodes = querySelectorAll(customTagName);
 
     icon.style.visibility = (childNodes.length > 0) ? 'visible' : 'hidden';

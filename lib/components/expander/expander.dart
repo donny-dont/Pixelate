@@ -78,7 +78,7 @@ class Expander extends PolymerElement with Expandable, Customizable {
       : super.created()
   {
     // Initialize the expandable mixin
-    var shadowRoot = getShadowRoot(customTagName);
+    var shadowRoot = shadowRoots[customTagName];
 
     _content = shadowRoot.querySelector('.expandable');
     _view = shadowRoot.querySelector('.view');

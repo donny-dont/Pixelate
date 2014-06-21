@@ -58,23 +58,23 @@ class AutoComplete extends PolymerElement {
   ///     var instance = new Element.tag(AutoComplete.customTagName);
   AutoComplete.created()
       : super.created();
-  
+
   @override void ready() {
-    var shadowRoot = getShadowRoot(customTagName);
-        
+    var shadowRoot = shadowRoots[customTagName];
+
     // Look for AutoCompleteSource attatched to this object
     for (var child in children) {
       if (child is AutoCompleteSource) {
         _source = child;
       }
     }
-    
+
     // Return if we cannot find a source
     if (_source == null) {
       print("WARNING: No source found for px-auto-complete");
       return;
     }
-    
+
     // Listen for selection events on the list view
     _list = shadowRoot.querySelector("px-list-view") as ListView;
     _list.on[Selectable.selectionChangedEvent].listen((event) {
@@ -82,33 +82,33 @@ class AutoComplete extends PolymerElement {
         handleSelection(_list.selectedItem.selectionElement);
       }
     });
-    
+
     _list.onMouseOver.listen((event) {
       if(event.target is ListViewItem) {
         _list.querySelectorAll("px-list-view-item.${highlightClass}").forEach((el) {
           el.classes.remove(highlightClass);
         });
-        
+
         (event.target as Html.Element).classes.add(highlightClass);
       }
     });
-    
+
     _input = shadowRoot.querySelector('input');
 
     var listener = _input.onInput.listen((event) {
       String value = _input.value;
-      
+
       if (value.isNotEmpty) {
-        lookupInput(_input.value); 
+        lookupInput(_input.value);
       } else {
         close();
       }
     });
-    
+
     var keyListener = _input.onKeyDown.listen((event) {
       Selectable selected = _list.querySelector("px-list-view-item.${highlightClass}") as Selectable;
       var itemIndex = _list.selectableItems.indexOf(selected);
-      
+
       if (event.keyCode == Html.KeyCode.DOWN) {
         if (itemIndex + 1 < _list.selectableItems.length) {
           if (itemIndex != -1) selected.selectionElement.classes.remove(highlightClass);
@@ -131,11 +131,11 @@ class AutoComplete extends PolymerElement {
       }
     });
   }
-  
+
   void close() {
     suggestions.clear();
   }
-  
+
   void handleSelection(Html.Element selectedElement) {
     _input.value = selectedElement.text;
     close();
@@ -143,7 +143,7 @@ class AutoComplete extends PolymerElement {
 
   void lookupInput(String value) {
     value = value.toLowerCase();
-    
+
     // Find union of the two lists
     close();
     suggestions.addAll(_source.data.where((String term) {

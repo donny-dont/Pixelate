@@ -17,13 +17,13 @@ import 'package:pixelate/transformable.dart';
 @CustomTag('px-graph-canvas')
 class GraphCanvas extends PolymerElement with Transformable {
   s.SvgElement svg;
-  
+
   /** The initial document to load on the graph canvas */
   @published String src;
 
   /** The graph canvas id */
   String id = generateUid();
-  
+
   /** The data model of this graph canvas */
   var document;
 
@@ -32,7 +32,7 @@ class GraphCanvas extends PolymerElement with Transformable {
 
   /** List of graph link views */
   Map<String, GraphLinkView> linkViews = new Map<String, GraphLinkView>();
-  
+
   GraphCanvas.created()
     : super.created()
   {
@@ -41,17 +41,17 @@ class GraphCanvas extends PolymerElement with Transformable {
 
   /** The outer content container that holds the SVG and Node dom elements */
   Element containerElement;
-  
+
   /** The element that host the DOM for the nodes */
   Element nodeHostElement;
 
 
   /** Handles the link creation process */
   LinkCreationHandler linkCreationHandler;
-  
+
   @override
-  void enteredView() {
-    super.enteredView();
+  void attached() {
+    super.attached();
     svg = this.shadowRoot.querySelector("#diagram_svg");
     nodeHostElement = this.shadowRoot.querySelector("#diagram_dom");
     containerElement = this;
@@ -59,14 +59,14 @@ class GraphCanvas extends PolymerElement with Transformable {
 
     linkCreationHandler = new LinkCreationHandler(this);
     document = new GraphDocument();
-    
+
     // Load the initial graph document, if specified
     if (src != null && src.length > 0) {
       final serializer = new GraphSerializer();
       serializer.loadFromFile(src, this);
     }
   }
-  
+
   math.Point get scrollOffset => new math.Point(containerElement.scrollLeft, containerElement.scrollTop);
 
   /**
@@ -87,7 +87,7 @@ class GraphCanvas extends PolymerElement with Transformable {
     this.children.add(nodeView);
 
     nodeViews[nodeId] = nodeView;
-    
+
     // listen to node events
     nodeView.onMoved.listen(_updateLinks);
     nodeView.socketViews.values.forEach((GraphSocketView socketView) {
@@ -105,7 +105,7 @@ class GraphCanvas extends PolymerElement with Transformable {
       nodeView.destroy();
     }
   }
-  
+
   /**
    * Creates a link view and model based on the parameters
    *    "linkId"        : String based id of the link
@@ -119,7 +119,7 @@ class GraphCanvas extends PolymerElement with Transformable {
     GraphLink link = document.createLink(linkId, sourceNodeId, sourceSocketId, destNodeId, destSocketId);
     final linkView = new GraphLinkView(link, this);
     linkView.update(nodeViews);
-    
+
     linkViews[linkId] = linkView;
   }
 
@@ -131,37 +131,37 @@ class GraphCanvas extends PolymerElement with Transformable {
       linkView.destroy();
     }
   }
-  
+
   void clear() {
     nodeViews.clear();
     linkViews.clear();
-    
+
     document.clear();
   }
   void _updateLinks(e) {
     // TODO: Optimize by updating only dirty links
     linkViews.values.forEach((GraphLinkView linkView) => linkView.update(nodeViews));
   }
-  
+
   void _onNodeMoved(GraphNodeView nodeView) {
     // Resize the SVG whenever the size of the node container increases
     _updateSVGBounds(); // TODO: Optimize
   }
-  
+
   /** Keeps the SVG element's size in sync with the node DOM container element */
   void _updateSVGBounds() {
     svg.style.width = "${containerElement.scrollWidth}px";
     svg.style.height = "${containerElement.scrollHeight}px";
   }
-  
+
 }
 
 /** Handles the link creation logic */
 class LinkCreationHandler {
   /** Host graph canvas */
   GraphCanvas canvas;
-  
-  /** 
+
+  /**
    * The temporary link view used to display a link from the origin to the cursor
    * Hence, this link would be connected to only the source and the other end
    * follows the mouse cursor while it is being moved to the desitnation node
@@ -170,18 +170,18 @@ class LinkCreationHandler {
 
   /** The socket where the drag initiated from */
   GraphSocketView originSocket;
-  
+
   LinkCreationHandler(this.canvas) {
   }
-  
+
   StreamSubscription<MouseEvent> linkCreationDragStream;
   StreamSubscription<MouseEvent> linkCreationDragStopStream;
-  
+
   /** the point when the drag started */
   Point startDragPoint;
-  
+
   bool dragging = false;
-  
+
   /** Fired when the link creation is initiated */
   void _handleLinkCreationStart(GraphSocketView socketView, MouseEvent e) {
     // Check the constraints of the socket to determine if it can create a link from here
@@ -189,18 +189,18 @@ class LinkCreationHandler {
       // Does not accept outgoing links.  Do not create a link from here
       return;
     }
-    
+
     originSocket = socketView;
-    
+
     // Hook to the window's mouse events
     linkCreationDragStream = window.onMouseMove.listen(_handleLinkCreationDrag);
     linkCreationDragStopStream = window.onMouseUp.listen(_handleLinkCreationEnd);
-    
+
     // Create a new link to draw from the source socket to the cursor position, till the mouse is released
     creationLink = new GraphLinkView(null, canvas);
-    
+
     startDragPoint = new Point(e.page.x, e.page.y);
-    
+
     dragging = true;
   }
   /** Handle the link creation process, while the pointer has not yet reached the destination */
@@ -215,11 +215,11 @@ class LinkCreationHandler {
 
     creationLink.updateFromMetrics(source, sourceDirection, destination, destinationDirection, 0, 0);
   }
-  
-  /** 
+
+  /**
    * Handle the link creation end event.  Either the mouse
    * pointer is on top of another node socket, in which case
-   * a link would be created. Otherwise, the link creation 
+   * a link would be created. Otherwise, the link creation
    * is cancelled
    */
   void _handleLinkCreationEnd(MouseEvent e) {
@@ -227,13 +227,13 @@ class LinkCreationHandler {
       creationLink.destroy();
       creationLink = null;
     }
-    
+
     _cancelGlobalMouseStream();
-    
+
     dragging = false;
   }
 
-  /** cancels the stream subscription to stop listening to global mouse events */ 
+  /** cancels the stream subscription to stop listening to global mouse events */
   void _cancelGlobalMouseStream() {
     if (linkCreationDragStream != null) {
       linkCreationDragStream.cancel();
@@ -244,25 +244,25 @@ class LinkCreationHandler {
       linkCreationDragStopStream = null;
     }
   }
-  
-  
+
+
   /** Cursor was released on a socket. Create a link if necessary */
   void _handleLinkCreationEndOnSocket(GraphSocketView socketView, MouseEvent e) {
     if (!dragging) return;
     dragging = false;
-    
+
     if (creationLink != null) {
       creationLink.destroy();
       creationLink = null;
     }
-  
+
     if (socketView == originSocket) {
       // Source and destination sockets are the same. ignore
       return;
     }
 
     _cancelGlobalMouseStream();
-    
+
     // Check if we can create a link with this socket as the destination
     if (!socketView.socket.canAcceptIncomingLink(originSocket.socket)) {
       // This socket does not allow incoming nodes. Do not create a link

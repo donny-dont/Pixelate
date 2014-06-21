@@ -15,8 +15,8 @@ class AppNode extends GraphNodeView with Observable {
   AppNode.created() : super.created();
 
   @override
-  void enteredView() {
-    super.enteredView();
+  void attached() {
+    super.attached();
     enableDragging("drag_handle");
   }
 }
