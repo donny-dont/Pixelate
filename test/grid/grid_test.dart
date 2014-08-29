@@ -42,7 +42,7 @@ void testSomething() {
 
   testArea.append(grid);
 
-  var timer = new Timer(new Duration(seconds: 60), expectAsync0(() {
+  var timer = new Timer(new Duration(seconds: 60), expectAsync(() {
     expect(1, 1);
   }));
 }

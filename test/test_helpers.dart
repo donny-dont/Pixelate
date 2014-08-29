@@ -28,5 +28,5 @@ void clearTestArea() {
 }
 
 void waitForLayout(void callback()) {
-  new Timer(new Duration(seconds: 1), expectAsync0(callback));
+  new Timer(new Duration(seconds: 1), expectAsync(callback));
 }
