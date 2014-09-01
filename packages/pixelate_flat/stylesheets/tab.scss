@@ -6,57 +6,33 @@
 @import 'fonts/variables';
 @import 'partials/colors';
 @import 'partials/fonts';
-@import 'partials/scrollable';
 @import 'partials/variables';
 
-body /deep/ {
-
-//---------------------------------------------------------------------
-// px-tab
-//---------------------------------------------------------------------
-
-px-tab {
-  &::shadow {
-    .tab {
-      cursor: $cursor-click;
-      padding: $padding-default;
-      transition: $background-color-transition;
-
-      @include vertically-center-text($font-size-larger);
-      @include color-change-interaction($color-square-ui-blue);
-
-      &.selected {
-        background-color: $color-square-ui-blue;
-      }
-    }
-
-    .tabs {
-      &.top {
-        border-bottom: 1px solid $color-square-ui-blue;
-      }
-
-      &.bottom {
-        border-top: 1px solid $color-square-ui-blue;
-      }
-
-      &.left {
-        border-right: 1px solid $color-square-ui-blue;
-      }
-
-      &.right {
-        border-left: 1px solid $color-square-ui-blue;
-      }
-    }
-  }
+px-tab .tabs.top {
+  border-bottom: 1px solid $color-square-ui-blue;
 }
 
-//---------------------------------------------------------------------
-// px-tab-item
-//---------------------------------------------------------------------
-
-px-tab-item.scrollable {
-  overflow: scroll;
-  @include scrollable;
+px-tab .tabs.bottom {
+  border-top: 1px solid $color-square-ui-blue;
 }
 
-} // end body /deep/
+px-tab .tabs.left {
+  border-right: 1px solid $color-square-ui-blue;
+}
+
+px-tab .tabs.right {
+  border-left: 1px solid $color-square-ui-blue;
+}
+
+px-tab .tab {
+  cursor: $cursor-click;
+  padding: $padding-default;
+  transition: $background-color-transition;
+
+  @include vertically-center-text($font-size-larger);
+  @include color-change-interaction($color-square-ui-blue);
+}
+
+px-tab .tab.selected {
+  background-color: $color-square-ui-blue;
+}

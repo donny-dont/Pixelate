@@ -3,16 +3,27 @@
 // Use of this source code is governed by a zlib license that can be found in
 // the LICENSE file.
 
-@import 'partials/scrollable';
-
-body /deep/ {
-
-//---------------------------------------------------------------------
-// px-scroll-viewer
-//---------------------------------------------------------------------
+$scrollbar-size: 6px;
 
 px-scroll-viewer {
-  @include scrollable;
-}
+  &::-webkit-scrollbar {
+    background-color: transparent;
 
-} // end body /deep/
+    // This doesn't seem to work through :horizontal
+    width: $scrollbar-size;
+    height: $scrollbar-size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}

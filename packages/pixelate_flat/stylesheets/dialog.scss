@@ -7,24 +7,25 @@
 @import 'partials/fonts';
 @import 'partials/variables';
 
-body /deep/ {
-
-//---------------------------------------------------------------------
-// px-dialog
-//---------------------------------------------------------------------
-
 px-dialog {
   background-color: rgba(0, 0, 0, 0.75);
-
-  &::shadow {
-    .container {
-      background-color: $color-square-ui-black;
-    }
-
-    .header {
-
-    }
-  }
 }
 
-} // end body /deep/
+px-dialog .container {
+  background-color: $color-square-ui-black
+}
+
+px-dialog .header {
+}
+
+px-button.info {
+  @include color-change($color-info);
+}
+
+px-button.warning {
+  @include color-change($color-warning);
+}
+
+px-button.danger {
+  @include color-change($color-danger);
+}

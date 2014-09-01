@@ -106,16 +106,16 @@ class Search extends PolymerElement with ChangeNotifier  {
     results.clear();
   }
 
-  void enteredView() {
-    super.enteredView();
+  void attached() {
+    super.attached();
 
-    registerObserver('onfocus', Element.focusEvent
+    registerNamedObserver('onfocus', Element.focusEvent
         .forTarget(this, useCapture: true).listen(onFocusCallback));
 
-    registerObserver('onblur',  Element.blurEvent
+    registerNamedObserver('onblur',  Element.blurEvent
         .forTarget(this, useCapture: true).listen(onBlurCallback));
-    registerObserver('onkeydown', onKeyDown.listen(handleUpDown));
-    registerObserver('window.onkeydown',
+    registerNamedObserver('onkeydown', onKeyDown.listen(handleUpDown));
+    registerNamedObserver('window.onkeydown',
         window.onKeyDown.listen(shortcutHandler));
   }
 
@@ -136,7 +136,9 @@ class Search extends PolymerElement with ChangeNotifier  {
       e.preventDefault();
     } else if (e.keyCode == KeyCode.ENTER) {
       // If nothing is focused, use the first search result.
-      _navigateTo(results[currentIndex == -1 ? 0 : currentIndex].url);
+      if (results.isNotEmpty) {
+        _navigateTo(results[currentIndex == -1 ? 0 : currentIndex].url);
+      }
       e.preventDefault();
     }
   }

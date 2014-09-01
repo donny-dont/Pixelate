@@ -20,8 +20,8 @@ class TypeElement extends PolymerElement with ChangeNotifier  {
   factory TypeElement() => new Element.tag('dartdoc-type');
   TypeElement.created() : super.created();
 
-  void enteredView() {
-    super.enteredView();
+  void attached() {
+    super.attached();
     typeChanged();
     searchIndex.onLoad(typeChanged);
   }

@@ -99,7 +99,7 @@ abstract class InheritedElement extends MemberElement with ChangeNotifier  {
   @reflectable @observable bool get shouldShowCommentFrom => __$shouldShowCommentFrom; bool __$shouldShowCommentFrom; @reflectable set shouldShowCommentFrom(bool value) { __$shouldShowCommentFrom = notifyPropertyChange(#shouldShowCommentFrom, __$shouldShowCommentFrom, value); }
 
   InheritedElement.created() : super.created() {
-    registerObserver('isInherited', viewer.changes.listen((changes) {
+    registerNamedObserver('isInherited', viewer.changes.listen((changes) {
       for (var c in changes) {
         if (c.name == #isInherited) {
           _update();

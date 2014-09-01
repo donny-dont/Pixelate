@@ -27,7 +27,7 @@ class MinimapElement extends PolymerElement with ChangeNotifier  {
   bool get applyAuthorStyles => true;
 
   MinimapElement.created() : super.created() {
-    registerObserver('isInherited', viewer.changes.listen((changes) {
+    registerNamedObserver('isInherited', viewer.changes.listen((changes) {
       for (var change in changes) {
         if (change.name == #isInherited || change.name == #showObjectMembers) {
           categoryChanged();

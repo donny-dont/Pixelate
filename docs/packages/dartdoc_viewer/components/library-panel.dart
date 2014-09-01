@@ -12,10 +12,10 @@ import 'package:dartdoc_viewer/member.dart';
 class LibraryPanel extends DartdocElement {
   LibraryPanel.created() : super.created();
 
-  shadowRootReady(root, template) {
-    super.shadowRootReady(root, template);
+  shadowRootReady(root) {
+    super.shadowRootReady(root);
 
-    registerObserver('viewer', viewer.changes.listen((changes) {
+    registerNamedObserver('viewer', viewer.changes.listen((changes) {
       for (var change in changes) {
         if (change.name == #currentPage) {
           _updateActiveLibrary(null);

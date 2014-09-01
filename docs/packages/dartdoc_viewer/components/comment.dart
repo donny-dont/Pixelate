@@ -31,8 +31,8 @@ class CommentElement extends DivElement with Polymer, ChangeNotifier {
   itemChanged() => _updateComment();
   previewChanged() => _updateComment();
 
-  enteredView() {
-    super.enteredView();
+  attached() {
+    super.attached();
     searchIndex.onLoad(_updateComment);
   }
 

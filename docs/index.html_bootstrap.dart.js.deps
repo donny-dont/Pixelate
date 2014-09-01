@@ -1,3 +1,4 @@
+file:///home/ubuntu/dart/dart-sdk/lib/_internal/compiler/implementation/runtime_data.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/annotations.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/async_patch.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/collection_patch.dart
@@ -20,8 +21,10 @@ file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/js_string.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/math_patch.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/mirrors_patch.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/native_helper.dart
+file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/native_typed_data.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/regexp_helper.dart
 file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/string_helper.dart
+file:///home/ubuntu/dart/dart-sdk/lib/_internal/lib/typed_data_patch.dart
 file:///home/ubuntu/dart/dart-sdk/lib/async/async.dart
 file:///home/ubuntu/dart/dart-sdk/lib/async/async_error.dart
 file:///home/ubuntu/dart/dart-sdk/lib/async/broadcast_stream_controller.dart
@@ -123,16 +126,13 @@ file:///home/ubuntu/dart/dart-sdk/lib/math/random.dart
 file:///home/ubuntu/dart/dart-sdk/lib/math/rectangle.dart
 file:///home/ubuntu/dart/dart-sdk/lib/mirrors/mirrors.dart
 file:///home/ubuntu/dart/dart-sdk/lib/svg/dart2js/svg_dart2js.dart
-file:///home/ubuntu/dart/dart-sdk/lib/typed_data/dart2js/native_typed_data_dart2js.dart
-file:///home/ubuntu/dart/dart-sdk/lib/typed_data/dart2js/typed_data_dart2js.dart
+file:///home/ubuntu/dart/dart-sdk/lib/typed_data/typed_data.dart
 file:///home/ubuntu/dart/dart-sdk/lib/web_audio/dart2js/web_audio_dart2js.dart
 file:///home/ubuntu/dart/dart-sdk/lib/web_gl/dart2js/web_gl_dart2js.dart
 file:///home/ubuntu/dart/dart-sdk/lib/web_sql/dart2js/web_sql_dart2js.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/index.html.0.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/index.html_bootstrap.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/collection/equality.dart
-file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/collection/src/unmodifiable_wrappers.dart
-file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/collection/wrappers.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/dartdoc_viewer/analytics.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/dartdoc_viewer/app.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/dartdoc_viewer/components/annotations.dart
@@ -186,10 +186,12 @@ file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/observe/src/observer_transform.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/observe/src/path_observer.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/observe/src/to_observable.dart
+file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/auto_binding.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/deserialize.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/polymer.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/src/build/utils.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/src/declaration.dart
+file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/src/events.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/src/instance.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/src/job.dart
 file:///home/ubuntu/src/github.com/donny-dont/Pixelate/dartdoc-viewer/client/out/web/packages/polymer/src/loader.dart

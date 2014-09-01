@@ -26,12 +26,15 @@ MainElement _dartdocMain;
 /// "useHistory" git branch. This format does not create links that are solely
 /// after a hash ("#") but rather are part of the main URL. To prevent
 /// round-tripping to the server every time the user clicks a link.
-bool useHistory = false;
+const bool useHistory = false;
 
 // TODO(jmesserly): for now we disable polymer expressions
-class _DefaultSyntaxWithEvents extends BindingDelegate {
+class _DefaultSyntaxWithEvents extends BindingDelegate with 
+    PolymerEventBindings {
   prepareBinding(String path, name, node) {
-    if (name.startsWith('on-')) return Polymer.prepareBinding(path, name, node);
+    if (name.startsWith('on-')) {
+      return prepareEventBinding(path, name, node);
+    }
     return super.prepareBinding(path, name, node);
   }
 }

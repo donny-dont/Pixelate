@@ -1,19 +1,16 @@
-@-webkit-keyframes move {
-  0% {
-    background-position: 0 0; }
-
-  100% {
-    background-position: 50px 50px; } }
-
-body /deep/ px-progress-bar::shadow .fill {
+px-progress-bar ^ .fill {
   background-color: #1f7f5c; }
-body /deep/ px-progress-bar.info::shadow .fill {
+
+px-progress-bar.info ^ .fill {
   background-color: #5a9aa8; }
-body /deep/ px-progress-bar.warning::shadow .fill {
+
+px-progress-bar.warning ^ .fill {
   background-color: #de8650; }
-body /deep/ px-progress-bar.danger::shadow .fill {
+
+px-progress-bar.danger ^ .fill {
   background-color: #e56c69; }
-body /deep/ px-progress-bar.striped::shadow .fill:after {
+
+px-progress-bar.striped ^ .fill:after {
   content: "";
   position: absolute;
   top: 0;
@@ -22,5 +19,13 @@ body /deep/ px-progress-bar.striped::shadow .fill:after {
   right: 0;
   background-size: 50px 50px;
   background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); }
-body /deep/ px-progress-bar.animated::shadow .fill:after {
+
+@-webkit-keyframes move {
+  0% {
+    background-position: 0 0; }
+
+  100% {
+    background-position: 50px 50px; } }
+
+px-progress-bar.animated ^ .fill:after {
   -webkit-animation: move 2s linear infinite; }

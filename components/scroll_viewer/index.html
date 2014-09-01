@@ -27,7 +27,7 @@
     
     
   </head>
-  <body><script src="../../packages/web_components/platform.js"></script><script src="../../packages/web_components/dart_support.js"></script><style>px-scroll-viewer {
+  <body><script src="../../../../packages/web_components/platform.js"></script><script src="../../../../packages/web_components/dart_support.js"></script><style>px-scroll-viewer {
   height: 300px;
 }
 
@@ -39,11 +39,11 @@ px-scroll-viewer > img {
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
-  src: local("Montserrat-Regular"), url(../../packages/pixelate_flat/fonts/montserrat-webfont.woff) format("woff"); }
+  src: local("Montserrat-Regular"), url(../../packages/pixelate_flat/fonts/Montserrat.woff) format("woff"); }
 
 @font-face {
-  font-family: 'FontAwesome';
-  src: url(../../packages/pixelate_flat/fonts/fontawesome-webfont.ttf) format("truetype"); }
+  font-family: "FontAwesome";
+  src: url(../../../../packages/pixelate_flat/fonts/fontawesome-webfont.ttf) format("truetype"); }
 
 body {
   margin: 0px;
@@ -54,16 +54,71 @@ body {
 *, *:before, *:after {
   user-select: none;
   -webkit-user-select: none; }
-</style><style>body /deep/ px-scroll-viewer::-webkit-scrollbar {
+
+.navy {
+  background-color: #285258; }
+  .navy:hover {
+    background-color: #3b7982; }
+  .navy:active {
+    background-color: #1b383c; }
+
+.red {
+  background-color: #e56c69; }
+  .red:hover {
+    background-color: #ee9f9d; }
+  .red:active {
+    background-color: #df4a46; }
+
+.green {
+  background-color: #1f7f5c; }
+  .green:hover {
+    background-color: #2bb080; }
+  .green:active {
+    background-color: #175e44; }
+
+.purple {
+  background-color: #6a5a8c; }
+  .purple:hover {
+    background-color: #897aa9; }
+  .purple:active {
+    background-color: #574a73; }
+
+.lilac {
+  background-color: #8c5d79; }
+  .lilac:hover {
+    background-color: #a97d97; }
+  .lilac:active {
+    background-color: #734d64; }
+
+.blue {
+  background-color: #5a9aa8; }
+  .blue:hover {
+    background-color: #82b3bd; }
+  .blue:active {
+    background-color: #4b828e; }
+
+.yellow {
+  background-color: #de8650; }
+  .yellow:hover {
+    background-color: #e8aa83; }
+  .yellow:active {
+    background-color: #d86e2e; }
+
+.grid {
+  background-color: transparent;
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, 0px 0px, 0px 0px;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 255, 255, 0.2) 2px, transparent 2px), linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px); }
+</style><style>px-scroll-viewer::-webkit-scrollbar {
   background-color: transparent;
   width: 6px;
   height: 6px; }
-body /deep/ px-scroll-viewer::-webkit-scrollbar-thumb {
+px-scroll-viewer::-webkit-scrollbar-thumb {
   background-clip: padding-box;
   background-color: rgba(255, 255, 255, 0.2); }
-body /deep/ px-scroll-viewer::-webkit-scrollbar-track {
+px-scroll-viewer::-webkit-scrollbar-track {
   background-color: transparent; }
-body /deep/ px-scroll-viewer::-webkit-scrollbar-corner {
+px-scroll-viewer::-webkit-scrollbar-corner {
   background-color: rgba(255, 255, 255, 0.3); }
 </style><style>html {
   height: 100%;
@@ -222,7 +277,8 @@ code {
 
 
 
-<!-- unminfied for debugging:
+
+<!-- unminified for debugging:
 <link rel="import" href="src/js/polymer/layout.html">
 <script src="src/js/polymer/polymer.concat.js"></script>
 -->
@@ -380,7 +436,7 @@ html /deep/ [layout][start] {
   align-items: flex-start;
 }
 
-html /deep/ [layout][center] {
+html /deep/ [layout][center], html /deep/ [layout][center-center] {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
@@ -400,7 +456,7 @@ html /deep/ [layout][start-justified] {
   justify-content: flex-start;
 }
 
-html /deep/ [layout][center-justified] {
+html /deep/ [layout][center-justified], html /deep/ [layout][center-center] {
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
@@ -460,7 +516,7 @@ html /deep/ [block] {
 
 /* ie support for hidden */
 html /deep/ [hidden] {
-  display: none;
+  display: none !important;
 }
 
 html /deep/ [relative] {
@@ -498,7 +554,10 @@ html /deep/ [segment], html /deep/ segment {
   border-radius: 5px 5px 5px 5px;
 }
 
-</style><script src="../../packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="px-flex-panel" attributes="orientation,wrap">
+</style><script src="../../../../packages/polymer/src/js/polymer/polymer.js"></script><script>
+// TODO(sigmund): remove this script tag (dartbug.com/19650). This empty
+// script tag is necessary to work around a bug in Chrome 36.
+</script><polymer-element name="px-flex-panel" attributes="orientation,wrap">
   <template>
     <style>
       :host {
@@ -665,42 +724,42 @@ html /deep/ [segment], html /deep/ segment {
   <div class="component-selection">
     <h2>Layout</h2>
       <div class="link">
-        <a href="../../components/flex_panel/index.html">FlexPanel</a>
+        <a href="../flex_panel/index.html">FlexPanel</a>
       </div>
       <div class="link">
-        <a href="../../components/grid_panel/index.html">GridPanel</a>
+        <a href="../grid_panel/index.html">GridPanel</a>
       </div>
     <h2>Navigation</h2>
       <div class="link">
-        <a href="../../components/accordion/index.html">Accordion</a>
+        <a href="../accordion/index.html">Accordion</a>
       </div>
       <div class="link">
-        <a href="../../components/expander/index.html">Expander</a>
+        <a href="../expander/index.html">Expander</a>
       </div>
       <div class="link">
-        <a href="../../components/scroll_viewer/index.html">ScrollViewer</a>
+        <a href="index.html">ScrollViewer</a>
       </div>
       <div class="link">
-        <a href="../../components/tab/index.html">Tab</a>
+        <a href="../tab/index.html">Tab</a>
       </div>
       <div class="link">
-        <a href="../../components/tree_view/index.html">TreeView</a>
+        <a href="../tree_view/index.html">TreeView</a>
       </div>
     <h2>Controls</h2>
       <div class="link">
-        <a href="../../components/button/index.html">Button</a>
+        <a href="../button/index.html">Button</a>
       </div>
       <div class="link">
-        <a href="../../components/list_view/index.html">ListView</a>
+        <a href="../list_view/index.html">ListView</a>
       </div>
       <div class="link">
-        <a href="../../components/progress_bar/index.html">ProgressBar</a>
+        <a href="../progress_bar/index.html">ProgressBar</a>
       </div>
       <div class="link">
-        <a href="../../components/tooltip/index.html">Tooltip</a>
+        <a href="../tooltip/index.html">Tooltip</a>
       </div>
       <div class="link">
-        <a href="../../components/auto_complete/index.html">AutoComplete</a>
+        <a href="../auto_complete/index.html">AutoComplete</a>
       </div>
   </div>
 </px-flex-panel>
@@ -715,9 +774,9 @@ html /deep/ [segment], html /deep/ segment {
       <px-flex-panel orientation="horizontal" class="navigation">
         <div class="link"><a href="../../index.html">Pixelate</a></div>
         <div class="link"><a href="../../getting_started/index.html">Getting started</a></div>
-        <div class="link"><a href="../../components/flex_panel/index.html">Components</a></div>
-        <div class="link"><a href="../../docs/#pixelate/">Documentation</a></div>
+        <div class="link"><a href="../flex_panel/index.html">Components</a></div>
+        <div class="link"><a href="../../docs/#pixelate">Documentation</a></div>
       </px-flex-panel>
     </div>
   
-<script src="index.html_bootstrap.dart.js"></script></body></html>
+<script src="index.html_bootstrap.dart.js" async=""></script></body></html>

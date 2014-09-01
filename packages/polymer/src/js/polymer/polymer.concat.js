@@ -19,6 +19,30 @@ window.PolymerGestures = {};
  */
 
 (function(scope) {
+  var HAS_FULL_PATH = false;
+
+  // test for full event path support
+  var pathTest = document.createElement('meta');
+  if (pathTest.createShadowRoot) {
+    var sr = pathTest.createShadowRoot();
+    var s = document.createElement('span');
+    sr.appendChild(s);
+    pathTest.addEventListener('testpath', function(ev) {
+      if (ev.path) {
+        // if the span is in the event path, then path[0] is the real source for all events
+        HAS_FULL_PATH = ev.path[0] === s;
+      }
+      ev.stopPropagation();
+    });
+    var ev = new CustomEvent('testpath', {bubbles: true});
+    // must add node to DOM to trigger event listener
+    document.head.appendChild(pathTest);
+    s.dispatchEvent(ev);
+    pathTest.parentNode.removeChild(pathTest);
+    sr = s = null;
+  }
+  pathTest = null;
+
   var target = {
     shadow: function(inEl) {
       if (inEl) {
@@ -53,25 +77,18 @@ window.PolymerGestures = {};
       return shadows;
     },
     searchRoot: function(inRoot, x, y) {
+      var t, st, sr, os;
       if (inRoot) {
-        var t = inRoot.elementFromPoint(x, y);
-        var st, sr, os;
-        // is element a shadow host?
-        sr = this.targetingShadow(t);
-        while (sr) {
-          // find the the element inside the shadow root
-          st = sr.elementFromPoint(x, y);
-          if (!st) {
-            // check for older shadows
-            sr = this.olderShadow(sr);
-          } else {
-            // shadowed element may contain a shadow root
-            var ssr = this.targetingShadow(st);
-            return this.searchRoot(ssr, x, y) || st;
-          }
+        t = inRoot.elementFromPoint(x, y);
+        if (t) {
+          // found element, check if it has a ShadowRoot
+          sr = this.targetingShadow(t);
+        } else if (inRoot !== document) {
+          // check for sibling roots
+          sr = this.olderShadow(inRoot);
         }
-        // light dom element is the target
-        return t;
+        // search other roots, fall back to light dom element
+        return this.searchRoot(sr, x, y) || t;
       }
     },
     owner: function(element) {
@@ -90,6 +107,9 @@ window.PolymerGestures = {};
       return s;
     },
     findTarget: function(inEvent) {
+      if (HAS_FULL_PATH && inEvent.path) {
+        return inEvent.path[0];
+      }
       var x = inEvent.clientX, y = inEvent.clientY;
       // if the listener is in the shadow root, it is much faster to start there
       var s = this.owner(inEvent.target);
@@ -98,6 +118,28 @@ window.PolymerGestures = {};
         s = document;
       }
       return this.searchRoot(s, x, y);
+    },
+    findTouchAction: function(inEvent) {
+      var n;
+      if (HAS_FULL_PATH && inEvent.path) {
+        var path = inEvent.path;
+        for (var i = 0; i < path.length; i++) {
+          n = path[i];
+          if (n.nodeType === Node.ELEMENT_NODE && n.hasAttribute('touch-action')) {
+            return n.getAttribute('touch-action');
+          }
+        }
+      } else {
+        n = inEvent.target;
+        while(n) {
+          if (n.hasAttribute('touch-action')) {
+            return n.getAttribute('touch-action');
+          }
+          n = n.parentNode || n.host;
+        }
+      }
+      // auto is default
+      return "auto";
     },
     LCA: function(a, b) {
       if (a === b) {
@@ -122,14 +164,14 @@ window.PolymerGestures = {};
       var adepth = this.depth(a);
       var bdepth = this.depth(b);
       var d = adepth - bdepth;
-      if (d > 0) {
+      if (d >= 0) {
         a = this.walk(a, d);
       } else {
         b = this.walk(b, -d);
       }
-      while(a && b && a !== b) {
-        a = this.walk(a, 1);
-        b = this.walk(b, 1);
+      while (a && b && a !== b) {
+        a = a.parentNode || a.host;
+        b = b.parentNode || b.host;
       }
       return a;
     },
@@ -210,7 +252,7 @@ window.PolymerGestures = {};
 
 (function() {
   function shadowSelector(v) {
-    return 'body /deep/ ' + selector(v);
+    return 'html /deep/ ' + selector(v);
   }
   function selector(v) {
     return '[touch-action="' + v + '"]';
@@ -229,11 +271,11 @@ window.PolymerGestures = {};
         'pan-x pan-y',
         'pan-y pan-x'
       ]
-    }
+    },
+    'manipulation'
   ];
   var styles = '';
   // only install stylesheet if the browser has touch action support
-  var head = document.head;
   var hasTouchAction = typeof document.head.style.touchAction === 'string';
   // only add shadow selectors if shadowdom is supported
   var hasShadowRoot = !window.ShadowDOMPolyfill && document.head.createShadowRoot;
@@ -377,6 +419,7 @@ window.PolymerGestures = {};
       e.pointerType = inDict.pointerType || '';
       e.hwTimestamp = inDict.hwTimestamp || 0;
       e.isPrimary = inDict.isPrimary || false;
+      e._source = inDict._source || '';
       return e;
     }
   };
@@ -500,7 +543,8 @@ window.PolymerGestures = {};
     'timeStamp',
     // gesture addons
     'preventTap',
-    'tapPrevented'
+    'tapPrevented',
+    '_source'
   ];
 
   var CLONE_DEFAULTS = [
@@ -545,9 +589,8 @@ window.PolymerGestures = {};
 
   var HAS_SVG_INSTANCE = (typeof SVGElementInstance !== 'undefined');
 
-  var wrap = window.ShadowDOMPolyfill && ShadowDOMPolyfill.wrapIfNeeded || function(e){ return e; };
-
   var eventFactory = scope.eventFactory;
+
   /**
    * This module is for normalizing events. Mouse and Touch events will be
    * collected here, and fire PointerEvents that have the same semantics, no
@@ -568,6 +611,12 @@ window.PolymerGestures = {};
     eventSources: Object.create(null),
     eventSourceList: [],
     gestures: [],
+    // map gesture event -> {listeners: int, index: gestures[int]}
+    dependencyMap: {
+      // make sure down and up are in the map to trigger "register"
+      down: {listeners: 0, index: -1},
+      up: {listeners: 0, index: -1}
+    },
     gestureQueue: [],
     /**
      * Add a new event source that will generate pointer events.
@@ -591,17 +640,20 @@ window.PolymerGestures = {};
       }
     },
     registerGesture: function(name, source) {
+      var obj = Object.create(null);
+      obj.listeners = 0;
+      obj.index = this.gestures.length;
+      for (var i = 0, g; i < source.exposes.length; i++) {
+        g = source.exposes[i].toLowerCase();
+        this.dependencyMap[g] = obj;
+      }
       this.gestures.push(source);
     },
-    register: function(element) {
-      // NOTE: Work around for #4, don't add listeners to individual Polymer elmenets in SD Polyfill
-      if (window.ShadowDOMPolyfill && element !== document) {
-        return;
-      }
+    register: function(element, initial) {
       var l = this.eventSourceList.length;
       for (var i = 0, es; (i < l) && (es = this.eventSourceList[i]); i++) {
         // call eventsource register
-        es.register.call(es, element);
+        es.register.call(es, element, initial);
       }
     },
     unregister: function(element) {
@@ -632,6 +684,9 @@ window.PolymerGestures = {};
       // This is used to prevent multiple dispatch of events from
       // platform events. This can happen when two elements in different scopes
       // are set up to create pointer events, which is relevant to Shadow DOM.
+
+      // TODO(dfreedm): make this check more granular, allow for minimal event generation
+      // e.g inEvent._handledByPG['tap'] and inEvent._handledByPG['track'], etc
       if (inEvent._handledByPG) {
         return;
       }
@@ -644,31 +699,21 @@ window.PolymerGestures = {};
     },
     // set up event listeners
     listen: function(target, events) {
-      events.forEach(function(e) {
+      for (var i = 0, l = events.length, e; (i < l) && (e = events[i]); i++) {
         this.addEvent(target, e);
-      }, this);
+      }
     },
     // remove event listeners
     unlisten: function(target, events) {
-      events.forEach(function(e) {
+      for (var i = 0, l = events.length, e; (i < l) && (e = events[i]); i++) {
         this.removeEvent(target, e);
-      }, this);
+      }
     },
     addEvent: function(target, eventName) {
-      // NOTE: Work around for #4, use native event listener in SD Polyfill
-      if (window.ShadowDOMPolyfill) {
-        target.addEventListener_(eventName, this.boundHandler);
-      } else {
-        target.addEventListener(eventName, this.boundHandler);
-      }
+      target.addEventListener(eventName, this.boundHandler);
     },
     removeEvent: function(target, eventName) {
-      // NOTE: Work around for #4, use native event listener in SD Polyfill
-      if (window.ShadowDOMPolyfill) {
-        target.removeEventListener_(eventName, this.boundHandler);
-      } else {
-        target.removeEventListener(eventName, this.boundHandler);
-      }
+      target.removeEventListener(eventName, this.boundHandler);
     },
     // EVENT CREATION AND TRACKING
     /**
@@ -710,11 +755,12 @@ window.PolymerGestures = {};
           if (HAS_SVG_INSTANCE && eventCopy[p] instanceof SVGElementInstance) {
             eventCopy[p] = eventCopy[p].correspondingUseElement;
           }
-          eventCopy[p] = wrap(eventCopy[p]);
         }
       }
       // keep the semantics of preventDefault
-      eventCopy.preventDefault = inEvent.preventDefault;
+      eventCopy.preventDefault = function() {
+        inEvent.preventDefault();
+      };
       return eventCopy;
     },
     /**
@@ -738,10 +784,11 @@ window.PolymerGestures = {};
       // process the gesture queue
       for (var i = 0, e; i < this.gestureQueue.length; i++) {
         e = this.gestureQueue[i];
-        for (var j = 0, g; j < this.gestures.length; j++) {
+        for (var j = 0, g, fn; j < this.gestures.length; j++) {
           g = this.gestures[j];
-          if (g.events.indexOf(e.type) >= 0) {
-            g[e.type].call(g, e);
+          fn = g[e.type];
+          if (g.enabled && fn) {
+            fn.call(g, e);
           }
         }
       }
@@ -758,133 +805,117 @@ window.PolymerGestures = {};
   dispatcher.boundHandler = dispatcher.eventHandler.bind(dispatcher);
   dispatcher.boundGestureTrigger = dispatcher.gestureTrigger.bind(dispatcher);
   scope.dispatcher = dispatcher;
-  scope.register = dispatcher.register.bind(dispatcher);
-  scope.unregister = dispatcher.unregister.bind(dispatcher);
-})(window.PolymerGestures);
 
-/*
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-/**
- * This module uses Mutation Observers to dynamically adjust which nodes will
- * generate Pointer Events.
- *
- * All nodes that wish to generate Pointer Events must have the attribute
- * `touch-action` set to `none`.
- */
-(function(scope) {
-  var forEach = Array.prototype.forEach.call.bind(Array.prototype.forEach);
-  var map = Array.prototype.map.call.bind(Array.prototype.map);
-  var toArray = Array.prototype.slice.call.bind(Array.prototype.slice);
-  var filter = Array.prototype.filter.call.bind(Array.prototype.filter);
-  var MO = window.MutationObserver || window.WebKitMutationObserver;
-  var SELECTOR = '[touch-action]';
-  var OBSERVER_INIT = {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeOldValue: true,
-    attributeFilter: ['touch-action']
-  };
-
-  function Installer(add, remove, changed, binder) {
-    this.addCallback = add.bind(binder);
-    this.removeCallback = remove.bind(binder);
-    this.changedCallback = changed.bind(binder);
-    if (MO) {
-      this.observer = new MO(this.mutationWatcher.bind(this));
-    }
-  }
-
-  Installer.prototype = {
-    watchSubtree: function(target) {
-      // Only watch scopes that can target find, as these are top-level.
-      // Otherwise we can see duplicate additions and removals that add noise.
-      //
-      // TODO(dfreedman): For some instances with ShadowDOMPolyfill, we can see
-      // a removal without an insertion when a node is redistributed among
-      // shadows. Since it all ends up correct in the document, watching only
-      // the document will yield the correct mutations to watch.
-      if (scope.targetFinding.canTarget(target)) {
-        this.observer.observe(target, OBSERVER_INIT);
-      }
-    },
-    enableOnSubtree: function(target) {
-      this.watchSubtree(target);
-      if (target === document && document.readyState !== 'complete') {
-        this.installOnLoad();
-      } else {
-        this.installNewSubtree(target);
-      }
-    },
-    installNewSubtree: function(target) {
-      forEach(this.findElements(target), this.addElement, this);
-    },
-    findElements: function(target) {
-      if (target.querySelectorAll) {
-        return target.querySelectorAll(SELECTOR);
-      }
-      return [];
-    },
-    removeElement: function(el) {
-      this.removeCallback(el);
-    },
-    addElement: function(el) {
-      this.addCallback(el);
-    },
-    elementChanged: function(el, oldValue) {
-      this.changedCallback(el, oldValue);
-    },
-    concatLists: function(accum, list) {
-      return accum.concat(toArray(list));
-    },
-    // register all touch-action = none nodes on document load
-    installOnLoad: function() {
-      document.addEventListener('readystatechange', function() {
-        if (document.readyState === 'complete') {
-          this.installNewSubtree(document);
+  /**
+   * Listen for `gesture` on `node` with the `handler` function
+   *
+   * If `handler` is the first listener for `gesture`, the underlying gesture recognizer is then enabled.
+   *
+   * @param {Element} node
+   * @param {string} gesture
+   * @return Boolean `gesture` is a valid gesture
+   */
+  scope.activateGesture = function(node, gesture) {
+    var g = gesture.toLowerCase();
+    var dep = dispatcher.dependencyMap[g];
+    if (dep) {
+      var recognizer = dispatcher.gestures[dep.index];
+      if (dep.listeners === 0) {
+        if (recognizer) {
+          recognizer.enabled = true;
         }
-      }.bind(this));
-    },
-    isElement: function(n) {
-      return n.nodeType === Node.ELEMENT_NODE;
-    },
-    flattenMutationTree: function(inNodes) {
-      // find children with touch-action
-      var tree = map(inNodes, this.findElements, this);
-      // make sure the added nodes are accounted for
-      tree.push(filter(inNodes, this.isElement));
-      // flatten the list
-      return tree.reduce(this.concatLists, []);
-    },
-    mutationWatcher: function(mutations) {
-      mutations.forEach(this.mutationHandler, this);
-    },
-    mutationHandler: function(m) {
-      if (m.type === 'childList') {
-        var added = this.flattenMutationTree(m.addedNodes);
-        added.forEach(this.addElement, this);
-        var removed = this.flattenMutationTree(m.removedNodes);
-        removed.forEach(this.removeElement, this);
-      } else if (m.type === 'attributes') {
-        this.elementChanged(m.target, m.oldValue);
       }
+      dep.listeners++;
+      if (!node._pgListeners) {
+        dispatcher.register(node);
+        node._pgListeners = 0;
+      }
+      // TODO(dfreedm): re-evaluate bookkeeping to avoid using attributes
+      if (recognizer) {
+        var touchAction = recognizer.defaultActions && recognizer.defaultActions[g];
+        var actionNode;
+        switch(node.nodeType) {
+          case Node.ELEMENT_NODE:
+            actionNode = node;
+          break;
+          case Node.DOCUMENT_FRAGMENT_NODE:
+            actionNode = node.host;
+          break;
+          default:
+            actionNode = null;
+          break;
+        }
+        if (touchAction && actionNode && !actionNode.hasAttribute('touch-action')) {
+          actionNode.setAttribute('touch-action', touchAction);
+        }
+      }
+      node._pgListeners++;
+    }
+    return Boolean(dep);
+  };
+
+  /**
+   *
+   * Listen for `gesture` from `node` with `handler` function.
+   *
+   * @param {Element} node
+   * @param {string} gesture
+   * @param {Function} handler
+   * @param {Boolean} capture
+   */
+  scope.addEventListener = function(node, gesture, handler, capture) {
+    if (handler) {
+      scope.activateGesture(node, gesture);
+      node.addEventListener(gesture, handler, capture);
     }
   };
 
-  if (!MO) {
-    Installer.prototype.watchSubtree = function(){
-      console.warn('PolymerGestures: MutationObservers not found, touch-action will not be dynamically detected');
-    };
-  }
+  /**
+   * Tears down the gesture configuration for `node`
+   *
+   * If `handler` is the last listener for `gesture`, the underlying gesture recognizer is disabled.
+   *
+   * @param {Element} node
+   * @param {string} gesture
+   * @return Boolean `gesture` is a valid gesture
+   */
+  scope.deactivateGesture = function(node, gesture) {
+    var g = gesture.toLowerCase();
+    var dep = dispatcher.dependencyMap[g];
+    if (dep) {
+      if (dep.listeners > 0) {
+        dep.listeners--;
+      }
+      if (dep.listeners === 0) {
+        var recognizer = dispatcher.gestures[dep.index];
+        if (recognizer) {
+          recognizer.enabled = false;
+        }
+      }
+      if (node._pgListeners > 0) {
+        node._pgListeners--;
+      }
+      if (node._pgListeners === 0) {
+        dispatcher.unregister(node);
+      }
+    }
+    return Boolean(dep);
+  };
 
-  scope.Installer = Installer;
+  /**
+   * Stop listening for `gesture` from `node` with `handler` function.
+   *
+   * @param {Element} node
+   * @param {string} gesture
+   * @param {Function} handler
+   * @param {Boolean} capture
+   */
+  scope.removeEventListener = function(node, gesture, handler, capture) {
+    if (handler) {
+      scope.deactivateGesture(node, gesture);
+      node.removeEventListener(gesture, handler, capture);
+    }
+  };
 })(window.PolymerGestures);
 
 /*
@@ -916,7 +947,12 @@ window.PolymerGestures = {};
     events: [
       'mousedown',
       'mousemove',
-      'mouseup',
+      'mouseup'
+    ],
+    exposes: [
+      'down',
+      'up',
+      'move'
     ],
     register: function(target) {
       dispatcher.listen(target, this.events);
@@ -942,6 +978,7 @@ window.PolymerGestures = {};
       e.pointerId = this.POINTER_ID;
       e.isPrimary = true;
       e.pointerType = this.POINTER_TYPE;
+      e._source = 'mouse';
       if (!HAS_BUTTONS) {
         e.buttons = WHICH_TO_BUTTONS[e.which] || 0;
       }
@@ -956,21 +993,31 @@ window.PolymerGestures = {};
           this.mouseup(inEvent);
         }
         var e = this.prepareEvent(inEvent);
+        e.target = scope.findTarget(inEvent);
         pointermap.set(this.POINTER_ID, e.target);
         dispatcher.down(e);
       }
     },
     mousemove: function(inEvent) {
       if (!this.isEventSimulatedFromTouch(inEvent)) {
-        var e = this.prepareEvent(inEvent);
-        e.target = pointermap.get(this.POINTER_ID);
-        dispatcher.move(e);
+        var target = pointermap.get(this.POINTER_ID);
+        if (target) {
+          var e = this.prepareEvent(inEvent);
+          e.target = target;
+          // handle case where we missed a mouseup
+          if (e.buttons === 0) {
+            dispatcher.cancel(e);
+            this.cleanupMouse();
+          } else {
+            dispatcher.move(e);
+          }
+        }
       }
     },
     mouseup: function(inEvent) {
       if (!this.isEventSimulatedFromTouch(inEvent)) {
         var e = this.prepareEvent(inEvent);
-        e.relatedTarget = e.target;
+        e.relatedTarget = scope.findTarget(inEvent);
         e.target = pointermap.get(this.POINTER_ID);
         dispatcher.up(e);
         this.cleanupMouse();
@@ -1001,9 +1048,11 @@ window.PolymerGestures = {};
   // This should be long enough to ignore compat mouse events made by touch
   var DEDUP_TIMEOUT = 2500;
   var CLICK_COUNT_TIMEOUT = 200;
+  var HYSTERESIS = 20;
   var ATTRIB = 'touch-action';
-  var INSTALLER;
-  var HAS_TOUCH_ACTION = typeof document.head.style.touchAction === 'string';
+  // TODO(dfreedm): disable until http://crbug.com/399765 is resolved
+  // var HAS_TOUCH_ACTION = ATTRIB in document.head.style;
+  var HAS_TOUCH_ACTION = false;
 
   // handler block for native touch events
   var touchEvents = {
@@ -1013,74 +1062,35 @@ window.PolymerGestures = {};
       'touchend',
       'touchcancel'
     ],
-    register: function(target) {
-      if (HAS_TOUCH_ACTION) {
-        dispatcher.listen(target, this.events);
-      } else {
-        INSTALLER.enableOnSubtree(target);
+    exposes: [
+      'down',
+      'up',
+      'move'
+    ],
+    register: function(target, initial) {
+      if (initial) {
+        return;
       }
+      dispatcher.listen(target, this.events);
     },
     unregister: function(target) {
-      if (HAS_TOUCH_ACTION) {
-        dispatcher.unlisten(target, this.events);
-      } else {
-        // TODO(dfreedman): is it worth it to disconnect the MO?
-      }
-    },
-    elementAdded: function(el) {
-      var a = el.getAttribute(ATTRIB);
-      var st = this.touchActionToScrollType(a);
-      if (st) {
-        el._scrollType = st;
-        dispatcher.listen(el, this.events);
-        // set touch-action on shadows as well
-        allShadows(el).forEach(function(s) {
-          s._scrollType = st;
-          dispatcher.listen(s, this.events);
-        }, this);
-      }
-    },
-    elementRemoved: function(el) {
-      el._scrollType = undefined;
-      dispatcher.unlisten(el, this.events);
-      // remove touch-action from shadow
-      allShadows(el).forEach(function(s) {
-        s._scrollType = undefined;
-        dispatcher.unlisten(s, this.events);
-      }, this);
-    },
-    elementChanged: function(el, oldValue) {
-      var a = el.getAttribute(ATTRIB);
-      var st = this.touchActionToScrollType(a);
-      var oldSt = this.touchActionToScrollType(oldValue);
-      // simply update scrollType if listeners are already established
-      if (st && oldSt) {
-        el._scrollType = st;
-        allShadows(el).forEach(function(s) {
-          s._scrollType = st;
-        }, this);
-      } else if (oldSt) {
-        this.elementRemoved(el);
-      } else if (st) {
-        this.elementAdded(el);
-      }
+      dispatcher.unlisten(target, this.events);
     },
     scrollTypes: {
       EMITTER: 'none',
       XSCROLLER: 'pan-x',
       YSCROLLER: 'pan-y',
-      SCROLLER: /^(?:pan-x pan-y)|(?:pan-y pan-x)|auto$/
     },
     touchActionToScrollType: function(touchAction) {
       var t = touchAction;
       var st = this.scrollTypes;
-      if (t === 'none') {
+      if (t === st.EMITTER) {
         return 'none';
       } else if (t === st.XSCROLLER) {
         return 'X';
       } else if (t === st.YSCROLLER) {
         return 'Y';
-      } else if (st.SCROLLER.exec(t)) {
+      } else {
         return 'XY';
       }
     },
@@ -1094,7 +1104,7 @@ window.PolymerGestures = {};
       if (pointermap.pointers() === 0 || (pointermap.pointers() === 1 && pointermap.has(1))) {
         this.firstTouch = inTouch.identifier;
         this.firstXY = {X: inTouch.clientX, Y: inTouch.clientY};
-        this.scrolling = false;
+        this.scrolling = null;
         this.cancelResetClickCount();
       }
     },
@@ -1128,7 +1138,17 @@ window.PolymerGestures = {};
     },
     findTarget: function(touch, id) {
       if (this.currentTouchEvent.type === 'touchstart') {
-        return scope.findTarget(touch);
+        if (this.isPrimaryTouch(touch)) {
+          var fastPath = {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+            path: this.currentTouchEvent.path,
+            target: this.currentTouchEvent.target
+          };
+          return scope.findTarget(fastPath);
+        } else {
+          return scope.findTarget(touch);
+        }
       }
       // reuse target we found in touchstart
       return pointermap.get(id);
@@ -1150,6 +1170,7 @@ window.PolymerGestures = {};
       e.pressure = inTouch.webkitForce || inTouch.force || 0.5;
       e.isPrimary = this.isPrimaryTouch(inTouch);
       e.pointerType = this.POINTER_TYPE;
+      e._source = 'touch';
       // forward touch preventDefaults
       var self = this;
       e.preventDefault = function() {
@@ -1162,9 +1183,18 @@ window.PolymerGestures = {};
     processTouches: function(inEvent, inFunction) {
       var tl = inEvent.changedTouches;
       this.currentTouchEvent = inEvent;
-      for (var i = 0, t; i < tl.length; i++) {
+      for (var i = 0, t, p; i < tl.length; i++) {
         t = tl[i];
-        inFunction.call(this, this.touchToPointer(t));
+        p = this.touchToPointer(t);
+        if (inEvent.type === 'touchstart') {
+          pointermap.set(p.pointerId, p.target);
+        }
+        if (pointermap.has(p.pointerId)) {
+          inFunction.call(this, p);
+        }
+        if (inEvent.type === 'touchend' || inEvent._cancel) {
+          this.cleanUpPointer(p);
+        }
       }
     },
     // For single axis scrollers, determines whether the element should emit
@@ -1172,7 +1202,8 @@ window.PolymerGestures = {};
     shouldScroll: function(inEvent) {
       if (this.firstXY) {
         var ret;
-        var scrollAxis = inEvent.currentTarget._scrollType;
+        var touchAction = scope.targetFinding.findTouchAction(inEvent);
+        var scrollAxis = this.touchActionToScrollType(touchAction);
         if (scrollAxis === 'none') {
           // this element is a touch-action: none, should never scroll
           ret = false;
@@ -1190,7 +1221,6 @@ window.PolymerGestures = {};
           // making events
           ret = da >= doa;
         }
-        this.firstXY = null;
         return ret;
       }
     },
@@ -1218,11 +1248,14 @@ window.PolymerGestures = {};
           // Touch identifiers are 2 smaller than their pointerId, which is the
           // index in pointermap.
           if (key !== 1 && !this.findTouch(tl, key - 2)) {
-            var p = value.out;
+            var p = value;
             d.push(p);
           }
         }, this);
-        d.forEach(this.cancelOut, this);
+        d.forEach(function(p) {
+          this.cancel(p);
+          pointermap.delete(p.pointerId);
+        });
       }
     },
     touchstart: function(inEvent) {
@@ -1235,30 +1268,38 @@ window.PolymerGestures = {};
       }
     },
     down: function(inPointer) {
-      var p = pointermap.set(inPointer.pointerId, inPointer.target);
       dispatcher.down(inPointer);
     },
     touchmove: function(inEvent) {
       if (HAS_TOUCH_ACTION) {
-        this.processTouches(inEvent, this.move);
+        // touchevent.cancelable == false is sent when the page is scrolling under native Touch Action in Chrome 36
+        // https://groups.google.com/a/chromium.org/d/msg/input-dev/wHnyukcYBcA/b9kmtwM1jJQJ
+        if (inEvent.cancelable) {
+          this.processTouches(inEvent, this.move);
+        }
       } else {
         if (!this.scrolling) {
-          if (this.shouldScroll(inEvent)) {
+          if (this.scrolling === null && this.shouldScroll(inEvent)) {
             this.scrolling = true;
-            this.touchcancel(inEvent);
           } else {
+            this.scrolling = false;
             inEvent.preventDefault();
             this.processTouches(inEvent, this.move);
+          }
+        } else if (this.firstXY) {
+          var t = inEvent.changedTouches[0];
+          var dx = t.clientX - this.firstXY.X;
+          var dy = t.clientY - this.firstXY.Y;
+          var dd = Math.sqrt(dx * dx + dy * dy);
+          if (dd >= HYSTERESIS) {
+            this.touchcancel(inEvent);
+            this.scrolling = true;
+            this.firstXY = null;
           }
         }
       }
     },
     move: function(inPointer) {
-      var pointer = pointermap.get(inPointer.pointerId);
-      // a finger drifted off the screen, ignore it
-      if (!pointer) {
-        return;
-      }
       dispatcher.move(inPointer);
     },
     touchend: function(inEvent) {
@@ -1266,18 +1307,14 @@ window.PolymerGestures = {};
       this.processTouches(inEvent, this.up);
     },
     up: function(inPointer) {
-      if (!this.scrolling) {
-        inPointer.relatedTarget = scope.findTarget(inPointer);
-        dispatcher.up(inPointer);
-      }
-      this.cleanUpPointer(inPointer);
+      inPointer.relatedTarget = scope.findTarget(inPointer);
+      dispatcher.up(inPointer);
     },
     cancel: function(inPointer) {
-      inPointer.relatedTarget = scope.findTarget(inPointer);
       dispatcher.cancel(inPointer);
-      this.cleanUpPointer(inPointer);
     },
     touchcancel: function(inEvent) {
+      inEvent._cancel = true;
       this.processTouches(inEvent, this.cancel);
     },
     cleanUpPointer: function(inPointer) {
@@ -1304,10 +1341,6 @@ window.PolymerGestures = {};
     }
   };
 
-  if (!HAS_TOUCH_ACTION) {
-    INSTALLER = new scope.Installer(touchEvents.elementAdded, touchEvents.elementRemoved, touchEvents.elementChanged, touchEvents);
-  }
-
   scope.touchEvents = touchEvents;
 })(window.PolymerGestures);
 
@@ -1332,6 +1365,9 @@ window.PolymerGestures = {};
       'MSPointerCancel',
     ],
     register: function(target) {
+      if (target !== document) {
+        return;
+      }
       dispatcher.listen(target, this.events);
     },
     unregister: function(target) {
@@ -1346,10 +1382,11 @@ window.PolymerGestures = {};
     ],
     prepareEvent: function(inEvent) {
       var e = inEvent;
+      e = dispatcher.cloneEvent(inEvent);
       if (HAS_BITMAP_TYPE) {
-        e = dispatcher.cloneEvent(inEvent);
         e.pointerType = this.POINTER_TYPES[inEvent.pointerType];
       }
+      e._source = 'ms';
       return e;
     },
     cleanup: function(id) {
@@ -1357,6 +1394,7 @@ window.PolymerGestures = {};
     },
     MSPointerDown: function(inEvent) {
       var e = this.prepareEvent(inEvent);
+      e.target = scope.findTarget(inEvent);
       pointermap.set(inEvent.pointerId, e.target);
       dispatcher.down(e);
     },
@@ -1367,14 +1405,14 @@ window.PolymerGestures = {};
     },
     MSPointerUp: function(inEvent) {
       var e = this.prepareEvent(inEvent);
-      e.relatedTarget = e.target;
+      e.relatedTarget = scope.findTarget(inEvent);
       e.target = pointermap.get(e.pointerId);
       dispatcher.up(e);
       this.cleanup(inEvent.pointerId);
     },
     MSPointerCancel: function(inEvent) {
       var e = this.prepareEvent(inEvent);
-      e.relatedTarget = e.target;
+      e.relatedTarget = scope.findTarget(inEvent);
       e.target = pointermap.get(e.pointerId);
       dispatcher.cancel(e);
       this.cleanup(inEvent.pointerId);
@@ -1404,9 +1442,14 @@ window.PolymerGestures = {};
       'pointercancel'
     ],
     prepareEvent: function(inEvent) {
-      return dispatcher.cloneEvent(inEvent);
+      var e = dispatcher.cloneEvent(inEvent);
+      e._source = 'pointer';
+      return e;
     },
     register: function(target) {
+      if (target !== document) {
+        return;
+      }
       dispatcher.listen(target, this.events);
     },
     unregister: function(target) {
@@ -1417,6 +1460,7 @@ window.PolymerGestures = {};
     },
     pointerdown: function(inEvent) {
       var e = this.prepareEvent(inEvent);
+      e.target = scope.findTarget(inEvent);
       pointermap.set(e.pointerId, e.target);
       dispatcher.down(e);
     },
@@ -1427,14 +1471,14 @@ window.PolymerGestures = {};
     },
     pointerup: function(inEvent) {
       var e = this.prepareEvent(inEvent);
-      e.relatedTarget = e.target;
+      e.relatedTarget = scope.findTarget(inEvent);
       e.target = pointermap.get(e.pointerId);
       dispatcher.up(e);
       this.cleanup(inEvent.pointerId);
     },
     pointercancel: function(inEvent) {
       var e = this.prepareEvent(inEvent);
-      e.relatedTarget = e.target;
+      e.relatedTarget = scope.findTarget(inEvent);
       e.target = pointermap.get(e.pointerId);
       dispatcher.cancel(e);
       this.cleanup(inEvent.pointerId);
@@ -1460,19 +1504,29 @@ window.PolymerGestures = {};
  */
 (function(scope) {
   var dispatcher = scope.dispatcher;
+  var nav = window.navigator;
 
   if (window.PointerEvent) {
     dispatcher.registerSource('pointer', scope.pointerEvents);
-  } else if (window.navigator.msPointerEnabled) {
+  } else if (nav.msPointerEnabled) {
     dispatcher.registerSource('ms', scope.msEvents);
   } else {
     dispatcher.registerSource('mouse', scope.mouseEvents);
     if (window.ontouchstart !== undefined) {
       dispatcher.registerSource('touch', scope.touchEvents);
+      /*
+       * NOTE: an empty touch listener on body will reactivate nodes imported from templates with touch listeners
+       * Removing it will re-break the nodes
+       *
+       * Work around for https://bugs.webkit.org/show_bug.cgi?id=135628
+       */
+      var isSafari = nav.userAgent.match('Safari') && !nav.userAgent.match('Chrome');
+      if (isSafari) {
+        document.body.addEventListener('touchstart', function(){});
+      }
     }
   }
-
-  dispatcher.register(document);
+  dispatcher.register(document, true);
 })(window.PolymerGestures);
 
 /*
@@ -1590,6 +1644,18 @@ window.PolymerGestures = {};
        'move',
        'up',
      ],
+     exposes: [
+      'trackstart',
+      'track',
+      'trackx',
+      'tracky',
+      'trackend'
+     ],
+     defaultActions: {
+       'track': 'none',
+       'trackx': 'pan-y',
+       'tracky': 'pan-x'
+     },
      WIGGLE_THRESHOLD: 4,
      clampDir: function(inDelta) {
        return inDelta > 0 ? 1 : -1;
@@ -1608,32 +1674,42 @@ window.PolymerGestures = {};
        var dd = this.calcPositionDelta(t.lastMoveEvent, inEvent);
        if (dd.x) {
          t.xDirection = this.clampDir(dd.x);
+       } else if (inType === 'trackx') {
+         return;
        }
        if (dd.y) {
          t.yDirection = this.clampDir(dd.y);
+       } else if (inType === 'tracky') {
+         return;
        }
-       var e = eventFactory.makeGestureEvent(inType, {
+       var gestureProto = {
          bubbles: true,
          cancelable: true,
-         dx: d.x,
-         dy: d.y,
-         ddx: dd.x,
-         ddy: dd.y,
-         x: inEvent.x,
-         y: inEvent.y,
-         clientX: inEvent.clientX,
-         clientY: inEvent.clientY,
-         pageX: inEvent.pageX,
-         pageY: inEvent.pageY,
-         screenX: inEvent.screenX,
-         screenY: inEvent.screenY,
-         xDirection: t.xDirection,
-         yDirection: t.yDirection,
          trackInfo: t.trackInfo,
          relatedTarget: inEvent.relatedTarget,
          pointerType: inEvent.pointerType,
-         pointerId: inEvent.pointerId
-       });
+         pointerId: inEvent.pointerId,
+         _source: 'track'
+       };
+       if (inType !== 'tracky') {
+         gestureProto.x = inEvent.x;
+         gestureProto.dx = d.x;
+         gestureProto.ddx = dd.x;
+         gestureProto.clientX = inEvent.clientX;
+         gestureProto.pageX = inEvent.pageX;
+         gestureProto.screenX = inEvent.screenX;
+         gestureProto.xDirection = t.xDirection;
+       }
+       if (inType !== 'trackx') {
+         gestureProto.dy = d.y;
+         gestureProto.ddy = dd.y;
+         gestureProto.y = inEvent.y;
+         gestureProto.clientY = inEvent.clientY;
+         gestureProto.pageY = inEvent.pageY;
+         gestureProto.screenY = inEvent.screenY;
+         gestureProto.yDirection = t.yDirection;
+       }
+       var e = eventFactory.makeGestureEvent(inType, gestureProto);
        t.downTarget.dispatchEvent(e);
      },
      down: function(inEvent) {
@@ -1659,11 +1735,14 @@ window.PolymerGestures = {};
            // start tracking only if finger moves more than WIGGLE_THRESHOLD
            if (move > this.WIGGLE_THRESHOLD) {
              p.tracking = true;
-             this.fireTrack('trackstart', p.downEvent, p);
-             this.fireTrack('track', inEvent, p);
+             p.lastMoveEvent = p.downEvent;
+             this.fireTrack('trackstart', inEvent, p);
            }
-         } else {
+         }
+         if (p.tracking) {
            this.fireTrack('track', inEvent, p);
+           this.fireTrack('trackx', inEvent, p);
+           this.fireTrack('tracky', inEvent, p);
          }
          p.lastMoveEvent = inEvent;
        }
@@ -1731,7 +1810,7 @@ window.PolymerGestures = {};
 /**
  * This event is fired when a held pointer is released or moved.
  *
- * @class released
+ * @class release
  */
 
 (function(scope) {
@@ -1746,6 +1825,11 @@ window.PolymerGestures = {};
       'down',
       'move',
       'up',
+    ],
+    exposes: [
+      'hold',
+      'holdpulse',
+      'release'
     ],
     heldPointer: null,
     holdJob: null,
@@ -1793,7 +1877,8 @@ window.PolymerGestures = {};
         pointerType: this.heldPointer.pointerType,
         pointerId: this.heldPointer.pointerId,
         x: this.heldPointer.clientX,
-        y: this.heldPointer.clientY
+        y: this.heldPointer.clientY,
+        _source: 'hold'
       };
       if (inHoldTime) {
         p.holdTime = inHoldTime;
@@ -1852,6 +1937,9 @@ window.PolymerGestures = {};
       'down',
       'up'
     ],
+    exposes: [
+      'tap'
+    ],
     down: function(inEvent) {
       if (inEvent.isPrimary && !inEvent.tapPrevented) {
         pointermap.set(inEvent.pointerId, {
@@ -1886,7 +1974,8 @@ window.PolymerGestures = {};
             altKey: inEvent.altKey,
             ctrlKey: inEvent.ctrlKey,
             metaKey: inEvent.metaKey,
-            shiftKey: inEvent.shiftKey
+            shiftKey: inEvent.shiftKey,
+            _source: 'tap'
           });
           t.dispatchEvent(e);
         }
@@ -2658,17 +2747,22 @@ window.PolymerGestures = {};
     }
 
     function parseLeftHandSideExpression() {
-        var expr, property;
+        var expr, args, property;
 
         expr = parsePrimaryExpression();
 
-        while (match('.') || match('[')) {
+        while (true) {
             if (match('[')) {
                 property = parseComputedMember();
                 expr = delegate.createMemberExpression('[', expr, property);
-            } else {
+            } else if (match('.')) {
                 property = parseNonComputedMember();
                 expr = delegate.createMemberExpression('.', expr, property);
+            } else if (match('(')) {
+                args = parseArguments();
+                expr = delegate.createCallExpression(expr, args);
+            } else {
+                break;
             }
         }
 
@@ -3041,34 +3135,31 @@ window.PolymerGestures = {};
   };
 
   function MemberExpression(object, property, accessor) {
+    this.computed = accessor == '[';
+
     this.dynamicDeps = typeof object == 'function' ||
                        object.dynamicDeps ||
-                       (accessor == '[' && !(property instanceof Literal));
-
-    // convert literal computed property access where literal value is a value
-    // path to ident dot-access.
-    if (accessor == '[' &&
-        property instanceof Literal &&
-        Path.get(property.value).valid) {
-      accessor = '.';
-      property = new IdentPath(property.value);
-    }
+                       (this.computed && !(property instanceof Literal));
 
     this.simplePath =
         !this.dynamicDeps &&
-        property instanceof IdentPath &&
+        (property instanceof IdentPath || property instanceof Literal) &&
         (object instanceof MemberExpression || object instanceof IdentPath);
 
     this.object = this.simplePath ? object : getFn(object);
-    this.property = accessor == '.' ? property : getFn(property);
+    this.property = !this.computed || this.simplePath ?
+        property : getFn(property);
   }
 
   MemberExpression.prototype = {
     get fullPath() {
       if (!this.fullPath_) {
-        var last = this.object instanceof IdentPath ?
-            this.object.name : this.object.fullPath;
-        this.fullPath_ = Path.get(last + '.' + this.property.name);
+
+        var parts = this.object instanceof MemberExpression ?
+            this.object.fullPath.slice() : [this.object.name];
+        parts.push(this.property instanceof IdentPath ?
+            this.property.name : this.property.value);
+        this.fullPath_ = Path.get(parts);
       }
 
       return this.fullPath_;
@@ -3087,11 +3178,11 @@ window.PolymerGestures = {};
 
             return path.getValueFrom(model);
           };
-        } else if (this.property instanceof IdentPath) {
+        } else if (!this.computed) {
           var path = Path.get(this.property.name);
 
-          this.valueFn_ = function(model, observer) {
-            var context = object(model, observer);
+          this.valueFn_ = function(model, observer, filterRegistry) {
+            var context = object(model, observer, filterRegistry);
 
             if (observer)
               observer.addPath(context, path);
@@ -3102,11 +3193,11 @@ window.PolymerGestures = {};
           // Computed property.
           var property = this.property;
 
-          this.valueFn_ = function(model, observer) {
-            var context = object(model, observer);
-            var propName = property(model, observer);
+          this.valueFn_ = function(model, observer, filterRegistry) {
+            var context = object(model, observer, filterRegistry);
+            var propName = property(model, observer, filterRegistry);
             if (observer)
-              observer.addPath(context, propName);
+              observer.addPath(context, [propName]);
 
             return context ? context[propName] : undefined;
           };
@@ -3137,8 +3228,8 @@ window.PolymerGestures = {};
   }
 
   Filter.prototype = {
-    transform: function(value, toModelDirection, filterRegistry, model,
-                        observer) {
+    transform: function(model, observer, filterRegistry, toModelDirection,
+                        initialArgs) {
       var fn = filterRegistry[this.name];
       var context = model;
       if (fn) {
@@ -3146,7 +3237,7 @@ window.PolymerGestures = {};
       } else {
         fn = context[this.name];
         if (!fn) {
-          console.error('Cannot find filter: ' + this.name);
+          console.error('Cannot find function or filter: ' + this.name);
           return;
         }
       }
@@ -3161,14 +3252,13 @@ window.PolymerGestures = {};
       }
 
       if (typeof fn != 'function') {
-        console.error('No ' + (toModelDirection ? 'toModel' : 'toDOM') +
-                      ' found on' + this.name);
+        console.error('Cannot find function or filter: ' + this.name);
         return;
       }
 
-      var args = [value];
+      var args = initialArgs || [];
       for (var i = 0; i < this.args.length; i++) {
-        args[i + 1] = getFn(this.args[i])(model, observer);
+        args.push(getFn(this.args[i])(model, observer, filterRegistry));
       }
 
       return fn.apply(context, args);
@@ -3222,8 +3312,8 @@ window.PolymerGestures = {};
 
       argument = getFn(argument);
 
-      return function(model, observer) {
-        return unaryOperators[op](argument(model, observer));
+      return function(model, observer, filterRegistry) {
+        return unaryOperators[op](argument(model, observer, filterRegistry));
       };
     },
 
@@ -3234,9 +3324,24 @@ window.PolymerGestures = {};
       left = getFn(left);
       right = getFn(right);
 
-      return function(model, observer) {
-        return binaryOperators[op](left(model, observer),
-                                   right(model, observer));
+      switch (op) {
+        case '||':
+          this.dynamicDeps = true;
+          return function(model, observer, filterRegistry) {
+            return left(model, observer, filterRegistry) ||
+                right(model, observer, filterRegistry);
+          };
+        case '&&':
+          this.dynamicDeps = true;
+          return function(model, observer, filterRegistry) {
+            return left(model, observer, filterRegistry) &&
+                right(model, observer, filterRegistry);
+          };
+      }
+
+      return function(model, observer, filterRegistry) {
+        return binaryOperators[op](left(model, observer, filterRegistry),
+                                   right(model, observer, filterRegistry));
       };
     },
 
@@ -3245,9 +3350,12 @@ window.PolymerGestures = {};
       consequent = getFn(consequent);
       alternate = getFn(alternate);
 
-      return function(model, observer) {
-        return test(model, observer) ?
-            consequent(model, observer) : alternate(model, observer);
+      this.dynamicDeps = true;
+
+      return function(model, observer, filterRegistry) {
+        return test(model, observer, filterRegistry) ?
+            consequent(model, observer, filterRegistry) :
+            alternate(model, observer, filterRegistry);
       }
     },
 
@@ -3264,6 +3372,17 @@ window.PolymerGestures = {};
       return ex;
     },
 
+    createCallExpression: function(expression, args) {
+      if (!(expression instanceof IdentPath))
+        throw Error('Only identifier function invocations are allowed');
+
+      var filter = new Filter(expression.name, args);
+
+      return function(model, observer, filterRegistry) {
+        return filter.transform(model, observer, filterRegistry, false);
+      };
+    },
+
     createLiteral: function(token) {
       return new Literal(token.value);
     },
@@ -3272,10 +3391,10 @@ window.PolymerGestures = {};
       for (var i = 0; i < elements.length; i++)
         elements[i] = getFn(elements[i]);
 
-      return function(model, observer) {
+      return function(model, observer, filterRegistry) {
         var arr = []
         for (var i = 0; i < elements.length; i++)
-          arr.push(elements[i](model, observer));
+          arr.push(elements[i](model, observer, filterRegistry));
         return arr;
       }
     },
@@ -3291,10 +3410,11 @@ window.PolymerGestures = {};
       for (var i = 0; i < properties.length; i++)
         properties[i].value = getFn(properties[i].value);
 
-      return function(model, observer) {
+      return function(model, observer, filterRegistry) {
         var obj = {};
         for (var i = 0; i < properties.length; i++)
-          obj[properties[i].key] = properties[i].value(model, observer);
+          obj[properties[i].key] =
+              properties[i].value(model, observer, filterRegistry);
         return obj;
       }
     },
@@ -3385,10 +3505,10 @@ window.PolymerGestures = {};
     },
 
     getValue: function(model, observer, filterRegistry) {
-      var value = getFn(this.expression)(model, observer);
+      var value = getFn(this.expression)(model, observer, filterRegistry);
       for (var i = 0; i < this.filters.length; i++) {
-        value = this.filters[i].transform(value, false, filterRegistry, model,
-                                          observer);
+        value = this.filters[i].transform(model, observer, filterRegistry,
+            false, [value]);
       }
 
       return value;
@@ -3397,8 +3517,8 @@ window.PolymerGestures = {};
     setValue: function(model, newValue, filterRegistry) {
       var count = this.filters ? this.filters.length : 0;
       while (count-- > 0) {
-        newValue = this.filters[count].transform(newValue, true, filterRegistry,
-                                                 model);
+        newValue = this.filters[count].transform(model, undefined,
+            filterRegistry, true, [newValue]);
       }
 
       if (this.expression.setValue)
@@ -3510,19 +3630,33 @@ window.PolymerGestures = {};
       var indexName = template.polymerExpressionIndexIdent_;
 
       return function(model) {
-        var scope = Object.create(parentScope);
-        scope[scopeName] = model;
-        scope[indexName] = undefined;
-        scope[parentScopeName] = parentScope;
-        return scope;
+        return createScopeObject(parentScope, model, scopeName, indexName);
       };
     }
   };
 
-  global.PolymerExpressions = PolymerExpressions;
-  if (global.exposeGetExpression)
-    global.getExpression_ = getExpression;
+  var createScopeObject = ('__proto__' in {}) ?
+    function(parentScope, model, scopeName, indexName) {
+      var scope = {};
+      scope[scopeName] = model;
+      scope[indexName] = undefined;
+      scope[parentScopeName] = parentScope;
+      scope.__proto__ = parentScope;
+      return scope;
+    } :
+    function(parentScope, model, scopeName, indexName) {
+      var scope = Object.create(parentScope);
+      Object.defineProperty(scope, scopeName,
+          { value: model, configurable: true, writable: true });
+      Object.defineProperty(scope, indexName,
+          { value: undefined, configurable: true, writable: true });
+      Object.defineProperty(scope, parentScopeName,
+          { value: parentScope, configurable: true, writable: true });
+      return scope;
+    };
 
+  global.PolymerExpressions = PolymerExpressions;
+  PolymerExpressions.getExpression = getExpression;
 })(this);
 
 /*
@@ -3534,7 +3668,7 @@ window.PolymerGestures = {};
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 Polymer = {
-  version: '0.3.1-604ba08'
+  version: '0.3.5-5d00e4b'
 };
 
 /*
@@ -3846,10 +3980,13 @@ if (typeof window.Polymer === 'function') {
 
 (function(scope) {
 
+  function noopHandler(value) {
+    return value;
+  }
+
   var typeHandlers = {
-    string: function(value) {
-      return value;
-    },
+    string: noopHandler,
+    'undefined': noopHandler,
     date: function(value) {
       return new Date(Date.parse(value) || Date.now());
     },
@@ -3990,13 +4127,15 @@ if (typeof window.Polymer === 'function') {
       * @param {string} type An event name.
       * @param {any} detail
       * @param {Node} onNode Target node.
+      * @param {Boolean} bubbles Set false to prevent bubbling, defaults to true
+      * @param {Boolean} cancelable Set false to prevent cancellation, defaults to true
       */
     fire: function(type, detail, onNode, bubbles, cancelable) {
       var node = onNode || this;
-      var detail = detail || {};
+      var detail = detail === null || detail === undefined ? {} : detail;
       var event = new CustomEvent(type, {
-        bubbles: (bubbles !== undefined ? bubbles : true), 
-        cancelable: (cancelable !== undefined ? cancelable : true), 
+        bubbles: bubbles !== undefined ? bubbles : true,
+        cancelable: cancelable !== undefined ? cancelable : true,
         detail: detail
       });
       node.dispatchEvent(event);
@@ -4013,7 +4152,7 @@ if (typeof window.Polymer === 'function') {
       this.async("fire", arguments);
     },
     /**
-      * Remove class from old, add class to anew, if they exist
+      * Remove class from old, add class to anew, if they exist.
       * @param classFollows
       * @param anew A node.
       * @param old A node
@@ -4026,6 +4165,22 @@ if (typeof window.Polymer === 'function') {
       if (anew) {
         anew.classList.add(className);
       }
+    },
+    /**
+      * Inject HTML which contains markup bound to this element into
+      * a target element (replacing target element content).
+      * @param String html to inject
+      * @param Element target element
+      */
+    injectBoundHTML: function(html, element) {
+      var template = document.createElement('template');
+      template.innerHTML = html;
+      var fragment = this.instanceTemplate(template);
+      if (element) {
+        element.textContent = '';
+        element.appendChild(fragment);
+      }
+      return fragment;
     }
   };
 
@@ -4077,8 +4232,7 @@ if (typeof window.Polymer === 'function') {
       // by default supports 1 thing being bound.
       for (var type in events) {
         var methodName = events[type];
-        this.addEventListener(type, this.element.getEventHandler(this, this,
-                                                                 methodName));
+        PolymerGestures.addEventListener(this, type, this.element.getEventHandler(this, this, methodName));
       }
     },
     // call 'method' or function method on 'obj' with 'args', if the method exists
@@ -4098,6 +4252,10 @@ if (typeof window.Polymer === 'function') {
   // exports
 
   scope.api.instance.events = events;
+
+  // alias PolymerGestures event listener logic
+  scope.addEventListener = PolymerGestures.addEventListener;
+  scope.removeEventListener = PolymerGestures.removeEventListener;
 
 })(Polymer);
 
@@ -4222,15 +4380,44 @@ if (typeof window.Polymer === 'function') {
 
   var empty = [];
 
+  var updateRecord = {
+    object: undefined,
+    type: 'update',
+    name: undefined,
+    oldValue: undefined
+  };
+
+  var numberIsNaN = Number.isNaN || function(value) {
+    return typeof value === 'number' && isNaN(value);
+  }
+
+  function areSameValue(left, right) {
+    if (left === right)
+      return left !== 0 || 1 / left === 1 / right;
+    if (numberIsNaN(left) && numberIsNaN(right))
+      return true;
+
+    return left !== left && right !== right;
+  }
+
+  // capture A's value if B's value is null or undefined,
+  // otherwise use B's value
+  function resolveBindingValue(oldValue, value) {
+    if (value === undefined && oldValue === null) {
+      return value;
+    }
+    return (value === null || value === undefined) ? oldValue : value;
+  }
+
   var properties = {
     createPropertyObserver: function() {
       var n$ = this._observeNames;
       if (n$ && n$.length) {
         var o = this._propertyObserver = new CompoundObserver(true);
-        this.registerObservers([o]);
+        this.registerObserver(o);
         // TODO(sorvell): may not be kosher to access the value here (this[n]);
         // previously we looked at the descriptor on the prototype
-        // this doesn't work for inheritance and not for accessors without 
+        // this doesn't work for inheritance and not for accessors without
         // a value property
         for (var i=0, l=n$.length, n; (i<l) && (n=n$[i]); i++) {
           o.addPath(this, n);
@@ -4297,12 +4484,83 @@ if (typeof window.Polymer === 'function') {
         }
       }
     },
+    emitPropertyChangeRecord: function(name, value, oldValue) {
+      var object = this;
+      if (areSameValue(value, oldValue))
+        return;
+
+      this.propertyChanged_(name, value, oldValue);
+
+      if (!Observer.hasObjectObserve)
+        return;
+
+      var notifier = this.notifier_;
+      if (!notifier)
+        notifier = this.notifier_ = Object.getNotifier(this);
+
+      updateRecord.object = this;
+      updateRecord.name = name;
+      updateRecord.oldValue = oldValue;
+
+      notifier.notify(updateRecord);
+    },
+    bindToAccessor: function(name, observable, resolveFn) {
+      var privateName = name + '_';
+      var privateObservable  = name + 'Observable_';
+
+      this[privateObservable] = observable;
+      var oldValue = this[privateName];
+
+      var self = this;
+      var value = observable.open(function(value, oldValue) {
+        self[privateName] = value;
+        self.emitPropertyChangeRecord(name, value, oldValue);
+      });
+
+      if (resolveFn && !areSameValue(oldValue, value)) {
+        var resolvedValue = resolveFn(oldValue, value);
+        if (!areSameValue(value, resolvedValue)) {
+          value = resolvedValue;
+          if (observable.setValue)
+            observable.setValue(value);
+        }
+      }
+
+      this[privateName] = value;
+      this.emitPropertyChangeRecord(name, value, oldValue);
+
+      var observer = {
+        close: function() {
+          observable.close();
+          self[privateObservable] = undefined;
+        }
+      };
+      this.registerObserver(observer);
+      return observer;
+    },
+    createComputedProperties: function() {
+      if (!this._computedNames) {
+        return;
+      }
+
+      for (var i = 0; i < this._computedNames.length; i++) {
+        var name = this._computedNames[i];
+        var expressionText = this.computed[name];
+        try {
+          var expression = PolymerExpressions.getExpression(expressionText);
+          var observable = expression.getBinding(this, this.element.syntax);
+          this.bindToAccessor(name, observable);
+        } catch (ex) {
+          console.error('Failed to create computed property', ex);
+        }
+      }
+    },
     bindProperty: function(property, observable, oneTime) {
       if (oneTime) {
         this[property] = observable;
         return;
       }
-      return bindProperties(this, property, observable);
+      return this.bindToAccessor(property, observable, resolveBindingValue);
     },
     invokeMethod: function(method, args) {
       var fn = this[method] || method;
@@ -4310,27 +4568,29 @@ if (typeof window.Polymer === 'function') {
         fn.apply(this, args);
       }
     },
-    registerObservers: function(observers) {
-      this._observers = this._observers || [];
-      this._observers.push(observers);
+    registerObserver: function(observer) {
+      if (!this._observers) {
+        this._observers = [observer];
+        return;
+      }
+
+      this._observers.push(observer);
     },
     // observer array items are arrays of observers.
     closeObservers: function() {
       if (!this._observers) {
         return;
       }
-      for (var i=0, l=this._observers.length; i<l; i++) {
-        this.closeObserverArray(this._observers[i]);
-      }
-      this._observers = [];
-    },
-    closeObserverArray: function(observerArray) {
-      for (var i=0, l=observerArray.length, o; i<l; i++) {
-        o = observerArray[i];
-        if (o && o.close) {
-          o.close();
+
+      var observers = this._observers;
+      for (var i = 0; i < observers.length; i++) {
+        var observer = observers[i];
+        if (observer && typeof observer.close == 'function') {
+          observer.close();
         }
       }
+
+      this._observers = [];
     },
     // bookkeeping observers for memory management
     registerNamedObserver: function(name, observer) {
@@ -4354,23 +4614,6 @@ if (typeof window.Polymer === 'function') {
       }
     }
   };
-
-  // property binding
-  // bind a property in A to a path in B by converting A[property] to a
-  // getter/setter pair that accesses B[...path...]
-  function bindProperties(a, property, observable) {
-    // apply Polymer two-way reference binding
-    return Observer.bindToInstance(a, property, observable, resolveBindingValue);
-  }
-
-  // capture A's value if B's value is null or undefined,
-  // otherwise use B's value
-  function resolveBindingValue(oldValue, value) {
-    if (value === undefined && oldValue === null) {
-      return value;
-    }
-    return (value === null || value === undefined) ? oldValue : value;
-  }
 
   // logging
   var LOG_OBSERVE = '[%s] watching [%s]';
@@ -4405,7 +4648,10 @@ if (typeof window.Polymer === 'function') {
       var syntax = this.syntax || (!template.bindingDelegate &&
           this.element.syntax);
       var dom = template.createInstance(this, syntax);
-      this.registerObservers(dom.bindings_);
+      var observers = dom.bindings_;
+      for (var i = 0; i < observers.length; i++) {
+        this.registerObserver(observers[i]);
+      }
       return dom;
     },
     bind: function(name, observable, oneTime) {
@@ -4527,9 +4773,7 @@ if (typeof window.Polymer === 'function') {
       }
       this.created();
       this.prepareElement();
-      // TODO(sorvell): replace when ShadowDOMPolyfill issue is corrected
-      // https://github.com/Polymer/ShadowDOM/issues/420
-      if (!this.ownerDocument.isStagingDocument || window.ShadowDOMPolyfill) {
+      if (!this.ownerDocument.isStagingDocument) {
         this.makeElementReady();
       }
     },
@@ -4544,7 +4788,6 @@ if (typeof window.Polymer === 'function') {
       this.shadowRoots = {};
       // install property observers
       this.createPropertyObserver();
-      // TODO (sorvell): temporarily open observer when created
       this.openPropertyObserver();
       // install boilerplate attributes
       this.copyInstanceAttributes();
@@ -4558,6 +4801,7 @@ if (typeof window.Polymer === 'function') {
         return;
       }
       this._readied = true;
+      this.createComputedProperties();
       // TODO(sorvell): We could create an entry point here
       // for the user to compute property values.
       // process declarative resources
@@ -4568,9 +4812,6 @@ if (typeof window.Polymer === 'function') {
       this.removeAttribute('unresolved');
       // user entry point
       this.ready();
-      // TODO (sorvell): temporarily open observer when created
-      // turn on property observation and take any initial changes
-      //this.openPropertyObserver();
     },
     attachedCallback: function() {
       this.cancelUnbindAll();
@@ -4582,7 +4823,7 @@ if (typeof window.Polymer === 'function') {
       if (this.enteredView) {
         this.enteredView();
       }
-      // NOTE: domReady can be used to access elements in dom (descendants, 
+      // NOTE: domReady can be used to access elements in dom (descendants,
       // ancestors, siblings) such that the developer is enured to upgrade
       // ordering. If the element definitions have loaded, domReady
       // can be used to access upgraded elements.
@@ -4647,7 +4888,7 @@ if (typeof window.Polymer === 'function') {
         // make a shadow root
         var root = this.createShadowRoot();
         // stamp template
-        // which includes parsing and applying MDV bindings before being 
+        // which includes parsing and applying MDV bindings before being
         // inserted (to avoid {{}} in attribute values)
         // e.g. to prevent <img src="images/{{icon}}"> from generating a 404.
         var dom = this.instanceTemplate(template);
@@ -4664,17 +4905,17 @@ if (typeof window.Polymer === 'function') {
       if (template) {
         // TODO(sorvell): mark this element as an eventController so that
         // event listeners on bound nodes inside it will be called on it.
-        // Note, the expectation here is that events on all descendants 
+        // Note, the expectation here is that events on all descendants
         // should be handled by this element.
         this.eventController = this;
         // stamp template
-        // which includes parsing and applying MDV bindings before being 
+        // which includes parsing and applying MDV bindings before being
         // inserted (to avoid {{}} in attribute values)
         // e.g. to prevent <img src="images/{{icon}}"> from generating a 404.
         var dom = this.instanceTemplate(template);
         // append to shadow dom
         if (refNode) {
-          this.insertBefore(dom, refNode);          
+          this.insertBefore(dom, refNode);
         } else {
           this.appendChild(dom);
         }
@@ -4687,8 +4928,6 @@ if (typeof window.Polymer === 'function') {
     shadowRootReady: function(root) {
       // locate nodes with id and store references to them in this.$ hash
       this.marshalNodeReferences(root);
-      // set up polymer gestures
-      PolymerGestures.register(root);
     },
     // locate nodes with id and store references to them in this.$ hash
     marshalNodeReferences: function(root) {
@@ -4722,7 +4961,7 @@ if (typeof window.Polymer === 'function') {
 
   // true if object has own PolymerBase api
   function isBase(object) {
-    return object.hasOwnProperty('PolymerBase') 
+    return object.hasOwnProperty('PolymerBase')
   }
 
   // name a base constructor for dev tools
@@ -4730,13 +4969,13 @@ if (typeof window.Polymer === 'function') {
   function PolymerBase() {};
   PolymerBase.prototype = base;
   base.constructor = PolymerBase;
-  
+
   // exports
 
   scope.Base = PolymerBase;
   scope.isBase = isBase;
   scope.api.instance.base = base;
-  
+
 })(Polymer);
 
 /*
@@ -4753,7 +4992,8 @@ if (typeof window.Polymer === 'function') {
   // imports
 
   var log = window.logFlags || {};
-  
+  var hasShadowDOMPolyfill = window.ShadowDOMPolyfill;
+
   // magic words
   
   var STYLE_SCOPE_ATTRIBUTE = 'element';
@@ -4801,14 +5041,14 @@ if (typeof window.Polymer === 'function') {
       if (!scope) {
         return;
       }
-      if (window.ShadowDOMPolyfill) {
+      if (hasShadowDOMPolyfill) {
         cssText = shimCssText(cssText, scope.host);
       }
       var style = this.element.cssTextToScopeStyle(cssText,
           STYLE_CONTROLLER_SCOPE);
       Polymer.applyStyleToScope(style, scope);
       // cache that this style has been applied
-      scope._scopeStyles[this.localName + name] = true;
+      this.styleCacheForScope(scope)[this.localName + name] = true;
     },
     findStyleScope: function(node) {
       // find the shadow root that contains this element
@@ -4819,10 +5059,20 @@ if (typeof window.Polymer === 'function') {
       return n;
     },
     scopeHasNamedStyle: function(scope, name) {
-      scope._scopeStyles = scope._scopeStyles || {};
-      return scope._scopeStyles[name];
+      var cache = this.styleCacheForScope(scope);
+      return cache[name];
+    },
+    styleCacheForScope: function(scope) {
+      if (hasShadowDOMPolyfill) {
+        var scopeName = scope.host ? scope.host.localName : scope.localName;
+        return polyfillScopeStyleCache[scopeName] || (polyfillScopeStyleCache[scopeName] = {});
+      } else {
+        return scope._scopeStyles = (scope._scopeStyles || {});
+      }
     }
   };
+
+  var polyfillScopeStyleCache = {};
   
   // NOTE: use raw prototype traversal so that we ensure correct traversal
   // on platforms where the protoype chain is simulated via __proto__ (IE10)
@@ -4998,6 +5248,8 @@ scope.api.declaration.path = path;
   var api = scope.api.instance.styles;
   var STYLE_SCOPE_ATTRIBUTE = api.STYLE_SCOPE_ATTRIBUTE;
 
+  var hasShadowDOMPolyfill = window.ShadowDOMPolyfill;
+
   // magic words
 
   var STYLE_SELECTOR = 'style';
@@ -5170,7 +5422,7 @@ scope.api.declaration.path = path;
       if (scope === document) {
         scope = document.head;
       }
-      if (window.ShadowDOMPolyfill) {
+      if (hasShadowDOMPolyfill) {
         scope = document.head;
       }
       // TODO(sorvell): necessary for IE
@@ -5311,7 +5563,7 @@ scope.api.declaration.path = path;
 
       return function(model, node, oneTime) {
         var handler = events.getEventHandler(undefined, node, pathString);
-        node.addEventListener(eventType, handler);
+        PolymerGestures.addEventListener(node, eventType, handler);
 
         if (oneTime)
           return;
@@ -5328,7 +5580,7 @@ scope.api.declaration.path = path;
           open: bindingValue,
           discardChanges: bindingValue,
           close: function() {
-            node.removeEventListener(eventType, handler);
+            PolymerGestures.removeEventListener(node, eventType, handler);
           }
         };
       };
@@ -5401,6 +5653,13 @@ scope.api.declaration.path = path;
           a.push(n);
         }
       }
+      if (prototype.computed) {
+        // construct name list
+        var a = prototype._computedNames = [];
+        for (var n in prototype.computed) {
+          a.push(n);
+        }
+      }
     },
     publishProperties: function(prototype, base) {
       // if we have any properties to publish
@@ -5412,38 +5671,51 @@ scope.api.declaration.path = path;
         prototype._publishLC = this.lowerCaseMap(publish);
       }
     },
-    // sync prototype to property descriptors; 
-    // desriptor format contains default value and optionally a 
-    // hint for reflecting the property to an attribute.
-    // e.g. {foo: 5, bar: {value: true, reflect: true}}
-    // reflect: {foo: true} is also supported
-    // 
-    requireProperties: function(propertyDescriptors, prototype, base) {
-      // reflected properties
+    //
+    // `name: value` entries in the `publish` object may need to generate 
+    // matching properties on the prototype.
+    //
+    // Values that are objects may have a `reflect` property, which
+    // signals that the value describes property control metadata.
+    // In metadata objects, the prototype default value (if any)
+    // is encoded in the `value` property.
+    //
+    // publish: {
+    //   foo: 5, 
+    //   bar: {value: true, reflect: true},
+    //   zot: {}
+    // }
+    //
+    // `reflect` metadata property controls whether changes to the property
+    // are reflected back to the attribute (default false). 
+    //
+    // A value is stored on the prototype unless it's === `undefined`,
+    // in which case the base chain is checked for a value.
+    // If the basal value is also undefined, `null` is stored on the prototype.
+    //
+    // The reflection data is stored on another prototype object, `reflect`
+    // which also can be specified directly.
+    //
+    // reflect: {
+    //   foo: true
+    // }
+    //
+    requireProperties: function(propertyInfos, prototype, base) {
+      // per-prototype storage for reflected properties
       prototype.reflect = prototype.reflect || {};
       // ensure a prototype value for each property
-      // and update the property's reflect to attribute status 
-      for (var n in propertyDescriptors) {
-        var propertyDescriptor = propertyDescriptors[n];
-        var reflects = this.reflectHintForDescriptor(propertyDescriptor);
-        if (prototype.reflect[n] === undefined && reflects !== undefined) {
-          prototype.reflect[n] = reflects;
+      // and update the property's reflect to attribute status
+      for (var n in propertyInfos) {
+        var value = propertyInfos[n];
+        // value has metadata if it has a `reflect` property
+        if (value && value.reflect !== undefined) {
+          prototype.reflect[n] = Boolean(value.reflect);
+          value = value.value;
         }
-        if (prototype[n] === undefined) {
-          prototype[n] = this.valueForDescriptor(propertyDescriptor); 
+        // only set a value if one is specified
+        if (value !== undefined) {
+          prototype[n] = value;
         }
-      }
-    },
-    valueForDescriptor: function(propertyDescriptor) {
-      var value = typeof propertyDescriptor === 'object' && 
-          propertyDescriptor ? propertyDescriptor.value : propertyDescriptor;
-      return value !== undefined ? value : null;
-    },
-    // returns the value of the descriptor's 'reflect' property or undefined
-    reflectHintForDescriptor: function(propertyDescriptor) {
-      if (typeof propertyDescriptor === 'object' &&
-          propertyDescriptor && propertyDescriptor.reflect !== undefined) {
-        return propertyDescriptor.reflect;
       }
     },
     lowerCaseMap: function(properties) {
@@ -5453,11 +5725,48 @@ scope.api.declaration.path = path;
       }
       return map;
     },
+    createPropertyAccessor: function(name) {
+      var proto = this.prototype;
+
+      var privateName = name + '_';
+      var privateObservable  = name + 'Observable_';
+      proto[privateName] = proto[name];
+
+      Object.defineProperty(proto, name, {
+        get: function() {
+          var observable = this[privateObservable];
+          if (observable)
+            observable.deliver();
+
+          return this[privateName];
+        },
+        set: function(value) {
+          var observable = this[privateObservable];
+          if (observable) {
+            observable.setValue(value);
+            return;
+          }
+
+          var oldValue = this[privateName];
+          this[privateName] = value;
+          this.emitPropertyChangeRecord(name, value, oldValue);
+
+          return value;
+        },
+        configurable: true
+      });
+    },
     createPropertyAccessors: function(prototype) {
       var n$ = prototype._publishNames;
       if (n$ && n$.length) {
         for (var i=0, l=n$.length, n, fn; (i<l) && (n=n$[i]); i++) {
-          Observer.createBindablePrototypeAccessor(prototype, n);
+          this.createPropertyAccessor(n);
+        }
+      }
+      var n$ = prototype._computedNames;
+      if (n$ && n$.length) {
+        for (var i=0, l=n$.length, n, fn; (i<l) && (n=n$[i]); i++) {
+          this.createPropertyAccessor(n);
         }
       }
     }
@@ -5496,22 +5805,27 @@ scope.api.declaration.path = path;
     },
 
     publishAttributes: function(prototype, base) {
-      // merge names from 'attributes' attribute
+      // merge names from 'attributes' attribute into the 'publish' object
       var attributes = this.getAttribute(ATTRIBUTES_ATTRIBUTE);
       if (attributes) {
-        // get properties to publish
-        var publish = prototype.publish || (prototype.publish = {});
+        // create a `publish` object if needed.
+        // the `publish` object is only relevant to this prototype, the 
+        // publishing logic in `declaration/properties.js` is responsible for
+        // managing property values on the prototype chain.
+        // TODO(sjmiles): the `publish` object is later chained to it's 
+        //                ancestor object, presumably this is only for 
+        //                reflection or other non-library uses. 
+        var publish = prototype.publish || (prototype.publish = {}); 
         // names='a b c' or names='a,b,c'
         var names = attributes.split(ATTRIBUTES_REGEX);
         // record each name for publishing
         for (var i=0, l=names.length, n; i<l; i++) {
           // remove excess ws
           n = names[i].trim();
-          // do not override explicit entries
-          if (n && publish[n] === undefined && base[n] === undefined) {
-            // supply an empty 'descriptor' object and let the publishProperties
-            // code determine a default
-            publish[n] = Polymer.nob;
+          // looks weird, but causes n to exist on `publish` if it does not;
+          // a more careful test would need expensive `in` operator
+          if (n && publish[n] === undefined) {
+            publish[n] = undefined;
           }
         }
       }
@@ -5618,6 +5932,8 @@ scope.api.declaration.path = path;
   var isBase = scope.isBase;
   var extend = scope.extend;
 
+  var hasShadowDOMPolyfill = window.ShadowDOMPolyfill;
+
   // prototype api
 
   var prototype = {
@@ -5704,7 +6020,7 @@ scope.api.declaration.path = path;
       // this.$.image.src = this.resolvePath('images/foo.png')
       this.addResolvePathApi();
       // under ShadowDOMPolyfill, transforms to approximate missing CSS features
-      if (window.ShadowDOMPolyfill) {
+      if (hasShadowDOMPolyfill) {
         Platform.ShadowCSS.shimStyling(this.templateContent(), name, extendee);
       }
       // allow custom element access to the declarative context
@@ -5887,21 +6203,26 @@ scope.api.declaration.path = path;
 
   */
   var queue = {
+
     // tell the queue to wait for an element to be ready
-    wait: function(element, check, go) {
-      var shouldAdd = (this.indexOf(element) === -1 && 
-          flushQueue.indexOf(element) === -1);
+    wait: function(element) {
+      if (!element.__queue) {
+        element.__queue = {};
+        elements.push(element);
+      }
+    },
+
+    // enqueue an element to the next spot in the queue.
+    enqueue: function(element, check, go) {
+      var shouldAdd = element.__queue && !element.__queue.check;
       if (shouldAdd) {
-        this.add(element);
-        element.__check = check;
-        element.__go = go;
+        queueForElement(element).push(element);
+        element.__queue.check = check;
+        element.__queue.go = go;
       }
       return (this.indexOf(element) !== 0);
     },
-    add: function(element) {
-      //console.log('queueing', element.name);
-      queueForElement(element).push(element);
-    },
+
     indexOf: function(element) {
       var i = queueForElement(element).indexOf(element);
       if (i >= 0 && document.contains(element)) {
@@ -5910,14 +6231,17 @@ scope.api.declaration.path = path;
       }
       return i;  
     },
+
     // tell the queue an element is ready to be registered
     go: function(element) {
       var readied = this.remove(element);
       if (readied) {
+        element.__queue.flushable = true;
         this.addToFlushQueue(readied);
         this.check();
       }
     },
+
     remove: function(element) {
       var i = this.indexOf(element);
       if (i !== 0) {
@@ -5926,37 +6250,56 @@ scope.api.declaration.path = path;
       }
       return queueForElement(element).shift();
     },
+
     check: function() {
       // next
       var element = this.nextElement();
       if (element) {
-        element.__check.call(element);
+        element.__queue.check.call(element);
       }
       if (this.canReady()) {
         this.ready();
         return true;
       }
     },
+
     nextElement: function() {
       return nextQueued();
     },
+
     canReady: function() {
       return !this.waitToReady && this.isEmpty();
     },
+
     isEmpty: function() {
-      return !importQueue.length && !mainQueue.length;
+      for (var i=0, l=elements.length, e; (i<l) && 
+          (e=elements[i]); i++) {
+        if (e.__queue && !e.__queue.flushable) {
+          return;
+        }
+      }
+      return true;
     },
+
     addToFlushQueue: function(element) {
       flushQueue.push(element);  
     },
+
     flush: function() {
+      // prevent re-entrance
+      if (this.flushing) {
+        return;
+      }
+      this.flushing = true;
       var element;
       while (flushQueue.length) {
         element = flushQueue.shift();
-        element.__go.call(element);
-        element.__check = element.__go = null;
+        element.__queue.go.call(element);
+        element.__queue = null;
       }
+      this.flushing = false;
     },
+
     ready: function() {
       this.flush();
       // TODO(sorvell): As an optimization, turn off CE polyfill upgrading
@@ -5972,11 +6315,13 @@ scope.api.declaration.path = path;
       Platform.flush();
       requestAnimationFrame(this.flushReadyCallbacks);
     },
+
     addReadyCallback: function(callback) {
       if (callback) {
         readyCallbacks.push(callback);
       }
     },
+
     flushReadyCallbacks: function() {
       if (readyCallbacks) {
         var fn;
@@ -5986,11 +6331,13 @@ scope.api.declaration.path = path;
         }
       }
     },
+
     waitToReady: true
+
   };
 
+  var elements = [];
   var flushQueue = [];
-
   var importQueue = [];
   var mainQueue = [];
   var readyCallbacks = [];
@@ -6020,8 +6367,9 @@ scope.api.declaration.path = path;
   }
 
   // exports
+  scope.elements = elements;
   scope.queue = queue;
-  scope.whenPolymerReady = whenPolymerReady;
+  scope.whenReady = scope.whenPolymerReady = whenPolymerReady;
 })(Polymer);
 
 /*
@@ -6101,12 +6449,17 @@ scope.api.declaration.path = path;
       // fetch declared values
       this.name = this.getAttribute('name');
       this.extends = this.getAttribute('extends');
+      queue.wait(this);
       // initiate any async resource fetches
       this.loadResources();
       // register when all constraints are met
       this.registerWhenReady();
     },
 
+    // TODO(sorvell): we currently queue in the order the prototypes are 
+    // registered, but we should queue in the order that polymer-elements
+    // are registered. We are currently blocked from doing this based on 
+    // crbug.com/395686.
     registerWhenReady: function() {
      if (this.registered
        || this.waitingForPrototype(this.name)
@@ -6114,16 +6467,11 @@ scope.api.declaration.path = path;
        || this.waitingForResources()) {
           return;
       }
-      // TODO(sorvell): ends up calling '_register' by virtue
-      // of `waitingForQueue` (see below)
       queue.go(this);
     },
 
-    // TODO(sorvell): refactor, this method is private-ish, but it's being
-    // called by the queue object.
     _register: function() {
       //console.log('registering', this.name);
-      //console.group('registering', this.name);
       // warn if extending from a custom element not registered via Polymer
       if (isCustomTag(this.extends) && !isRegistered(this.extends)) {
         console.warn('%s is attempting to extend %s, an unregistered element ' +
@@ -6132,7 +6480,6 @@ scope.api.declaration.path = path;
       }
       this.register(this.name, this.extends);
       this.registered = true;
-      //console.groupEnd();
     },
 
     waitingForPrototype: function(name) {
@@ -6150,19 +6497,8 @@ scope.api.declaration.path = path;
       // if explicitly marked as 'noscript'
       if (this.hasAttribute('noscript') && !this.noscript) {
         this.noscript = true;
-        // TODO(sorvell): CustomElements polyfill awareness:
-        // noscript elements should upgrade in logical order
-        // script injection ensures this under native custom elements;
-        // under imports + ce polyfills, scripts run before upgrades.
-        // dependencies should be ready at upgrade time so register
-        // prototype at this time.
-        if (window.CustomElements && !CustomElements.useNative) {
-          Polymer(name);
-        } else {
-          var script = document.createElement('script');
-          script.textContent = 'Polymer(\'' + name + '\');';
-          this.appendChild(script);
-        }
+        // imperative element registration
+        Polymer(name);
       }
     },
 
@@ -6174,7 +6510,7 @@ scope.api.declaration.path = path;
     // dependency resolution. Previously this was enforced for inheritance,
     // and by rule for composition. It's now entirely by rule.
     waitingForQueue: function() {
-      return queue.wait(this, this.registerWhenReady, this._register);
+      return queue.enqueue(this, this.registerWhenReady, this._register);
     },
 
     loadResources: function() {

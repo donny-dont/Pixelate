@@ -5,9 +5,12 @@
 library polymer_expressions.parser;
 
 import 'tokenizer.dart';
+export 'tokenizer.dart' show ParseException;
 import 'expression.dart';
 
-const _UNARY_OPERATORS = const ['+', '-', '!'];
+const _UNARY_OPERATORS = const <String>['+', '-', '!'];
+const _BINARY_OPERATORS = const <String>['+', '-', '*', '/', '%', '^', '==',
+    '!=', '>', '<', '>=', '<=', '||', '&&', '&', '===', '!==', '|'];
 
 Expression parse(String expr) => new Parser(expr).parse();
 
@@ -64,8 +67,14 @@ class Parser {
         _advance();
         var right = _parseUnary();
         left = _makeInvokeOrGetter(left, right);
-      } else if (_token.kind == KEYWORD_TOKEN && _token.value == 'in') {
-        left = _parseComprehension(left);
+      } else if (_token.kind == KEYWORD_TOKEN) {
+        if (_token.value == 'in') {
+          left = _parseInExpression(left);
+        } else if (_token.value == 'as') {
+          left = _parseAsExpression(left);
+        } else {
+          break;
+        }
       } else if (_token.kind == OPERATOR_TOKEN
           && _token.precedence >= precedence) {
         left = _token.value == '?' ? _parseTernary(left) : _parseBinary(left);
@@ -90,6 +99,9 @@ class Parser {
 
   Expression _parseBinary(left) {
     var op = _token;
+    if (!_BINARY_OPERATORS.contains(op.value)) {
+      throw new ParseException("unknown operator: ${op.value}");
+    }
     _advance();
     var right = _parseUnary();
     while (_token != null
@@ -119,6 +131,8 @@ class Parser {
         _advance();
         var expr = _parsePrecedence(_parsePrimary(), POSTFIX_PRECEDENCE);
         return _astFactory.unary(value, expr);
+      } else {
+        throw new ParseException("unexpected token: $value");
       }
     }
     return _parsePrimary();
@@ -141,10 +155,10 @@ class Parser {
           _advance();
           // TODO(justin): return keyword node
           return _astFactory.identifier('this');
-        } else if (keyword == 'in') {
-          return null;
+        } else if (KEYWORDS.contains(keyword)) {
+          throw new ParseException('unexpected keyword: $keyword');
         }
-        throw new ArgumentError('unrecognized keyword: $keyword');
+        throw new ParseException('unrecognized keyword: $keyword');
       case IDENTIFIER_TOKEN:
         return _parseInvokeOrIdentifier();
       case STRING_TOKEN:
@@ -163,9 +177,7 @@ class Parser {
         }
         return null;
       case COLON_TOKEN:
-        // TODO(justinfagnani): We need better errors throughout the parser, and
-        // we should be throwing ParseErrors to be caught by the caller
-        throw new ArgumentError('unexpected token ":"');
+        throw new ParseException('unexpected token ":"');
       default:
         return null;
     }
@@ -204,7 +216,7 @@ class Parser {
     return _astFactory.mapLiteralEntry(key, value);
   }
 
-  InExpression _parseComprehension(Expression left) {
+  InExpression _parseInExpression(Expression left) {
     assert(_token.value == 'in');
     if (left is! Identifier) {
       throw new ParseException(
@@ -213,6 +225,17 @@ class Parser {
     _advance();
     var right = _parseExpression();
     return _astFactory.inExpr(left, right);
+  }
+
+  AsExpression _parseAsExpression(Expression left) {
+    assert(_token.value == 'as');
+    _advance();
+    var right = _parseExpression();
+    if (right is! Identifier) {
+      throw new ParseException(
+          "'as' statements must end with an identifier");
+    }
+    return _astFactory.asExpr(left, right);
   }
 
   Expression _parseInvokeOrIdentifier() {

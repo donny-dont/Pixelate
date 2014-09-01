@@ -7,45 +7,6 @@
 @import 'partials/colors';
 @import 'partials/variables';
 
-body /deep/ {
-
-//---------------------------------------------------------------------
-// px-graph-canvas
-//---------------------------------------------------------------------
-
 px-graph-canvas {
   @include background-grid(transparent, rgba($color-square-ui-white, 0.2));
-
-  &::shadow {
-    path {
-      stroke: $color-square-ui-white;
-      stroke-width: 1px;
-
-      &:hover {
-        stroke: $color-danger;
-      }
-    }
-  }
 }
-
-//---------------------------------------------------------------------
-// px-graph-socket
-//---------------------------------------------------------------------
-
-$default-socket-size: 32px;
-
-px-graph-socket {
-  &::shadow {
-    .socket {
-      background-color: $color-square-ui-black;
-
-      @include background-circle($default-socket-size);
-
-      &:hover {
-        background-color: $color-square-ui-green;
-      }
-    }
-  }
-}
-
-} // end body /deep/

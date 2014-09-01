@@ -35,8 +35,8 @@ class LibraryElement extends MemberElement {
       new Library.forPlaceholder({ 'name': 'loading',
         'preview': '<span>loading</span>' });
 
-  leftView() {
-    super.leftView();
+  detached() {
+    super.detached();
     if (_loader != null) {
       _loader.cancel();
       _loader = null;

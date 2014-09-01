@@ -195,8 +195,9 @@ class IterableUtf32Decoder extends IterableBase<int> {
 /**
  * Abstrace parent class converts encoded bytes to codepoints.
  */
-abstract class Utf32BytesDecoder implements _ListRangeIterator {
-  final _ListRangeIterator utf32EncodedBytesIterator;
+abstract class Utf32BytesDecoder implements ListRangeIterator {
+  // TODO(kevmoo): should this field be private?
+  final ListRangeIterator utf32EncodedBytesIterator;
   final int replacementCodepoint;
   int _current = null;
 
@@ -234,7 +235,12 @@ abstract class Utf32BytesDecoder implements _ListRangeIterator {
 
   bool moveNext() {
     _current = null;
-    if (utf32EncodedBytesIterator.remaining < 4) {
+    int remaining = utf32EncodedBytesIterator.remaining;
+    if (remaining == 0) {
+      _current = null;
+      return false;
+    }
+    if (remaining < 4) {
       utf32EncodedBytesIterator.skip(utf32EncodedBytesIterator.remaining);
       if (replacementCodepoint != null) {
           _current = replacementCodepoint;
@@ -243,18 +249,17 @@ abstract class Utf32BytesDecoder implements _ListRangeIterator {
         throw new ArgumentError(
             "Invalid UTF32 at ${utf32EncodedBytesIterator.position}");
       }
+    }
+    int codepoint = decode();
+    if (_validCodepoint(codepoint)) {
+      _current = codepoint;
+      return true;
+    } else if (replacementCodepoint != null) {
+      _current = replacementCodepoint;
+      return true;
     } else {
-      int codepoint = decode();
-      if (_validCodepoint(codepoint)) {
-        _current = codepoint;
-        return true;
-      } else if (replacementCodepoint != null) {
-        _current = replacementCodepoint;
-        return true;
-      } else {
-        throw new ArgumentError(
-            "Invalid UTF32 at ${utf32EncodedBytesIterator.position}");
-      }
+      throw new ArgumentError(
+          "Invalid UTF32 at ${utf32EncodedBytesIterator.position}");
     }
   }
 
@@ -282,7 +287,7 @@ class Utf32beBytesDecoder extends Utf32BytesDecoder {
       int length, bool stripBom = true,
       int replacementCodepoint = UNICODE_REPLACEMENT_CHARACTER_CODEPOINT]) :
       super._fromListRangeIterator(
-          (new _ListRange(utf32EncodedBytes, offset, length)).iterator,
+          (new ListRange(utf32EncodedBytes, offset, length)).iterator,
           replacementCodepoint) {
     if (stripBom && hasUtf32beBom(utf32EncodedBytes, offset, length)) {
       skip();
@@ -311,7 +316,7 @@ class Utf32leBytesDecoder extends Utf32BytesDecoder {
       int length, bool stripBom = true,
       int replacementCodepoint = UNICODE_REPLACEMENT_CHARACTER_CODEPOINT]) :
       super._fromListRangeIterator(
-          (new _ListRange(utf32EncodedBytes, offset, length)).iterator,
+          (new ListRange(utf32EncodedBytes, offset, length)).iterator,
           replacementCodepoint) {
     if (stripBom && hasUtf32leBom(utf32EncodedBytes, offset, length)) {
       skip();

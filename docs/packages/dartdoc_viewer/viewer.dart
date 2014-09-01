@@ -261,6 +261,15 @@ class Viewer extends ChangeNotifier {
     } else if (!useHistory) {
       window.location.replace(prefixed);
     }
+    if (location.libraryName == 'home') {
+      window.document.title = "Dart API Docs";
+      window.document.querySelector(".nameMarker").text =
+          "Dart API Documentation Home";
+    } else {
+      window.document.title = "${location.withoutAnchor} API Docs";
+      window.document.querySelector(".nameMarker").text =
+          "Dart API Documentation for ${location.withoutAnchor}";
+    }
     return encoded;
   }
 

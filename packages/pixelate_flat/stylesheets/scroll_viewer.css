@@ -1,11 +1,11 @@
-body /deep/ px-scroll-viewer::-webkit-scrollbar {
+px-scroll-viewer::-webkit-scrollbar {
   background-color: transparent;
   width: 6px;
   height: 6px; }
-body /deep/ px-scroll-viewer::-webkit-scrollbar-thumb {
+px-scroll-viewer::-webkit-scrollbar-thumb {
   background-clip: padding-box;
   background-color: rgba(255, 255, 255, 0.2); }
-body /deep/ px-scroll-viewer::-webkit-scrollbar-track {
+px-scroll-viewer::-webkit-scrollbar-track {
   background-color: transparent; }
-body /deep/ px-scroll-viewer::-webkit-scrollbar-corner {
+px-scroll-viewer::-webkit-scrollbar-corner {
   background-color: rgba(255, 255, 255, 0.3); }

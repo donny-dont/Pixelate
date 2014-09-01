@@ -1,0 +1,10 @@
+body ^^ px-graph-socket ^ .socket {
+  background-color: red;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px; }
+  body ^^ px-graph-socket ^ .socket:hover {
+    background-color: green; }
+
+body ^^ px-graph-socket.available ^ .socket {
+  }

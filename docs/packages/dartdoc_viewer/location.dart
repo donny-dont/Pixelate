@@ -61,7 +61,7 @@ String get BASIC_LOCATION_PREFIX => useHistory? r"/dartdoc-viewer/" :
 /// necessarily correspond to an HTML anchor, though it may.
 const ANCHOR_STRING = "#";
 
-const ANCHOR_PLUS_PREFIX = '@';
+const ANCHOR_PLUS_PREFIX = useHistory ? ANCHOR_STRING : '@';
 
 /// Character to separate the version number (if present) from the actual member
 /// name.
@@ -253,7 +253,7 @@ class DocsLocation {
       subMemberName == null ? '' : '.$subMemberName';
 
   /// The trailing anchor e.g. @id_hashCode, including the leading @.
-  get anchorPlus => anchor == null ? '' : '$ANCHOR_STRING$anchor';
+  get anchorPlus => anchor == null ? '' : '$ANCHOR_PLUS_PREFIX$anchor';
 
   /// Return a list of the components' basic names. Omits the anchor, but
   /// includes the package name, even if it is null.

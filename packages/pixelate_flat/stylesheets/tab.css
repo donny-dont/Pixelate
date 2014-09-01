@@ -1,33 +1,25 @@
-body /deep/ px-tab::shadow .tab {
+px-tab ^ .tabs.top {
+  border-bottom: 1px solid #5a9aa8; }
+
+px-tab ^ .tabs.bottom {
+  border-top: 1px solid #5a9aa8; }
+
+px-tab ^ .tabs.left {
+  border-right: 1px solid #5a9aa8; }
+
+px-tab ^ .tabs.right {
+  border-left: 1px solid #5a9aa8; }
+
+px-tab ^ .tab {
   cursor: pointer;
   padding: 10px 20px;
   transition: background-color 1s;
   font-size: 24px;
   line-height: 24px; }
-  body /deep/ px-tab::shadow .tab:hover {
+  px-tab ^ .tab:hover {
     background-color: #82b3bd; }
-  body /deep/ px-tab::shadow .tab:active {
+  px-tab ^ .tab:active {
     background-color: #4b828e; }
-  body /deep/ px-tab::shadow .tab.selected {
-    background-color: #5a9aa8; }
-body /deep/ px-tab::shadow .tabs.top {
-  border-bottom: 1px solid #5a9aa8; }
-body /deep/ px-tab::shadow .tabs.bottom {
-  border-top: 1px solid #5a9aa8; }
-body /deep/ px-tab::shadow .tabs.left {
-  border-right: 1px solid #5a9aa8; }
-body /deep/ px-tab::shadow .tabs.right {
-  border-left: 1px solid #5a9aa8; }
-body /deep/ px-tab-item.scrollable {
-  overflow: scroll; }
-  body /deep/ px-tab-item.scrollable::-webkit-scrollbar {
-    background-color: transparent;
-    width: 6px;
-    height: 6px; }
-  body /deep/ px-tab-item.scrollable::-webkit-scrollbar-thumb {
-    background-clip: padding-box;
-    background-color: rgba(255, 255, 255, 0.2); }
-  body /deep/ px-tab-item.scrollable::-webkit-scrollbar-track {
-    background-color: transparent; }
-  body /deep/ px-tab-item.scrollable::-webkit-scrollbar-corner {
-    background-color: rgba(255, 255, 255, 0.3); }
+
+px-tab ^ .tab.selected {
+  background-color: #5a9aa8; }

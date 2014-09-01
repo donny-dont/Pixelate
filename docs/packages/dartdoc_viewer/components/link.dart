@@ -18,8 +18,8 @@ class LinkElement extends PolymerElement with ChangeNotifier  {
 
   LinkElement.created() : super.created();
 
-  enteredView() {
-    super.enteredView();
+  attached() {
+    super.attached();
     searchIndex.onLoad(typeChanged);
   }
 

@@ -19,9 +19,9 @@ class Breadcrumbs extends PolymerElement with ChangeNotifier  {
   get syntax => defaultSyntax;
   bool get applyAuthorStyles => true;
 
-  void enteredView() {
-    super.enteredView();
-    registerObserver('viewer', viewer.changes.listen((changes) {
+  void attached() {
+    super.attached();
+    registerNamedObserver('viewer', viewer.changes.listen((changes) {
       for (var change in changes) {
         if (change.name == #currentPage || change.name == #homePage) {
           _updateBreadcrumbs();

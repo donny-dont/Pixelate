@@ -59,6 +59,10 @@ class PolyfillInjector extends Transformer with PolymerTransformer {
         return;
       }
 
+      // Remove "packages/browser/dart.js". It is not needed in release mode,
+      // and in debug mode we want to ensure it is the last script on the page.
+      if (dartJs != null) dartJs.remove();
+
       // TODO(jmesserly): ideally we would generate an HTML that loads
       // dart2dart too. But for now dart2dart is not a supported deployment
       // target, so just inline the JS script. This has the nice side effect of
@@ -74,11 +78,12 @@ class PolyfillInjector extends Transformer with PolymerTransformer {
           if (src.endsWith('.dart')) {
             script.attributes.remove('type');
             script.attributes['src'] = '$src$csp.js';
+            // TODO(sigmund): we shouldn't need 'async' here. Remove this
+            // workaround for dartbug.com/19653.
+            script.attributes['async'] = '';
           }
         }
-        // Remove "packages/browser/dart.js"
-        if (dartJs != null) dartJs.remove();
-      } else if (dartJs == null) {
+      } else {
         document.body.nodes.add(parseFragment(
               '<script src="packages/browser/dart.js"></script>'));
       }

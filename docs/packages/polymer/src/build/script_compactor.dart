@@ -16,7 +16,7 @@ import 'package:analyzer/src/generated/element.dart' hide Element;
 import 'package:analyzer/src/generated/element.dart' as analyzer show Element;
 import 'package:barback/barback.dart';
 import 'package:path/path.dart' as path;
-import 'package:source_maps/span.dart' show SourceFile;
+import 'package:source_maps/span.dart' show SourceFile, Span;
 import 'package:smoke/codegen/generator.dart';
 import 'package:smoke/codegen/recorder.dart';
 import 'package:code_transformers/resolver.dart';
@@ -75,6 +75,10 @@ class ScriptCompactor extends Transformer {
               const Deprecated(this.expires);
             }
             const Object deprecated = const Deprecated("next release");
+            class _Override { const _Override(); }
+            const Object override = const _Override();
+            class _Proxy { const _Proxy(); }
+            const Object proxy = const _Proxy();
 
             class List<V> extends Object {}
             class Map<K, V> extends Object {}
@@ -224,7 +228,7 @@ class _ScriptCompactor extends PolymerTransformer {
   void _extractUsesOfMirrors(_) {
     // Generate getters and setters needed to evaluate polymer expressions, and
     // extract information about published attributes.
-    new _HtmlExtractor(generator, publishedAttributes).visit(document);
+    new _HtmlExtractor(logger, generator, publishedAttributes).visit(document);
 
     // Create a recorder that uses analyzer data to feed data to [generator].
     var recorder = new Recorder(generator,
@@ -483,11 +487,13 @@ class _HtmlExtractor extends TreeVisitor {
   final Map<String, List<String>> publishedAttributes;
   final SmokeCodeGenerator generator;
   final _SubExpressionVisitor visitor;
+  final TransformLogger logger;
   bool _inTemplate = false;
 
-  _HtmlExtractor(SmokeCodeGenerator generator, this.publishedAttributes)
-      : generator = generator,
-        visitor = new _SubExpressionVisitor(generator);
+  _HtmlExtractor(TransformLogger logger, SmokeCodeGenerator generator,
+      this.publishedAttributes)
+      : logger = logger, generator = generator,
+        visitor = new _SubExpressionVisitor(generator, logger);
 
   void visitElement(Element node) {
     if (_inTemplate) _processNormalElement(node);
@@ -511,7 +517,7 @@ class _HtmlExtractor extends TreeVisitor {
     var bindings = _Mustaches.parse(node.data);
     if (bindings == null) return;
     for (var e in bindings.expressions) {
-      _addExpression(e, false, false);
+      _addExpression(e, false, false, node.sourceSpan);
     }
   }
 
@@ -546,22 +552,31 @@ class _HtmlExtractor extends TreeVisitor {
             tag == 'textarea' && name == 'value');
       }
       for (var exp in bindings.expressions) {
-        _addExpression(exp, isEvent, isTwoWay);
+        _addExpression(exp, isEvent, isTwoWay, node.sourceSpan);
       }
     });
   }
 
-  void _addExpression(String stringExpression, bool inEvent, bool isTwoWay) {
+  void _addExpression(String stringExpression, bool inEvent, bool isTwoWay,
+      Span span) {
+
     if (inEvent) {
-      if (!stringExpression.startsWith("@")) {
-        if (stringExpression == '') return;
-        generator.addGetter(stringExpression);
-        generator.addSymbol(stringExpression);
+      if (stringExpression.startsWith('@')) {
+        logger.warning('event bindings with @ are no longer supported',
+            span: span);
         return;
       }
-      stringExpression = stringExpression.substring(1);
+
+      if (stringExpression == '') return;
+      if (stringExpression.startsWith('_')) {
+        logger.warning('private symbols cannot be used in event handlers',
+            span: span);
+        return;
+      }
+      generator.addGetter(stringExpression);
+      generator.addSymbol(stringExpression);
     }
-    visitor.run(pe.parse(stringExpression), isTwoWay);
+    visitor.run(pe.parse(stringExpression), isTwoWay, span);
   }
 }
 
@@ -569,21 +584,28 @@ class _HtmlExtractor extends TreeVisitor {
 /// be needed to evaluate a single expression at runtime.
 class _SubExpressionVisitor extends pe.RecursiveVisitor {
   final SmokeCodeGenerator generator;
+  final TransformLogger logger;
   bool _includeSetter;
+  Span _currentSpan;
 
-  _SubExpressionVisitor(this.generator);
+  _SubExpressionVisitor(this.generator, this.logger);
 
   /// Visit [exp], and record getters and setters that are needed in order to
   /// evaluate it at runtime. [includeSetter] is only true if this expression
   /// occured in a context where it could be updated, for example in two-way
   /// bindings such as `<input value={{exp}}>`.
-  void run(pe.Expression exp, bool includeSetter) {
+  void run(pe.Expression exp, bool includeSetter, span) {
+    _currentSpan = span;
     _includeSetter = includeSetter;
     visit(exp);
   }
 
   /// Adds a getter and symbol for [name], and optionally a setter.
   _add(String name) {
+    if (name.startsWith('_')) {
+      logger.warning('private symbols are not supported', span: _currentSpan);
+      return;
+    }
     generator.addGetter(name);
     generator.addSymbol(name);
     if (_includeSetter) generator.addSetter(name);
@@ -741,7 +763,7 @@ List<ClassElement> _visibleClassesOf(LibraryElement lib) {
 
 /// Retrieves all top-level methods that are visible if you were to import
 /// [lib]. This includes exported methods from other libraries too.
-List<ClassElement> _visibleTopLevelMethodsOf(LibraryElement lib) {
+List<FunctionElement> _visibleTopLevelMethodsOf(LibraryElement lib) {
   var result = [];
   result.addAll(lib.units.expand((u) => u.functions));
   for (var e in lib.exports) {

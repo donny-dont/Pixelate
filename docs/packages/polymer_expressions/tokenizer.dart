@@ -59,7 +59,7 @@ const _GROUPERS = const [_OPEN_PAREN, _CLOSE_PAREN,
 
 const _TWO_CHAR_OPS = const ['==', '!=', '<=', '>=', '||', '&&'];
 
-const _KEYWORDS = const ['in', 'this'];
+const KEYWORDS = const ['as', 'in', 'this'];
 
 const _PRECEDENCE = const {
   '!':  0,
@@ -78,6 +78,8 @@ const _PRECEDENCE = const {
   // equality
   '!=': 7,
   '==': 7,
+  '!==': 7,
+  '===': 7,
 
   // relational
   '>=': 8,
@@ -218,7 +220,7 @@ class Tokenizer {
       _advance();
     }
     var value = _sb.toString();
-    if (_KEYWORDS.contains(value)) {
+    if (KEYWORDS.contains(value)) {
       _tokens.add(new Token(KEYWORD_TOKEN, value));
     } else {
       _tokens.add(new Token(IDENTIFIER_TOKEN, value));
@@ -278,6 +280,11 @@ class Tokenizer {
       if (_TWO_CHAR_OPS.contains(op2)) {
         op = op2;
         _advance();
+        // kind of hacky check for === and !===, could be better / more general
+        if (_next == _EQ && (startChar == _BANG || startChar == _EQ)) {
+          op = op2 + '=';
+          _advance();
+        }
       } else {
         op = new String.fromCharCode(startChar);
       }

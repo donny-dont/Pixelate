@@ -41,11 +41,11 @@ class MainElement extends DartdocElement with ChangeNotifier  {
 
   MainElement.created() : super.created();
 
-  void enteredView() {
-    super.enteredView();
+  void attached() {
+    super.attached();
 
-    registerObserver('viewer', viewer.changes.listen(_onViewerChange));
-    registerObserver('onclick',
+    registerNamedObserver('viewer', viewer.changes.listen(_onViewerChange));
+    registerNamedObserver('onclick',
         onClick.listen(hideOptionsMenuWhenClickedOutside));
 
     _onViewerChange(null);

@@ -38,7 +38,7 @@ class CategoryElement extends DartdocElement with ChangeNotifier  {
   @reflectable @observable String get lineHeight => __$lineHeight; String __$lineHeight; @reflectable set lineHeight(String value) { __$lineHeight = notifyPropertyChange(#lineHeight, __$lineHeight, value); }
 
   CategoryElement.created() : super.created() {
-    registerObserver('viewer', viewer.changes.listen((changes) {
+    registerNamedObserver('viewer', viewer.changes.listen((changes) {
       if (changes.any((c) => c.name == #isDesktop)) {
         _isExpanded = viewer.isDesktop;
       }
